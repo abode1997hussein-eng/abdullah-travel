@@ -33,7 +33,7 @@ tpl = open(os.path.join(HERE, "template.html"), encoding="utf-8").read()
 page = (tpl.replace("{{DATA}}", json.dumps(payload, ensure_ascii=False))
            .replace("{{PHOTOS}}", json.dumps(photos)).replace("{{FLAGS}}", json.dumps(flags))
            .replace("{{PHOTO_DIR}}", "assets/photos/").replace("{{FLAG_DIR}}", "assets/flags/")
-           .replace("{{HERO}}", "img/hero.jpg").replace("{{BAND}}", "img/band.jpg").replace("{{AVATAR}}", "img/avatar.jpg")
+           .replace("{{HERO}}", "img/hero.jpg").replace("{{BAND}}", "img/band.jpg").replace("{{BG}}", "assets/photos/kul.webp").replace("{{AVATAR}}", "img/avatar.jpg")
            .replace("{{UPDATED}}", TODAY).replace("{{CREDITS}}", credit_line)
            .replace("{{SHEET_ID}}", SHEET_ID))
 left = re.findall(r"\{\{\w+\}\}", page)
@@ -58,7 +58,7 @@ doc = f'''<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{title} — سفر وسياحة</title>
 <meta name="description" content="{DESC}">
-<meta name="theme-color" content="#100E0C">
+<meta name="theme-color" content="#0A0A0B">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_IQ">
 <meta property="og:title" content="{title} — سفر وسياحة">
@@ -76,7 +76,7 @@ doc = f'''<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 {font}
 <style>
-:root{{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}}
+:root{{color-scheme:dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}}
 body{{margin:0}} img{{max-width:100%}} [hidden]{{display:none!important}}
 </style>
 {style}
