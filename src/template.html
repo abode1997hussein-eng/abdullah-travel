@@ -2,151 +2,162 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap">
 <style>
-/* Layout: agency page — dark hero with portrait + request widget, stats strip, photo cards for groups
-   (region tabs), dark events band, services, visa desk with flags, how-it-works, dark contact band. */
+/* Layout: platform-style — sticky utility bar, photo hero with headline + badges, floating tabbed search
+   panel and services row, then photo cards for groups, a dark events band, a visa desk, multi-column footer. */
 :root{
-  --bg:#F7F5F2; --surface:#FFFFFF; --surface-2:#FAF8F5; --ink:#16130F; --muted:#5F574F; --line:#E7E1DA;
-  --night:#100E0C; --night-2:#1C1915; --on-night:#FAF6F1; --on-night-muted:#B8AEA4; --night-line:#322C26;
-  --sun:#EE7A1A; --sun-ink:#1B0C00; --sun-text:#A84F08; --sun-soft:#FCEBDC;
-  --wa:#11804A; --on-wa:#FFFFFF; --wa-soft:#E2F1E8; --wa-line:#9ACDB2;
+  --bg:#F2F4F8; --surface:#FFFFFF; --surface-2:#F6F8FB; --ink:#121A26; --muted:#5A6779; --line:#DCE2EB;
+  --ink-deep:#0B1320; --ink-bar:#111A28; --on-dark:#F4F7FC; --on-dark-muted:#A9B6C9; --dark-hair:#26344A;
+  --accent:#E35205; --accent-text:#B4410A; --on-accent:#FFFFFF; --accent-soft:#FDEDE2; --accent-line:#F3B98E;
+  --green:#0A7C42; --on-green:#FFFFFF; --green-soft:#E3F2E9; --green-line:#9ACDB2;
   --display:"Reem Kufi","IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
   --body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-  --r:18px;
+  --shadow:0 18px 44px rgba(11,19,32,.16);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0E0C0B; --surface:#191613; --surface-2:#14110F; --ink:#F3EEE8; --muted:#A99F95; --line:#2E2924;
-  --night:#070605; --night-2:#16130F; --on-night:#FAF6F1; --on-night-muted:#B0A69C; --night-line:#2A2520;
-  --sun:#F58E33; --sun-ink:#1B0C00; --sun-text:#F58E33; --sun-soft:#2A1A0B;
-  --wa:#36C47D; --on-wa:#03140A; --wa-soft:#0F2A1C; --wa-line:#1F5A3A;
+  --bg:#070D16; --surface:#0F1927; --surface-2:#0B1420; --ink:#E8EEF7; --muted:#95A3B8; --line:#1D2938;
+  --ink-deep:#050A12; --ink-bar:#0B1420; --on-dark:#F4F7FC; --on-dark-muted:#A9B6C9; --dark-hair:#223148;
+  --accent:#FF7A33; --accent-text:#FF8A4A; --on-accent:#1A0A02; --accent-soft:#2A1509; --accent-line:#6B3617;
+  --green:#34C77F; --on-green:#03140A; --green-soft:#0E2A1B; --green-line:#1E5939;
+  --shadow:0 18px 44px rgba(0,0,0,.5);
   color-scheme:dark;
 }}
 :root[data-theme="dark"]{
-  --bg:#0E0C0B; --surface:#191613; --surface-2:#14110F; --ink:#F3EEE8; --muted:#A99F95; --line:#2E2924;
-  --night:#070605; --night-2:#16130F; --on-night:#FAF6F1; --on-night-muted:#B0A69C; --night-line:#2A2520;
-  --sun:#F58E33; --sun-ink:#1B0C00; --sun-text:#F58E33; --sun-soft:#2A1A0B;
-  --wa:#36C47D; --on-wa:#03140A; --wa-soft:#0F2A1C; --wa-line:#1F5A3A;
+  --bg:#070D16; --surface:#0F1927; --surface-2:#0B1420; --ink:#E8EEF7; --muted:#95A3B8; --line:#1D2938;
+  --ink-deep:#050A12; --ink-bar:#0B1420; --on-dark:#F4F7FC; --on-dark-muted:#A9B6C9; --dark-hair:#223148;
+  --accent:#FF7A33; --accent-text:#FF8A4A; --on-accent:#1A0A02; --accent-soft:#2A1509; --accent-line:#6B3617;
+  --green:#34C77F; --on-green:#03140A; --green-soft:#0E2A1B; --green-line:#1E5939;
+  --shadow:0 18px 44px rgba(0,0,0,.5);
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75;-webkit-text-size-adjust:100%}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--night)}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.7;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink-bar)}
 .page{direction:rtl}
-.wrap{max-width:1160px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1140px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 h1,h2,h3,h4,p{margin:0}
 h1,h2,h3{font-family:var(--display);line-height:1.3;text-wrap:balance}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:6px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .num{font-variant-numeric:tabular-nums}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--body);font-weight:700;font-size:15px;line-height:1.3;padding:12px 22px;border-radius:999px;border:1px solid transparent;cursor:pointer;text-decoration:none}
-.btn-sun{background:var(--sun);color:var(--sun-ink)}
-.btn-wa{background:var(--wa);color:var(--on-wa)}
-.btn-ghost{background:transparent;color:var(--on-night);border-color:var(--night-line)}
-.btn svg{width:18px;height:18px;flex:none}
-@media (prefers-reduced-motion:no-preference){.btn{transition:transform .15s}.btn:hover{transform:translateY(-1px)}html{scroll-behavior:smooth}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-family:var(--body);font-weight:600;font-size:14.5px;padding:12px 18px;border-radius:12px;border:1px solid transparent;cursor:pointer;line-height:1.3}
+.btn-accent{background:var(--accent);color:var(--on-accent)}
+.btn-wa{background:var(--green);color:var(--on-green)}
 .ico{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-/* ---------------- header ---------------- */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--night);color:var(--on-night);border-bottom:1px solid var(--night-line)}
-.top-in{display:flex;align-items:center;gap:12px;padding-block:10px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
-.brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--sun);flex:none}
-.brand b{font-family:var(--display);font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;line-height:1.3}
-.brand small{display:block;font-size:11.5px;color:var(--on-night-muted);line-height:1.3}
-.menu{display:none;gap:2px;margin-inline-start:auto}
-.menu a{text-decoration:none;font-size:14px;color:var(--on-night-muted);padding:6px 10px;border-radius:8px}
-.menu a:hover{color:var(--on-night)}
-.top .btn{margin-inline-start:auto;padding:9px 16px;font-size:14px}
-@media (min-width:900px){.menu{display:flex}.top .btn{margin-inline-start:8px}}
+/* ---------- utility bar ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--ink-bar);color:var(--on-dark)}
+.bar-in{display:flex;align-items:center;gap:10px;padding-block:8px}
+.ava{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;border:1.5px solid var(--accent)}
+.bar-nm{font-family:var(--display);font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.bar-links{display:none;gap:2px;margin-inline-start:auto}
+.bar-links a{text-decoration:none;font-size:13.5px;color:var(--on-dark-muted);padding:5px 9px;border-radius:8px}
+.bar-links a:hover{color:var(--on-dark)}
+.bar-wa{flex:none;margin-inline-start:auto;text-decoration:none;font-size:13px;font-weight:600;padding:7px 13px;border-radius:9px;background:var(--green);color:var(--on-green);white-space:nowrap}
+@media (min-width:820px){.bar-links{display:flex}.bar-wa{margin-inline-start:8px}}
 
-/* ---------------- hero ---------------- */
-.hero{background:var(--night);color:var(--on-night);position:relative;overflow:hidden;isolation:isolate}
-.hero::before{content:"";position:absolute;inset:-30% -10% auto auto;width:70%;aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(closest-side,color-mix(in srgb,var(--sun) 26%,transparent),transparent);z-index:-1}
-.hero-grid{display:grid;gap:30px;padding-block:34px 44px;align-items:center}
-.hero-text{display:grid;gap:16px;align-content:start}
-.eyebrow{font-size:13px;font-weight:700;color:var(--sun-text)}
-.hero .eyebrow,.dark .eyebrow{color:var(--sun)}
-.hero h1{font-size:clamp(32px,6.4vw,56px);font-weight:700;line-height:1.2}
-.hero h1 em{font-style:normal;color:var(--sun)}
-.hero .lead{color:var(--on-night-muted);font-size:17px;max-width:44ch}
-.hero-cta{display:flex;flex-wrap:wrap;gap:10px}
-.hero-card{position:relative;max-width:440px;width:100%;justify-self:center}
-.hero-card .ph{border-radius:22px;overflow:hidden;aspect-ratio:4/4.3;border:1px solid var(--night-line)}
-.hero-card .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 14%;display:block}
-.hello{position:absolute;top:14px;inset-inline-start:14px;max-width:72%;background:var(--surface);color:var(--ink);font-size:14px;line-height:1.55;padding:10px 14px;border-radius:16px 16px 16px 4px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.hello b{color:var(--sun-text)}
-.widget{position:relative;margin:-64px 14px 0;background:var(--surface);color:var(--ink);border-radius:18px;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.35);display:grid;gap:10px}
-.widget h2{font-size:17px;font-weight:600}
-.wgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.field{display:flex;flex-direction:column;gap:4px;min-width:0}
-.field.wide{grid-column:1/-1}
-.field label{font-size:12px;font-weight:600;color:var(--muted)}
-.field input,.field select,.field textarea{font-family:var(--body);font-size:15px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);width:100%;min-width:0}
-.field textarea{resize:vertical;min-height:84px}
-.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--sun);outline-offset:1px}
-.widget .btn{width:100%}
-@media (min-width:900px){
-  .hero-grid{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;padding-block:64px 72px}
-  .hero-card{justify-self:end}
-}
+/* ---------- hero ---------- */
+.hero{position:relative;background:var(--ink-deep);color:var(--on-dark);isolation:isolate;overflow:hidden}
+.hero > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:22% 30%;z-index:-2}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(255deg,rgba(11,19,32,.94) 0%,rgba(11,19,32,.84) 40%,rgba(11,19,32,.4) 70%,rgba(11,19,32,.62) 100%)}
+.hero .wrap{padding-block:40px 96px;display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.kick{display:inline-flex;align-items:center;font-size:12.5px;font-weight:600;color:#FFFFFF;background:rgba(227,82,5,.92);padding:5px 12px;border-radius:999px}
+.hero h1{font-weight:700;font-size:clamp(30px,7.4vw,52px);line-height:1.18;max-width:15ch;text-shadow:0 2px 18px rgba(0,0,0,.4)}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .sub{color:var(--on-dark-muted);font-size:16px;max-width:40ch}
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badges span{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2)}
+.badges b{color:var(--accent);font-weight:700}
+@media (min-width:760px){.hero .wrap{padding-block:76px 118px}.hero > img{object-position:22% 80%}}
 
-/* ---------------- stats ---------------- */
-.stats{background:var(--surface);border-bottom:1px solid var(--line)}
-.stats .wrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);padding:0}
-.stat{background:var(--surface);padding:18px max(16px,env(safe-area-inset-right,0px)) 18px 16px;display:grid;gap:2px}
-.stat b{font-family:var(--display);font-size:28px;font-weight:700;color:var(--sun-text);line-height:1.2;font-variant-numeric:tabular-nums}
-.stat span{font-size:13px;color:var(--muted)}
-@media (min-width:760px){.stats .wrap{grid-template-columns:repeat(4,minmax(0,1fr))}}
+/* ---------- floating search panel ---------- */
+.panel-zone{margin-top:-64px;position:relative;z-index:5}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:8px 8px 0;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;font-family:var(--body);font-size:14px;font-weight:600;color:var(--muted);background:transparent;border:0;border-radius:12px 12px 0 0;padding:11px 15px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:inset 0 -3px 0 var(--accent)}
+.tab .ico{width:17px;height:17px}
+.soon{font-size:10px;font-weight:600;color:var(--accent-text);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:999px;padding:0 6px}
+.tab:disabled{cursor:default;opacity:.75}
+.panel-body{padding:16px}
+.ptitle{font-family:var(--display);font-size:19px;font-weight:600;margin-bottom:12px}
+.plead{font-size:14px;color:var(--muted);margin-bottom:12px}
+.trip{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.trip label{position:relative;font-size:13.5px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);cursor:pointer}
+.trip label.is-on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-text);font-weight:600}
+.trip input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fgrid + .fgrid{margin-top:10px}
+@media (min-width:720px){.fgrid.four{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label{font-size:12.5px;font-weight:600;color:var(--muted)}
+.field input,.field select{font-family:var(--body);font-size:15px;padding:11px 12px;border-radius:11px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);width:100%;min-width:0}
+.field input:focus,.field select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.field input:disabled{opacity:.45}
+.panel-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:14px}
+.panel-foot .btn{flex:1;min-width:200px}
+.note-s{font-size:12.5px;color:var(--muted)}
+.note-s a{color:var(--accent-text);font-weight:600}
 
-/* ---------------- sections ---------------- */
-section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 60px)}
-.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:14px 24px;margin-bottom:26px}
-.sec-head > div:not(.rtabs){display:grid;gap:6px;max-width:60ch}
-.sec-head .rtabs{width:100%}
-@media (min-width:900px){.sec-head .rtabs{width:auto}}
-.sec-head h2{font-size:clamp(26px,4vw,38px);font-weight:700}
-.sec-head p{color:var(--muted)}
-.dark{background:var(--night);color:var(--on-night)}
-.dark .sec-head p{color:var(--on-night-muted)}
+/* ---------- services row ---------- */
+.svc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:20px}
+@media (min-width:560px){.svc{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:900px){.svc{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.svc a,.svc div{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 10px}
+.svc a:hover{border-color:var(--accent)}
+.svc svg{width:24px;height:24px;fill:none;stroke:var(--accent);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.svc b{font-weight:600;font-size:14px}
+.svc small{font-size:11.5px;color:var(--muted)}
+.svc .off{opacity:.6}
+.svc .off svg{stroke:var(--muted)}
 
-/* region tabs */
-.rtabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;max-width:100%}
+/* ---------- sections ---------- */
+section.sec{padding-block:48px 8px;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 56px)}
+.sec-head{display:grid;gap:6px;margin-bottom:16px}
+.tagline{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--accent-text);font-weight:600}
+.code-t{font-family:var(--mono);font-size:11px;letter-spacing:.14em;border:1px solid var(--accent);border-radius:4px;padding:1px 6px;direction:ltr}
+.sec h2{font-size:clamp(24px,5vw,34px);font-weight:700}
+.sec-sub{color:var(--muted);font-size:14px;max-width:62ch}
+.dark{background:var(--ink-bar);color:var(--on-dark);margin-top:48px;padding-bottom:48px}
+.dark .sec-sub{color:var(--on-dark-muted)}
+.dark .tagline{color:var(--accent)}
+
+.rtabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:16px}
 .rtabs::-webkit-scrollbar{display:none}
-.rtab{flex:none;font-family:var(--body);font-size:14px;font-weight:600;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
-.rtab[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
-.rtab b{font-weight:500;opacity:.7;margin-inline-start:5px;font-variant-numeric:tabular-nums}
+.rtab{flex:none;font-family:var(--body);font-size:13.5px;font-weight:600;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.rtab[aria-pressed="true"]{background:var(--ink-bar);border-color:var(--ink-bar);color:var(--on-dark)}
+.rtab b{font-weight:500;opacity:.75;margin-inline-start:5px;font-variant-numeric:tabular-nums}
 
-/* ---------------- offer cards ---------------- */
-.cards{display:grid;gap:18px;align-items:start}
+/* ---------- offer cards ---------- */
+.cards{display:grid;gap:16px;align-items:start}
 @media (min-width:700px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (min-width:1060px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;min-width:0}
-.card .ph{position:relative;aspect-ratio:16/10;background:var(--night-2);overflow:hidden}
-.card .ph img{width:100%;height:100%;object-fit:cover;display:block}
-.ph-fallback{position:absolute;inset:0;display:grid;place-items:center;background:
-  radial-gradient(circle at 75% 20%,color-mix(in srgb,var(--sun) 45%,transparent),transparent 55%),
-  linear-gradient(160deg,var(--night-2),var(--night));color:var(--on-night);font-family:var(--mono);font-size:52px;font-weight:600;letter-spacing:.08em}
-.code{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;background:rgba(10,8,6,.72);color:#FAF6F1;padding:3px 9px;border-radius:7px;direction:ltr}
-.reg{position:absolute;top:12px;left:12px;font-size:12px;font-weight:600;background:var(--sun);color:var(--sun-ink);padding:2px 10px;border-radius:999px}
-.cb{padding:16px 18px 18px;display:grid;gap:9px;flex:1}
-.cb h3{font-size:22px;font-weight:700}
-.meta{color:var(--muted);font-size:14px}
-.line{display:flex;gap:8px;align-items:flex-start;font-size:14px}
-.line .ico{margin-top:5px;color:var(--sun-text)}
+@media (min-width:1040px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.ph{position:relative;aspect-ratio:16/10;background:var(--ink-deep);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph-fb{position:absolute;inset:0;display:grid;place-items:center;background:
+  radial-gradient(circle at 75% 20%,color-mix(in srgb,var(--accent) 45%,transparent),transparent 55%),
+  linear-gradient(160deg,var(--ink-bar),var(--ink-deep));color:var(--on-dark);font-family:var(--mono);font-size:52px;font-weight:600;letter-spacing:.08em}
+.code{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;background:rgba(10,14,22,.74);color:#F4F7FC;padding:3px 9px;border-radius:7px;direction:ltr}
+.reg{position:absolute;top:12px;left:12px;font-size:12px;font-weight:600;background:var(--accent);color:#FFFFFF;padding:2px 10px;border-radius:999px}
+.cb{padding:15px 16px 16px;display:grid;gap:8px;flex:1}
+.cb h3{font-size:21px;font-weight:700}
+.meta{color:var(--muted);font-size:13.5px}
+.line{display:flex;gap:8px;align-items:flex-start;font-size:13.5px}
+.line .ico{margin-top:5px;color:var(--accent-text)}
 .inc{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
 .inc li{font-size:12.5px;padding:2px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
-.inc li::before{content:"✓";color:var(--wa);font-weight:700;margin-inline-end:5px}
-.note{font-size:13.5px;background:var(--sun-soft);color:var(--ink);padding:8px 12px;border-radius:10px}
-.dark .note{background:color-mix(in srgb,var(--sun) 18%,transparent);color:var(--on-night)}
+.inc li::before{content:"✓";color:var(--green);font-weight:700;margin-inline-end:5px}
+.note{font-size:13px;background:var(--accent-soft);padding:8px 12px;border-radius:10px}
 .cfoot{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-top:auto;padding-top:6px;flex-wrap:wrap}
 .from{display:grid;line-height:1.25}
-.from span{font-size:12px;color:var(--muted)}
-.from b{font-size:28px;font-weight:700;color:var(--sun-text);font-variant-numeric:tabular-nums}
-.from small{font-size:12px;color:var(--muted)}
-.cfoot .btn{padding:11px 20px}
-.more{border-top:1px dashed var(--line);margin-top:2px}
-.more summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;font-weight:600;padding-top:10px;color:var(--sun-text)}
+.from span,.from small{font-size:12px;color:var(--muted)}
+.from b{font-size:28px;font-weight:700;color:var(--accent-text);font-variant-numeric:tabular-nums}
+.cfoot .btn{padding:10px 20px}
+.more{border-top:1px dashed var(--line)}
+.more summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13.5px;font-weight:600;padding-top:10px;color:var(--accent-text)}
 .more summary::-webkit-details-marker{display:none}
 .more summary::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-left:4px}
 .more[open] summary::after{transform:rotate(-135deg)}
@@ -155,225 +166,272 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
 .lbl span{font-weight:400;color:var(--muted);font-size:12px;margin-inline-start:6px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{position:relative;display:inline-flex;align-items:center;font-size:13px;padding:6px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;font-variant-numeric:tabular-nums}
-.chip.is-on{border-color:var(--wa);background:var(--wa-soft);box-shadow:inset 0 0 0 1px var(--wa)}
+.chip.is-on{border-color:var(--green);background:var(--green-soft);box-shadow:inset 0 0 0 1px var(--green)}
 .chip input,.opt input,.vopt input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
-.chip:focus-within,.opt:focus-within,.vopt:focus-within{outline:2px solid var(--wa);outline-offset:-2px}
-.opts{display:grid;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.chip:focus-within,.opt:focus-within,.vopt:focus-within{outline:2px solid var(--green);outline-offset:-2px}
+.opts,.vopts{display:grid;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .opt,.vopt{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;cursor:pointer;background:var(--surface)}
 .opt + .opt,.vopt + .vopt{border-top:1px solid var(--line)}
-.opt.is-on,.vopt.is-on{background:var(--wa-soft)}
+.opt.is-on,.vopt.is-on{background:var(--green-soft)}
 .dot{width:17px;height:17px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center}
-.is-on > .dot{border-color:var(--wa)}
-.is-on > .dot::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--wa)}
+.is-on > .dot{border-color:var(--green)}
+.is-on > .dot::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
 .on{font-size:13.5px;font-weight:600;line-height:1.5;min-width:0}
-.rec{display:inline-block;font-size:11px;font-weight:500;color:var(--wa);border:1px solid var(--wa-line);border-radius:999px;padding:0 7px;margin-inline-start:4px;white-space:nowrap}
+.rec{display:inline-block;font-size:11px;font-weight:500;color:var(--green);border:1px solid var(--green-line);border-radius:999px;padding:0 7px;margin-inline-start:4px;white-space:nowrap}
 .op{display:grid;justify-items:end;line-height:1.3}
 .op b{font-size:15.5px;font-variant-numeric:tabular-nums}
 .op small{font-size:11px;color:var(--muted);white-space:nowrap}
 .small{font-size:13px;color:var(--muted)}
 .small b{color:var(--ink)}
-.flightline{font-family:var(--mono);font-size:12.5px;color:var(--muted);direction:rtl}
+.flightline{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
 
 /* events band */
-.ev{display:grid;gap:18px}
+.ev{display:grid;gap:16px}
 @media (min-width:860px){.ev{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.ecard{display:grid;grid-template-columns:1fr;background:var(--night-2);border:1px solid var(--night-line);border-radius:var(--r);overflow:hidden;color:var(--on-night)}
+.ecard{display:grid;grid-template-columns:1fr;background:var(--ink-deep);border:1px solid var(--dark-hair);border-radius:18px;overflow:hidden;color:var(--on-dark)}
 @media (min-width:560px){.ecard{grid-template-columns:200px minmax(0,1fr)}}
-.ecard .ph{position:relative;min-height:170px;background:var(--night)}
-.ecard .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.ecard .cb h3{font-size:20px}
-.ecard .meta,.ecard .from span,.ecard .from small{color:var(--on-night-muted)}
-.ecard .from b{color:var(--sun)}
-.ecard .line .ico{color:var(--sun)}
-.ecard .inc li{background:transparent;border-color:var(--night-line)}
-
-/* services */
-.svc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-@media (min-width:900px){.svc{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.svc a{display:grid;gap:8px;align-content:start;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
-.svc a:hover{border-color:var(--sun)}
-.svc .si{width:44px;height:44px;border-radius:12px;background:var(--sun-soft);color:var(--sun-text);display:grid;place-items:center}
-.svc .si svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.svc b{font-family:var(--display);font-size:18px;font-weight:600}
-.svc span{font-size:13.5px;color:var(--muted)}
+.ecard .ph{aspect-ratio:auto;min-height:170px}
+.ecard .ph img{position:absolute;inset:0}
+.ecard .cb h3{font-size:19px}
+.ecard .meta,.ecard .from span,.ecard .from small{color:var(--on-dark-muted)}
+.ecard .from b{color:var(--accent)}
+.ecard .line .ico{color:var(--accent)}
+.ecard .inc li{background:transparent;border-color:var(--dark-hair)}
+.ecard .note{background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--on-dark)}
+.ecard .more{border-color:var(--dark-hair)}
+.ecard .more summary{color:var(--accent)}
 
 /* visa desk */
-.vtools{display:grid;gap:10px;margin-bottom:14px}
-.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 14px;max-width:560px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 14px;max-width:560px;margin-bottom:10px}
 .search .ico{width:18px;height:18px;color:var(--muted)}
 .search input{flex:1;min-width:0;border:0;background:transparent;font-family:var(--body);font-size:16px;padding:12px 0;color:var(--ink);outline:none}
-.search:focus-within{border-color:var(--sun);box-shadow:0 0 0 3px var(--sun-soft)}
+.search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .vlist{display:grid;gap:8px}
 @media (min-width:900px){.vlist{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}}
 .visa{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0}
 .visa summary{list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:12px 14px;cursor:pointer}
 .visa summary::-webkit-details-marker{display:none}
 .flag{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--muted)}
-.vn{font-weight:600;font-size:15.5px;line-height:1.45;min-width:0}
+.vn{font-weight:600;font-size:15px;line-height:1.45;min-width:0}
 .vn small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
 .vp{font-size:12.5px;color:var(--muted);white-space:nowrap}
-.vp b{font-size:16px;color:var(--sun-text)}
+.vp b{font-size:16px;color:var(--accent-text)}
 .chev{width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-2px,-2px)}
 .visa[open] .chev{transform:rotate(-135deg) translate(-2px,-2px)}
 .vbody{border-top:1px solid var(--line);padding:12px 14px 14px;display:grid;gap:12px}
 .vt{display:flex;flex-direction:column;min-width:0}
 .vt b{font-weight:600;font-size:14px}
 .vt small{font-size:12px;color:var(--muted)}
-.vt .rn{color:var(--sun-text)}
+.vt .rn{color:var(--accent-text)}
 .vreq{list-style:none;margin:0;padding:0;display:grid;gap:3px;font-size:13px}
 .vreq li{display:flex;gap:8px}
-.vreq li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--sun);margin-top:9px;flex:none}
+.vreq li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:9px;flex:none}
 .refund{justify-self:start;font-size:12px;padding:3px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
-.refund.ok{background:var(--wa-soft);border-color:var(--wa-line);color:var(--wa)}
+.refund.ok{background:var(--green-soft);border-color:var(--green-line);color:var(--green)}
 .vbody .btn{width:100%}
 .empty{border:1px dashed var(--line);border-radius:14px;padding:18px;display:grid;gap:10px;justify-items:start;margin-top:8px}
 
-/* how */
-.how{display:grid;gap:26px;align-items:center}
-@media (min-width:900px){.how{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}}
-.how-ph{border-radius:22px;overflow:hidden;aspect-ratio:4/5;max-width:380px;width:100%;justify-self:center}
-.how-ph img{width:100%;height:100%;object-fit:cover;object-position:50% 14%;display:block}
-.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
-.steps li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
-.steps li::before{counter-increment:s;content:counter(s);width:36px;height:36px;border-radius:50%;background:var(--sun);color:var(--sun-ink);font-family:var(--display);font-weight:700;display:grid;place-items:center;font-size:17px}
-.steps b{display:block;font-family:var(--display);font-size:17px;font-weight:600}
-.steps span{font-size:14px;color:var(--muted)}
-
-/* contact */
-.contact-grid{display:grid;gap:22px}
-@media (min-width:900px){.contact-grid{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:start}}
-.cinfo{display:grid;gap:14px}
-.cinfo .row{display:grid;gap:2px;padding:14px 16px;border:1px solid var(--night-line);border-radius:14px;background:var(--night-2)}
-.cinfo span{font-size:12.5px;color:var(--on-night-muted)}
-.cinfo bdi{font-family:var(--mono);font-size:17px}
-.copy{justify-self:start;margin-top:4px;font-family:var(--body);font-size:12.5px;background:transparent;color:var(--on-night-muted);border:1px solid var(--night-line);border-radius:8px;padding:4px 10px;cursor:pointer}
-.cform{background:var(--surface);color:var(--ink);border-radius:var(--r);padding:18px;display:grid;gap:10px}
-.cform .wgrid{gap:10px}
-@media (min-width:600px){.cform .wgrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.cform .btn{width:100%}
-
 /* footer */
-.foot{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-line)}
-.foot .wrap{padding-block:30px calc(34px + env(safe-area-inset-bottom,0px));display:grid;gap:16px}
-.frow{display:flex;flex-wrap:wrap;gap:14px 28px;justify-content:space-between;align-items:center}
-.fn{font-family:var(--display);font-size:20px;font-weight:700}
-.flinks{display:flex;flex-wrap:wrap;gap:4px 16px}
-.flinks a{text-decoration:none;font-size:14px;color:var(--on-night-muted)}
-.fine{font-size:12px;color:var(--on-night-muted);border-top:1px solid var(--night-line);padding-top:14px;display:grid;gap:6px}
-.fine a{color:var(--on-night-muted)}
+.foot{background:var(--ink-bar);color:var(--on-dark);margin-top:56px}
+.foot .wrap{padding-block:30px calc(84px + env(safe-area-inset-bottom,0px));display:grid;gap:22px}
+.fcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+@media (min-width:720px){.fcols{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+.fbrand{display:grid;gap:8px;grid-column:1/-1}
+@media (min-width:720px){.fbrand{grid-column:auto}}
+.fn{font-family:var(--display);font-size:21px;font-weight:700}
+.foot p{color:var(--on-dark-muted);font-size:13px}
+.foot bdi{font-family:var(--mono);font-size:15px;color:var(--on-dark)}
+.copy{justify-self:start;font-family:var(--body);font-size:12.5px;background:transparent;color:var(--on-dark-muted);border:1px solid var(--dark-hair);border-radius:8px;padding:4px 10px;cursor:pointer}
+.fcol h4{margin:0 0 8px;font-size:13px;font-weight:600;color:var(--accent)}
+.fcol ul{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.fcol a{text-decoration:none;font-size:13.5px;color:var(--on-dark-muted)}
+.fcol a:hover{color:var(--on-dark)}
+.fine{border-top:1px solid var(--dark-hair);padding-top:14px;display:grid;gap:6px}
+.fine p{font-size:12px}
+.fine a{color:var(--on-dark-muted)}
 
-/* floating whatsapp */
-.fab{position:fixed;z-index:55;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:inline-flex;align-items:center;gap:8px;background:var(--wa);color:var(--on-wa);text-decoration:none;font-weight:700;font-size:14.5px;padding:12px 18px;border-radius:999px;box-shadow:0 10px 26px rgba(0,0,0,.28)}
+.fab{position:fixed;z-index:55;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:inline-flex;align-items:center;gap:8px;background:var(--green);color:var(--on-green);text-decoration:none;font-weight:700;font-size:14.5px;padding:12px 18px;border-radius:999px;box-shadow:0 10px 26px rgba(0,0,0,.28)}
 .fab svg{width:20px;height:20px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
 
 <div class="page" lang="ar">
 
-<header class="top">
-  <div class="wrap top-in">
-    <a class="brand" href="#top">
-      <img src="{{AVATAR}}" alt="" width="38" height="38">
-      <span><b>عبدالله حسين علوان</b><small>سفر وسياحة · بغداد</small></span>
-    </a>
-    <nav class="menu" aria-label="الأقسام">
-      <a href="#groups">الكروبات</a><a href="#events">الحفلات</a><a href="#visa">الفيزا</a>
-      <a href="#services">خدماتي</a><a href="#contact">تواصل</a>
+<header class="bar">
+  <div class="wrap bar-in">
+    <img class="ava" src="{{AVATAR}}" alt="" width="32" height="32">
+    <span class="bar-nm">عبدالله حسين علوان</span>
+    <nav class="bar-links" aria-label="الأقسام">
+      <a href="#search">البحث</a><a href="#groups">الكروبات</a><a href="#events">الحفلات</a><a href="#visa">الفيزا</a>
     </nav>
-    <a class="btn btn-sun" href="#contact">احجز رحلتك</a>
+    <a class="bar-wa" id="barWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">واتساب</a>
   </div>
 </header>
 
-<section class="hero" id="top">
-  <div class="wrap hero-grid">
-    <div class="hero-text">
-      <p class="eyebrow">كروبات · حفلات · فيزا · تذاكر</p>
-      <h1>سافر <em>براحتك</em>، وآني أرتبلك كل التفاصيل</h1>
-      <p class="lead">اختار الكروب أو الفيزا اللي تريدها، دزلي رسالة وحدة على الواتساب، وأرجعلك بعرض كامل وواضح بدون مصاريف مخفية.</p>
-      <div class="hero-cta">
-        <a class="btn btn-sun" href="#groups">استعرض الكروبات</a>
-        <a class="btn btn-ghost" id="heroWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">اطلب عرض سعر</a>
-      </div>
-    </div>
-    <div class="hero-card">
-      <div class="ph"><img src="{{HERO}}" alt="عبدالله حسين علوان" width="880" height="1100"></div>
-      <p class="hello">هلا بيك، آني <b>عبدالله</b>. كلي وين ناوي تسافر.</p>
-      <form class="widget" id="wform">
-        <h2>ابدأ طلب الحجز</h2>
-        <div class="wgrid">
-          <div class="field wide"><label for="w-dest">الوجهة</label><select id="w-dest"></select></div>
-          <div class="field wide"><label for="w-month">شهر السفر</label><select id="w-month"></select></div>
-          <div class="field"><label for="w-ad">البالغين</label>
-            <select id="w-ad"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
-          <div class="field"><label for="w-ch">الأطفال</label>
-            <select id="w-ch"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
-        </div>
-        <a class="btn btn-wa" id="wWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">أرسل الطلب بالواتساب</a>
-      </form>
-    </div>
+<section class="hero">
+  <img src="{{BAND}}" alt="" width="1300" height="1012">
+  <div class="wrap">
+    <span class="kick">سفر · سياحة · تذاكر · فيزا</span>
+    <h1>سفرتك تبدي <em>برسالة</em> وحدة</h1>
+    <p class="sub">تذاكر طيران، كروبات من بغداد، حفلات، وفيزا لأكثر من 35 دولة. اختار وارسل، وأرجعلك بالسعر والتفاصيل.</p>
+    <div class="badges" id="badges"></div>
   </div>
 </section>
 
-<div class="stats" aria-label="أرقام">
-  <div class="wrap" id="stats"></div>
+<div class="wrap panel-zone" id="search">
+  <div class="panel">
+    <div class="tabs" role="tablist" aria-label="نوع الخدمة">
+      <button class="tab" type="button" role="tab" id="tab-fly" aria-controls="pane-fly" aria-selected="true">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 14l20-8-6 16-3-7-7-1z"/></svg>طيران</button>
+      <button class="tab" type="button" role="tab" id="tab-grp" aria-controls="pane-grp" aria-selected="false">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 5.5a3 3 0 010 5.5M17 14.4c2.4.8 4 2.9 4 5.6"/></svg>كروبات</button>
+      <button class="tab" type="button" role="tab" id="tab-visa" aria-controls="pane-visa" aria-selected="false">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="2.6"/><path d="M8.5 17h7"/></svg>فيزا</button>
+      <button class="tab" type="button" role="tab" id="tab-htl" aria-controls="pane-htl" aria-selected="false">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20V5h8v7h10v8"/><path d="M3 20h18M6.5 8.5h1"/></svg>فنادق</button>
+      <button class="tab" type="button" disabled>تأمين سفر<span class="soon">قريباً</span></button>
+      <button class="tab" type="button" disabled>شريحة eSIM<span class="soon">قريباً</span></button>
+    </div>
+
+    <div class="panel-body">
+      <div class="tpane" id="pane-fly" role="tabpanel" aria-labelledby="tab-fly">
+        <p class="ptitle">وين ناوي تسافر؟</p>
+        <form id="fly">
+          <div class="trip" role="radiogroup" aria-label="نوع الرحلة">
+            <label class="is-on"><input type="radio" name="trip" value="ذهاب وعودة" checked>ذهاب وعودة</label>
+            <label><input type="radio" name="trip" value="ذهاب فقط">ذهاب فقط</label>
+            <label><input type="radio" name="trip" value="متعدد المدن">متعدد المدن</label>
+          </div>
+          <div class="fgrid four">
+            <div class="field"><label for="f-from">من</label><input id="f-from" type="text" value="بغداد"></div>
+            <div class="field"><label for="f-to">إلى</label><input id="f-to" type="text" placeholder="مثلاً: اسطنبول"></div>
+            <div class="field"><label for="f-date">تاريخ الذهاب</label><input id="f-date" type="date"></div>
+            <div class="field"><label for="f-back">تاريخ العودة</label><input id="f-back" type="date"></div>
+          </div>
+          <div class="fgrid four">
+            <div class="field"><label for="f-ad">البالغين</label>
+              <select id="f-ad"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></div>
+            <div class="field"><label for="f-ch">الأطفال</label>
+              <select id="f-ch"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+            <div class="field"><label for="f-in">الرضّع</label>
+              <select id="f-in"><option>0</option><option>1</option><option>2</option><option>3</option></select></div>
+            <div class="field"><label for="f-cl">الدرجة</label>
+              <select id="f-cl"><option>اقتصادي</option><option>رجال أعمال</option><option>الأولى</option></select></div>
+          </div>
+          <div class="panel-foot">
+            <a class="btn btn-accent" id="flyWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">ابحثلي عن السعر</a>
+            <p class="note-s">يوصلني طلبك بالواتساب وأرجعلك بأفضل سعر متوفر لنفس التاريخ.</p>
+          </div>
+        </form>
+      </div>
+
+      <div class="tpane" id="pane-grp" role="tabpanel" aria-labelledby="tab-grp" hidden>
+        <p class="ptitle">كروب سياحي</p>
+        <form id="grpf">
+          <div class="fgrid">
+            <div class="field"><label for="g-to">الكروب</label><select id="g-to"></select></div>
+            <div class="field"><label for="g-when">تاريخ السفر التقريبي</label><input id="g-when" type="date"></div>
+          </div>
+          <div class="fgrid">
+            <div class="field"><label for="g-ad">البالغين</label>
+              <select id="g-ad"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+            <div class="field"><label for="g-ch">الأطفال</label>
+              <select id="g-ch"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+          </div>
+          <div class="panel-foot">
+            <a class="btn btn-accent" id="grpWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">اسأل عن الكروب</a>
+            <p class="note-s"><a href="#groups">أو شوف كل الكروبات بالأسعار ←</a></p>
+          </div>
+        </form>
+      </div>
+
+      <div class="tpane" id="pane-visa" role="tabpanel" aria-labelledby="tab-visa" hidden>
+        <p class="ptitle">فيزا</p>
+        <form id="visaf">
+          <div class="fgrid">
+            <div class="field"><label for="x-c">الدولة</label><input id="x-c" type="text" list="visaNames" placeholder="مثلاً: الإمارات"></div>
+            <div class="field"><label for="x-n">عدد الأشخاص</label>
+              <select id="x-n"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+          </div>
+          <datalist id="visaNames"></datalist>
+          <div class="fgrid">
+            <div class="field"><label for="x-d">تاريخ السفر المتوقع</label><input id="x-d" type="date"></div>
+            <div class="field"><label for="x-t">نوع التأشيرة</label>
+              <select id="x-t"><option>سياحية</option><option>عاجلة</option><option>متعددة</option><option>ما أدري — نصحني</option></select></div>
+          </div>
+          <div class="panel-foot">
+            <a class="btn btn-accent" id="visaWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">اطلب الفيزا</a>
+            <p class="note-s"><a href="#visa">أو شوف أسعار الفيزا كاملة ←</a></p>
+          </div>
+        </form>
+      </div>
+
+      <div class="tpane" id="pane-htl" role="tabpanel" aria-labelledby="tab-htl" hidden>
+        <p class="ptitle">حجز فندق</p>
+        <form id="htlf">
+          <div class="fgrid">
+            <div class="field"><label for="h-city">المدينة</label><input id="h-city" type="text" placeholder="مثلاً: دبي"></div>
+            <div class="field"><label for="h-rooms">عدد الغرف</label>
+              <select id="h-rooms"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+          </div>
+          <div class="fgrid">
+            <div class="field"><label for="h-in">تاريخ الدخول</label><input id="h-in" type="date"></div>
+            <div class="field"><label for="h-out">تاريخ الخروج</label><input id="h-out" type="date"></div>
+          </div>
+          <div class="panel-foot">
+            <a class="btn btn-accent" id="htlWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">اسأل عن الفندق</a>
+            <p class="note-s">أرجعلك بخيارات فنادق بأسعار مختلفة حسب ميزانيتك.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <nav class="svc" aria-label="الخدمات">
+    <a href="#search" data-tab="tab-fly"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 14l20-8-6 16-3-7-7-1z"/></svg><b>تذاكر طيران</b><small>كل الوجهات</small></a>
+    <a href="#groups"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 5.5a3 3 0 010 5.5M17 14.4c2.4.8 4 2.9 4 5.6"/></svg><b>كروبات</b><small id="svcG">أسعار جاهزة</small></a>
+    <a href="#events"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><b>حفلات</b><small>ورأس السنة</small></a>
+    <a href="#visa"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="2.6"/><path d="M8.5 17h7"/></svg><b>فيزا</b><small id="svcV">35+ دولة</small></a>
+    <a href="#search" data-tab="tab-htl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20V5h8v7h10v8"/><path d="M3 20h18M6.5 8.5h1"/></svg><b>فنادق</b><small>كل الفئات</small></a>
+    <div class="off"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.3-2.9 7.8-7 9-4.1-1.2-7-4.7-7-9V6z"/></svg><b>تأمين سفر</b><small>قريباً</small></div>
+  </nav>
 </div>
 
 <section class="sec" id="groups">
   <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <p class="eyebrow">الكروبات</p>
-        <h2>كروبات طالعة من مطار بغداد</h2>
-        <p>الأسعار للشخص بالغرفة المزدوجة، وهي أقل سعر متوفر لكل كروب. تتغير حسب الفندق والتاريخ والتوفر، وأأكدلك السعر قبل الحجز.</p>
-      </div>
-      <div class="rtabs" id="rtabs" role="group" aria-label="تصفية حسب المنطقة"></div>
-    </div>
+    <header class="sec-head">
+      <p class="tagline"><span class="code-t">GRP</span> عروض الكروبات</p>
+      <h2>كروبات طالعة من بغداد</h2>
+      <p class="sec-sub">الأسعار بالدولار للشخص الواحد بالغرفة المزدوجة، وهي أقل سعر متوفر لكل كروب. تتغير حسب الفندق والتاريخ، وأأكدلك السعر قبل الحجز.</p>
+    </header>
+    <div class="rtabs" id="rtabs" role="group" aria-label="تصفية حسب المنطقة"></div>
     <div class="cards" id="groupList"></div>
   </div>
 </section>
 
 <section class="sec dark" id="events">
   <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <p class="eyebrow">الحفلات والمناسبات</p>
-        <h2>حفلات ورأس السنة</h2>
-        <p>طيران وفندق بسعر واحد للشخص بالغرفة المزدوجة. تذاكر الحفلات أحجزها لك حسب الطلب.</p>
-      </div>
-    </div>
+    <header class="sec-head">
+      <p class="tagline"><span class="code-t">EVT</span> الحفلات والمناسبات</p>
+      <h2>حفلات ورأس السنة</h2>
+      <p class="sec-sub">طيران وفندق بسعر واحد بالدولار للشخص بالغرفة المزدوجة. تذاكر الحفلات أحجزها لك حسب الطلب.</p>
+    </header>
     <div class="ev" id="eventList"></div>
   </div>
 </section>
 
-<section class="sec" id="services">
+<section class="sec" id="visa">
   <div class="wrap">
-    <div class="sec-head"><div><p class="eyebrow">خدماتي</p><h2>كل شي يخص سفرتك</h2></div></div>
-    <nav class="svc" aria-label="الخدمات">
-      <a href="#contact"><span class="si"><svg viewBox="0 0 24 24"><path d="M2 14l20-8-6 16-3-7-7-1z"/></svg></span><b>تذاكر طيران</b><span>لكل الوجهات وعلى كل شركات الطيران، ذهاب فقط أو ذهاب وعودة.</span></a>
-      <a href="#groups"><span class="si"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 5.5a3 3 0 010 5.5M17 14.4c2.4.8 4 2.9 4 5.6"/></svg></span><b>كروبات سياحية</b><span>طيران وفندق واستقبال بسعر واحد، طالعة من بغداد.</span></a>
-      <a href="#visa"><span class="si"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="2.6"/><path d="M8.5 17h7"/></svg></span><b>فيزا</b><span>تجهيز الملف ومتابعته لحد ما تطلع الفيزا.</span></a>
-      <a href="#contact"><span class="si"><svg viewBox="0 0 24 24"><path d="M3 20V5h8v7h10v8"/><path d="M3 20h18M6.5 8.5h1"/></svg></span><b>حجز فنادق</b><span>خيارات بكل الفئات حسب ميزانيتك والمنطقة اللي تريدها.</span></a>
-      <a href="#events"><span class="si"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span><b>حفلات ومناسبات</b><span>رأس السنة والحفلات الكبيرة، طيران وفندق وتذكرة.</span></a>
-      <a href="#visa"><span class="si"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8.5" cy="12" r="2"/><path d="M13 10.5h5M13 13.5h3"/></svg></span><b>إجازة سوق دولية</b><span>إجازة دفترية لسنة أو 10 سنوات.</span></a>
-    </nav>
-  </div>
-</section>
-
-<section class="sec" id="visa" style="padding-top:8px">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <p class="eyebrow">الفيزا</p>
-        <h2>أسعار الفيزا</h2>
-        <p>الأسعار بالدولار ما لم يُذكر غير ذلك. المبلغ غير مسترجع في حال الرفض، إلا الدول المكتوب عليها «مسترجع».</p>
-      </div>
-    </div>
-    <div class="vtools">
-      <label class="search" for="vq">
-        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
-        <input id="vq" type="search" placeholder="ابحث عن دولة… مثلاً: الإمارات" autocomplete="off">
-      </label>
-      <div class="rtabs" id="vtabs" role="group" aria-label="تصفية حسب المنطقة"></div>
-    </div>
+    <header class="sec-head">
+      <p class="tagline"><span class="code-t">VISA</span> تأشيرات</p>
+      <h2>أسعار الفيزا</h2>
+      <p class="sec-sub">الأسعار بالدولار ما لم يُكتب «د.ع». المبلغ غير مسترجع في حال الرفض، إلا الدول المكتوب عليها «مسترجع».</p>
+    </header>
+    <label class="search" for="vq">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input id="vq" type="search" placeholder="ابحث عن دولة… مثلاً: الإمارات" autocomplete="off">
+    </label>
+    <div class="rtabs" id="vtabs" role="group" aria-label="تصفية حسب المنطقة"></div>
     <div class="vlist" id="visaList"></div>
     <div class="empty" id="vEmpty" hidden>
       <p>ما لكيت هالدولة بالقائمة. راسلني وأشوفلك.</p>
@@ -382,58 +440,30 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
   </div>
 </section>
 
-<section class="sec" id="how" style="padding-top:8px">
-  <div class="wrap how">
-    <div class="how-ph"><img src="{{HERO}}" alt="" width="880" height="1100" loading="lazy"></div>
-    <div>
-      <div class="sec-head"><div><p class="eyebrow">شلون نشتغل</p><h2>من الرسالة الأولى لحد ما توصل</h2></div></div>
-      <ol class="steps">
-        <li><div><b>كلي تفاصيل سفرتك</b><span>الوجهة، التاريخ، عدد الأشخاص وأعمار الأطفال.</span></div></li>
-        <li><div><b>تستلم عرض مفصّل</b><span>الطيران والفندق وكل شي مشمول، بدون مصاريف مخفية.</span></div></li>
-        <li><div><b>تأكيد الحجز والمستمسكات</b><span>تدزلي المستمسكات برسالة وحدة وآني أكمل الباقي.</span></div></li>
-        <li><div><b>تسافر وآني وياك</b><span>أتابع وياك من المطار لحد ما ترجع.</span></div></li>
-      </ol>
-    </div>
-  </div>
-</section>
-
-<section class="sec dark" id="contact">
-  <div class="wrap">
-    <div class="sec-head"><div><p class="eyebrow">تواصل وياي</p><h2>اطلب عرض سعر</h2><p>املأ الطلب وتنفتح محادثة واتساب بيها كل التفاصيل.</p></div></div>
-    <div class="contact-grid">
-      <div class="cinfo">
-        <div class="row"><span>واتساب</span><bdi dir="ltr" id="phoneVal">+964 771 331 0011</bdi>
-          <button class="copy" id="copyBtn" type="button">نسخ الرقم</button></div>
-        <a class="btn btn-wa" id="cWaDirect" target="_blank" rel="noopener" href="https://wa.me/9647713310011">افتح الواتساب مباشرة</a>
-      </div>
-      <form class="cform" id="cform">
-        <div class="wgrid">
-          <div class="field"><label for="c-name">الاسم</label><input id="c-name" type="text" autocomplete="name"></div>
-          <div class="field"><label for="c-dest">الوجهة أو العرض</label><input id="c-dest" type="text" list="destList" placeholder="مثلاً: بانكوك"></div>
-        </div>
-        <datalist id="destList"></datalist>
-        <div class="wgrid three">
-          <div class="field"><label for="c-date">تاريخ السفر المتوقع</label><input id="c-date" type="date"></div>
-          <div class="field"><label for="c-ad">البالغين</label>
-            <select id="c-ad"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
-          <div class="field"><label for="c-ch">الأطفال</label>
-            <select id="c-ch"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
-        </div>
-        <div class="field"><label for="c-notes">ملاحظات</label><textarea id="c-notes" placeholder="الميزانية، نوع الفندق، أعمار الأطفال، أي طلب خاص"></textarea></div>
-        <a class="btn btn-wa" id="cWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">أرسل الطلب بالواتساب</a>
-      </form>
-    </div>
-  </div>
-</section>
-
 <footer class="foot">
   <div class="wrap">
-    <div class="frow">
-      <div><div class="fn">عبدالله حسين علوان</div><p class="small" style="color:var(--on-night-muted)">كروبات · حفلات · فيزا · تذاكر · بغداد</p></div>
-      <nav class="flinks" aria-label="روابط"><a href="#groups">الكروبات</a><a href="#events">الحفلات</a><a href="#visa">الفيزا</a><a href="#contact">تواصل</a></nav>
+    <div class="fcols">
+      <div class="fbrand">
+        <div class="fn">عبدالله حسين علوان</div>
+        <p>كروبات سياحية · حفلات · تذاكر طيران · فيزا · حجز فنادق</p>
+        <p>واتساب: <bdi dir="ltr" id="phoneVal">+964 771 331 0011</bdi></p>
+        <button class="copy" id="copyBtn" type="button">نسخ الرقم</button>
+      </div>
+      <div class="fcol"><h4>الخدمات</h4><ul>
+        <li><a href="#search" data-tab="tab-fly">تذاكر طيران</a></li>
+        <li><a href="#groups">كروبات سياحية</a></li>
+        <li><a href="#events">حفلات</a></li>
+        <li><a href="#visa">فيزا</a></li>
+      </ul></div>
+      <div class="fcol"><h4>الوجهات</h4><ul id="fDest"></ul></div>
+      <div class="fcol"><h4>تواصل</h4><ul>
+        <li><a id="fw1" target="_blank" rel="noopener" href="https://wa.me/9647713310011">واتساب</a></li>
+        <li><a id="fw2" target="_blank" rel="noopener" href="https://wa.me/9647713310011">استفسار عن سعر</a></li>
+        <li><a id="fw3" target="_blank" rel="noopener" href="https://wa.me/9647713310011">متابعة حجز</a></li>
+      </ul></div>
     </div>
     <div class="fine">
-      <p id="stamp">الأسعار بالدولار الأمريكي ما لم يُذكر غير ذلك، وتتغير حسب التوفر. آخر تحديث: <bdi dir="ltr">{{UPDATED}}</bdi></p>
+      <p id="stamp">الأسعار بالدولار الأمريكي ما لم يُكتب «د.ع»، وتتغير حسب التوفر. السعر النهائي يتأكد وقت الحجز. آخر تحديث: <bdi dir="ltr">{{UPDATED}}</bdi></p>
       {{CREDITS}}
     </div>
   </div>
@@ -450,7 +480,7 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
 (function(){
   "use strict";
   /* ============ الإعدادات ============ */
-  var SHEET_ID = "{{SHEET_ID}}";          // معرّف ملف كَوكَل شيت مالتك (من الرابط)
+  var SHEET_ID = "{{SHEET_ID}}";          // معرّف ملف كَوكَل شيت (من الرابط)
   var TAB_OFFERS = "كروبات", TAB_VISAS = "فيزا";
   var PHONE = "9647713310011";
   var DATA = {{DATA}};
@@ -464,7 +494,14 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
   function clean(s){ return String(s == null ? "" : s).replace(/[٠-٩]/g, function(d){ return String(d.charCodeAt(0) - 0x660); }).trim(); }
   function norm(s){ return clean(s).replace(/[ـً-ٟ]/g,"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").replace(/\s+/g," ").toLowerCase(); }
   function num(s){ var m = clean(s).replace(/,/g,"").match(/\d+(\.\d+)?/); return m ? parseFloat(m[0]) : NaN; }
-  function money(s){ s = clean(s); return /\$/.test(s) ? '<b class="num" dir="ltr">' + esc(s) + '</b>' : '<b class="num">' + esc(s) + '</b>'; }
+  function isUsd(s){ return /\$/.test(String(s)); }
+  /* السعر يظهر رقم فقط بدون علامة الدولار */
+  function bare(s){ return clean(s).replace(/\s*\$\s*/g, "").trim(); }
+  function money(s){ return '<b class="num">' + esc(bare(s)) + '</b>'; }
+  /* داخل النصوص: 600$ ← 600 دولار */
+  function words(s){ return clean(s).replace(/(\d[\d,.]*)\s*\$/g, "$1 دولار").replace(/\$\s*(\d[\d,.]*)/g, "$1 دولار"); }
+  /* برسالة الواتساب: 1075 دولار */
+  function waPrice(s){ return isUsd(s) ? bare(s) + " دولار" : clean(s); }
   function splitList(s){ return clean(s).split(/[;؛\n]+/).map(function(x){ return x.trim(); }).filter(Boolean); }
   function visible(s){ s = clean(s).toLowerCase(); return !(s === "لا" || s === "no" || s === "false" || s === "0"); }
   function setHref(el, msg){ if (el) el.href = wa(msg); }
@@ -472,8 +509,7 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
   function fmtDate(v){ if (!v) return "غير محدد"; var p = v.split("-"); return p.length === 3 ? p[2] + "-" + p[1] + "-" + p[0] : v; }
   var ICO = {
     cal:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
-    bed:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18V7M3 13h18v5M21 13a4 4 0 00-4-4h-6v4"/><circle cx="7" cy="10.5" r="1.6"/></svg>',
-    plane:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 14l20-8-6 16-3-7-7-1z"/></svg>'
+    bed:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18V7M3 13h18v5M21 13a4 4 0 00-4-4h-6v4"/><circle cx="7" cy="10.5" r="1.6"/></svg>'
   };
 
   /* ============ CSV ============ */
@@ -497,7 +533,7 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
     return rows.slice(1).map(function(r){ var o = {}; head.forEach(function(h, i){ o[h] = r[i] == null ? "" : r[i]; }); return o; });
   }
 
-  /* ============ تحويل الأسطر إلى عروض ============ */
+  /* ============ الأسطر ← عروض ============ */
   var OF = [["النوع","type"],["المنطقة","region"],["الرمز","code"],["المدة","dur"],["الطيران","air"],
             ["التواريخ","datesRaw"],["تفاصيل الطيران","flight"],["الفنادق","hotels"],["يشمل","incRaw"],
             ["ملاحظة","note"],["المتطلبات","reqRaw"],["الطفل بدون سرير","child"],["الرضيع","infant"]];
@@ -522,7 +558,7 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
       g.img = PHOTOS.indexOf(k) > -1 ? PHOTO_DIR + k + ".webp" : "";
       g.best = g.opts[0];
       g.opts.forEach(function(o){ var a = num(o.p), b = num(g.best && g.best.p); if (!isNaN(a) && (isNaN(b) || a < b)) g.best = o; });
-      g.listed = g.opts.length > 1 || (g.opts[0] && (g.opts[0].h1 || g.opts[0].h2));
+      g.listed = g.opts.length > 1 || !!(g.opts[0] && (g.opts[0].h1 || g.opts[0].h2));
       return g;
     }).filter(function(g){ return g.opts.length; });
     return { groups: all.filter(function(g){ return g.kind === "group"; }),
@@ -551,7 +587,7 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
     }).filter(function(v){ return v.rows.length; });
   }
 
-  var state = { offers: parseOffers(DATA.offers), visas: parseVisas(DATA.visas), gRegion: "all", vRegion: "all", live: false };
+  var state = { offers: parseOffers(DATA.offers), visas: parseVisas(DATA.visas), gRegion: "all", vRegion: "all" };
 
   /* ============ بطاقات العروض ============ */
   function optLabel(o){ return o.h2 ? o.h1 + " + " + o.h2 : o.h1; }
@@ -564,24 +600,24 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
     }
     var optsBlock = "";
     if (g.listed){
-      optsBlock = '<div><p class="lbl">اختار الفندق<span>للشخص بالغرفة المزدوجة</span></p><div class="opts" role="radiogroup" aria-label="الفندق">' +
+      optsBlock = '<div><p class="lbl">اختار الفندق<span>بالدولار للشخص بالغرفة المزدوجة</span></p><div class="opts" role="radiogroup" aria-label="الفندق">' +
         g.opts.map(function(o, i){
           var on = o === g.best;
           return '<label class="opt' + (on ? ' is-on' : '') + '"><input type="radio" name="h-' + g.id + '" value="' + i + '"' + (on ? ' checked' : '') + '>' +
             '<span class="dot" aria-hidden="true"></span><span class="on">' + esc(optLabel(o)) + (o.rec ? '<em class="rec">ينصح به</em>' : '') + '</span>' +
-            '<span class="op">' + money(o.p) + (o.s ? '<small>سنكل <span dir="ltr">' + esc(o.s) + '</span></small>' : '') + '</span></label>';
+            '<span class="op">' + money(o.p) + (o.s ? '<small>سنكل ' + esc(bare(o.s)) + '</small>' : '') + '</span></label>';
         }).join("") + '</div></div>';
     }
     var kids = [];
-    if (g.child) kids.push('الطفل بدون سرير <b dir="ltr">' + esc(g.child) + '</b>');
-    if (g.infant) kids.push('الرضيع <b dir="ltr">' + esc(g.infant) + '</b>');
+    if (g.child) kids.push('الطفل بدون سرير <b>' + esc(bare(g.child)) + '</b>');
+    if (g.infant) kids.push('الرضيع <b>' + esc(bare(g.infant)) + '</b>');
     var extra = datesBlock + optsBlock +
       (kids.length ? '<p class="small">' + kids.join(" · ") + '</p>' : '') +
       (g.flight ? '<p class="flightline">' + esc(g.flight) + '</p>' : '') +
-      (g.req.length ? '<p class="small"><b>المتطلبات:</b> ' + esc(g.req.join(" + ")) + '</p>' : '');
+      (g.req.length ? '<p class="small"><b>المتطلبات:</b> ' + esc(words(g.req.join(" + "))) + '</p>' : '');
     var hasMore = !!(datesBlock || optsBlock || g.flight || g.req.length);
     var photo = g.img ? '<img src="' + esc(g.img) + '" alt="' + esc(g.title) + '" loading="lazy">'
-                      : '<span class="ph-fallback" aria-hidden="true">' + esc(g.code || "") + '</span>';
+                      : '<span class="ph-fb" aria-hidden="true">' + esc(g.code || "") + '</span>';
     var moreLabel = g.listed ? "الفنادق والتفاصيل (" + g.opts.length + ")" : "التفاصيل";
     return '<article class="' + (dark ? 'ecard' : 'card') + '" id="' + g.id + '" data-r="' + esc(g.region) + '">' +
       '<div class="ph">' + photo + (g.code && g.img ? '<span class="code">' + esc(g.code) + '</span>' : '') +
@@ -592,10 +628,10 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
         (g.datesRaw && g.dates.length <= 1 ? '<p class="line">' + ICO.cal + '<span>' + esc(g.datesRaw) + '</span></p>' : '') +
         (g.hotels ? '<p class="line">' + ICO.bed + '<span>' + esc(g.hotels) + '</span></p>' : '') +
         (g.inc.length ? '<ul class="inc" aria-label="يشمل">' + g.inc.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' : '') +
-        (g.note ? '<p class="note">' + esc(g.note) + '</p>' : '') +
-        (hasMore ? '<details class="more"' + '><summary>' + esc(moreLabel) + '</summary><div class="mbody">' + extra + '</div></details>' : '') +
-        '<div class="cfoot"><div class="from"><span>يبدأ من</span>' + money(g.best.p) + '<small>للشخص</small></div>' +
-          '<a class="btn btn-sun" target="_blank" rel="noopener" data-cta="' + g.id + '" href="https://wa.me/' + PHONE + '">احجز</a></div>' +
+        (g.note ? '<p class="note">' + esc(words(g.note)) + '</p>' : '') +
+        (hasMore ? '<details class="more"><summary>' + esc(moreLabel) + '</summary><div class="mbody">' + extra + '</div></details>' : '') +
+        '<div class="cfoot"><div class="from"><span>يبدأ من</span>' + money(g.best.p) + '<small>' + (isUsd(g.best.p) ? 'دولار للشخص' : 'للشخص') + '</small></div>' +
+          '<a class="btn btn-accent" target="_blank" rel="noopener" data-cta="' + g.id + '" href="https://wa.me/' + PHONE + '">احجز</a></div>' +
       '</div></article>';
   }
   function findOffer(id){
@@ -612,7 +648,7 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
     if (g.dur) lines.push("المدة: " + g.dur);
     lines.push("التاريخ: " + (di ? di.value : (g.datesRaw || "أتفق وياك")));
     if (g.listed && o) lines.push("الفندق: " + optLabel(o));
-    if (o && o.p) lines.push("السعر: " + o.p + " للشخص");
+    if (o && o.p) lines.push("السعر: " + waPrice(o.p) + " للشخص");
     setHref(document.querySelector('[data-cta="' + id + '"]'), lines.join("\n"));
   }
 
@@ -635,11 +671,12 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
     filterGroups();
 
     var names = gs.concat(ev).map(function(g){ return g.title; });
-    var wd = document.getElementById("w-dest");
-    if (wd){ var keep = wd.value; wd.innerHTML = names.concat(["وجهة ثانية"]).map(function(n){ return '<option>' + esc(n) + '</option>'; }).join(""); if (keep && names.indexOf(keep) > -1) wd.value = keep; }
-    var dl = document.getElementById("destList");
-    if (dl) dl.innerHTML = names.map(function(n){ return '<option value="' + esc(n) + '"></option>'; }).join("");
-    renderStats(); buildW();
+    var sel = document.getElementById("g-to");
+    if (sel){ var keep = sel.value; sel.innerHTML = names.concat(["وجهة ثانية"]).map(function(n){ return '<option>' + esc(n) + '</option>'; }).join(""); if (keep && names.indexOf(keep) > -1) sel.value = keep; }
+    var fd = document.getElementById("fDest");
+    if (fd) fd.innerHTML = gs.slice(0, 5).map(function(g){ return '<li><a href="#' + g.id + '">' + esc(g.title) + '</a></li>'; }).join("");
+    var sg = document.getElementById("svcG"); if (sg) sg.textContent = gs.length + " كروب";
+    renderBadges(); buildGrp();
   }
   function filterGroups(){
     document.querySelectorAll("#groupList .card").forEach(function(c){
@@ -648,24 +685,24 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
     document.querySelectorAll("#rtabs .rtab").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-r") === state.gRegion)); });
   }
 
-  /* ============ الإحصاءات ============ */
-  function renderStats(){
-    var el = document.getElementById("stats"); if (!el) return;
+  /* ============ شارات الواجهة ============ */
+  function renderBadges(){
+    var el = document.getElementById("badges"); if (!el) return;
     var all = state.offers.groups.concat(state.offers.events), low = NaN;
-    all.forEach(function(g){ var n = num(g.best && g.best.p); if (!isNaN(n) && /\$/.test(g.best.p) && (isNaN(low) || n < low)) low = n; });
+    all.forEach(function(g){ var n = num(g.best && g.best.p); if (!isNaN(n) && isUsd(g.best.p) && (isNaN(low) || n < low)) low = n; });
     var countries = state.visas.filter(function(v){ return !v.ask && v.r !== "خدمات"; }).length;
     el.innerHTML =
-      '<div class="stat"><b>' + state.offers.groups.length + '</b><span>كروب طالع من بغداد</span></div>' +
-      '<div class="stat"><b>' + state.offers.events.length + '</b><span>حفلة ومناسبة</span></div>' +
-      '<div class="stat"><b>' + countries + '</b><span>دولة للفيزا</span></div>' +
-      '<div class="stat"><b dir="ltr">' + (isNaN(low) ? "—" : low + "$") + '</b><span>أقل سعر كروب حالياً</span></div>';
+      '<span><b>' + state.offers.groups.length + '</b> كروب من بغداد</span>' +
+      '<span><b>' + countries + '</b> دولة فيزا</span>' +
+      (isNaN(low) ? '' : '<span>كروبات تبدي من <b>' + low + '</b> دولار</span>');
+    var sv = document.getElementById("svcV"); if (sv) sv.textContent = countries + " دولة";
   }
 
   /* ============ الفيزا ============ */
   function kinds(n){ return n === 2 ? "نوعين" : (n <= 10 ? n + " أنواع" : n + " نوع"); }
   function fromPrice(v){
     var best = null;
-    v.rows.forEach(function(r){ var n = num(r.p); if (!isNaN(n) && /\$/.test(r.p) && (best === null || n < num(best))) best = r.p; });
+    v.rows.forEach(function(r){ var n = num(r.p); if (!isNaN(n) && isUsd(r.p) && (best === null || n < num(best))) best = r.p; });
     return money(best === null ? v.rows[0].p : best);
   }
   function flagHtml(v){
@@ -684,10 +721,10 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
     var opts = v.rows.map(function(r, j){
       var meta = [r.d, r.v ? "صلاحية " + r.v : ""].filter(Boolean).join(" · ");
       return '<label class="vopt' + (j === 0 ? ' is-on' : '') + '"><input type="radio" name="v-' + i + '" value="' + j + '"' + (j === 0 ? ' checked' : '') + '>' +
-        '<span class="dot" aria-hidden="true"></span><span class="vt"><b>' + esc(r.t) + '</b>' + (meta ? '<small>' + esc(meta) + '</small>' : '') + (r.n ? '<small class="rn">' + esc(r.n) + '</small>' : '') + '</span>' +
+        '<span class="dot" aria-hidden="true"></span><span class="vt"><b>' + esc(r.t) + '</b>' + (meta ? '<small>' + esc(meta) + '</small>' : '') + (r.n ? '<small class="rn">' + esc(words(r.n)) + '</small>' : '') + '</span>' +
         '<span class="op">' + money(r.p) + '</span></label>';
     }).join("");
-    var req = v.req.length ? '<div><p class="lbl">المتطلبات</p><ul class="vreq">' + v.req.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' : "";
+    var req = v.req.length ? '<div><p class="lbl">المتطلبات</p><ul class="vreq">' + v.req.map(function(x){ return '<li>' + esc(words(x)) + '</li>'; }).join("") + '</ul></div>' : "";
     var ref = v.refTxt ? '<p class="refund' + (/غير مسترجع/.test(v.refTxt) ? '' : ' ok') + '">' + esc(v.refTxt) + '</p>' : "";
     return '<details class="visa" data-r="' + esc(v.r) + '" data-k="' + key + '">' + head +
       '<div class="vbody"><div class="vopts" role="radiogroup" aria-label="نوع الفيزا">' + opts + '</div>' + req + ref +
@@ -698,7 +735,7 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
     var sel = document.querySelector('input[name="v-' + i + '"]:checked');
     var r = v.rows[sel ? +sel.value : 0]; if (!r) return;
     setHref(document.querySelector('[data-vcta="' + i + '"]'),
-      "مرحباً، أريد فيزا " + v.c + (v.sub ? " (" + v.sub + ")" : "") + "\nالنوع: " + r.t + "\nالسعر: " + r.p + (r.d ? "\nمدة الإصدار: " + r.d : ""));
+      "مرحباً، أريد فيزا " + v.c + (v.sub ? " (" + v.sub + ")" : "") + "\nالنوع: " + r.t + "\nالسعر: " + waPrice(r.p) + (r.d ? "\nمدة الإصدار: " + r.d : ""));
   }
   function renderVisas(){
     var regions = [];
@@ -711,12 +748,14 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
     }).join("");
     var vl = document.getElementById("visaList");
     if (vl){ vl.innerHTML = state.visas.map(visaCard).join(""); state.visas.forEach(function(v, i){ updV(i); }); }
-    filterVisas(); renderStats();
+    var dl = document.getElementById("visaNames");
+    if (dl) dl.innerHTML = state.visas.map(function(v){ return '<option value="' + esc(v.c) + '"></option>'; }).join("");
+    filterVisas(); renderBadges();
   }
   function filterVisas(){
     var q = norm(val("vq")), shown = 0;
     document.querySelectorAll("#visaList .visa").forEach(function(el){
-      var ok = (q ? el.getAttribute("data-k").indexOf(q) > -1 : (state.vRegion === "all" || el.getAttribute("data-r") === state.vRegion));
+      var ok = q ? el.getAttribute("data-k").indexOf(q) > -1 : (state.vRegion === "all" || el.getAttribute("data-r") === state.vRegion);
       el.hidden = !ok; if (ok) shown++;
     });
     document.querySelectorAll("#vtabs .rtab").forEach(function(b){ b.setAttribute("aria-pressed", String(!q && b.getAttribute("data-r") === state.vRegion)); });
@@ -724,34 +763,56 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
     setHref(document.getElementById("vEmptyWa"), "مرحباً، أريد أستفسر عن فيزا " + val("vq"));
   }
 
-  /* ============ النماذج ============ */
-  var MONTHS = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
-  (function(){
-    var sel = document.getElementById("w-month"); if (!sel) return;
-    var d = new Date(), out = [];
-    for (var i = 0; i < 12; i++){ var m = (d.getMonth() + i) % 12, y = d.getFullYear() + Math.floor((d.getMonth() + i) / 12); out.push(MONTHS[m] + " " + y); }
-    sel.innerHTML = out.map(function(x){ return '<option>' + x + '</option>'; }).join("") + '<option>ما محدد بعد</option>';
-  })();
-  function buildW(){
-    setHref(document.getElementById("wWa"),
-      "طلب حجز\nالوجهة: " + val("w-dest") + "\nشهر السفر: " + val("w-month") +
-      "\nالبالغين: " + val("w-ad") + (val("w-ch") !== "0" ? " · الأطفال: " + val("w-ch") : ""));
+  /* ============ لوحة البحث ============ */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab[role="tab"]'));
+  function showTab(id){
+    tabs.forEach(function(t){
+      var on = t.id === id;
+      t.setAttribute("aria-selected", String(on));
+      var pane = document.getElementById(t.getAttribute("aria-controls"));
+      if (pane) pane.hidden = !on;
+    });
   }
-  function buildC(){
-    var lines = ["طلب عرض سعر"];
-    if (val("c-name")) lines.push("الاسم: " + val("c-name"));
-    lines.push("الوجهة: " + (val("c-dest") || "غير محدد"));
-    lines.push("تاريخ السفر المتوقع: " + fmtDate(val("c-date")));
-    lines.push("البالغين: " + val("c-ad") + (val("c-ch") !== "0" ? " · الأطفال: " + val("c-ch") : ""));
-    if (val("c-notes")) lines.push("ملاحظات: " + val("c-notes"));
-    setHref(document.getElementById("cWa"), lines.join("\n"));
+  tabs.forEach(function(t){ t.addEventListener("click", function(){ showTab(t.id); }); });
+  document.querySelectorAll("[data-tab]").forEach(function(a){ a.addEventListener("click", function(){ showTab(a.getAttribute("data-tab")); }); });
+
+  function buildFly(){
+    var trip = document.querySelector('input[name="trip"]:checked');
+    var t = trip ? trip.value : "ذهاب وعودة";
+    document.querySelectorAll(".trip label").forEach(function(l){ var i = l.querySelector("input"); if (i) l.classList.toggle("is-on", i.checked); });
+    var back = document.getElementById("f-back"); if (back) back.disabled = (t !== "ذهاب وعودة");
+    var pax = "البالغين: " + val("f-ad");
+    if (val("f-ch") !== "0") pax += " · الأطفال: " + val("f-ch");
+    if (val("f-in") !== "0") pax += " · الرضّع: " + val("f-in");
+    setHref(document.getElementById("flyWa"),
+      "طلب تذكرة طيران\nمن: " + (val("f-from") || "غير محدد") + "\nإلى: " + (val("f-to") || "غير محدد") +
+      "\nنوع الرحلة: " + t + "\nتاريخ الذهاب: " + fmtDate(val("f-date")) +
+      (t === "ذهاب وعودة" ? "\nتاريخ العودة: " + fmtDate(val("f-back")) : "") + "\n" + pax + "\nالدرجة: " + val("f-cl"));
   }
-  [["wform", buildW], ["cform", buildC]].forEach(function(p){
+  function buildGrp(){
+    setHref(document.getElementById("grpWa"),
+      "استفسار عن كروب\nالكروب: " + val("g-to") + "\nتاريخ السفر التقريبي: " + fmtDate(val("g-when")) +
+      "\nالبالغين: " + val("g-ad") + (val("g-ch") !== "0" ? " · الأطفال: " + val("g-ch") : ""));
+  }
+  function buildVisaF(){
+    setHref(document.getElementById("visaWa"),
+      "طلب فيزا\nالدولة: " + (val("x-c") || "غير محدد") + "\nنوع التأشيرة: " + val("x-t") +
+      "\nعدد الأشخاص: " + val("x-n") + "\nتاريخ السفر المتوقع: " + fmtDate(val("x-d")));
+  }
+  function buildHtl(){
+    setHref(document.getElementById("htlWa"),
+      "طلب حجز فندق\nالمدينة: " + (val("h-city") || "غير محدد") + "\nالدخول: " + fmtDate(val("h-in")) +
+      "\nالخروج: " + fmtDate(val("h-out")) + "\nعدد الغرف: " + val("h-rooms"));
+  }
+  [["fly", buildFly], ["grpf", buildGrp], ["visaf", buildVisaF], ["htlf", buildHtl]].forEach(function(p){
     var f = document.getElementById(p[0]); if (!f) return;
     f.addEventListener("input", p[1]); f.addEventListener("change", p[1]);
     f.addEventListener("submit", function(e){ e.preventDefault(); });
+    p[1]();
   });
-  ["heroWa", "cWaDirect", "fab"].forEach(function(id){ setHref(document.getElementById(id), "مرحباً، عندي استفسار عن السفر"); });
+  ["barWa", "fab", "fw1"].forEach(function(id){ setHref(document.getElementById(id), "مرحباً، عندي استفسار عن السفر"); });
+  setHref(document.getElementById("fw2"), "مرحباً، أريد أستفسر عن سعر");
+  setHref(document.getElementById("fw3"), "مرحباً، أريد أتابع حجز");
 
   /* ============ الأحداث ============ */
   document.addEventListener("click", function(e){
@@ -761,7 +822,7 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
   });
   var vq = document.getElementById("vq"); if (vq) vq.addEventListener("input", filterVisas);
   document.addEventListener("change", function(e){
-    var t = e.target; if (!t || t.type !== "radio") return;
+    var t = e.target; if (!t || t.type !== "radio" || t.name === "trip") return;
     document.querySelectorAll('input[name="' + t.name + '"]').forEach(function(inp){ var l = inp.closest("label"); if (l) l.classList.toggle("is-on", inp.checked); });
     var pre = t.name.slice(0, 2), id = t.name.slice(2);
     if (pre === "h-" || pre === "d-") updOffer(id);
@@ -788,14 +849,13 @@ section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0p
       if (res[1].status === "fulfilled"){ try { var v = parseVisas(res[1].value); if (v.length){ state.visas = v; renderVisas(); ok = true; } } catch(e){} }
       if (ok){
         var st = document.getElementById("stamp"), d = new Date();
-        if (st) st.innerHTML = 'الأسعار مسحوبة مباشرة من ملف الأسعار · آخر سحب <bdi dir="ltr">' + String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0") + '</bdi>. الأسعار بالدولار الأمريكي ما لم يُذكر غير ذلك.';
+        if (st) st.innerHTML = 'الأسعار مسحوبة مباشرة من ملف الأسعار · آخر سحب <bdi dir="ltr">' + String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0") + '</bdi>. الأسعار بالدولار الأمريكي ما لم يُكتب «د.ع».';
       }
     });
   }
 
   renderOffers();
   renderVisas();
-  buildC();
   loadLive();
 })();
 </script>
