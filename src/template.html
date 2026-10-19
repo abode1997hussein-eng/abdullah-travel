@@ -1,0 +1,801 @@
+<title>عبدالله حسين علوان</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap">
+<style>
+/* Layout: agency page — dark hero with portrait + request widget, stats strip, photo cards for groups
+   (region tabs), dark events band, services, visa desk with flags, how-it-works, dark contact band. */
+:root{
+  --bg:#F7F5F2; --surface:#FFFFFF; --surface-2:#FAF8F5; --ink:#16130F; --muted:#5F574F; --line:#E7E1DA;
+  --night:#100E0C; --night-2:#1C1915; --on-night:#FAF6F1; --on-night-muted:#B8AEA4; --night-line:#322C26;
+  --sun:#EE7A1A; --sun-ink:#1B0C00; --sun-text:#A84F08; --sun-soft:#FCEBDC;
+  --wa:#11804A; --on-wa:#FFFFFF; --wa-soft:#E2F1E8; --wa-line:#9ACDB2;
+  --display:"Reem Kufi","IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:18px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E0C0B; --surface:#191613; --surface-2:#14110F; --ink:#F3EEE8; --muted:#A99F95; --line:#2E2924;
+  --night:#070605; --night-2:#16130F; --on-night:#FAF6F1; --on-night-muted:#B0A69C; --night-line:#2A2520;
+  --sun:#F58E33; --sun-ink:#1B0C00; --sun-text:#F58E33; --sun-soft:#2A1A0B;
+  --wa:#36C47D; --on-wa:#03140A; --wa-soft:#0F2A1C; --wa-line:#1F5A3A;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0E0C0B; --surface:#191613; --surface-2:#14110F; --ink:#F3EEE8; --muted:#A99F95; --line:#2E2924;
+  --night:#070605; --night-2:#16130F; --on-night:#FAF6F1; --on-night-muted:#B0A69C; --night-line:#2A2520;
+  --sun:#F58E33; --sun-ink:#1B0C00; --sun-text:#F58E33; --sun-soft:#2A1A0B;
+  --wa:#36C47D; --on-wa:#03140A; --wa-soft:#0F2A1C; --wa-line:#1F5A3A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--night)}
+.page{direction:rtl}
+.wrap{max-width:1160px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4,p{margin:0}
+h1,h2,h3{font-family:var(--display);line-height:1.3;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:6px}
+.num{font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--body);font-weight:700;font-size:15px;line-height:1.3;padding:12px 22px;border-radius:999px;border:1px solid transparent;cursor:pointer;text-decoration:none}
+.btn-sun{background:var(--sun);color:var(--sun-ink)}
+.btn-wa{background:var(--wa);color:var(--on-wa)}
+.btn-ghost{background:transparent;color:var(--on-night);border-color:var(--night-line)}
+.btn svg{width:18px;height:18px;flex:none}
+@media (prefers-reduced-motion:no-preference){.btn{transition:transform .15s}.btn:hover{transform:translateY(-1px)}html{scroll-behavior:smooth}}
+.ico{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------------- header ---------------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--night);color:var(--on-night);border-bottom:1px solid var(--night-line)}
+.top-in{display:flex;align-items:center;gap:12px;padding-block:10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--sun);flex:none}
+.brand b{font-family:var(--display);font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;line-height:1.3}
+.brand small{display:block;font-size:11.5px;color:var(--on-night-muted);line-height:1.3}
+.menu{display:none;gap:2px;margin-inline-start:auto}
+.menu a{text-decoration:none;font-size:14px;color:var(--on-night-muted);padding:6px 10px;border-radius:8px}
+.menu a:hover{color:var(--on-night)}
+.top .btn{margin-inline-start:auto;padding:9px 16px;font-size:14px}
+@media (min-width:900px){.menu{display:flex}.top .btn{margin-inline-start:8px}}
+
+/* ---------------- hero ---------------- */
+.hero{background:var(--night);color:var(--on-night);position:relative;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:-30% -10% auto auto;width:70%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--sun) 26%,transparent),transparent);z-index:-1}
+.hero-grid{display:grid;gap:30px;padding-block:34px 44px;align-items:center}
+.hero-text{display:grid;gap:16px;align-content:start}
+.eyebrow{font-size:13px;font-weight:700;color:var(--sun-text)}
+.hero .eyebrow,.dark .eyebrow{color:var(--sun)}
+.hero h1{font-size:clamp(32px,6.4vw,56px);font-weight:700;line-height:1.2}
+.hero h1 em{font-style:normal;color:var(--sun)}
+.hero .lead{color:var(--on-night-muted);font-size:17px;max-width:44ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px}
+.hero-card{position:relative;max-width:440px;width:100%;justify-self:center}
+.hero-card .ph{border-radius:22px;overflow:hidden;aspect-ratio:4/4.3;border:1px solid var(--night-line)}
+.hero-card .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 14%;display:block}
+.hello{position:absolute;top:14px;inset-inline-start:14px;max-width:72%;background:var(--surface);color:var(--ink);font-size:14px;line-height:1.55;padding:10px 14px;border-radius:16px 16px 16px 4px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.hello b{color:var(--sun-text)}
+.widget{position:relative;margin:-64px 14px 0;background:var(--surface);color:var(--ink);border-radius:18px;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.35);display:grid;gap:10px}
+.widget h2{font-size:17px;font-weight:600}
+.wgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field.wide{grid-column:1/-1}
+.field label{font-size:12px;font-weight:600;color:var(--muted)}
+.field input,.field select,.field textarea{font-family:var(--body);font-size:15px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);width:100%;min-width:0}
+.field textarea{resize:vertical;min-height:84px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--sun);outline-offset:1px}
+.widget .btn{width:100%}
+@media (min-width:900px){
+  .hero-grid{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;padding-block:64px 72px}
+  .hero-card{justify-self:end}
+}
+
+/* ---------------- stats ---------------- */
+.stats{background:var(--surface);border-bottom:1px solid var(--line)}
+.stats .wrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);padding:0}
+.stat{background:var(--surface);padding:18px max(16px,env(safe-area-inset-right,0px)) 18px 16px;display:grid;gap:2px}
+.stat b{font-family:var(--display);font-size:28px;font-weight:700;color:var(--sun-text);line-height:1.2;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+@media (min-width:760px){.stats .wrap{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* ---------------- sections ---------------- */
+section.sec{padding-block:64px;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 60px)}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:14px 24px;margin-bottom:26px}
+.sec-head > div:not(.rtabs){display:grid;gap:6px;max-width:60ch}
+.sec-head .rtabs{width:100%}
+@media (min-width:900px){.sec-head .rtabs{width:auto}}
+.sec-head h2{font-size:clamp(26px,4vw,38px);font-weight:700}
+.sec-head p{color:var(--muted)}
+.dark{background:var(--night);color:var(--on-night)}
+.dark .sec-head p{color:var(--on-night-muted)}
+
+/* region tabs */
+.rtabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;max-width:100%}
+.rtabs::-webkit-scrollbar{display:none}
+.rtab{flex:none;font-family:var(--body);font-size:14px;font-weight:600;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.rtab[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.rtab b{font-weight:500;opacity:.7;margin-inline-start:5px;font-variant-numeric:tabular-nums}
+
+/* ---------------- offer cards ---------------- */
+.cards{display:grid;gap:18px;align-items:start}
+@media (min-width:700px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1060px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.card .ph{position:relative;aspect-ratio:16/10;background:var(--night-2);overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph-fallback{position:absolute;inset:0;display:grid;place-items:center;background:
+  radial-gradient(circle at 75% 20%,color-mix(in srgb,var(--sun) 45%,transparent),transparent 55%),
+  linear-gradient(160deg,var(--night-2),var(--night));color:var(--on-night);font-family:var(--mono);font-size:52px;font-weight:600;letter-spacing:.08em}
+.code{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;background:rgba(10,8,6,.72);color:#FAF6F1;padding:3px 9px;border-radius:7px;direction:ltr}
+.reg{position:absolute;top:12px;left:12px;font-size:12px;font-weight:600;background:var(--sun);color:var(--sun-ink);padding:2px 10px;border-radius:999px}
+.cb{padding:16px 18px 18px;display:grid;gap:9px;flex:1}
+.cb h3{font-size:22px;font-weight:700}
+.meta{color:var(--muted);font-size:14px}
+.line{display:flex;gap:8px;align-items:flex-start;font-size:14px}
+.line .ico{margin-top:5px;color:var(--sun-text)}
+.inc{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.inc li{font-size:12.5px;padding:2px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
+.inc li::before{content:"✓";color:var(--wa);font-weight:700;margin-inline-end:5px}
+.note{font-size:13.5px;background:var(--sun-soft);color:var(--ink);padding:8px 12px;border-radius:10px}
+.dark .note{background:color-mix(in srgb,var(--sun) 18%,transparent);color:var(--on-night)}
+.cfoot{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-top:auto;padding-top:6px;flex-wrap:wrap}
+.from{display:grid;line-height:1.25}
+.from span{font-size:12px;color:var(--muted)}
+.from b{font-size:28px;font-weight:700;color:var(--sun-text);font-variant-numeric:tabular-nums}
+.from small{font-size:12px;color:var(--muted)}
+.cfoot .btn{padding:11px 20px}
+.more{border-top:1px dashed var(--line);margin-top:2px}
+.more summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;font-weight:600;padding-top:10px;color:var(--sun-text)}
+.more summary::-webkit-details-marker{display:none}
+.more summary::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-left:4px}
+.more[open] summary::after{transform:rotate(-135deg)}
+.mbody{display:grid;gap:12px;padding-top:12px}
+.lbl{font-size:13px;font-weight:600}
+.lbl span{font-weight:400;color:var(--muted);font-size:12px;margin-inline-start:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{position:relative;display:inline-flex;align-items:center;font-size:13px;padding:6px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;font-variant-numeric:tabular-nums}
+.chip.is-on{border-color:var(--wa);background:var(--wa-soft);box-shadow:inset 0 0 0 1px var(--wa)}
+.chip input,.opt input,.vopt input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.chip:focus-within,.opt:focus-within,.vopt:focus-within{outline:2px solid var(--wa);outline-offset:-2px}
+.opts{display:grid;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.opt,.vopt{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;cursor:pointer;background:var(--surface)}
+.opt + .opt,.vopt + .vopt{border-top:1px solid var(--line)}
+.opt.is-on,.vopt.is-on{background:var(--wa-soft)}
+.dot{width:17px;height:17px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center}
+.is-on > .dot{border-color:var(--wa)}
+.is-on > .dot::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--wa)}
+.on{font-size:13.5px;font-weight:600;line-height:1.5;min-width:0}
+.rec{display:inline-block;font-size:11px;font-weight:500;color:var(--wa);border:1px solid var(--wa-line);border-radius:999px;padding:0 7px;margin-inline-start:4px;white-space:nowrap}
+.op{display:grid;justify-items:end;line-height:1.3}
+.op b{font-size:15.5px;font-variant-numeric:tabular-nums}
+.op small{font-size:11px;color:var(--muted);white-space:nowrap}
+.small{font-size:13px;color:var(--muted)}
+.small b{color:var(--ink)}
+.flightline{font-family:var(--mono);font-size:12.5px;color:var(--muted);direction:rtl}
+
+/* events band */
+.ev{display:grid;gap:18px}
+@media (min-width:860px){.ev{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ecard{display:grid;grid-template-columns:1fr;background:var(--night-2);border:1px solid var(--night-line);border-radius:var(--r);overflow:hidden;color:var(--on-night)}
+@media (min-width:560px){.ecard{grid-template-columns:200px minmax(0,1fr)}}
+.ecard .ph{position:relative;min-height:170px;background:var(--night)}
+.ecard .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ecard .cb h3{font-size:20px}
+.ecard .meta,.ecard .from span,.ecard .from small{color:var(--on-night-muted)}
+.ecard .from b{color:var(--sun)}
+.ecard .line .ico{color:var(--sun)}
+.ecard .inc li{background:transparent;border-color:var(--night-line)}
+
+/* services */
+.svc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (min-width:900px){.svc{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.svc a{display:grid;gap:8px;align-content:start;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.svc a:hover{border-color:var(--sun)}
+.svc .si{width:44px;height:44px;border-radius:12px;background:var(--sun-soft);color:var(--sun-text);display:grid;place-items:center}
+.svc .si svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.svc b{font-family:var(--display);font-size:18px;font-weight:600}
+.svc span{font-size:13.5px;color:var(--muted)}
+
+/* visa desk */
+.vtools{display:grid;gap:10px;margin-bottom:14px}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 14px;max-width:560px}
+.search .ico{width:18px;height:18px;color:var(--muted)}
+.search input{flex:1;min-width:0;border:0;background:transparent;font-family:var(--body);font-size:16px;padding:12px 0;color:var(--ink);outline:none}
+.search:focus-within{border-color:var(--sun);box-shadow:0 0 0 3px var(--sun-soft)}
+.vlist{display:grid;gap:8px}
+@media (min-width:900px){.vlist{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}}
+.visa{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0}
+.visa summary{list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:12px 14px;cursor:pointer}
+.visa summary::-webkit-details-marker{display:none}
+.flag{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--muted)}
+.vn{font-weight:600;font-size:15.5px;line-height:1.45;min-width:0}
+.vn small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+.vp{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.vp b{font-size:16px;color:var(--sun-text)}
+.chev{width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-2px,-2px)}
+.visa[open] .chev{transform:rotate(-135deg) translate(-2px,-2px)}
+.vbody{border-top:1px solid var(--line);padding:12px 14px 14px;display:grid;gap:12px}
+.vt{display:flex;flex-direction:column;min-width:0}
+.vt b{font-weight:600;font-size:14px}
+.vt small{font-size:12px;color:var(--muted)}
+.vt .rn{color:var(--sun-text)}
+.vreq{list-style:none;margin:0;padding:0;display:grid;gap:3px;font-size:13px}
+.vreq li{display:flex;gap:8px}
+.vreq li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--sun);margin-top:9px;flex:none}
+.refund{justify-self:start;font-size:12px;padding:3px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
+.refund.ok{background:var(--wa-soft);border-color:var(--wa-line);color:var(--wa)}
+.vbody .btn{width:100%}
+.empty{border:1px dashed var(--line);border-radius:14px;padding:18px;display:grid;gap:10px;justify-items:start;margin-top:8px}
+
+/* how */
+.how{display:grid;gap:26px;align-items:center}
+@media (min-width:900px){.how{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}}
+.how-ph{border-radius:22px;overflow:hidden;aspect-ratio:4/5;max-width:380px;width:100%;justify-self:center}
+.how-ph img{width:100%;height:100%;object-fit:cover;object-position:50% 14%;display:block}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.steps li::before{counter-increment:s;content:counter(s);width:36px;height:36px;border-radius:50%;background:var(--sun);color:var(--sun-ink);font-family:var(--display);font-weight:700;display:grid;place-items:center;font-size:17px}
+.steps b{display:block;font-family:var(--display);font-size:17px;font-weight:600}
+.steps span{font-size:14px;color:var(--muted)}
+
+/* contact */
+.contact-grid{display:grid;gap:22px}
+@media (min-width:900px){.contact-grid{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:start}}
+.cinfo{display:grid;gap:14px}
+.cinfo .row{display:grid;gap:2px;padding:14px 16px;border:1px solid var(--night-line);border-radius:14px;background:var(--night-2)}
+.cinfo span{font-size:12.5px;color:var(--on-night-muted)}
+.cinfo bdi{font-family:var(--mono);font-size:17px}
+.copy{justify-self:start;margin-top:4px;font-family:var(--body);font-size:12.5px;background:transparent;color:var(--on-night-muted);border:1px solid var(--night-line);border-radius:8px;padding:4px 10px;cursor:pointer}
+.cform{background:var(--surface);color:var(--ink);border-radius:var(--r);padding:18px;display:grid;gap:10px}
+.cform .wgrid{gap:10px}
+@media (min-width:600px){.cform .wgrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.cform .btn{width:100%}
+
+/* footer */
+.foot{background:var(--night);color:var(--on-night);border-top:1px solid var(--night-line)}
+.foot .wrap{padding-block:30px calc(34px + env(safe-area-inset-bottom,0px));display:grid;gap:16px}
+.frow{display:flex;flex-wrap:wrap;gap:14px 28px;justify-content:space-between;align-items:center}
+.fn{font-family:var(--display);font-size:20px;font-weight:700}
+.flinks{display:flex;flex-wrap:wrap;gap:4px 16px}
+.flinks a{text-decoration:none;font-size:14px;color:var(--on-night-muted)}
+.fine{font-size:12px;color:var(--on-night-muted);border-top:1px solid var(--night-line);padding-top:14px;display:grid;gap:6px}
+.fine a{color:var(--on-night-muted)}
+
+/* floating whatsapp */
+.fab{position:fixed;z-index:55;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:inline-flex;align-items:center;gap:8px;background:var(--wa);color:var(--on-wa);text-decoration:none;font-weight:700;font-size:14.5px;padding:12px 18px;border-radius:999px;box-shadow:0 10px 26px rgba(0,0,0,.28)}
+.fab svg{width:20px;height:20px}
+</style>
+
+<div class="page" lang="ar">
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#top">
+      <img src="{{AVATAR}}" alt="" width="38" height="38">
+      <span><b>عبدالله حسين علوان</b><small>سفر وسياحة · بغداد</small></span>
+    </a>
+    <nav class="menu" aria-label="الأقسام">
+      <a href="#groups">الكروبات</a><a href="#events">الحفلات</a><a href="#visa">الفيزا</a>
+      <a href="#services">خدماتي</a><a href="#contact">تواصل</a>
+    </nav>
+    <a class="btn btn-sun" href="#contact">احجز رحلتك</a>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <p class="eyebrow">كروبات · حفلات · فيزا · تذاكر</p>
+      <h1>سافر <em>براحتك</em>، وآني أرتبلك كل التفاصيل</h1>
+      <p class="lead">اختار الكروب أو الفيزا اللي تريدها، دزلي رسالة وحدة على الواتساب، وأرجعلك بعرض كامل وواضح بدون مصاريف مخفية.</p>
+      <div class="hero-cta">
+        <a class="btn btn-sun" href="#groups">استعرض الكروبات</a>
+        <a class="btn btn-ghost" id="heroWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">اطلب عرض سعر</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="ph"><img src="{{HERO}}" alt="عبدالله حسين علوان" width="880" height="1100"></div>
+      <p class="hello">هلا بيك، آني <b>عبدالله</b>. كلي وين ناوي تسافر.</p>
+      <form class="widget" id="wform">
+        <h2>ابدأ طلب الحجز</h2>
+        <div class="wgrid">
+          <div class="field wide"><label for="w-dest">الوجهة</label><select id="w-dest"></select></div>
+          <div class="field wide"><label for="w-month">شهر السفر</label><select id="w-month"></select></div>
+          <div class="field"><label for="w-ad">البالغين</label>
+            <select id="w-ad"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+          <div class="field"><label for="w-ch">الأطفال</label>
+            <select id="w-ch"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+        </div>
+        <a class="btn btn-wa" id="wWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">أرسل الطلب بالواتساب</a>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="stats" aria-label="أرقام">
+  <div class="wrap" id="stats"></div>
+</div>
+
+<section class="sec" id="groups">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">الكروبات</p>
+        <h2>كروبات طالعة من مطار بغداد</h2>
+        <p>الأسعار للشخص بالغرفة المزدوجة، وهي أقل سعر متوفر لكل كروب. تتغير حسب الفندق والتاريخ والتوفر، وأأكدلك السعر قبل الحجز.</p>
+      </div>
+      <div class="rtabs" id="rtabs" role="group" aria-label="تصفية حسب المنطقة"></div>
+    </div>
+    <div class="cards" id="groupList"></div>
+  </div>
+</section>
+
+<section class="sec dark" id="events">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">الحفلات والمناسبات</p>
+        <h2>حفلات ورأس السنة</h2>
+        <p>طيران وفندق بسعر واحد للشخص بالغرفة المزدوجة. تذاكر الحفلات أحجزها لك حسب الطلب.</p>
+      </div>
+    </div>
+    <div class="ev" id="eventList"></div>
+  </div>
+</section>
+
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow">خدماتي</p><h2>كل شي يخص سفرتك</h2></div></div>
+    <nav class="svc" aria-label="الخدمات">
+      <a href="#contact"><span class="si"><svg viewBox="0 0 24 24"><path d="M2 14l20-8-6 16-3-7-7-1z"/></svg></span><b>تذاكر طيران</b><span>لكل الوجهات وعلى كل شركات الطيران، ذهاب فقط أو ذهاب وعودة.</span></a>
+      <a href="#groups"><span class="si"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 5.5a3 3 0 010 5.5M17 14.4c2.4.8 4 2.9 4 5.6"/></svg></span><b>كروبات سياحية</b><span>طيران وفندق واستقبال بسعر واحد، طالعة من بغداد.</span></a>
+      <a href="#visa"><span class="si"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="2.6"/><path d="M8.5 17h7"/></svg></span><b>فيزا</b><span>تجهيز الملف ومتابعته لحد ما تطلع الفيزا.</span></a>
+      <a href="#contact"><span class="si"><svg viewBox="0 0 24 24"><path d="M3 20V5h8v7h10v8"/><path d="M3 20h18M6.5 8.5h1"/></svg></span><b>حجز فنادق</b><span>خيارات بكل الفئات حسب ميزانيتك والمنطقة اللي تريدها.</span></a>
+      <a href="#events"><span class="si"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span><b>حفلات ومناسبات</b><span>رأس السنة والحفلات الكبيرة، طيران وفندق وتذكرة.</span></a>
+      <a href="#visa"><span class="si"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8.5" cy="12" r="2"/><path d="M13 10.5h5M13 13.5h3"/></svg></span><b>إجازة سوق دولية</b><span>إجازة دفترية لسنة أو 10 سنوات.</span></a>
+    </nav>
+  </div>
+</section>
+
+<section class="sec" id="visa" style="padding-top:8px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">الفيزا</p>
+        <h2>أسعار الفيزا</h2>
+        <p>الأسعار بالدولار ما لم يُذكر غير ذلك. المبلغ غير مسترجع في حال الرفض، إلا الدول المكتوب عليها «مسترجع».</p>
+      </div>
+    </div>
+    <div class="vtools">
+      <label class="search" for="vq">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="vq" type="search" placeholder="ابحث عن دولة… مثلاً: الإمارات" autocomplete="off">
+      </label>
+      <div class="rtabs" id="vtabs" role="group" aria-label="تصفية حسب المنطقة"></div>
+    </div>
+    <div class="vlist" id="visaList"></div>
+    <div class="empty" id="vEmpty" hidden>
+      <p>ما لكيت هالدولة بالقائمة. راسلني وأشوفلك.</p>
+      <a class="btn btn-wa" id="vEmptyWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">اسأل بالواتساب</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="how" style="padding-top:8px">
+  <div class="wrap how">
+    <div class="how-ph"><img src="{{HERO}}" alt="" width="880" height="1100" loading="lazy"></div>
+    <div>
+      <div class="sec-head"><div><p class="eyebrow">شلون نشتغل</p><h2>من الرسالة الأولى لحد ما توصل</h2></div></div>
+      <ol class="steps">
+        <li><div><b>كلي تفاصيل سفرتك</b><span>الوجهة، التاريخ، عدد الأشخاص وأعمار الأطفال.</span></div></li>
+        <li><div><b>تستلم عرض مفصّل</b><span>الطيران والفندق وكل شي مشمول، بدون مصاريف مخفية.</span></div></li>
+        <li><div><b>تأكيد الحجز والمستمسكات</b><span>تدزلي المستمسكات برسالة وحدة وآني أكمل الباقي.</span></div></li>
+        <li><div><b>تسافر وآني وياك</b><span>أتابع وياك من المطار لحد ما ترجع.</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="sec dark" id="contact">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow">تواصل وياي</p><h2>اطلب عرض سعر</h2><p>املأ الطلب وتنفتح محادثة واتساب بيها كل التفاصيل.</p></div></div>
+    <div class="contact-grid">
+      <div class="cinfo">
+        <div class="row"><span>واتساب</span><bdi dir="ltr" id="phoneVal">+964 771 331 0011</bdi>
+          <button class="copy" id="copyBtn" type="button">نسخ الرقم</button></div>
+        <a class="btn btn-wa" id="cWaDirect" target="_blank" rel="noopener" href="https://wa.me/9647713310011">افتح الواتساب مباشرة</a>
+      </div>
+      <form class="cform" id="cform">
+        <div class="wgrid">
+          <div class="field"><label for="c-name">الاسم</label><input id="c-name" type="text" autocomplete="name"></div>
+          <div class="field"><label for="c-dest">الوجهة أو العرض</label><input id="c-dest" type="text" list="destList" placeholder="مثلاً: بانكوك"></div>
+        </div>
+        <datalist id="destList"></datalist>
+        <div class="wgrid three">
+          <div class="field"><label for="c-date">تاريخ السفر المتوقع</label><input id="c-date" type="date"></div>
+          <div class="field"><label for="c-ad">البالغين</label>
+            <select id="c-ad"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+          <div class="field"><label for="c-ch">الأطفال</label>
+            <select id="c-ch"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+        </div>
+        <div class="field"><label for="c-notes">ملاحظات</label><textarea id="c-notes" placeholder="الميزانية، نوع الفندق، أعمار الأطفال، أي طلب خاص"></textarea></div>
+        <a class="btn btn-wa" id="cWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011">أرسل الطلب بالواتساب</a>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="frow">
+      <div><div class="fn">عبدالله حسين علوان</div><p class="small" style="color:var(--on-night-muted)">كروبات · حفلات · فيزا · تذاكر · بغداد</p></div>
+      <nav class="flinks" aria-label="روابط"><a href="#groups">الكروبات</a><a href="#events">الحفلات</a><a href="#visa">الفيزا</a><a href="#contact">تواصل</a></nav>
+    </div>
+    <div class="fine">
+      <p id="stamp">الأسعار بالدولار الأمريكي ما لم يُذكر غير ذلك، وتتغير حسب التوفر. آخر تحديث: <bdi dir="ltr">{{UPDATED}}</bdi></p>
+      {{CREDITS}}
+    </div>
+  </div>
+</footer>
+
+<a class="fab" id="fab" target="_blank" rel="noopener" href="https://wa.me/9647713310011" aria-label="راسلني على الواتساب">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-12.6 7.3L3 20l1.3-5.1A8.4 8.4 0 1121 11.5z"/></svg>
+  واتساب
+</a>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  /* ============ الإعدادات ============ */
+  var SHEET_ID = "{{SHEET_ID}}";          // معرّف ملف كَوكَل شيت مالتك (من الرابط)
+  var TAB_OFFERS = "كروبات", TAB_VISAS = "فيزا";
+  var PHONE = "9647713310011";
+  var DATA = {{DATA}};
+  var PHOTOS = {{PHOTOS}}, FLAGS = {{FLAGS}};
+  var PHOTO_DIR = "{{PHOTO_DIR}}", FLAG_DIR = "{{FLAG_DIR}}";
+
+  /* ============ أدوات ============ */
+  var WA = "https://wa.me/" + PHONE + "?text=";
+  function wa(m){ return WA + encodeURIComponent(m); }
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function clean(s){ return String(s == null ? "" : s).replace(/[٠-٩]/g, function(d){ return String(d.charCodeAt(0) - 0x660); }).trim(); }
+  function norm(s){ return clean(s).replace(/[ـً-ٟ]/g,"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").replace(/\s+/g," ").toLowerCase(); }
+  function num(s){ var m = clean(s).replace(/,/g,"").match(/\d+(\.\d+)?/); return m ? parseFloat(m[0]) : NaN; }
+  function money(s){ s = clean(s); return /\$/.test(s) ? '<b class="num" dir="ltr">' + esc(s) + '</b>' : '<b class="num">' + esc(s) + '</b>'; }
+  function splitList(s){ return clean(s).split(/[;؛\n]+/).map(function(x){ return x.trim(); }).filter(Boolean); }
+  function visible(s){ s = clean(s).toLowerCase(); return !(s === "لا" || s === "no" || s === "false" || s === "0"); }
+  function setHref(el, msg){ if (el) el.href = wa(msg); }
+  function val(id){ var el = document.getElementById(id); return el ? String(el.value).trim() : ""; }
+  function fmtDate(v){ if (!v) return "غير محدد"; var p = v.split("-"); return p.length === 3 ? p[2] + "-" + p[1] + "-" + p[0] : v; }
+  var ICO = {
+    cal:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+    bed:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18V7M3 13h18v5M21 13a4 4 0 00-4-4h-6v4"/><circle cx="7" cy="10.5" r="1.6"/></svg>',
+    plane:'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 14l20-8-6 16-3-7-7-1z"/></svg>'
+  };
+
+  /* ============ CSV ============ */
+  function parseCSV(text){
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+    var rows = [], row = [], f = "", q = false;
+    for (var i = 0; i < text.length; i++){
+      var ch = text[i];
+      if (q){ if (ch === '"'){ if (text[i+1] === '"'){ f += '"'; i++; } else q = false; } else f += ch; }
+      else if (ch === '"') q = true;
+      else if (ch === ','){ row.push(f); f = ""; }
+      else if (ch === '\n'){ row.push(f); f = ""; rows.push(row); row = []; }
+      else if (ch !== '\r') f += ch;
+    }
+    if (f !== "" || row.length){ row.push(f); rows.push(row); }
+    return rows;
+  }
+  function toObjects(rows){
+    if (!rows.length) return [];
+    var head = rows[0].map(function(h){ return clean(h); });
+    return rows.slice(1).map(function(r){ var o = {}; head.forEach(function(h, i){ o[h] = r[i] == null ? "" : r[i]; }); return o; });
+  }
+
+  /* ============ تحويل الأسطر إلى عروض ============ */
+  var OF = [["النوع","type"],["المنطقة","region"],["الرمز","code"],["المدة","dur"],["الطيران","air"],
+            ["التواريخ","datesRaw"],["تفاصيل الطيران","flight"],["الفنادق","hotels"],["يشمل","incRaw"],
+            ["ملاحظة","note"],["المتطلبات","reqRaw"],["الطفل بدون سرير","child"],["الرضيع","infant"]];
+  function parseOffers(objs){
+    var order = [], map = {};
+    objs.forEach(function(o){
+      if (!visible(o["ظاهر"])) return;
+      var name = clean(o["الوجهة"]); if (!name) return;
+      if (!map[name]){ map[name] = { title:name, opts:[] }; order.push(name); }
+      var g = map[name];
+      OF.forEach(function(p){ var x = clean(o[p[0]]); if (x && !g[p[1]]) g[p[1]] = x; });
+      var h1 = clean(o["الفندق"]), h2 = clean(o["الفندق الثاني"]), pr = clean(o["سعر البيع"]);
+      if (h1 || h2 || pr) g.opts.push({ h1:h1, h2:h2, rec:/نعم|yes/i.test(clean(o["ينصح به"])), p:pr, s:clean(o["السنكل"]) });
+    });
+    var all = order.map(function(n, i){
+      var g = map[n];
+      g.id = "o" + i;
+      g.kind = /حفل|مناسب/.test(g.type || "") ? "event" : "group";
+      g.region = g.region || "أخرى";
+      g.dates = splitList(g.datesRaw); g.inc = splitList(g.incRaw); g.req = splitList(g.reqRaw);
+      var k = (g.code || "").toLowerCase();
+      g.img = PHOTOS.indexOf(k) > -1 ? PHOTO_DIR + k + ".webp" : "";
+      g.best = g.opts[0];
+      g.opts.forEach(function(o){ var a = num(o.p), b = num(g.best && g.best.p); if (!isNaN(a) && (isNaN(b) || a < b)) g.best = o; });
+      g.listed = g.opts.length > 1 || (g.opts[0] && (g.opts[0].h1 || g.opts[0].h2));
+      return g;
+    }).filter(function(g){ return g.opts.length; });
+    return { groups: all.filter(function(g){ return g.kind === "group"; }),
+             events: all.filter(function(g){ return g.kind === "event"; }) };
+  }
+  function parseVisas(objs){
+    var order = [], map = {};
+    objs.forEach(function(o){
+      if (!visible(o["ظاهر"])) return;
+      var c = clean(o["الدولة"]); if (!c) return;
+      if (!map[c]){ map[c] = { c:c, rows:[] }; order.push(c); }
+      var v = map[c];
+      [["المنطقة","r"],["العلم","flag"],["أسماء للبحث","al"],["تحت الاسم","sub"],["الاسترجاع","refTxt"]]
+        .forEach(function(p){ var x = clean(o[p[0]]); if (x && !v[p[1]]) v[p[1]] = x; });
+      if (!v.req && clean(o["المتطلبات"])) v.req = splitList(o["المتطلبات"]);
+      var t = clean(o["نوع التأشيرة"]), pr = clean(o["سعر البيع"]);
+      if (!t && !pr) return;
+      v.rows.push({ t:t, d:clean(o["مدة الإصدار"]), p:pr, v:clean(o["الصلاحية"]), n:clean(o["ملاحظات"]) });
+    });
+    return order.map(function(c){
+      var v = map[c];
+      v.r = v.r || "أخرى"; v.req = v.req || [];
+      v.flagSrc = v.flag && FLAGS.indexOf(v.flag.toLowerCase()) > -1 ? FLAG_DIR + v.flag.toLowerCase() + ".svg" : "";
+      if (v.rows.length === 1 && /^(اسأل|استفسر)/.test(v.rows[0].p)){ v.ask = true; v.blurb = v.rows[0].n; }
+      return v;
+    }).filter(function(v){ return v.rows.length; });
+  }
+
+  var state = { offers: parseOffers(DATA.offers), visas: parseVisas(DATA.visas), gRegion: "all", vRegion: "all", live: false };
+
+  /* ============ بطاقات العروض ============ */
+  function optLabel(o){ return o.h2 ? o.h1 + " + " + o.h2 : o.h1; }
+  function offerCard(g, dark){
+    var datesBlock = "";
+    if (g.dates.length > 1){
+      datesBlock = '<div><p class="lbl">اختار التاريخ</p><div class="chips" role="radiogroup" aria-label="تاريخ السفر">' +
+        g.dates.map(function(d, i){ return '<label class="chip' + (i === 0 ? ' is-on' : '') + '"><input type="radio" name="d-' + g.id + '" value="' + esc(d) + '"' + (i === 0 ? ' checked' : '') + '><span>' + esc(d) + '</span></label>'; }).join("") +
+        '</div></div>';
+    }
+    var optsBlock = "";
+    if (g.listed){
+      optsBlock = '<div><p class="lbl">اختار الفندق<span>للشخص بالغرفة المزدوجة</span></p><div class="opts" role="radiogroup" aria-label="الفندق">' +
+        g.opts.map(function(o, i){
+          var on = o === g.best;
+          return '<label class="opt' + (on ? ' is-on' : '') + '"><input type="radio" name="h-' + g.id + '" value="' + i + '"' + (on ? ' checked' : '') + '>' +
+            '<span class="dot" aria-hidden="true"></span><span class="on">' + esc(optLabel(o)) + (o.rec ? '<em class="rec">ينصح به</em>' : '') + '</span>' +
+            '<span class="op">' + money(o.p) + (o.s ? '<small>سنكل <span dir="ltr">' + esc(o.s) + '</span></small>' : '') + '</span></label>';
+        }).join("") + '</div></div>';
+    }
+    var kids = [];
+    if (g.child) kids.push('الطفل بدون سرير <b dir="ltr">' + esc(g.child) + '</b>');
+    if (g.infant) kids.push('الرضيع <b dir="ltr">' + esc(g.infant) + '</b>');
+    var extra = datesBlock + optsBlock +
+      (kids.length ? '<p class="small">' + kids.join(" · ") + '</p>' : '') +
+      (g.flight ? '<p class="flightline">' + esc(g.flight) + '</p>' : '') +
+      (g.req.length ? '<p class="small"><b>المتطلبات:</b> ' + esc(g.req.join(" + ")) + '</p>' : '');
+    var hasMore = !!(datesBlock || optsBlock || g.flight || g.req.length);
+    var photo = g.img ? '<img src="' + esc(g.img) + '" alt="' + esc(g.title) + '" loading="lazy">'
+                      : '<span class="ph-fallback" aria-hidden="true">' + esc(g.code || "") + '</span>';
+    var moreLabel = g.listed ? "الفنادق والتفاصيل (" + g.opts.length + ")" : "التفاصيل";
+    return '<article class="' + (dark ? 'ecard' : 'card') + '" id="' + g.id + '" data-r="' + esc(g.region) + '">' +
+      '<div class="ph">' + photo + (g.code && g.img ? '<span class="code">' + esc(g.code) + '</span>' : '') +
+        (!dark && g.region !== "أخرى" ? '<span class="reg">' + esc(g.region) + '</span>' : '') + '</div>' +
+      '<div class="cb">' +
+        '<h3>' + esc(g.title) + '</h3>' +
+        '<p class="meta">' + esc([g.dur, g.air].filter(Boolean).join(" · ")) + '</p>' +
+        (g.datesRaw && g.dates.length <= 1 ? '<p class="line">' + ICO.cal + '<span>' + esc(g.datesRaw) + '</span></p>' : '') +
+        (g.hotels ? '<p class="line">' + ICO.bed + '<span>' + esc(g.hotels) + '</span></p>' : '') +
+        (g.inc.length ? '<ul class="inc" aria-label="يشمل">' + g.inc.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' : '') +
+        (g.note ? '<p class="note">' + esc(g.note) + '</p>' : '') +
+        (hasMore ? '<details class="more"' + '><summary>' + esc(moreLabel) + '</summary><div class="mbody">' + extra + '</div></details>' : '') +
+        '<div class="cfoot"><div class="from"><span>يبدأ من</span>' + money(g.best.p) + '<small>للشخص</small></div>' +
+          '<a class="btn btn-sun" target="_blank" rel="noopener" data-cta="' + g.id + '" href="https://wa.me/' + PHONE + '">احجز</a></div>' +
+      '</div></article>';
+  }
+  function findOffer(id){
+    var all = state.offers.groups.concat(state.offers.events);
+    for (var i = 0; i < all.length; i++) if (all[i].id === id) return all[i];
+    return null;
+  }
+  function updOffer(id){
+    var g = findOffer(id); if (!g) return;
+    var hi = document.querySelector('input[name="h-' + id + '"]:checked');
+    var di = document.querySelector('input[name="d-' + id + '"]:checked');
+    var o = hi ? g.opts[+hi.value] : g.best;
+    var lines = ["مرحباً، أريد أحجز: " + g.title];
+    if (g.dur) lines.push("المدة: " + g.dur);
+    lines.push("التاريخ: " + (di ? di.value : (g.datesRaw || "أتفق وياك")));
+    if (g.listed && o) lines.push("الفندق: " + optLabel(o));
+    if (o && o.p) lines.push("السعر: " + o.p + " للشخص");
+    setHref(document.querySelector('[data-cta="' + id + '"]'), lines.join("\n"));
+  }
+
+  function renderOffers(){
+    var gs = state.offers.groups, ev = state.offers.events;
+    var regions = [];
+    gs.forEach(function(g){ if (regions.indexOf(g.region) === -1) regions.push(g.region); });
+    if (state.gRegion !== "all" && regions.indexOf(state.gRegion) === -1) state.gRegion = "all";
+    var rt = document.getElementById("rtabs");
+    if (rt) rt.innerHTML = ["all"].concat(regions).map(function(r){
+      var n = r === "all" ? gs.length : gs.filter(function(g){ return g.region === r; }).length;
+      return '<button type="button" class="rtab" data-r="' + esc(r) + '" aria-pressed="' + (r === state.gRegion) + '">' + (r === "all" ? "الكل" : esc(r)) + '<b>' + n + '</b></button>';
+    }).join("");
+    var gl = document.getElementById("groupList");
+    if (gl) gl.innerHTML = gs.map(function(g){ return offerCard(g, false); }).join("");
+    var el = document.getElementById("eventList");
+    if (el) el.innerHTML = ev.map(function(g){ return offerCard(g, true); }).join("");
+    var evSec = document.getElementById("events"); if (evSec) evSec.hidden = !ev.length;
+    gs.concat(ev).forEach(function(g){ updOffer(g.id); });
+    filterGroups();
+
+    var names = gs.concat(ev).map(function(g){ return g.title; });
+    var wd = document.getElementById("w-dest");
+    if (wd){ var keep = wd.value; wd.innerHTML = names.concat(["وجهة ثانية"]).map(function(n){ return '<option>' + esc(n) + '</option>'; }).join(""); if (keep && names.indexOf(keep) > -1) wd.value = keep; }
+    var dl = document.getElementById("destList");
+    if (dl) dl.innerHTML = names.map(function(n){ return '<option value="' + esc(n) + '"></option>'; }).join("");
+    renderStats(); buildW();
+  }
+  function filterGroups(){
+    document.querySelectorAll("#groupList .card").forEach(function(c){
+      c.hidden = !(state.gRegion === "all" || c.getAttribute("data-r") === state.gRegion);
+    });
+    document.querySelectorAll("#rtabs .rtab").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-r") === state.gRegion)); });
+  }
+
+  /* ============ الإحصاءات ============ */
+  function renderStats(){
+    var el = document.getElementById("stats"); if (!el) return;
+    var all = state.offers.groups.concat(state.offers.events), low = NaN;
+    all.forEach(function(g){ var n = num(g.best && g.best.p); if (!isNaN(n) && /\$/.test(g.best.p) && (isNaN(low) || n < low)) low = n; });
+    var countries = state.visas.filter(function(v){ return !v.ask && v.r !== "خدمات"; }).length;
+    el.innerHTML =
+      '<div class="stat"><b>' + state.offers.groups.length + '</b><span>كروب طالع من بغداد</span></div>' +
+      '<div class="stat"><b>' + state.offers.events.length + '</b><span>حفلة ومناسبة</span></div>' +
+      '<div class="stat"><b>' + countries + '</b><span>دولة للفيزا</span></div>' +
+      '<div class="stat"><b dir="ltr">' + (isNaN(low) ? "—" : low + "$") + '</b><span>أقل سعر كروب حالياً</span></div>';
+  }
+
+  /* ============ الفيزا ============ */
+  function kinds(n){ return n === 2 ? "نوعين" : (n <= 10 ? n + " أنواع" : n + " نوع"); }
+  function fromPrice(v){
+    var best = null;
+    v.rows.forEach(function(r){ var n = num(r.p); if (!isNaN(n) && /\$/.test(r.p) && (best === null || n < num(best))) best = r.p; });
+    return money(best === null ? v.rows[0].p : best);
+  }
+  function flagHtml(v){
+    return v.flagSrc ? '<img class="flag" src="' + esc(v.flagSrc) + '" alt="" width="30" height="30" loading="lazy">'
+                     : '<span class="flag" aria-hidden="true">' + esc(v.c.replace(/^(فيزا|موعد فيزا)\s+/, "").charAt(0)) + '</span>';
+  }
+  function visaCard(v, i){
+    var key = esc(norm([v.c, v.al || "", v.sub || "", v.r].join(" ")));
+    var head = '<summary>' + flagHtml(v) + '<span class="vn">' + esc(v.c) + '<small>' + esc(v.ask ? v.r : (v.sub || (v.rows.length > 1 ? kinds(v.rows.length) : v.rows[0].t))) + '</small></span>' +
+      '<span class="vp">' + (v.ask ? 'اسأل عن السعر' : 'من ' + fromPrice(v)) + '</span><span class="chev" aria-hidden="true"></span></summary>';
+    if (v.ask){
+      return '<details class="visa" data-r="' + esc(v.r) + '" data-k="' + key + '">' + head +
+        '<div class="vbody">' + (v.blurb ? '<p class="small">' + esc(v.blurb) + '</p>' : '') +
+        '<a class="btn btn-wa" target="_blank" rel="noopener" href="' + wa("مرحباً، أريد أستفسر عن " + v.c) + '">استفسر بالواتساب</a></div></details>';
+    }
+    var opts = v.rows.map(function(r, j){
+      var meta = [r.d, r.v ? "صلاحية " + r.v : ""].filter(Boolean).join(" · ");
+      return '<label class="vopt' + (j === 0 ? ' is-on' : '') + '"><input type="radio" name="v-' + i + '" value="' + j + '"' + (j === 0 ? ' checked' : '') + '>' +
+        '<span class="dot" aria-hidden="true"></span><span class="vt"><b>' + esc(r.t) + '</b>' + (meta ? '<small>' + esc(meta) + '</small>' : '') + (r.n ? '<small class="rn">' + esc(r.n) + '</small>' : '') + '</span>' +
+        '<span class="op">' + money(r.p) + '</span></label>';
+    }).join("");
+    var req = v.req.length ? '<div><p class="lbl">المتطلبات</p><ul class="vreq">' + v.req.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' : "";
+    var ref = v.refTxt ? '<p class="refund' + (/غير مسترجع/.test(v.refTxt) ? '' : ' ok') + '">' + esc(v.refTxt) + '</p>' : "";
+    return '<details class="visa" data-r="' + esc(v.r) + '" data-k="' + key + '">' + head +
+      '<div class="vbody"><div class="vopts" role="radiogroup" aria-label="نوع الفيزا">' + opts + '</div>' + req + ref +
+      '<a class="btn btn-wa" target="_blank" rel="noopener" data-vcta="' + i + '" href="https://wa.me/' + PHONE + '">اطلب الفيزا بالواتساب</a></div></details>';
+  }
+  function updV(i){
+    var v = state.visas[i]; if (!v || v.ask) return;
+    var sel = document.querySelector('input[name="v-' + i + '"]:checked');
+    var r = v.rows[sel ? +sel.value : 0]; if (!r) return;
+    setHref(document.querySelector('[data-vcta="' + i + '"]'),
+      "مرحباً، أريد فيزا " + v.c + (v.sub ? " (" + v.sub + ")" : "") + "\nالنوع: " + r.t + "\nالسعر: " + r.p + (r.d ? "\nمدة الإصدار: " + r.d : ""));
+  }
+  function renderVisas(){
+    var regions = [];
+    state.visas.forEach(function(v){ if (regions.indexOf(v.r) === -1) regions.push(v.r); });
+    if (state.vRegion !== "all" && regions.indexOf(state.vRegion) === -1) state.vRegion = "all";
+    var vt = document.getElementById("vtabs");
+    if (vt) vt.innerHTML = ["all"].concat(regions).map(function(r){
+      var n = r === "all" ? state.visas.length : state.visas.filter(function(v){ return v.r === r; }).length;
+      return '<button type="button" class="rtab" data-r="' + esc(r) + '" aria-pressed="' + (r === state.vRegion) + '">' + (r === "all" ? "الكل" : esc(r)) + '<b>' + n + '</b></button>';
+    }).join("");
+    var vl = document.getElementById("visaList");
+    if (vl){ vl.innerHTML = state.visas.map(visaCard).join(""); state.visas.forEach(function(v, i){ updV(i); }); }
+    filterVisas(); renderStats();
+  }
+  function filterVisas(){
+    var q = norm(val("vq")), shown = 0;
+    document.querySelectorAll("#visaList .visa").forEach(function(el){
+      var ok = (q ? el.getAttribute("data-k").indexOf(q) > -1 : (state.vRegion === "all" || el.getAttribute("data-r") === state.vRegion));
+      el.hidden = !ok; if (ok) shown++;
+    });
+    document.querySelectorAll("#vtabs .rtab").forEach(function(b){ b.setAttribute("aria-pressed", String(!q && b.getAttribute("data-r") === state.vRegion)); });
+    var em = document.getElementById("vEmpty"); if (em) em.hidden = shown > 0;
+    setHref(document.getElementById("vEmptyWa"), "مرحباً، أريد أستفسر عن فيزا " + val("vq"));
+  }
+
+  /* ============ النماذج ============ */
+  var MONTHS = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
+  (function(){
+    var sel = document.getElementById("w-month"); if (!sel) return;
+    var d = new Date(), out = [];
+    for (var i = 0; i < 12; i++){ var m = (d.getMonth() + i) % 12, y = d.getFullYear() + Math.floor((d.getMonth() + i) / 12); out.push(MONTHS[m] + " " + y); }
+    sel.innerHTML = out.map(function(x){ return '<option>' + x + '</option>'; }).join("") + '<option>ما محدد بعد</option>';
+  })();
+  function buildW(){
+    setHref(document.getElementById("wWa"),
+      "طلب حجز\nالوجهة: " + val("w-dest") + "\nشهر السفر: " + val("w-month") +
+      "\nالبالغين: " + val("w-ad") + (val("w-ch") !== "0" ? " · الأطفال: " + val("w-ch") : ""));
+  }
+  function buildC(){
+    var lines = ["طلب عرض سعر"];
+    if (val("c-name")) lines.push("الاسم: " + val("c-name"));
+    lines.push("الوجهة: " + (val("c-dest") || "غير محدد"));
+    lines.push("تاريخ السفر المتوقع: " + fmtDate(val("c-date")));
+    lines.push("البالغين: " + val("c-ad") + (val("c-ch") !== "0" ? " · الأطفال: " + val("c-ch") : ""));
+    if (val("c-notes")) lines.push("ملاحظات: " + val("c-notes"));
+    setHref(document.getElementById("cWa"), lines.join("\n"));
+  }
+  [["wform", buildW], ["cform", buildC]].forEach(function(p){
+    var f = document.getElementById(p[0]); if (!f) return;
+    f.addEventListener("input", p[1]); f.addEventListener("change", p[1]);
+    f.addEventListener("submit", function(e){ e.preventDefault(); });
+  });
+  ["heroWa", "cWaDirect", "fab"].forEach(function(id){ setHref(document.getElementById(id), "مرحباً، عندي استفسار عن السفر"); });
+
+  /* ============ الأحداث ============ */
+  document.addEventListener("click", function(e){
+    var b = e.target.closest ? e.target.closest(".rtab") : null; if (!b) return;
+    if (b.parentNode.id === "rtabs"){ state.gRegion = b.getAttribute("data-r"); filterGroups(); }
+    if (b.parentNode.id === "vtabs"){ state.vRegion = b.getAttribute("data-r"); var q = document.getElementById("vq"); if (q) q.value = ""; filterVisas(); }
+  });
+  var vq = document.getElementById("vq"); if (vq) vq.addEventListener("input", filterVisas);
+  document.addEventListener("change", function(e){
+    var t = e.target; if (!t || t.type !== "radio") return;
+    document.querySelectorAll('input[name="' + t.name + '"]').forEach(function(inp){ var l = inp.closest("label"); if (l) l.classList.toggle("is-on", inp.checked); });
+    var pre = t.name.slice(0, 2), id = t.name.slice(2);
+    if (pre === "h-" || pre === "d-") updOffer(id);
+    if (pre === "v-") updV(+id);
+  });
+  var cb = document.getElementById("copyBtn");
+  if (cb) cb.addEventListener("click", function(){
+    function done(){ cb.textContent = "تم النسخ"; setTimeout(function(){ cb.textContent = "نسخ الرقم"; }, 1600); }
+    function pick(){ try { var rg = document.createRange(); rg.selectNodeContents(document.getElementById("phoneVal")); var s = window.getSelection(); s.removeAllRanges(); s.addRange(rg); cb.textContent = "حدّده وانسخه"; } catch(e){} }
+    try { navigator.clipboard.writeText("+" + PHONE).then(done, pick); } catch(e){ pick(); }
+  });
+
+  /* ============ السحب المباشر من ملف الأسعار ============ */
+  function csvUrl(tab){ return "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(tab) + "&t=" + Date.now(); }
+  function fetchTab(tab){
+    return fetch(csvUrl(tab), { cache: "no-store" }).then(function(r){ if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(function(t){ if (/^\s*</.test(t)) throw new Error("not csv"); return toObjects(parseCSV(t)); });
+  }
+  function loadLive(){
+    if (!SHEET_ID || /\{\{/.test(SHEET_ID) || typeof fetch !== "function" || !window.Promise || !Promise.allSettled) return;
+    Promise.allSettled([fetchTab(TAB_OFFERS), fetchTab(TAB_VISAS)]).then(function(res){
+      var ok = false;
+      if (res[0].status === "fulfilled"){ try { var o = parseOffers(res[0].value); if (o.groups.length + o.events.length){ state.offers = o; renderOffers(); ok = true; } } catch(e){} }
+      if (res[1].status === "fulfilled"){ try { var v = parseVisas(res[1].value); if (v.length){ state.visas = v; renderVisas(); ok = true; } } catch(e){} }
+      if (ok){
+        var st = document.getElementById("stamp"), d = new Date();
+        if (st) st.innerHTML = 'الأسعار مسحوبة مباشرة من ملف الأسعار · آخر سحب <bdi dir="ltr">' + String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0") + '</bdi>. الأسعار بالدولار الأمريكي ما لم يُذكر غير ذلك.';
+      }
+    });
+  }
+
+  renderOffers();
+  renderVisas();
+  buildC();
+  loadLive();
+})();
+</script>
