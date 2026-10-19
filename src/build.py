@@ -30,46 +30,57 @@ if used:
 
 payload = {"offers": data.GROUPS, "visas": data.VISAS}
 tpl = open(os.path.join(HERE, "template.html"), encoding="utf-8").read()
-page = (tpl.replace("{{DATA}}", json.dumps(payload, ensure_ascii=False))
+base = (tpl.replace("{{DATA}}", json.dumps(payload, ensure_ascii=False))
            .replace("{{PHOTOS}}", json.dumps(photos)).replace("{{FLAGS}}", json.dumps(flags))
            .replace("{{PHOTO_DIR}}", "assets/photos/").replace("{{FLAG_DIR}}", "assets/flags/")
            .replace("{{HERO}}", "img/hero.jpg").replace("{{BAND}}", "img/band.jpg").replace("{{BG}}", "assets/photos/kul.webp").replace("{{AVATAR}}", "img/avatar.jpg")
            .replace("{{UPDATED}}", TODAY).replace("{{CREDITS}}", credit_line)
            .replace("{{SHEET_ID}}", SHEET_ID))
-left = re.findall(r"\{\{\w+\}\}", page)
-assert not left, left
 
-open(os.path.join(SITE, "artifact.html"), "w", encoding="utf-8").write(page)
+BLOCKS = ("home", "sub", "groups", "visa")
+PAGES = {  # file: (blocks kept, page title for the sub header, browser title, description)
+    "index.html":  (("home",), "", "عبدالله حسين علوان — سفر وسياحة",
+                    "عبدالله حسين علوان للسفر والسياحة، بغداد: تذاكر طيران، فنادق، كروبات سياحية، حفلات، وفيزا لأكثر من 35 دولة. الحجز مباشرة على الواتساب."),
+    "groups.html": (("sub", "groups"), "الكروبات والحفلات", "كروبات وحفلات — عبدالله حسين علوان",
+                    "كروبات سياحية طالعة من بغداد وحفلات رأس السنة، بالأسعار والفنادق والتواريخ. الحجز على الواتساب."),
+    "visa.html":   (("sub", "visa"), "تأشيرات السفر", "أسعار الفيزا — عبدالله حسين علوان",
+                    "أسعار الفيزا لأكثر من 35 دولة مع مدة الإصدار والمتطلبات. اطلب الفيزا على الواتساب."),
+}
 
-# ---- standalone document
-title = re.search(r"<title>(.*?)</title>", page).group(1)
-body = re.sub(r"<title>.*?</title>\s*", "", page, count=1)
-body = re.sub(r'<meta name="claude:viewport-fit-sides"[^>]*>\s*', "", body, count=1)
-font = re.search(r'<link rel="stylesheet" href="https://fonts\.googleapis\.com[^>]*>', body).group(0)
-body = body.replace(font + "\n", "", 1)
-style_end = body.index("</style>") + len("</style>")
-style, rest = body[:style_end], body[style_end:]
-DESC = ("عبدالله حسين علوان للسفر والسياحة، بغداد: كروبات سياحية، حفلات ورأس السنة، "
-        "فيزا لأكثر من 35 دولة، وتذاكر طيران. الحجز مباشرة على الواتساب.")
-doc = f'''<!doctype html>
+def keep_blocks(s, keep):
+    for b in BLOCKS:
+        if b in keep:
+            s = s.replace(f"<!--@{b}-->", "").replace(f"<!--/@{b}-->", "")
+        else:
+            s = re.sub(rf"<!--@{b}-->.*?<!--/@{b}-->", "", s, flags=re.S)
+    return s
+
+def standalone(page, btitle, desc, url):
+    body = re.sub(r"<title>.*?</title>\s*", "", page, count=1)
+    body = re.sub(r'<meta name="claude:viewport-fit-sides"[^>]*>\s*', "", body, count=1)
+    font = re.search(r'<link rel="stylesheet" href="https://fonts\.googleapis\.com[^>]*>', body).group(0)
+    body = body.replace(font + "\n", "", 1)
+    style_end = body.index("</style>") + len("</style>")
+    style, rest = body[:style_end], body[style_end:]
+    return f"""<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>{title} — سفر وسياحة</title>
-<meta name="description" content="{DESC}">
+<title>{btitle}</title>
+<meta name="description" content="{desc}">
 <meta name="theme-color" content="#0A0A0B">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_IQ">
-<meta property="og:title" content="{title} — سفر وسياحة">
-<meta property="og:description" content="{DESC}">
-<meta property="og:url" content="{SITE_URL}">
+<meta property="og:title" content="{btitle}">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="{url}">
 <meta property="og:image" content="{SITE_URL}img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{SITE_URL}img/og.jpg">
-<link rel="canonical" href="{SITE_URL}">
+<link rel="canonical" href="{url}">
 <link rel="icon" href="img/avatar.jpg">
 <link rel="apple-touch-icon" href="img/avatar.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,8 +95,16 @@ body{{margin:0}} img{{max-width:100%}} [hidden]{{display:none!important}}
 <body>{rest.strip()}
 </body>
 </html>
-'''
-open(os.path.join(SITE, "index.html"), "w", encoding="utf-8").write(doc)
+"""
+
+for fname, (keep, ptitle, btitle, desc) in PAGES.items():
+    page = keep_blocks(base, keep).replace("{{PAGETITLE}}", ptitle)
+    left = re.findall(r"\{\{\w+\}\}", page)
+    assert not left, (fname, left)
+    url = SITE_URL + ("" if fname == "index.html" else fname)
+    open(os.path.join(SITE, fname), "w", encoding="utf-8").write(standalone(page, btitle, desc, url))
+    if fname == "index.html":
+        open(os.path.join(SITE, "artifact.html"), "w", encoding="utf-8").write(page)
 
 # ---- Excel tabs
 from openpyxl import Workbook
@@ -158,4 +177,4 @@ wb.save(xlsx)
 print("offers rows:", len(data.GROUPS), "| visa rows:", len(data.VISAS))
 print("photos:", photos)
 print("sheet id:", SHEET_ID or "(none — fallback data only)")
-print("wrote index.html, artifact.html,", os.path.basename(xlsx))
+print("wrote", ", ".join(PAGES), "+", os.path.basename(xlsx))
