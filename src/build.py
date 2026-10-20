@@ -138,7 +138,7 @@ def groups(L):
                 "notes": [T(x, L) for x in split(r["ملاحظة"])], "req": [T(x, L) for x in split(r["المتطلبات"])],
                 "tickets": [T(x, L) for x in split(r["التذاكر"])],
                 "child": price(r["الطفل بدون سرير"]), "infant": price(r["الرضيع"]),
-                "img": "assets/photos/%s.webp" % code.lower() if code.lower() in photos else "",
+                "img": "assets/photos/%s.webp" % r["الصورة"] if r["الصورة"] in photos else "",
                 "opts": [],
             }
             out.append(by[name])
@@ -177,7 +177,7 @@ DATA["company"] = COMPANY
 if MISSING:
     print("ترجمة ناقصة (تطلع بالعربي):", *sorted(MISSING), sep="\n  ")
 
-used = sorted({g["code"].lower() for g in DATA["ar"]["groups"] if g["img"]})
+used = sorted({g["img"].split("/")[-1][:-5] for g in DATA["ar"]["groups"] if g["img"]})
 credit_line = "، ".join(
     f'<a href="{credits[k]["page"]}" target="_blank" rel="noopener">{credits[k]["title"]}</a> '
     f'({credits[k]["artist"] or "?"}، {credits[k]["license"]})' for k in used if k in credits)

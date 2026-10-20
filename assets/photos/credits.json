@@ -64,5 +64,65 @@
   "artist": "Helder da Rocha",
   "license": "CC BY-SA 2.0",
   "page": "https://commons.wikimedia.org/w/index.php?curid=3823429"
+ },
+ "bkk": {
+  "title": "Templo Wat Arun, Bangkok, Tailandia, 2013-08-22, DD 30",
+  "page": "https://commons.wikimedia.org/w/index.php?curid=28363641",
+  "artist": "Diego Delso",
+  "license": "CC BY-SA 3.0"
+ },
+ "hkt": {
+  "title": "Isla Tapu, Phuket, Tailandia, 2013-08-20, DD 36",
+  "page": "https://commons.wikimedia.org/w/index.php?curid=30037486",
+  "artist": "Diego Delso",
+  "license": "CC BY-SA 3.0"
+ },
+ "kl2": {
+  "title": "Murugan statue, Batu Caves - Jun 19, 2010",
+  "page": "https://commons.wikimedia.org/w/index.php?curid=87311133",
+  "artist": "VasenkaPhotography from USA",
+  "license": "CC BY 2.0"
+ },
+ "cit": {
+  "title": "Muhammad Ali Mosque 1",
+  "page": "https://commons.wikimedia.org/w/index.php?curid=12168058",
+  "artist": "kallerna",
+  "license": "CC BY-SA 3.0"
+ },
+ "blu": {
+  "title": "Exterior of Sultan Ahmed I Mosque in Istanbul, Turkey 002",
+  "page": "https://commons.wikimedia.org/w/index.php?curid=22946519",
+  "artist": "Moonik",
+  "license": "CC BY-SA 3.0"
+ },
+ "bmo": {
+  "title": "Mohammad Al-Amin Mosque and St. George Maronite Cathedral, Beirut (3)",
+  "page": "https://commons.wikimedia.org/w/index.php?curid=135294602",
+  "artist": "Radosław Botev",
+  "license": "CC BY 3.0 pl"
+ },
+ "byb": {
+  "title": "Byblos Castle 2009",
+  "page": "https://commons.wikimedia.org/w/index.php?curid=8331700",
+  "artist": "Peripitus",
+  "license": "CC BY-SA 3.0"
+ },
+ "opr": {
+  "title": "Palacio de Al Alam, Mascate, Omán, 2024-08-14, DD 36",
+  "page": "https://commons.wikimedia.org/w/index.php?curid=151778643",
+  "artist": "Diego Delso",
+  "license": "CC BY-SA 4.0"
+ },
+ "pet": {
+  "title": "Jordan, Petra, Khaznat el- Faroun or Pharaoh's treasury (Monument and camels)",
+  "page": "https://commons.wikimedia.org/w/index.php?curid=62135287",
+  "artist": "Britchi Mirela",
+  "license": "CC BY-SA 4.0"
+ },
+ "cto": {
+  "title": "Cairo Tower at night, March 2025",
+  "page": "https://commons.wikimedia.org/w/index.php?curid=175266414",
+  "artist": "Weambakr",
+  "license": "CC BY-SA 4.0"
  }
 }
