@@ -109,6 +109,7 @@ EXTRA_TR = [  # ملاحظة الفندق كما هي بالأكسل ← صيغ�
 def hotel(cell):
     """خلية فندق ← (الاسم «عربي (English)»، ملاحظات، ينصح به)."""
     ls = [re.sub(r"\b\d\s*(?:stars?|نجوم)\b\s*\+?|\bVIP\b|بالسنتر", "", x, flags=re.I).strip(" /+") for x in lines(cell)]
+    ls = [y.strip() for x in ls for y in (x.split("/") if AR.search(x) and LAT.search(x) else [x])]
     ls = [x for x in ls if x]
     ar = [x for x in ls if AR.search(x) and not EXTRA.search(x)]
     la = [x for x in ls if LAT.search(x) and not AR.search(x)]
@@ -127,11 +128,32 @@ def hotel(cell):
     return name, notes, "ينصح" in cell
 
 
+PLACE = [("منطقة", ""), ("الجيزه", "الجيزة"), ("الاهرامات", "الأهرامات"), ("دقيقه", "دقيقة"), ("القاهره", "القاهرة"),
+         ("بيازيت لاللي", "بيازيد لالالي"), ("اقصراي", "أقصراي"), ("اقسراي", "أقصراي"), ("فندك زادة", "فندق زادة"),
+         ("شارع وطن", "شارع الوطن"), ("اطلالة", "إطلالة"), ("مصر جديدة", "مصر الجديدة"), ("صف اول", "صف أول"),
+         ("على بحر", "على البحر"), ("القاهرة زمالك", "الزمالك"), ("فندق جيد", ""), ("منتجع ممتاز", "")]
+
+
 def place(v):
     s = "، ".join(lines(v)).replace(",", "،")
-    for a, b in (("منطقة ", ""), ("الجيزه", "الجيزة"), ("الاهرامات", "الأهرامات"), ("دقيقه", "دقيقة"), ("القاهره", "القاهرة")):
+    for a, b in PLACE:
         s = s.replace(a, b)
-    return re.sub(r"\s*،\s*", "، ", s).strip("، ")
+    s = re.sub(r"\s*-\s*", "، ", s)
+    return re.sub(r"(\s*،\s*)+", "، ", s).strip("، ")
+
+
+def stay(v):
+    """'6 ليالي كوالا\n2 ليالي لنكاوي' ← '6 ليالي كوالالمبور + ليلتين لنكاوي'."""
+    ps = []
+    for x in lines(v):
+        x = re.sub(r"\bكوالا\b", "كوالالمبور", x)
+        for a, b in (("بيناتج", "بينانغ"), ("جزيرة", "جزيرة صباح"), ("بوردكسن", "بورت ديكسون"), ("مالديف", "المالديف")):
+            x = re.sub(r"\b%s$" % a, b, x)
+        x = re.sub(r"^2 ليالي ", "ليلتين ", x)
+        ps.append(x)
+    if len(ps) == 1 and re.fullmatch(r"\d+ ليالي", ps[0]):
+        ps[0] += " كوالالمبور"
+    return " + ".join(ps)
 
 
 def plan_len(v):
@@ -342,11 +364,21 @@ def load(path):
             if money(v.get("sell")) is None:
                 continue
             pl = lines(v.get("prog", ""))
-            name = pl[0] if pl else ""
-            extra = [x for x in pl[1:]]
+            name = re.sub(r"\s+", " ", pl[0]) if pl else ""
+            for a, b in (("وجزيرة بيناتج", "وبينانغ"), ("وجزيرة صباح", "وصباح"), ("وبوردكسن", "وبورت ديكسون"),
+                         ("وجزر المالديف", "والمالديف")):
+                name = name.replace(a, b)
+            extra = []
+            for x in pl[1:]:
+                if "عرسان" in x:
+                    name += " للعرسان"
+                elif "15 يوم" in x:
+                    extra.append("الحجز قبل السفر بـ15 يوم")
+                else:
+                    extra.append(x)
             o = out[k]
             k += 1
-            o["الموقع"] = " · ".join(x for x in [", ".join(lines(v.get("stay", ""))), o["الفندق"]] + extra if x)
+            o["الموقع"] = " · ".join(x for x in [stay(v.get("stay", "")), o["الفندق"]] + extra if x)
             o["الفندق"] = name
             rows.append(o)
         return rows
@@ -415,6 +447,14 @@ VISA_NAMES = {"سيريلانكا": "سريلانكا", "الموزنبيق": "�
               "ء": "الإمارات", "الاردن": "الأردن", "اذربيجان": "أذربيجان"}
 
 
+def span(v):
+    """مدة مثل '5-3 ايام عمل' ← '3-5 أيام عمل'؛ أي نص مو مدة يرجع فاضي حتى يبقى القديم."""
+    s = clean(v).replace("ايام", "أيام")
+    if not re.fullmatch(r"\d+(?:\s*-\s*\d+)?\s*(?:أيام|يوم|ساعة|ساعات|شهور|سنوات)(?: عمل)?", s):
+        return ""
+    return re.sub(r"(\d+)\s*-\s*(\d+)", lambda m: "%s-%s" % tuple(sorted((m.group(1), m.group(2)), key=int)), s)
+
+
 def visas(book):
     """{الدولة: [(مدة الإصدار، سعر البيع، الصلاحية) لكل سطر بالترتيب]}"""
     rows = find(book, "Visa Elite")
@@ -437,7 +477,7 @@ def visas(book):
             cur = VISA_NAMES.get(c[0], c[0])
             out.setdefault(cur, [])
         if cur and p is not None:
-            out[cur].append((clean(r[cd]), fmt(p), clean(r[cv])))
+            out[cur].append((span(r[cd]), fmt(p), span(r[cv])))
     return out
 
 
