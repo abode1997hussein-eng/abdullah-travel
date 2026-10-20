@@ -71,7 +71,7 @@ def apply_sheet(path):
         if live[name]["dates"]:
             head["التواريخ"] = "؛".join(upcoming(live[name]["dates"]))
         for i, opt in enumerate(live[name]["rows"]):
-            row = dict(head) if i == 0 else data.g(الوجهة=name)
+            row = data.g(**head) if i == 0 else data.g(الوجهة=name)
             row.update(opt)
             if i == 0:  # سعر الطفل والرضيع العام للكروب ياخذه من أول فندق، وإذا فاضي يبقى القديم
                 for k in ("الطفل بدون سرير", "الرضيع"):
