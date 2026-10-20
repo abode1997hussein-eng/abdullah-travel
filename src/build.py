@@ -109,6 +109,9 @@ if "--sheet" in sys.argv:
     apply_sheet(sys.argv[sys.argv.index("--sheet") + 1])
 
 photos = {f[:-5] for f in os.listdir(os.path.join(SITE, "assets/photos")) if f.endswith(".webp")}
+# جزر 3D مرسومة لكل كروب؛ إذا الجزيرة موجودة تنعرض بدل الصورة الحقيقية
+islands = {f[:-5] for f in os.listdir(os.path.join(SITE, "assets/islands")) if f.endswith(".webp")}
+HERO = ("hkt", "ist", "sph", "bey")  # صور الواجهة الكبيرة من ويكيميديا، لازم يبقى ذكر مصوّرها
 flags = {f[:-4] for f in os.listdir(os.path.join(SITE, "assets/flags")) if f.endswith(".svg")}
 credits = json.load(open(os.path.join(SITE, "assets/photos/credits.json"), encoding="utf-8"))
 
@@ -152,7 +155,8 @@ def groups(L):
                 "notes": [T(x, L) for x in split(r["ملاحظة"])], "req": [T(x, L) for x in split(r["المتطلبات"])],
                 "tickets": [T(x, L) for x in split(r["التذاكر"])],
                 "child": price(r["الطفل بدون سرير"]), "infant": price(r["الرضيع"]),
-                "img": "assets/photos/%s.webp" % r["الصورة"] if r["الصورة"] in photos else "",
+                "img": ("assets/islands/%s.webp" % r["الصورة"] if r["الصورة"] in islands else
+                        "assets/photos/%s.webp" % r["الصورة"] if r["الصورة"] in photos else ""),
                 "route": route(name, code, r["الطيران"]),
                 "opts": [],
             }
@@ -192,7 +196,7 @@ DATA["company"] = COMPANY
 if MISSING:
     print("ترجمة ناقصة (تطلع بالعربي):", *sorted(MISSING), sep="\n  ")
 
-used = sorted({g["img"].split("/")[-1][:-5] for g in DATA["ar"]["groups"] if g["img"]})
+used = sorted({g["img"].split("/")[-1][:-5] for g in DATA["ar"]["groups"] if "/photos/" in g["img"]} | set(HERO))
 credit_line = "، ".join(
     f'<a href="{credits[k]["page"]}" target="_blank" rel="noopener">{credits[k]["title"]}</a> '
     f'({credits[k]["artist"] or "?"}، {credits[k]["license"]})' for k in used if k in credits)

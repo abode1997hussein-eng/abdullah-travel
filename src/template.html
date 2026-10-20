@@ -123,6 +123,16 @@ section.sec{padding-top:34px;scroll-margin-top:calc(env(safe-area-inset-top,0px)
 .dest{position:relative;display:block;width:100%;aspect-ratio:4/3;border-radius:22px;overflow:hidden;border:0;background:#1B2533;cursor:pointer;padding:0;text-align:start;color:#FFFFFF;box-shadow:0 10px 24px rgba(17,24,39,.12)}
 .dest img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
 .dest:hover img{transform:scale(1.04)}
+/* بطاقة الجزيرة: خلفية فاتحة والكلام تحت الجزيرة */
+.dest.isl{aspect-ratio:auto;display:flex;flex-direction:column;background:linear-gradient(180deg,#FFF7F1 0%,#FFF7F1 62%,#FFFFFF 100%);border:1px solid #F3E2D6;color:var(--ink)}
+.dest.isl::after{display:none}
+.dest.isl img{position:relative;display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:contain;padding:10px 18px 0}
+.dest.isl .tx{position:relative;padding:4px 16px 16px}
+.dest.isl .tx small{color:var(--muted)}
+.dest.isl .pp{box-shadow:0 4px 12px rgba(242,106,33,.18)}
+.dest.isl .arr{position:absolute;bottom:18px;background:var(--accent);color:#FFFFFF}
+.sh-photo.isl{background:#FFF7F1}
+.sh-photo.isl img{object-fit:contain}
 .dest .fb{position:absolute;top:0;right:0;bottom:0;left:0;display:grid;place-items:center;background:linear-gradient(160deg,#F26A21,#C2410C);font-size:44px;font-weight:700;letter-spacing:.08em}
 .dest::after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(0,0,0,.78) 100%)}
 .dest .pp{position:absolute;top:12px;inset-inline-start:12px;z-index:1;display:flex;align-items:center;gap:6px;background:#FFFFFF;color:var(--ink);border-radius:999px;padding:5px 12px 5px 10px;font-size:12px;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,.15)}
@@ -900,7 +910,7 @@ dialog.sheet:not([open]){display:none}
     document.getElementById("gcards").innerHTML = G.map(function(g, i){
       var d = (String(g.dates.join(" ")).match(/\d{2}-\d{2}-\d{4}/) || [""])[0];
       var from = g.route ? t(g.route[0] === "EBL" ? "fromEBL" : "fromBGW") : t("noFlight");
-      return '<button class="dest" type="button" data-g="' + i + '" data-r="' + esc(GA[i].region) + '">' +
+      return '<button class="dest' + (/islands/.test(g.img) ? ' isl' : '') + '" type="button" data-g="' + i + '" data-r="' + esc(GA[i].region) + '">' +
         (g.img ? '<img src="' + esc(g.img) + '" alt="" loading="lazy">' : '<span class="fb" aria-hidden="true">' + esc(g.code) + '</span>') +
         '<span class="pp">' + I.pl + esc(t("pricesFrom")) + ' <b>' + esc(g.best.p) + '</b></span>' +
         '<span class="tx"><b>' + esc(g.title) + '</b><small>' + esc(from) + (g.dur ? " · " + esc(g.dur) : "") + '</small>' +
@@ -926,7 +936,7 @@ dialog.sheet:not([open]){display:none}
     var bp = g.plans.indexOf(g.best.d);
     var hasSingle = g.opts.some(function(o){ return o.s; });
     document.getElementById("gB").innerHTML =
-      '<div class="sh-photo">' + (g.img ? '<img src="' + esc(g.img) + '" alt="">' : '<span class="fb" aria-hidden="true">' + esc(g.code) + '</span>') + '</div>' +
+      '<div class="sh-photo' + (/islands/.test(g.img) ? ' isl' : '') + '">' + (g.img ? '<img src="' + esc(g.img) + '" alt="">' : '<span class="fb" aria-hidden="true">' + esc(g.code) + '</span>') + '</div>' +
       '<p class="meta">' + esc(g.dur) + '</p>' +
       (g.air ? '<p class="line">' + I.pl + '<span>' + esc(g.air) + (g.flight ? '<br><small class="small">' + esc(g.flight) + '</small>' : '') + '</span></p>' : '') +
       (g.dates.length === 1 ? '<p class="line">' + I.cal + '<span>' + esc(g.dates[0]) + '</span></p>' : '') +
