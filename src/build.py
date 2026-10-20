@@ -71,16 +71,18 @@ def groups(L):
                 "dates": [T(x, L) for x in split(r["التواريخ"])],
                 "flight": T(r["تفاصيل الطيران"], L), "hotels": T(r["الفنادق"], L),
                 "inc": [T(x, L) for x in split(r["يشمل"])],
-                "note": T(r["ملاحظة"], L), "req": [T(x, L) for x in split(r["المتطلبات"])],
+                "notes": [T(x, L) for x in split(r["ملاحظة"])], "req": [T(x, L) for x in split(r["المتطلبات"])],
+                "tickets": [T(x, L) for x in split(r["التذاكر"])],
                 "child": price(r["الطفل بدون سرير"]), "infant": price(r["الرضيع"]),
                 "img": "assets/photos/%s.webp" % code.lower() if code.lower() in photos else "",
                 "opts": [],
             }
             out.append(by[name])
         if r["الفندق"] or r["سعر البيع"]:
-            by[name]["opts"].append({"h1": T(r["الفندق"], L), "h2": T(r["الفندق الثاني"], L),
-                                     "stars": re.sub(r"\D", "", r.get("الفئة", "")),
-                                     "rec": r["ينصح به"] == "نعم", "p": price(r["سعر البيع"]), "s": price(r["السنكل"])})
+            by[name]["opts"].append({"d": T(r["البرنامج"], L), "h1": T(r["الفندق"], L), "h2": T(r["الفندق الثاني"], L),
+                                     "loc": T(r["الموقع"], L), "stars": re.sub(r"\D", "", r.get("الفئة", "")),
+                                     "rec": r["ينصح به"] == "نعم", "p": price(r["سعر البيع"]), "s": price(r["السنكل"]),
+                                     "c": price(r["الطفل بدون سرير"]), "cb": price(r["الطفل بسرير"]), "i": price(r["الرضيع"])})
     return out
 
 

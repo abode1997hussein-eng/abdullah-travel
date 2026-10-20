@@ -237,6 +237,12 @@ dialog.sheet:not([open]){display:none}
 .ht .stars.na{color:var(--dim);letter-spacing:0}
 .ht b{font-size:16px;font-variant-numeric:tabular-nums}
 .ht small{display:block;font-size:11px;color:var(--muted)}
+.ht .loc{font-weight:400;margin-top:2px}
+.ht .en{font-weight:400;font-size:12px;color:var(--muted);unicode-bidi:isolate}
+.ht tr[hidden]{display:none}
+.tix{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:13.5px}
+.tix li{display:flex;justify-content:space-between;gap:12px;padding:7px 12px;border-radius:12px;background:var(--tile);border:1px solid var(--line)}
+.tix b{color:var(--accent-2);white-space:nowrap;font-variant-numeric:tabular-nums}
 .dchips{display:flex;flex-wrap:wrap;gap:6px}
 .dchip{position:relative;font-size:13px;padding:7px 12px;border:1px solid var(--line);border-radius:12px;background:var(--tile);cursor:pointer;font-variant-numeric:tabular-nums}
 .dchip.on{border-color:var(--accent);background:var(--accent-soft)}
@@ -432,7 +438,7 @@ dialog.sheet:not([open]){display:none}
       h1:"كل سفرتك بمكان واحد", lH2:"وين ناوي تسافر؟", lSub:"ابحث عن سعر تذكرتك، أو تصفّح الكروبات والفيزا بأسعارها",
       tFly:"طيران", tGroups:"كروبات", services:"الخدمات", sVisa:"تأشيرات السفر", sEvents:"حفلات ورأس السنة", sLicense:"إجازة سوق دولية", sBranches:"فروعنا",
       gH2:"كروبات وحفلات طالعة من بغداد", gIntro:"أقل سعر للشخص بالغرفة المزدوجة. اضغط على الكروب حتى تشوف كل فندق وفئته وسعره، وتثبّت الحجز.",
-      all:"الكل", from_:"يبدأ من", pickDate:"اختار التاريخ", hotel:"الفندق", cat:"الفئة", price:"السعر", single:"سنكل", rec:"ينصح به",
+      all:"الكل", from_:"يبدأ من", pickDate:"اختار التاريخ", pickPlan:"اختار البرنامج والمدة", tickets:"أسعار تذاكر الحفل", childBed:"الطفل بسرير", hotel:"الفندق", cat:"الفئة", price:"السعر", single:"سنكل", rec:"ينصح به",
       stars:"{0} نجوم", noCat:"—", child:"الطفل بدون سرير", infant:"الرضيع", req:"المتطلبات", priceLbl:"السعر للشخص", bookGroup:"ثبّت الحجز بالواتساب",
       vH2:"تأشيرات السفر", vIntro:"كل دولة وعلمها، وأنواع الفيزا وأسعارها، ومدة الإصدار، والمتطلبات والملاحظات.",
       vSearch:"ابحث عن دولة… مثلاً: الإمارات", vType:"نوع الفيزا", vTypes:"{0} أنواع", vFrom:"يبدأ من", vPrice:"السعر", ask:"اسأل",
@@ -451,7 +457,7 @@ dialog.sheet:not([open]){display:none}
       h1:"هەموو گەشتەکەت لە یەک شوێندا", lH2:"دەتەوێت بۆ کوێ گەشت بکەیت؟", lSub:"نرخی بلیتەکەت بگەڕێ، یان گروپ و ڤیزاکان بە نرخەوە ببینە",
       tFly:"فڕین", tGroups:"گروپەکان", services:"خزمەتگوزارییەکان", sVisa:"ڤیزای گەشت", sEvents:"ئاهەنگ و سەری ساڵ", sLicense:"مۆڵەتی شۆفێری نێودەوڵەتی", sBranches:"لقەکانمان",
       gH2:"گروپ و ئاهەنگەکان لە بەغداوە", gIntro:"کەمترین نرخ بۆ هەر کەسێک لە ژووری دوو کەسی. کرتە لە گروپ بکە بۆ بینینی هەموو هوتێلێک و پلەکەی و نرخەکەی، و حیجز جێگیر بکە.",
-      all:"هەموو", from_:"لە", pickDate:"بەروار هەڵبژێرە", hotel:"هوتێل", cat:"پلە", price:"نرخ", single:"تاک", rec:"پێشنیارکراو",
+      all:"هەموو", from_:"لە", pickDate:"بەروار هەڵبژێرە", pickPlan:"بەرنامە و ماوە هەڵبژێرە", tickets:"نرخی بلیتی ئاهەنگ", childBed:"منداڵ بە قەرەوێڵە", hotel:"هوتێل", cat:"پلە", price:"نرخ", single:"تاک", rec:"پێشنیارکراو",
       stars:"{0} ئەستێرە", noCat:"—", child:"منداڵ بێ قەرەوێڵە", infant:"ساوا", req:"داواکارییەکان", priceLbl:"نرخ بۆ هەر کەسێک", bookGroup:"حیجز لە واتسئاپ جێگیر بکە",
       vH2:"ڤیزای گەشت", vIntro:"هەر وڵاتێک و ئاڵاکەی، جۆرەکانی ڤیزا و نرخەکانیان، ماوەی دەرچوون، داواکاری و تێبینییەکان.",
       vSearch:"گەڕان بۆ وڵات… بۆ نموونە: ئیمارات", vType:"جۆری ڤیزا", vTypes:"{0} جۆر", vFrom:"لە", vPrice:"نرخ", ask:"بپرسە",
@@ -470,7 +476,7 @@ dialog.sheet:not([open]){display:none}
       h1:"Your whole trip in one place", lH2:"Where are you heading?", lSub:"Search your ticket price, or browse group tours and visas with their prices",
       tFly:"Flights", tGroups:"Group tours", services:"Services", sVisa:"Travel visas", sEvents:"Concerts & New Year", sLicense:"International driving licence", sBranches:"Our branches",
       gH2:"Group tours & concerts from Baghdad", gIntro:"Lowest price per person in a double room. Tap a tour to see every hotel with its category and price, and confirm your booking.",
-      all:"All", from_:"From", pickDate:"Choose a date", hotel:"Hotel", cat:"Category", price:"Price", single:"Single", rec:"Recommended",
+      all:"All", from_:"From", pickDate:"Choose a date", pickPlan:"Choose the program and length", tickets:"Concert ticket prices", childBed:"Child with bed", hotel:"Hotel", cat:"Category", price:"Price", single:"Single", rec:"Recommended",
       stars:"{0} stars", noCat:"—", child:"Child without bed", infant:"Infant", req:"Requirements", priceLbl:"Price per person", bookGroup:"Confirm on WhatsApp",
       vH2:"Travel visas", vIntro:"Every country with its flag, visa types and prices, processing time, requirements and notes.",
       vSearch:"Search a country… e.g. UAE", vType:"Visa type", vTypes:"{0} types", vFrom:"From", vPrice:"Price", ask:"Ask",
@@ -616,6 +622,8 @@ dialog.sheet:not([open]){display:none}
       g.best = g.opts[0];
       g.opts.forEach(function(o){ if (num(o.p) < num(g.best.p)) g.best = o; });
       g.listed = g.opts.length > 1 || !!(g.opts[0] && g.opts[0].h1);
+      g.plans = [];
+      g.opts.forEach(function(o){ if (o.d && g.plans.indexOf(o.d) < 0) g.plans.push(o.d); });
     });
   }
   function renderGroups(){
@@ -643,13 +651,14 @@ dialog.sheet:not([open]){display:none}
   }
   document.getElementById("gchips").addEventListener("click", function(e){ var b = e.target.closest(".chip"); if (b){ gFilter = b.getAttribute("data-r"); filterG(); } });
   function hname(o){ return o.h2 ? o.h1 + " + " + o.h2 : o.h1; }
+  /* «عربي (English)»: الاسم اللاتيني بسطر رمادي حتى ما تتلخبط الأقواس بين العربي والإنكليزي */
+  function hfmt(h){ var m = String(h).match(/^(.*?) \(([^)]*[A-Za-z][^)]*)\)(.*)$/); return m ? esc(m[1] + m[3]) + ' <span class="en" dir="ltr">' + esc(m[2]) + '</span>' : esc(h); }
+  function hhtml(o){ return o.h2 ? hfmt(o.h1) + " + " + hfmt(o.h2) : hfmt(o.h1); }
   function stars(n){ n = +n || 0; return n ? '<span class="stars" title="' + esc(t("stars", n)) + '">' + new Array(n + 1).join("★") + '</span>' : '<span class="stars na">' + esc(t("noCat")) + '</span>'; }
   function openG(i){
     var g = D[L].groups[i]; if (!g) return; cur = i;
     document.getElementById("gT").textContent = g.title;
-    var kids = [];
-    if (g.child) kids.push(esc(t("child")) + " <b>" + esc(g.child) + "</b>");
-    if (g.infant) kids.push(esc(t("infant")) + " <b>" + esc(g.infant) + "</b>");
+    var bp = g.plans.indexOf(g.best.d);
     var hasSingle = g.opts.some(function(o){ return o.s; });
     document.getElementById("gB").innerHTML =
       '<div class="sh-photo">' + (g.img ? '<img src="' + esc(g.img) + '" alt="">' : '<span class="fb" aria-hidden="true">' + esc(g.code) + '</span>') + '</div>' +
@@ -658,16 +667,22 @@ dialog.sheet:not([open]){display:none}
       (g.dates.length === 1 ? '<p class="line">' + I.cal + '<span>' + esc(g.dates[0]) + '</span></p>' : '') +
       (g.hotels ? '<p class="line">' + I.bed + '<span>' + esc(g.hotels) + '</span></p>' : '') +
       (g.inc.length ? '<ul class="inc">' + g.inc.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' : '') +
-      (g.note ? '<p class="note">' + esc(g.note) + '</p>' : '') +
+      (g.notes.length ? '<ul class="notes">' + g.notes.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' : '') +
       (g.dates.length > 1 ? '<div><p class="lbl">' + esc(t("pickDate")) + '</p><div class="dchips" role="radiogroup">' + g.dates.map(function(d, k){
         return '<label class="dchip' + (k ? '' : ' on') + '"><input type="radio" name="gd" value="' + k + '"' + (k ? '' : ' checked') + '>' + esc(d) + '</label>'; }).join("") + '</div></div>' : '') +
+      (g.plans.length > 1 ? '<div><p class="lbl">' + esc(t("pickPlan")) + '</p><div class="dchips" role="radiogroup">' + g.plans.map(function(d, k){
+        return '<label class="dchip' + (k === bp ? ' on' : '') + '"><input type="radio" name="gp" value="' + k + '"' + (k === bp ? ' checked' : '') + '>' + esc(d) + '</label>'; }).join("") + '</div></div>' : '') +
       (g.listed ? '<table class="ht"><thead><tr><th>' + esc(t("hotel")) + '</th><th>' + esc(t("cat")) + '</th><th class="e">' + esc(t("price")) + '</th></tr></thead><tbody>' +
         g.opts.map(function(o, k){
           var on = o === g.best;
-          return '<tr class="pick' + (on ? ' on' : '') + '" data-h="' + k + '" tabindex="0" role="radio" aria-checked="' + on + '"><td><span class="rd"></span><span class="hn">' + esc(hname(o)) + '</span>' + (o.rec ? '<em>' + esc(t("rec")) + '</em>' : '') + '</td>' +
+          var hide = g.plans.length > 1 && o.d !== g.plans[bp];
+          return '<tr class="pick' + (on ? ' on' : '') + '" data-h="' + k + '" data-p="' + g.plans.indexOf(o.d) + '"' + (hide ? ' hidden' : '') + ' tabindex="0" role="radio" aria-checked="' + on + '"><td><span class="rd"></span><span class="hn">' + hhtml(o) + '</span>' + (o.rec ? '<em>' + esc(t("rec")) + '</em>' : '') + (o.loc ? '<small class="loc">' + esc(o.loc) + '</small>' : '') + '</td>' +
             '<td>' + stars(o.stars) + '</td><td class="e"><b>' + esc(o.p) + '</b>' + (hasSingle && o.s ? '<small>' + esc(t("single")) + ' ' + esc(o.s) + '</small>' : '') + '</td></tr>';
         }).join("") + '</tbody></table>' : '') +
-      (kids.length ? '<p class="small">' + kids.join(" · ") + '</p>' : '') +
+      '<p class="small" id="gKids"></p>' +
+      (g.tickets.length ? '<div><p class="lbl">' + esc(t("tickets")) + '</p><ul class="tix">' + g.tickets.map(function(x){
+        var m = x.match(/^(.*):\s*([^:]+)$/);
+        return '<li>' + (m ? '<span>' + esc(m[1]) + '</span><b>' + esc(m[2]) + '</b>' : '<span>' + esc(x) + '</span>') + '</li>'; }).join("") + '</ul></div>' : '') +
       (g.req.length ? '<p class="small"><b>' + esc(t("req")) + ':</b> ' + esc(g.req.join(" + ")) + '</p>' : '') +
       '<div class="pricebar"><div class="from"><span>' + esc(t("priceLbl")) + '</span><b id="gPrice">' + esc(g.best.p) + '</b></div></div>' +
       '<a class="btn wa" id="gGo" target="_blank" rel="noopener" href="#">' + esc(t("bookGroup")) + '</a>';
@@ -680,8 +695,13 @@ dialog.sheet:not([open]){display:none}
     var o = g.opts[hi], oa = ga.opts[hi];
     var di = gSheet.querySelector('input[name="gd"]:checked'), dk = di ? +di.value : 0;
     document.getElementById("gPrice").textContent = o.p;
+    var kids = [], c = o.c || g.child, inf = o.i || g.infant;
+    if (o.cb) kids.push(esc(t("childBed")) + " <b>" + esc(o.cb) + "</b>");
+    if (c) kids.push(esc(t("child")) + " <b>" + esc(c) + "</b>");
+    if (inf) kids.push(esc(t("infant")) + " <b>" + esc(inf) + "</b>");
+    var kb = document.getElementById("gKids"); kb.innerHTML = kids.join(" · "); kb.hidden = !kids.length;
     document.getElementById("gGo").href = wa(["مرحباً، أريد أثبّت حجز كروب: " + ga.title, ga.dur ? "المدة: " + ga.dur : "",
-      "التاريخ: " + (ga.dates[dk] || "أتفق وياكم"), g.listed ? "الفندق: " + hname(oa) + (oa.stars ? " (" + oa.stars + " نجوم)" : "") : "", "السعر: " + o.p + " للشخص"]);
+      "التاريخ: " + (ga.dates[dk] || "أتفق وياكم"), oa.d ? "البرنامج: " + oa.d : "", g.listed ? "الفندق: " + hname(oa) + (oa.stars ? " (" + oa.stars + " نجوم)" : "") : "", "السعر: " + o.p + " للشخص"]);
   }
   function pickRow(tr){
     gSheet.querySelectorAll("tr.pick").forEach(function(r){ var on = r === tr; r.classList.toggle("on", on); r.setAttribute("aria-checked", String(on)); });
@@ -690,8 +710,17 @@ dialog.sheet:not([open]){display:none}
   gSheet.addEventListener("click", function(e){ var tr = e.target.closest && e.target.closest("tr.pick"); if (tr) pickRow(tr); });
   gSheet.addEventListener("keydown", function(e){ var tr = e.target.closest && e.target.closest("tr.pick"); if (tr && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); pickRow(tr); } });
   gSheet.addEventListener("change", function(e){
-    if (e.target.name !== "gd") return;
-    gSheet.querySelectorAll('input[name="gd"]').forEach(function(i){ i.closest("label").classList.toggle("on", i.checked); });
+    var nm = e.target.name;
+    if (nm !== "gd" && nm !== "gp") return;
+    gSheet.querySelectorAll('input[name="' + nm + '"]').forEach(function(i){ i.closest("label").classList.toggle("on", i.checked); });
+    if (nm === "gp"){
+      var g = D[L].groups[cur], best = null;
+      gSheet.querySelectorAll("tr.pick").forEach(function(r){
+        var show = r.getAttribute("data-p") === e.target.value; r.hidden = !show;
+        if (show && (!best || num(g.opts[+r.getAttribute("data-h")].p) < num(g.opts[+best.getAttribute("data-h")].p))) best = r;
+      });
+      if (best){ pickRow(best); return; }
+    }
     updG();
   });
 
