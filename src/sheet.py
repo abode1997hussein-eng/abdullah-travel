@@ -440,6 +440,36 @@ def load(path):
     return live, errs, book
 
 
+# ---------------------------------------------------------------- الفنادق: سعر الليلة للشخص
+HOTEL_TABS = [("اسطنبول", "فنادق اسطنبول "), ("مسقط", "فنادق مسقط NEW")]
+
+
+def hotels(book):
+    """[(المدينة، الفندق، الفئة، دبل، تربل، سنكل، الفطور)] من تبويبات الفنادق؛ الأعمدة تنعرف من عناوينها."""
+    out = []
+    for city, tab in HOTEL_TABS:
+        rows = find(book, tab)
+        for i, r in enumerate(rows):
+            hk = [key(c) for c in r]
+            col = lambda *w: next((j for j, h in enumerate(hk) if all(x in h for x in w)), None)
+            ch, cd, ct, cs = col("اسمالفندق"), col("الدبل") or col("دبل"), col("التربل") or col("تربل"), col("السنكل") or col("سنكل")
+            if ch is None or cd is None:
+                continue
+            cst, cb = col("فئة"), col("افطار") or col("إفطار")
+            for r2 in rows[i + 1:]:
+                r2 = r2 + [""] * 12
+                d = money(r2[cd])
+                if d is None:
+                    break
+                name = hotel(r2[ch])[0]
+                b = clean(r2[cb]) if cb is not None else ""
+                out.append((city, name, stars(r2[cst]) if cst is not None else "", d,
+                            money(r2[ct]) if ct is not None else d, money(r2[cs]) if cs is not None else None,
+                            "بدون فطور" if "بدون" in b else "مع فطور" if b else ""))
+            break
+    return out
+
+
 # ---------------------------------------------------------------- الفيزا: الأسعار والمدد من Visa Elite
 VISA_NAMES = {"سيريلانكا": "سريلانكا", "الموزنبيق": "موزمبيق", "اثيوبيا": "إثيوبيا", "افغانستان": "أفغانستان",
               "اندونيسيا": "إندونيسيا", "إندونيسيا": "إندونيسيا", "كينيا": "كينيا", "بوليفيا": "بوليفيا",

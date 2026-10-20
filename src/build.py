@@ -97,6 +97,13 @@ def apply_sheet(path):
     data.GROUPS[:] = out
 
     try:
+        hs = sheet.hotels(book)
+        if hs:
+            data.HOTELS[:] = hs
+            print("من الأكسل:", len(hs), "فندق")
+    except Exception as e:  # noqa: BLE001
+        errs.append("فنادق: %s" % e)
+    try:
         vs = sheet.visas(book)
         by = {}
         for v in data.VISAS:
@@ -199,13 +206,22 @@ def visas(L):
     return out
 
 
+def hotels(L):
+    return [{"city": T(c, L), "ar": c, "h": T(h, L), "st": st, "d": d, "t": tr, "s": sg, "b": T(b, L)}
+            for c, h, st, d, tr, sg, b in data.HOTELS]
+
+
+def hotel_notes(L):
+    return {c: [T(x, L) for x in split(n)] for c, n in data.HOTEL_NOTES.items()}
+
+
 def fares(L):
     return [{"from": f.get("من", ""), "to": f.get("إلى", ""), "air": T(f.get("الخطوط", ""), L),
              "trip": f.get("النوع", ""), "p": price(f.get("السعر", "")), "n": T(f.get("ملاحظة", ""), L)}
             for f in getattr(data, "FARES", [])]
 
 
-DATA = {L: {"groups": groups(L), "visas": visas(L), "fares": fares(L)} for L in LANGS}
+DATA = {L: {"groups": groups(L), "visas": visas(L), "fares": fares(L), "hotels": hotels(L), "hnotes": hotel_notes(L)} for L in LANGS}
 DATA["company"] = COMPANY
 if MISSING:
     print("ترجمة ناقصة (تطلع بالعربي):", *sorted(MISSING), sep="\n  ")
