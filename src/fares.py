@@ -9,6 +9,7 @@ import json
 import os
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import date
@@ -38,7 +39,8 @@ def months(n=2):
 
 def get(token, **q):
     q.update(currency="usd", sorting="price", unique="false", limit=PER, page=1, token=token)
-    req = urllib.request.Request(API + "?" + urllib.parse.urlencode(q), headers={"Accept-Encoding": "identity"})
+    req = urllib.request.Request(API + "?" + urllib.parse.urlencode(q),
+                                 headers={"Accept-Encoding": "identity", "X-Access-Token": token})
     with urllib.request.urlopen(req, timeout=20) as r:
         return json.load(r)
 
@@ -57,6 +59,12 @@ def main():
                 for one_way in ("true", "false"):
                     try:
                         res = get(token, origin=o, destination=d, departure_at=m, one_way=one_way)
+                    except urllib.error.HTTPError as e:
+                        bad += 1
+                        if e.code == 401 and not ok:
+                            print("أسعار الطيران: التوكن مرفوض (401). تأكد من TP_TOKEN بإعدادات GitHub. بقت الأسعار القديمة")
+                            return
+                        continue
                     except Exception as e:  # noqa: BLE001 — وجهة وحدة ما توقف الباقي
                         bad += 1
                         if bad <= 3:
