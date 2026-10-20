@@ -41,6 +41,70 @@ FLAG_FIX = {"أفغانستان": "af", "شرق أفريقيا (أوغندا –
             "موريتانيا": "mr", "فيزا شنغن – أوربا": "eu", "جورجيا": "ge", "أذربيجان": "az", "البرازيل": "br",
             "بوليفيا": "bo", "فيزا العراق": "iq", "إجازة سوق دولية": "iq"}
 
+# ---------------------------------------------------------------- الأسعار من أكسل الشركة
+# python3 -I build.py --sheet book.xlsx  ← الفنادق والمدد والأسعار والتواريخ تنقرا من الأكسل،
+# وأي كروب ما انقرا يبقى على بياناته بـ data.py.
+OPT_KEYS = ("البرنامج", "الفندق", "الفندق الثاني", "الموقع", "الفئة", "ينصح به", "سعر البيع", "السنكل",
+            "الطفل بدون سرير", "الطفل بسرير", "الرضيع")
+
+
+def upcoming(ds):
+    """يشيل التواريخ اللي فاتت؛ إذا كلها فاتت يرجعها مثل ما هي."""
+    today = date.today().strftime("%Y%m%d")
+    left = [d for d in ds if d[6:] + d[3:5] + d[:2] >= today]
+    return left or ds
+
+
+def apply_sheet(path):
+    import sheet
+    live, errs, book = sheet.load(path)
+    out, seen = [], set()
+    for r in data.GROUPS:
+        name = r["الوجهة"]
+        if name not in live:
+            out.append(r)
+            continue
+        if name in seen:
+            continue
+        seen.add(name)
+        head = {k: v for k, v in r.items() if k not in OPT_KEYS}
+        if live[name]["dates"]:
+            head["التواريخ"] = "؛".join(upcoming(live[name]["dates"]))
+        for i, opt in enumerate(live[name]["rows"]):
+            row = dict(head) if i == 0 else data.g(الوجهة=name)
+            row.update(opt)
+            if i == 0:  # سعر الطفل والرضيع العام للكروب ياخذه من أول فندق، وإذا فاضي يبقى القديم
+                for k in ("الطفل بدون سرير", "الرضيع"):
+                    row[k] = opt.get(k) or r[k]
+            out.append(row)
+    data.GROUPS[:] = out
+
+    try:
+        vs = sheet.visas(book)
+        by = {}
+        for v in data.VISAS:
+            by.setdefault(v["الدولة"], []).append(v)
+        for c, rows in by.items():
+            lv = vs.get(c)
+            if not lv:
+                continue
+            if len(lv) != len(rows):
+                errs.append("فيزا %s: عدد الأسطر بالأكسل %d والموقع %d، بقت مثل ما هي" % (c, len(lv), len(rows)))
+                continue
+            for v, (d, p, val) in zip(rows, lv):
+                v["سعر البيع"] = p or v["سعر البيع"]
+                v["مدة الإصدار"] = d or v["مدة الإصدار"]
+                v["الصلاحية"] = val or v["الصلاحية"]
+    except Exception as e:  # noqa: BLE001
+        errs.append("فيزا: %s" % e)
+    print("من الأكسل:", len(live), "كروب")
+    for e in errs:
+        print("  ما انقرا:", e)
+
+
+if "--sheet" in sys.argv:
+    apply_sheet(sys.argv[sys.argv.index("--sheet") + 1])
+
 photos = {f[:-5] for f in os.listdir(os.path.join(SITE, "assets/photos")) if f.endswith(".webp")}
 flags = {f[:-4] for f in os.listdir(os.path.join(SITE, "assets/flags")) if f.endswith(".svg")}
 credits = json.load(open(os.path.join(SITE, "assets/photos/credits.json"), encoding="utf-8"))

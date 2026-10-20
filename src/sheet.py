@@ -8,6 +8,7 @@ python3 -I sheet.py book.xlsx   ->  يطبع ملخص اللي انقرا
 """
 import re
 import sys
+import unicodedata
 import zipfile
 import xml.etree.ElementTree as ET
 from datetime import date
@@ -56,13 +57,14 @@ def read_xlsx(path):
                     r[col(c.get("r"))] = val
             if r:
                 rows.append([r.get(i, "") for i in range(max(r) + 1)])
-        book[clean(sh.get("name"))] = rows
+        book[sh.get("name")] = rows
     return book
 
 
 # ---------------------------------------------------------------- تنظيف النصوص
 def clean(s):
-    s = (s or "").replace("ـ", "").replace("‏", "").replace("‎", "").replace('"', "").replace("\\", " ")
+    s = unicodedata.normalize("NFKC", s or "")
+    s = re.sub("[\u200e\u200f\u202a-\u202e\u2066-\u2069\u0307\u0640\"]", "", s).replace("\\", " ")
     s = s.replace("&amp;", "&")
     return re.sub(r"[ \t]+", " ", s).strip()
 
@@ -106,7 +108,8 @@ EXTRA_TR = [  # ملاحظة الفندق كما هي بالأكسل ← صيغ�
 
 def hotel(cell):
     """خلية فندق ← (الاسم «عربي (English)»، ملاحظات، ينصح به)."""
-    ls = lines(cell)
+    ls = [re.sub(r"\b\d\s*(?:stars?|نجوم)\b\s*\+?|\bVIP\b|بالسنتر", "", x, flags=re.I).strip(" /+") for x in lines(cell)]
+    ls = [x for x in ls if x]
     ar = [x for x in ls if AR.search(x) and not EXTRA.search(x)]
     la = [x for x in ls if LAT.search(x) and not AR.search(x)]
     la = [re.sub(r"\b\d\s*stars?\b|\bVIP\b|\bHOTEL\b(?=\s*$)", "", x, flags=re.I).strip(" &+") for x in la]
@@ -118,10 +121,17 @@ def hotel(cell):
     a = re.sub(r"\s*&\s*", " + ", ar[0]) if ar else ""
     a = re.sub(r"\s*\d\s*(?:نجوم|stars?)\b.*$", "", a, flags=re.I).strip()
     e = " ".join(la[:1]).strip()
-    e = re.sub(r"\s*&\s*", " & ", e)
-    e = e.title() if e.isupper() else e
+    e = re.sub(r"\s*[&+]\s*", " & ", e)
+    e = (e.title() if e.isupper() else e).replace("\u0307", "")
     name = "%s (%s)" % (a, e) if a and e else (a or e)
     return name, notes, "ينصح" in cell
+
+
+def place(v):
+    s = "، ".join(lines(v)).replace(",", "،")
+    for a, b in (("منطقة ", ""), ("الجيزه", "الجيزة"), ("الاهرامات", "الأهرامات"), ("دقيقه", "دقيقة"), ("القاهره", "القاهرة")):
+        s = s.replace(a, b)
+    return re.sub(r"\s*،\s*", "، ", s).strip("، ")
 
 
 def plan_len(v):
@@ -205,7 +215,7 @@ def cells(h, r, prev):
     v = {}
     for f, i in h.items():
         x = clean(r[i]) if i < len(r) else ""
-        if not x and f not in ("sell", "single", "date"):
+        if not x and f not in ("sell", "single"):
             x = prev.get(f, "")
         v[f] = x
     return v
@@ -226,7 +236,7 @@ def opts(tbl, prog=None, single_diff=False):
         s = money(v.get("single"))
         if single_diff and s is not None and s < p:
             s += p
-        loc = " · ".join(x for x in [", ".join(lines(v.get("loc", "")))] + notes if x)
+        loc = " · ".join(x for x in [place(v.get("loc", ""))] + notes if x)
         row = {"الفندق": name, "الفندق الثاني": name2, "الموقع": loc, "الفئة": stars(v.get("stars", "")),
                "ينصح به": "نعم" if rec else "", "سعر البيع": fmt(p), "السنكل": fmt(s),
                "الطفل بدون سرير": fmt(money(v.get("child"))), "الطفل بسرير": fmt(money(v.get("childbed"))),
@@ -249,10 +259,14 @@ def table_dates(tbl, year_less=False):
 
 # ---------------------------------------------------------------- كل كروب ومن وين ينقرا
 def find(book, *names):
+    """التبويب بالاسم؛ إذا أكثر من تبويب بنفس الاسم ياخذ اللي بيه أحدث تاريخ."""
+    def newest(rows):
+        ds = dates("\n".join(" ".join(r) for r in rows))
+        return max((d[6:] + d[3:5] + d[:2] for d in ds), default="")
     for n in names:
-        for k in book:
-            if key(k) == key(n):
-                return book[k]
+        hits = [rows for k, rows in book.items() if key(k) == key(n)]
+        if hits:
+            return max(hits, key=newest)
     raise KeyError("ما لكيت تبويب: " + " أو ".join(names))
 
 
@@ -267,12 +281,22 @@ def has(h, *f):
     return all(x in h for x in f)
 
 
+WEEK = [("سبت", "السبت"), ("احد", "الأحد"), ("أحد", "الأحد"), ("اثنين", "الاثنين"), ("ثلاثاء", "الثلاثاء"),
+        ("اربعاء", "الأربعاء"), ("أربعاء", "الأربعاء"), ("خميس", "الخميس"), ("جمعة", "الجمعة")]
+
+
 def muscat_plan(v, title):
+    """'4 أيام' + «كل يوم سبت» ← '4 أيام · كل سبت'، وأكثر من يوم ← '8 أيام · السبت والثلاثاء والأربعاء'."""
     d = plan_len(v.get("dur", ""))
-    m = re.search(r"كل\s*(?:يوم)?\s*([^\n]+?)(?:\n|$)", clean(v.get("date", "")))
-    days = re.sub(r"\s*-\s*|\s+و\s*|\s+", " و", m.group(1).strip()).replace(" و ", " و") if m else ""
-    days = re.sub(r"\bال?(سبت|احد|أحد|اثنين|ثلاثاء|اربعاء|أربعاء|خميس|جمعة)\b", lambda x: x.group(1), days)
-    return d + (" · كل " + days if days else "")
+    m = re.search(r"كل\s*يوم[^\n]*", clean(v.get("date", "")))
+    days = []
+    for w in re.findall(r"[؀-ۿ]+", m.group() if m else ""):
+        for a, b in WEEK:
+            if w.endswith(a) and b not in days:
+                days.append(b)
+    if len(days) == 1:
+        return d + " · كل " + ("أحد" if days[0] == "الأحد" else days[0][2:])
+    return d + (" · " + " و".join(days) if days else "")
 
 
 def load(path):
