@@ -79,20 +79,29 @@ button,input,select{font-family:inherit;color:inherit;font-size:inherit}
 .logo small{display:block;font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--accent);direction:ltr;text-align:right}
 [dir="ltr"] .logo small{text-align:left}
 
-/* ---------- الواجهة: صور تتبدل + تبويبات + بوكس البحث ---------- */
-.hero{position:relative;isolation:isolate;padding-bottom:24px}
-.slides{display:none}
-@media (min-width:900px){
-  .hero{padding:26px 0 70px;min-height:560px}
-  .slides{display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;overflow:hidden;background:#1B2533}
-  .slides img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease}
-  .slides img.on{opacity:1}
-  .slides::after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.05) 45%,rgba(0,0,0,.35))}
-  .dots{position:absolute;bottom:22px;left:0;right:0;display:flex;justify-content:center;gap:8px;z-index:1}
-  .dots button{width:9px;height:9px;border-radius:999px;border:0;padding:0;background:rgba(255,255,255,.55);cursor:pointer}
-  .dots button[aria-current="true"]{width:26px;background:#FFFFFF}
+/* ---------- الواجهة: سماء 3D متحركة بطيارات الشركات العالمية + تبويبات + بوكس البحث ---------- */
+.hero{position:relative;isolation:isolate;padding:150px 0 40px;overflow:hidden}
+@media (min-width:900px){.hero{padding:170px 0 190px}}
+.sky{position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;overflow:hidden;background:linear-gradient(180deg,#2F7FD8 0%,#62A8EC 38%,#A9D3F7 72%,#F6F7F9 100%);perspective:900px}
+.sky::before{content:"";position:absolute;top:-18%;inset-inline-end:8%;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(255,236,190,.9),rgba(255,214,150,.35) 40%,transparent 70%)}
+.cloud{position:absolute;left:0;width:var(--w);aspect-ratio:3/1;opacity:var(--o,.95);border-radius:999px;background:#FFFFFF;filter:blur(var(--b,0px));box-shadow:inset 0 -14px 24px rgba(120,160,210,.35)}
+.cloud::before,.cloud::after{content:"";position:absolute;background:#FFFFFF;border-radius:50%;box-shadow:inset 0 -10px 20px rgba(120,160,210,.25)}
+.cloud::before{width:50%;aspect-ratio:1;left:14%;bottom:30%}
+.cloud::after{width:38%;aspect-ratio:1;left:48%;bottom:42%}
+.plane{position:absolute;left:0;top:0;width:var(--w);height:auto;filter:drop-shadow(0 24px 22px rgba(20,60,110,.28));will-change:transform}
+/* الطيارات والغيوم تمشي من اليسار لليمين بسرعات وأعماق مختلفة */
+@keyframes fly{
+  0%{top:var(--y0);transform:translate3d(-60vw,0,0) rotate(var(--r0,-3deg)) scale(var(--s,1))}
+  50%{top:var(--y1);transform:translate3d(50vw,0,0) rotate(var(--r1,1deg)) scale(var(--s,1))}
+  100%{top:var(--y2);transform:translate3d(160vw,0,0) rotate(var(--r0,-3deg)) scale(var(--s,1))}
 }
-@media (max-width:899px){.dots{display:none}}
+@keyframes drift{0%{transform:translate3d(-40vw,0,0)}100%{transform:translate3d(140vw,0,0)}}
+.fx .plane{animation:fly var(--d) linear infinite;animation-delay:var(--dl)}
+.fx .cloud{animation:drift var(--d) linear infinite;animation-delay:var(--dl)}
+/* بدون حركة: الطيارات واقفة بأماكن ثابتة */
+html:not(.fx) .plane{top:var(--y1);transform:translate3d(var(--sx,10vw),0,0) scale(var(--s,1))}
+html:not(.fx) .cloud{transform:translate3d(var(--sx,10vw),0,0)}
+@media (max-width:899px){.plane{width:calc(var(--w) * .6)}.plane[style*="100%"]{display:none}}
 .tabs{display:flex;gap:4px;padding:5px;border-radius:20px;background:#FFFFFF;border:1px solid var(--line);box-shadow:0 6px 20px rgba(17,24,39,.06);overflow-x:auto;scrollbar-width:none;max-width:560px;margin:0 auto}
 .tabs::-webkit-scrollbar{display:none}
 .tabs button{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;cursor:pointer;padding:9px 12px;border-radius:15px;font-size:13px;font-weight:600;color:var(--muted);min-width:68px}
@@ -282,6 +291,9 @@ dialog.sheet:not([open]){display:none}
 .ht .loc{font-weight:400;margin-top:2px}
 .ht .en{font-weight:400;font-size:12px;color:var(--muted);unicode-bidi:isolate}
 .ht tr[hidden]{display:none}
+.ht td.e small{font-size:12px}
+.ht.sgl td.e b{font-size:13px;font-weight:500;color:var(--muted)}
+.ht.sgl td.e small{font-size:16px;font-weight:700;color:var(--accent-2)}
 .tix{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:13.5px}
 .tix li{display:flex;justify-content:space-between;gap:12px;padding:7px 12px;border-radius:12px;background:var(--tile);border:1px solid var(--line)}
 .tix b{color:var(--accent-2);white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -348,8 +360,6 @@ dialog.sheet:not([open]){display:none}
 @keyframes boxIn{from{opacity:0;transform:perspective(1200px) rotateX(-14deg) translateY(-12px)}to{opacity:1;transform:none}}
 .fx .logo img{animation:logoIn 1s cubic-bezier(.2,.75,.25,1) both}
 @keyframes logoIn{from{transform:perspective(600px) rotateY(-180deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
-.fx .slides img.on{animation:kenburns 7s ease-out both}
-@keyframes kenburns{from{transform:scale(1.12)}to{transform:scale(1)}}
 .fx .mascot{animation:floaty 5s ease-in-out infinite;transform-style:preserve-3d}
 @keyframes floaty{0%,100%{transform:perspective(700px) translateY(0) rotateY(-10deg)}50%{transform:perspective(700px) translateY(-12px) rotateY(10deg)}}
 /* الميلان مع الماوس: الصورة تنزل لجوه وملصق السعر يطلع لبرّه */
@@ -388,13 +398,19 @@ dialog.sheet:not([open]){display:none}
 </a>
 
 <section class="hero">
-  <div class="slides" aria-hidden="true">
-    <img class="on" src="img/hero/hkt.webp" alt="" width="1600" height="900">
-    <img src="img/hero/ist.webp" alt="" width="1600" height="900" loading="lazy">
-    <img src="img/hero/sph.webp" alt="" width="1600" height="900" loading="lazy">
-    <img src="img/hero/bey.webp" alt="" width="1600" height="900" loading="lazy">
+  <div class="sky" aria-hidden="true">
+    <span class="cloud" style="--w:300px;top:8%;--d:70s;--dl:-10s;--sx:5vw"></span>
+    <span class="cloud" style="--w:180px;top:30%;--d:55s;--dl:-35s;--o:.85;--sx:60vw"></span>
+    <span class="cloud" style="--w:420px;top:62%;--d:90s;--dl:-60s;--b:2px;--sx:30vw"></span>
+    <span class="cloud" style="--w:240px;top:48%;--d:65s;--dl:-5s;--o:.8;--sx:80vw"></span>
+    <img class="plane" src="img/planes/iraqi.webp" alt="" width="560" height="322" style="--w:300px;--y0:30px;--y1:10px;--y2:40px;--d:24s;--dl:0s;--sx:62vw">
+    <img class="plane" src="img/planes/qatar.webp" alt="" width="560" height="323" style="--w:230px;--y0:calc(100% - 150px);--y1:calc(100% - 180px);--y2:calc(100% - 160px);--d:30s;--dl:-8s;--s:.9;--sx:4vw">
+    <img class="plane" src="img/planes/emirates.webp" alt="" width="560" height="350" style="--w:360px;--y0:calc(100% - 190px);--y1:calc(100% - 220px);--y2:calc(100% - 175px);--d:36s;--dl:-20s;--sx:70vw" loading="lazy">
+    <img class="plane" src="img/planes/turkish.webp" alt="" width="560" height="372" style="--w:190px;--y0:70px;--y1:45px;--y2:60px;--d:28s;--dl:-14s;--s:.85;--sx:30vw" loading="lazy">
+    <img class="plane" src="img/planes/flydubai.webp" alt="" width="560" height="376" style="--w:210px;--y0:calc(100% - 120px);--y1:calc(100% - 140px);--y2:calc(100% - 115px);--d:32s;--dl:-27s;--sx:12vw" loading="lazy">
+    <img class="plane" src="img/planes/airarabia.webp" alt="" width="560" height="318" style="--w:170px;--y0:20px;--y1:55px;--y2:25px;--d:26s;--dl:-4s;--s:.8;--sx:84vw" loading="lazy">
+    <img class="plane" src="img/planes/flybaghdad.webp" alt="" width="560" height="376" style="--w:270px;--y0:calc(100% - 210px);--y1:calc(100% - 170px);--y2:calc(100% - 200px);--d:34s;--dl:-17s;--sx:40vw" loading="lazy">
   </div>
-  <div class="dots" id="dots"></div>
   <div class="wrap">
     <div class="tabs" role="tablist">
       <button type="button" role="tab" data-tab="fly" aria-selected="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 13.5l6.5.5 4.5 6.5 1.6-.6-2-6.3 5.4.3 1.5 2.1h1.5l-.8-3.5.8-3.5H20l-1.5 2.1-5.4.3 2-6.3-1.6-.6L9 10l-6.5.5z"/></svg><span data-t="tFly">طيران</span></button>
@@ -588,7 +604,7 @@ dialog.sheet:not([open]){display:none}
       roomOpts:["غرفة وحدة","غرفتين","3 غرف","4 غرف","أكثر (أكتب العدد بالواتساب)"], starOpts:["أي فئة","3 نجوم","4 نجوم","5 نجوم"], hSend:"اطلب السعر بالواتساب",
       fContact:"تواصل ويانا", footAbout:"منصّة سفر متكاملة: تذاكر طيران، فنادق، كروبات سياحية، حفلات، وفيزا لأكثر من 35 دولة. كلها بمكان واحد، والحجز مباشر على الواتساب.", services:"الخدمات", sVisa:"تأشيرات السفر", sEvents:"حفلات ورأس السنة", sLicense:"إجازة سوق دولية", sBranches:"فروعنا",
       gH2:"الوجهات الرائجة", gIntro:"كروبات وحفلات طالعة من بغداد وأربيل. السعر للشخص بالغرفة المزدوجة، واضغط على الكروب حتى تشوف كل فندق وسعره.",
-      all:"الكل", from_:"يبدأ من", pickDate:"اختار التاريخ", pricesFrom:"تبدأ الأسعار من", pickPlan:"اختار البرنامج والمدة", tickets:"أسعار تذاكر الحفل", childBed:"الطفل بسرير", hotel:"الفندق", cat:"الفئة", price:"السعر", single:"سنكل", rec:"ينصح به",
+      all:"الكل", from_:"يبدأ من", pickDate:"اختار التاريخ", paxQ:"كم شخص بالغرفة؟", paxDbl:"شخصين أو أكثر", paxSgl:"شخص واحد (سنكل)", priceSgl:"سعر السنكل لشخص واحد", dblNote:"الأسعار للشخص الواحد بالغرفة المزدوجة. إذا مسافر لوحدك اختار «شخص واحد» حتى يطلعلك سعر السنكل.", pricesFrom:"تبدأ الأسعار من", pickPlan:"اختار البرنامج والمدة", tickets:"أسعار تذاكر الحفل", childBed:"الطفل بسرير", hotel:"الفندق", cat:"الفئة", price:"السعر", single:"سنكل", rec:"ينصح به",
       stars:"{0} نجوم", noCat:"—", child:"الطفل بدون سرير", infant:"الرضيع", req:"المتطلبات", priceLbl:"السعر للشخص", bookGroup:"ثبّت الحجز بالواتساب",
       vH2:"تأشيرات السفر", vIntro:"كل دولة وعلمها، وأنواع الفيزا وأسعارها، ومدة الإصدار، والمتطلبات والملاحظات.",
       vSearch:"ابحث عن دولة… مثلاً: الإمارات", vType:"نوع الفيزا", vTypes:"{0} أنواع", vFrom:"يبدأ من", vPrice:"السعر", ask:"اسأل",
@@ -621,7 +637,7 @@ dialog.sheet:not([open]){display:none}
       roomOpts:["یەک ژوور","دوو ژوور","3 ژوور","4 ژوور","زیاتر (ژمارەکە لە واتسئاپ بنووسە)"], starOpts:["هەر پلەیەک","3 ئەستێرە","4 ئەستێرە","5 ئەستێرە"], hSend:"نرخ لە واتسئاپ داوا بکە",
       fContact:"پەیوەندیمان پێوە بکە", footAbout:"پلاتفۆرمێکی تەواوی گەشت: بلیتی فڕین، هوتێل، گەشتی گرووپی، ئاهەنگ و ڤیزا بۆ زیاتر لە 35 وڵات. هەمووی لە یەک شوێن، و حیجز ڕاستەوخۆ لە واتسئاپ.", services:"خزمەتگوزارییەکان", sVisa:"ڤیزای گەشت", sEvents:"ئاهەنگ و سەری ساڵ", sLicense:"مۆڵەتی شۆفێری نێودەوڵەتی", sBranches:"لقەکانمان",
       gH2:"شوێنە بەناوبانگەکان", gIntro:"گرووپ و ئاهەنگ لە بەغدا و هەولێرەوە. نرخ بۆ هەر کەسێک لە ژووری دوو کەسی؛ کرتە لە گرووپ بکە بۆ بینینی هەموو هوتێل و نرخەکەی.",
-      all:"هەموو", from_:"لە", pickDate:"بەروار هەڵبژێرە", pricesFrom:"نرخەکان لە", pickPlan:"بەرنامە و ماوە هەڵبژێرە", tickets:"نرخی بلیتی ئاهەنگ", childBed:"منداڵ بە قەرەوێڵە", hotel:"هوتێل", cat:"پلە", price:"نرخ", single:"تاک", rec:"پێشنیارکراو",
+      all:"هەموو", from_:"لە", pickDate:"بەروار هەڵبژێرە", paxQ:"چەند کەس لە ژوورەکەدا؟", paxDbl:"دوو کەس یان زیاتر", paxSgl:"یەک کەس (تاک)", priceSgl:"نرخی تاک بۆ یەک کەس", dblNote:"نرخەکان بۆ هەر کەسێکن لە ژووری دوو کەسی. ئەگەر بە تەنها گەشت دەکەیت «یەک کەس» هەڵبژێرە بۆ نرخی تاک.", pricesFrom:"نرخەکان لە", pickPlan:"بەرنامە و ماوە هەڵبژێرە", tickets:"نرخی بلیتی ئاهەنگ", childBed:"منداڵ بە قەرەوێڵە", hotel:"هوتێل", cat:"پلە", price:"نرخ", single:"تاک", rec:"پێشنیارکراو",
       stars:"{0} ئەستێرە", noCat:"—", child:"منداڵ بێ قەرەوێڵە", infant:"ساوا", req:"داواکارییەکان", priceLbl:"نرخ بۆ هەر کەسێک", bookGroup:"حیجز لە واتسئاپ جێگیر بکە",
       vH2:"ڤیزای گەشت", vIntro:"هەر وڵاتێک و ئاڵاکەی، جۆرەکانی ڤیزا و نرخەکانیان، ماوەی دەرچوون، داواکاری و تێبینییەکان.",
       vSearch:"گەڕان بۆ وڵات… بۆ نموونە: ئیمارات", vType:"جۆری ڤیزا", vTypes:"{0} جۆر", vFrom:"لە", vPrice:"نرخ", ask:"بپرسە",
@@ -654,7 +670,7 @@ dialog.sheet:not([open]){display:none}
       roomOpts:["1 room","2 rooms","3 rooms","4 rooms","More (tell us on WhatsApp)"], starOpts:["Any","3 stars","4 stars","5 stars"], hSend:"Ask for the price on WhatsApp",
       fContact:"Contact us", footAbout:"An all-in-one travel platform: flights, hotels, group tours, concerts and visas for 35+ countries. All in one place, booked directly on WhatsApp.", services:"Services", sVisa:"Travel visas", sEvents:"Concerts & New Year", sLicense:"International driving licence", sBranches:"Our branches",
       gH2:"Trending destinations", gIntro:"Group tours and concerts from Baghdad and Erbil. Price per person in a double room; tap a tour to see every hotel and its price.",
-      all:"All", from_:"From", pickDate:"Choose a date", pricesFrom:"Prices from", pickPlan:"Choose the program and length", tickets:"Concert ticket prices", childBed:"Child with bed", hotel:"Hotel", cat:"Category", price:"Price", single:"Single", rec:"Recommended",
+      all:"All", from_:"From", pickDate:"Choose a date", paxQ:"How many in the room?", paxDbl:"Two or more", paxSgl:"One person (single)", priceSgl:"Single price, one person", dblNote:"Prices are per person in a double room. Travelling alone? Choose “One person” to see the single price.", pricesFrom:"Prices from", pickPlan:"Choose the program and length", tickets:"Concert ticket prices", childBed:"Child with bed", hotel:"Hotel", cat:"Category", price:"Price", single:"Single", rec:"Recommended",
       stars:"{0} stars", noCat:"—", child:"Child without bed", infant:"Infant", req:"Requirements", priceLbl:"Price per person", bookGroup:"Confirm on WhatsApp",
       vH2:"Travel visas", vIntro:"Every country with its flag, visa types and prices, processing time, requirements and notes.",
       vSearch:"Search a country… e.g. UAE", vType:"Visa type", vTypes:"{0} types", vFrom:"From", vPrice:"Price", ask:"Ask",
@@ -769,24 +785,6 @@ dialog.sheet:not([open]){display:none}
       el.addEventListener("pointerleave", function(){ el.classList.remove("hot"); el.style.setProperty("--rx", "0deg"); el.style.setProperty("--ry", "0deg"); });
     });
   }
-
-  /* ============ صور الواجهة تتبدل بالكمبيوتر ============ */
-  (function(){
-    var imgs = document.querySelectorAll(".slides img"), dots = document.getElementById("dots"), k = 0, timer = null;
-    dots.innerHTML = [].map.call(imgs, function(_, i){ return '<button type="button" aria-label="' + (i + 1) + '"' + (i ? '' : ' aria-current="true"') + '></button>'; }).join("");
-    function go(n){
-      k = (n + imgs.length) % imgs.length;
-      [].forEach.call(imgs, function(im, i){ im.classList.toggle("on", i === k); if (i === k){ im.loading = "eager"; im.style.animation = "none"; void im.offsetWidth; im.style.animation = ""; } });
-      [].forEach.call(dots.children, function(d, i){ d.setAttribute("aria-current", String(i === k)); });
-    }
-    dots.addEventListener("click", function(e){ var b = e.target.closest("button"); if (b){ go([].indexOf.call(dots.children, b)); restart(); } });
-    function restart(){
-      clearInterval(timer);
-      if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      timer = setInterval(function(){ if (window.innerWidth >= 900 && !document.hidden) go(k + 1); }, 6000);
-    }
-    restart();
-  })();
 
   /* ============ نصوص الصفحة ============ */
   function cityName(c){ return c[L === "ar" ? 0 : L === "ku" ? 1 : 2]; }
@@ -947,6 +945,9 @@ dialog.sheet:not([open]){display:none}
         return '<label class="dchip' + (k ? '' : ' on') + '"><input type="radio" name="gd" value="' + k + '"' + (k ? '' : ' checked') + '>' + esc(d) + '</label>'; }).join("") + '</div></div>' : '') +
       (g.plans.length > 1 ? '<div><p class="lbl">' + esc(t("pickPlan")) + '</p><div class="dchips" role="radiogroup">' + g.plans.map(function(d, k){
         return '<label class="dchip' + (k === bp ? ' on' : '') + '"><input type="radio" name="gp" value="' + k + '"' + (k === bp ? ' checked' : '') + '>' + esc(d) + '</label>'; }).join("") + '</div></div>' : '') +
+      (hasSingle ? '<div><p class="lbl">' + esc(t("paxQ")) + '</p><div class="dchips" role="radiogroup">' +
+        '<label class="dchip on"><input type="radio" name="gx" value="d" checked>' + esc(t("paxDbl")) + '</label>' +
+        '<label class="dchip"><input type="radio" name="gx" value="s">' + esc(t("paxSgl")) + '</label></div></div>' : '') +
       (g.listed ? '<table class="ht"><thead><tr><th>' + esc(t("hotel")) + '</th><th>' + esc(t("cat")) + '</th><th class="e">' + esc(t("price")) + '</th></tr></thead><tbody>' +
         g.opts.map(function(o, k){
           var on = o === g.best;
@@ -954,12 +955,13 @@ dialog.sheet:not([open]){display:none}
           return '<tr class="pick' + (on ? ' on' : '') + '" data-h="' + k + '" data-p="' + g.plans.indexOf(o.d) + '"' + (hide ? ' hidden' : '') + ' tabindex="0" role="radio" aria-checked="' + on + '"><td><span class="rd"></span><span class="hn">' + hhtml(o) + '</span>' + (o.rec ? '<em>' + esc(t("rec")) + '</em>' : '') + (o.loc ? '<small class="loc">' + esc(o.loc) + '</small>' : '') + '</td>' +
             '<td>' + stars(o.stars) + '</td><td class="e"><b>' + esc(o.p) + '</b>' + (hasSingle && o.s ? '<small>' + esc(t("single")) + ' ' + esc(o.s) + '</small>' : '') + '</td></tr>';
         }).join("") + '</tbody></table>' : '') +
+      (hasSingle ? '<p class="small">' + esc(t("dblNote")) + '</p>' : '') +
       '<p class="small" id="gKids"></p>' +
       (g.tickets.length ? '<div><p class="lbl">' + esc(t("tickets")) + '</p><ul class="tix">' + g.tickets.map(function(x){
         var m = x.match(/^(.*):\s*([^:]+)$/);
         return '<li>' + (m ? '<span>' + esc(m[1]) + '</span><b>' + esc(m[2]) + '</b>' : '<span>' + esc(x) + '</span>') + '</li>'; }).join("") + '</ul></div>' : '') +
       (g.req.length ? '<p class="small"><b>' + esc(t("req")) + ':</b> ' + esc(g.req.join(" + ")) + '</p>' : '') +
-      '<div class="pricebar"><div class="from"><span>' + esc(t("priceLbl")) + '</span><b id="gPrice">' + esc(g.best.p) + '</b></div></div>' +
+      '<div class="pricebar"><div class="from"><span id="gPriceL">' + esc(t("priceLbl")) + '</span><b id="gPrice">' + esc(g.best.p) + '</b></div></div>' +
       '<a class="btn wa" id="gGo" target="_blank" rel="noopener" href="#">' + esc(t("bookGroup")) + '</a>';
     updG();
     openSheet("gSheet");
@@ -969,14 +971,17 @@ dialog.sheet:not([open]){display:none}
     var row = gSheet.querySelector("tr.on"), hi = row ? +row.getAttribute("data-h") : g.opts.indexOf(g.best);
     var o = g.opts[hi], oa = ga.opts[hi];
     var di = gSheet.querySelector('input[name="gd"]:checked'), dk = di ? +di.value : 0;
-    document.getElementById("gPrice").textContent = o.p;
+    var gx = gSheet.querySelector('input[name="gx"]:checked'), sg = !!(gx && gx.value === "s" && o.s);
+    var tbl = gSheet.querySelector(".ht"); if (tbl) tbl.classList.toggle("sgl", !!sg);
+    document.getElementById("gPrice").textContent = sg ? o.s : o.p;
+    document.getElementById("gPriceL").textContent = t(sg ? "priceSgl" : "priceLbl");
     var kids = [], c = o.c || g.child, inf = o.i || g.infant;
     if (o.cb) kids.push(esc(t("childBed")) + " <b>" + esc(o.cb) + "</b>");
     if (c) kids.push(esc(t("child")) + " <b>" + esc(c) + "</b>");
     if (inf) kids.push(esc(t("infant")) + " <b>" + esc(inf) + "</b>");
     var kb = document.getElementById("gKids"); kb.innerHTML = kids.join(" · "); kb.hidden = !kids.length;
     document.getElementById("gGo").href = wa(["مرحباً، أريد أثبّت حجز كروب: " + ga.title, ga.dur ? "المدة: " + ga.dur : "",
-      "التاريخ: " + (ga.dates[dk] || "أتفق وياكم"), oa.d ? "البرنامج: " + oa.d : "", g.listed ? "الفندق: " + hname(oa) + (oa.stars ? " (" + oa.stars + " نجوم)" : "") : "", "السعر: " + o.p + " للشخص"]);
+      "التاريخ: " + (ga.dates[dk] || "أتفق وياكم"), oa.d ? "البرنامج: " + oa.d : "", g.listed ? "الفندق: " + hname(oa) + (oa.stars ? " (" + oa.stars + " نجوم)" : "") : "", sg ? "الغرفة: سنكل (شخص واحد)" : "الغرفة: دبل (السعر للشخص)", "السعر: " + (sg ? o.s : o.p) + (sg ? "" : " للشخص")]);
   }
   function pickRow(tr){
     gSheet.querySelectorAll("tr.pick").forEach(function(r){ var on = r === tr; r.classList.toggle("on", on); r.setAttribute("aria-checked", String(on)); });
@@ -986,7 +991,7 @@ dialog.sheet:not([open]){display:none}
   gSheet.addEventListener("keydown", function(e){ var tr = e.target.closest && e.target.closest("tr.pick"); if (tr && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); pickRow(tr); } });
   gSheet.addEventListener("change", function(e){
     var nm = e.target.name;
-    if (nm !== "gd" && nm !== "gp") return;
+    if (nm !== "gd" && nm !== "gp" && nm !== "gx") return;
     gSheet.querySelectorAll('input[name="' + nm + '"]').forEach(function(i){ i.closest("label").classList.toggle("on", i.checked); });
     if (nm === "gp"){
       var g = D[L].groups[cur], best = null;

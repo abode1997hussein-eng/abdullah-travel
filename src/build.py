@@ -111,7 +111,7 @@ if "--sheet" in sys.argv:
 photos = {f[:-5] for f in os.listdir(os.path.join(SITE, "assets/photos")) if f.endswith(".webp")}
 # جزر 3D مرسومة لكل كروب؛ إذا الجزيرة موجودة تنعرض بدل الصورة الحقيقية
 islands = {f[:-5] for f in os.listdir(os.path.join(SITE, "assets/islands")) if f.endswith(".webp")}
-HERO = ("hkt", "ist", "sph", "bey")  # صور الواجهة الكبيرة من ويكيميديا، لازم يبقى ذكر مصوّرها
+HERO = ()  # الواجهة صارت سماء متحركة بطيارات مرسومة، فما بيها صور تحتاج ذكر مصوّر
 flags = {f[:-4] for f in os.listdir(os.path.join(SITE, "assets/flags")) if f.endswith(".svg")}
 credits = json.load(open(os.path.join(SITE, "assets/photos/credits.json"), encoding="utf-8"))
 
