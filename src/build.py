@@ -17,7 +17,7 @@ LANGS = ("ar", "ku", "en")
 
 # معلومات الشركة — كل نص بثلاث لغات
 COMPANY = {
-    "name": {"ar": "عبدالله حسين علوان", "ku": "عەبدوڵڵا حوسێن عەلوان", "en": "Abdullah Hussein Alwan"},
+    "name": {"ar": "سافر مع عبدالله", "ku": "لەگەڵ عەبدوڵڵا گەشت بکە", "en": "Travel with Abdullah"},
     "phone": "9647713310011",
     "phone_display": "+964 771 331 0011",
     "branches": [
