@@ -85,6 +85,9 @@ button,input,select{font-family:inherit;color:inherit;font-size:inherit}
 @media (max-width:600px){.top-actions .pill{display:none}.brand small{display:none}}
 @media (max-width:380px){.top-actions .round{display:none}}
 .hero h1{text-align:center;font-weight:700;font-size:34px;font-size:clamp(30px,8vw,50px);padding-top:22px;padding-bottom:26px;text-shadow:0 2px 20px rgba(0,0,0,.5)}
+.feats{list-style:none;margin:-14px 0 18px;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;font-size:13.5px;color:#E6E6EA}
+.feats li{display:flex;align-items:center;gap:6px}
+.feats .ico{width:17px;height:17px;color:var(--accent-2)}
 .mascot{display:block;width:min(240px,62vw);height:auto;margin:-14px auto -6px;filter:drop-shadow(0 14px 24px rgba(0,0,0,.45))}
 
 /* ---------- launcher ---------- */
@@ -107,6 +110,13 @@ button,input,select{font-family:inherit;color:inherit;font-size:inherit}
 .st .ico{width:28px;height:28px;color:var(--accent);stroke-width:1.6}
 .st span{font-size:12.5px;font-weight:600;line-height:1.35}
 @media (min-width:700px){.launch{padding:28px 28px 24px}.bt{min-height:200px}}
+/* البوكس الأبيض مثل fly4all */
+.launch{background:#FFFFFF;color:#141416;border:0;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.launch .sub{color:#6B6B73}
+.launch .bt,.launch .st{background:#FFFFFF;border:1px solid #E6E6EA;color:#141416;box-shadow:0 2px 10px rgba(20,20,22,.05)}
+.launch .bt:hover,.launch .st:hover{border-color:var(--accent)}
+.launch .rule{border-top-color:#EDEDF0}
+.launch .lab{color:#8A8A93;font-size:12px;font-weight:600;letter-spacing:.06em}
 @media (max-width:360px){.svc{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* edge tab */
@@ -128,9 +138,10 @@ section.sec{padding-top:34px;scroll-margin-top:calc(env(safe-area-inset-top,0px)
 .chip small{font-weight:500;opacity:.8;margin-inline-start:5px;font-size:12px}
 
 /* group cards */
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-@media (min-width:700px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (min-width:1000px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.grid{display:grid;grid-auto-flow:column;grid-auto-columns:min(56%,230px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.grid::-webkit-scrollbar{display:none}
+.grid>*{scroll-snap-align:start}
+@media (min-width:1000px){.grid{grid-auto-columns:260px}}
 .dest{position:relative;display:block;width:100%;aspect-ratio:3/4;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:var(--tile);cursor:pointer;padding:0;text-align:start;color:#FFFFFF}
 .dest img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
 .dest .fb{position:absolute;top:0;right:0;bottom:0;left:0;display:grid;place-items:center;background:radial-gradient(circle at 70% 25%,rgba(242,106,33,.55),transparent 55%),linear-gradient(160deg,#1C1C20,#0B0B0C);font-size:44px;font-weight:600;letter-spacing:.08em}
@@ -138,6 +149,13 @@ section.sec{padding-top:34px;scroll-margin-top:calc(env(safe-area-inset-top,0px)
 .dest .tx{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:14px;display:grid;gap:2px}
 .dest .tx b{font-size:17px;font-weight:700;line-height:1.3}
 .dest .tx small{font-size:12px;color:#D6D6DB}
+.dest .al{position:absolute;top:12px;inset-inline-start:12px;z-index:1;display:flex;align-items:center;gap:6px;max-width:calc(100% - 24px);font-size:11.5px;font-weight:600;color:#141416;background:#FFFFFF;padding:4px 10px 4px 8px;border-radius:999px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dest .al::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
+.dest .rt{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;letter-spacing:.08em;color:#E6E6EA;direction:ltr;justify-content:flex-end}
+[dir="ltr"] .dest .rt{justify-content:flex-start}
+.dest .rt i{width:26px;height:1px;background:#E6E6EA;position:relative}
+.dest .rt i::after{content:"";position:absolute;right:-1px;top:-3px;border:3.5px solid transparent;border-left-color:#E6E6EA;border-right:0}
+.dest .go{margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--accent);color:#FFFFFF;font-size:13.5px;font-weight:700;border-radius:999px;padding:8px 10px}
 .dest .tx .pr{justify-self:start;display:grid;margin-top:6px;padding:6px 12px;border-radius:14px;background:rgba(10,10,11,.72);border:1px solid rgba(255,138,76,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .dest .tx .pr small{font-size:11.5px;color:#F5F5F6;line-height:1.3}
 .dest .tx .pr strong{font-size:22px;font-weight:700;line-height:1.2;color:var(--accent-2);font-variant-numeric:tabular-nums}
@@ -195,6 +213,14 @@ section.sec{padding-top:34px;scroll-margin-top:calc(env(safe-area-inset-top,0px)
 .contact-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 
 /* footer */
+.fbrand{display:flex;align-items:center;gap:10px}
+.fbrand img{border-radius:10px}
+.fabout{max-width:560px}
+.fcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:6px 0 4px;max-width:560px}
+.fcols div{display:grid;gap:6px;align-content:start}
+.fcols b{color:var(--ink);font-size:14px}
+.fcols a{color:var(--muted);text-decoration:none;font-size:13.5px}
+.fcols a:hover{color:var(--accent-2)}
 .foot{margin-top:40px;border-top:1px solid var(--line-2)}
 .foot .wrap{padding-top:26px;padding-bottom:calc(30px + env(safe-area-inset-bottom,0px));display:grid;gap:10px}
 .fn{font-size:19px;font-weight:700}
@@ -313,6 +339,11 @@ dialog.sheet:not([open]){display:none}
     </header>
 
     <h1 data-t="h1">كل سفرتك بمكان واحد</h1>
+    <ul class="feats">
+      <li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-12.6 7.3L3 20l1.3-5.1A8.4 8.4 0 1121 11.5z"/></svg><span data-t="feat1">حجز مباشر بالواتساب</span></li>
+      <li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.8 5.8 3.8 9s-1.2 6.2-3.8 9c-2.6-2.8-3.8-5.8-3.8-9S9.4 5.8 12 3z"/></svg><span data-t="feat2">كروبات وفيزا لأكثر من 35 دولة</span></li>
+      <li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0114 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span data-t="feat3">فرعين ببغداد</span></li>
+    </ul>
     <img class="mascot" src="img/mascot.webp" alt="" width="591" height="600">
 
     <div class="launch">
@@ -324,19 +355,19 @@ dialog.sheet:not([open]){display:none}
           <span class="sq" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M2.5 13.5l6.5.5 4.5 6.5 1.6-.6-2-6.3 5.4.3 1.5 2.1h1.5l-.8-3.5.8-3.5H20l-1.5 2.1-5.4.3 2-6.3-1.6-.6L9 10l-6.5.5z"/></svg></span>
           <b data-t="tFly">طيران</b>
         </button>
-        <a class="bt" href="#groups">
+        <button class="bt" type="button" data-sheet="hotSheet">
           <span class="find" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg></span>
-          <span class="sq" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0111 0M15.5 4.8a3.2 3.2 0 010 6.4M17 14a5.2 5.2 0 013.5 5.5"/></svg></span>
-          <b data-t="tGroups">كروبات</b>
-        </a>
+          <span class="sq" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M4 21V5a2 2 0 012-2h8a2 2 0 012 2v16M16 9h2a2 2 0 012 2v10M2 21h20M8 7h2M8 11h2M8 15h2M12 7h0M12 11h0"/></svg></span>
+          <b data-t="tHotels">فنادق</b>
+        </button>
       </div>
       <hr class="rule">
       <p class="lab" data-t="services">الخدمات</p>
       <div class="svc">
+        <a class="st" href="#groups"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0111 0M15.5 4.8a3.2 3.2 0 010 6.4M17 14a5.2 5.2 0 013.5 5.5"/></svg><span data-t="sGroups">كروبات سياحية</span></a>
         <a class="st" href="#visa"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.8 5.8 3.8 9s-1.2 6.2-3.8 9c-2.6-2.8-3.8-5.8-3.8-9S9.4 5.8 12 3z"/></svg><span data-t="sVisa">تأشيرات السفر</span></a>
         <a class="st" href="#groups" data-region="حفلات"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span data-t="sEvents">حفلات ورأس السنة</span></a>
         <a class="st" href="#visa" data-license="1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8.5" cy="12" r="2"/><path d="M13 10.5h5M13 13.5h3"/></svg><span data-t="sLicense">إجازة سوق دولية</span></a>
-        <a class="st" href="#contact"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0114 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span data-t="sBranches">فروعنا</span></a>
       </div>
     </div>
   </div>
@@ -381,9 +412,12 @@ dialog.sheet:not([open]){display:none}
 
 <footer class="foot">
   <div class="wrap">
-    <div class="fn" id="footName">سافر مع عبدالله</div>
-    <p data-t="footSvc">تذاكر طيران · كروبات سياحية · حفلات · فيزا · إجازة سوق دولية</p>
-    <p><span data-t="whatsapp">واتساب</span>: <bdi dir="ltr">{{PHONE_DISPLAY}}</bdi></p>
+    <div class="fbrand"><img src="img/logo/logo-icon.svg" alt="" width="40" height="40"><div class="fn" id="footName">سافر مع عبدالله</div></div>
+    <p class="fabout" data-t="footAbout">منصّة سفر متكاملة: تذاكر طيران، فنادق، كروبات سياحية، حفلات، وفيزا لأكثر من 35 دولة. كلها بمكان واحد، والحجز مباشر على الواتساب.</p>
+    <div class="fcols">
+      <div><b data-t="services">الخدمات</b><a href="#top" data-sheet="flySheet" data-t="tFly">طيران</a><a href="#top" data-sheet="hotSheet" data-t="tHotels">فنادق</a><a href="#groups" data-t="sGroups">كروبات سياحية</a><a href="#visa" data-t="sVisa">تأشيرات السفر</a></div>
+      <div><b data-t="fContact">تواصل ويانا</b><a data-wa="hello" target="_blank" rel="noopener" href="https://wa.me/{{PHONE}}" data-t="whatsapp">واتساب</a><a href="tel:+{{PHONE}}"><bdi dir="ltr">{{PHONE_DISPLAY}}</bdi></a><a href="#contact" data-t="sBranches">فروعنا</a></div>
+    </div>
     <p class="fine"><span data-t="fine">الأسعار تتغير حسب التوفر، والسعر النهائي يتأكد وقت الحجز.</span> <span data-t="updated">آخر تحديث:</span> <bdi dir="ltr">{{UPDATED}}</bdi></p>
     <p class="fine"><span data-t="credits">صور الوجهات من ويكيميديا كومنز:</span> {{CREDITS}}</p>
   </div>
@@ -417,6 +451,23 @@ dialog.sheet:not([open]){display:none}
   </form>
 </dialog>
 
+<!-- ============ نافذة الفنادق ============ -->
+<dialog class="sheet" id="hotSheet" aria-labelledby="hotT">
+  <div class="sh-head"><b id="hotT" data-t="hotTitle">احجز فندقك</b><button class="x" type="button" data-close aria-label="×"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <form class="sh-body" id="hot" novalidate>
+    <div class="fgrid">
+      <div class="field wide"><label for="h-city" data-t="hCity">المدينة</label><input id="h-city" list="cities" autocomplete="off" data-req></div>
+      <div class="field"><label for="h-in" data-t="hIn">الدخول</label><input id="h-in" type="date" data-req></div>
+      <div class="field"><label for="h-out" data-t="hOut">الخروج</label><input id="h-out" type="date" data-req></div>
+      <div class="field"><label for="h-rooms" data-t="hRooms">الغرف</label><select id="h-rooms"></select></div>
+      <div class="field"><label for="h-pax" data-t="hGuests">النزلاء</label><select id="h-pax"></select></div>
+      <div class="field wide"><label for="h-stars" data-t="hStars">فئة الفندق</label><select id="h-stars"></select></div>
+    </div>
+    <p class="ferr" id="hotErr" role="alert" hidden></p>
+    <button class="btn wa" type="submit" data-t="hSend">اطلب السعر بالواتساب</button>
+  </form>
+</dialog>
+
 <!-- ============ نافذة الكروب ============ -->
 <dialog class="sheet" id="gSheet" aria-labelledby="gT">
   <div class="sh-head"><b id="gT"></b><button class="x" type="button" data-close aria-label="×"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -437,8 +488,11 @@ dialog.sheet:not([open]){display:none}
     ar: {
       title:"سافر مع عبدالله — طيران · كروبات · فيزا", tag:"سفر وسياحة · بغداد", whatsapp:"واتساب",
       h1:"كل سفرتك بمكان واحد", lH2:"وين ناوي تسافر؟", lSub:"ابحث عن سعر تذكرتك، أو تصفّح الكروبات والفيزا بأسعارها",
-      tFly:"طيران", tGroups:"كروبات", services:"الخدمات", sVisa:"تأشيرات السفر", sEvents:"حفلات ورأس السنة", sLicense:"إجازة سوق دولية", sBranches:"فروعنا",
-      gH2:"كروبات وحفلات طالعة من بغداد", gIntro:"أقل سعر للشخص بالغرفة المزدوجة. اضغط على الكروب حتى تشوف كل فندق وفئته وسعره، وتثبّت الحجز.",
+      tFly:"طيران", tGroups:"كروبات", tHotels:"فنادق", sGroups:"كروبات سياحية", feat1:"حجز مباشر بالواتساب", feat2:"كروبات وفيزا لأكثر من 35 دولة", feat3:"فرعين ببغداد",
+      viewPrices:"شوف الأسعار", hotTitle:"احجز فندقك", hCity:"المدينة", hCityPh:"مثلاً: اسطنبول", hIn:"الدخول", hOut:"الخروج", hRooms:"الغرف", hGuests:"النزلاء", hStars:"فئة الفندق",
+      roomOpts:["غرفة وحدة","غرفتين","3 غرف","4 غرف","أكثر (أكتب العدد بالواتساب)"], starOpts:["أي فئة","3 نجوم","4 نجوم","5 نجوم"], hSend:"اطلب السعر بالواتساب",
+      fContact:"تواصل ويانا", footAbout:"منصّة سفر متكاملة: تذاكر طيران، فنادق، كروبات سياحية، حفلات، وفيزا لأكثر من 35 دولة. كلها بمكان واحد، والحجز مباشر على الواتساب.", services:"الخدمات", sVisa:"تأشيرات السفر", sEvents:"حفلات ورأس السنة", sLicense:"إجازة سوق دولية", sBranches:"فروعنا",
+      gH2:"وين رايحين المسافرين؟", gIntro:"كروبات وحفلات طالعة من بغداد وأربيل. السعر للشخص بالغرفة المزدوجة، واضغط على الكروب حتى تشوف كل فندق وسعره.",
       all:"الكل", from_:"يبدأ من", pickDate:"اختار التاريخ", pricesFrom:"تبدأ الأسعار من", pickPlan:"اختار البرنامج والمدة", tickets:"أسعار تذاكر الحفل", childBed:"الطفل بسرير", hotel:"الفندق", cat:"الفئة", price:"السعر", single:"سنكل", rec:"ينصح به",
       stars:"{0} نجوم", noCat:"—", child:"الطفل بدون سرير", infant:"الرضيع", req:"المتطلبات", priceLbl:"السعر للشخص", bookGroup:"ثبّت الحجز بالواتساب",
       vH2:"تأشيرات السفر", vIntro:"كل دولة وعلمها، وأنواع الفيزا وأسعارها، ومدة الإصدار، والمتطلبات والملاحظات.",
@@ -456,8 +510,11 @@ dialog.sheet:not([open]){display:none}
     ku: {
       title:"لەگەڵ عەبدوڵڵا گەشت بکە — فڕین · گروپ · ڤیزا", tag:"گەشت و گەشتیاری · بەغدا", whatsapp:"واتسئاپ",
       h1:"هەموو گەشتەکەت لە یەک شوێندا", lH2:"دەتەوێت بۆ کوێ گەشت بکەیت؟", lSub:"نرخی بلیتەکەت بگەڕێ، یان گروپ و ڤیزاکان بە نرخەوە ببینە",
-      tFly:"فڕین", tGroups:"گروپەکان", services:"خزمەتگوزارییەکان", sVisa:"ڤیزای گەشت", sEvents:"ئاهەنگ و سەری ساڵ", sLicense:"مۆڵەتی شۆفێری نێودەوڵەتی", sBranches:"لقەکانمان",
-      gH2:"گروپ و ئاهەنگەکان لە بەغداوە", gIntro:"کەمترین نرخ بۆ هەر کەسێک لە ژووری دوو کەسی. کرتە لە گروپ بکە بۆ بینینی هەموو هوتێلێک و پلەکەی و نرخەکەی، و حیجز جێگیر بکە.",
+      tFly:"فڕین", tGroups:"گروپەکان", tHotels:"هوتێل", sGroups:"گەشتی گرووپی", feat1:"حیجزی ڕاستەوخۆ بە واتسئاپ", feat2:"گرووپ و ڤیزا بۆ زیاتر لە 35 وڵات", feat3:"دوو لق لە بەغدا",
+      viewPrices:"نرخەکان ببینە", hotTitle:"هوتێلەکەت حیجز بکە", hCity:"شار", hCityPh:"بۆ نموونە: ئەستەنبوڵ", hIn:"هاتنەژوورەوە", hOut:"دەرچوون", hRooms:"ژوور", hGuests:"میوان", hStars:"پلەی هوتێل",
+      roomOpts:["یەک ژوور","دوو ژوور","3 ژوور","4 ژوور","زیاتر (ژمارەکە لە واتسئاپ بنووسە)"], starOpts:["هەر پلەیەک","3 ئەستێرە","4 ئەستێرە","5 ئەستێرە"], hSend:"نرخ لە واتسئاپ داوا بکە",
+      fContact:"پەیوەندیمان پێوە بکە", footAbout:"پلاتفۆرمێکی تەواوی گەشت: بلیتی فڕین، هوتێل، گەشتی گرووپی، ئاهەنگ و ڤیزا بۆ زیاتر لە 35 وڵات. هەمووی لە یەک شوێن، و حیجز ڕاستەوخۆ لە واتسئاپ.", services:"خزمەتگوزارییەکان", sVisa:"ڤیزای گەشت", sEvents:"ئاهەنگ و سەری ساڵ", sLicense:"مۆڵەتی شۆفێری نێودەوڵەتی", sBranches:"لقەکانمان",
+      gH2:"گەشتیاران بۆ کوێ دەچن؟", gIntro:"گرووپ و ئاهەنگ لە بەغدا و هەولێرەوە. نرخ بۆ هەر کەسێک لە ژووری دوو کەسی؛ کرتە لە گرووپ بکە بۆ بینینی هەموو هوتێل و نرخەکەی.",
       all:"هەموو", from_:"لە", pickDate:"بەروار هەڵبژێرە", pricesFrom:"نرخەکان لە", pickPlan:"بەرنامە و ماوە هەڵبژێرە", tickets:"نرخی بلیتی ئاهەنگ", childBed:"منداڵ بە قەرەوێڵە", hotel:"هوتێل", cat:"پلە", price:"نرخ", single:"تاک", rec:"پێشنیارکراو",
       stars:"{0} ئەستێرە", noCat:"—", child:"منداڵ بێ قەرەوێڵە", infant:"ساوا", req:"داواکارییەکان", priceLbl:"نرخ بۆ هەر کەسێک", bookGroup:"حیجز لە واتسئاپ جێگیر بکە",
       vH2:"ڤیزای گەشت", vIntro:"هەر وڵاتێک و ئاڵاکەی، جۆرەکانی ڤیزا و نرخەکانیان، ماوەی دەرچوون، داواکاری و تێبینییەکان.",
@@ -475,8 +532,11 @@ dialog.sheet:not([open]){display:none}
     en: {
       title:"Travel with Abdullah — Flights · Group tours · Visas", tag:"Travel & tourism · Baghdad", whatsapp:"WhatsApp",
       h1:"Your whole trip in one place", lH2:"Where are you heading?", lSub:"Search your ticket price, or browse group tours and visas with their prices",
-      tFly:"Flights", tGroups:"Group tours", services:"Services", sVisa:"Travel visas", sEvents:"Concerts & New Year", sLicense:"International driving licence", sBranches:"Our branches",
-      gH2:"Group tours & concerts from Baghdad", gIntro:"Lowest price per person in a double room. Tap a tour to see every hotel with its category and price, and confirm your booking.",
+      tFly:"Flights", tGroups:"Group tours", tHotels:"Hotels", sGroups:"Group tours", feat1:"Book directly on WhatsApp", feat2:"Tours & visas for 35+ countries", feat3:"Two branches in Baghdad",
+      viewPrices:"View prices", hotTitle:"Book your hotel", hCity:"City", hCityPh:"e.g. Istanbul", hIn:"Check-in", hOut:"Check-out", hRooms:"Rooms", hGuests:"Guests", hStars:"Hotel category",
+      roomOpts:["1 room","2 rooms","3 rooms","4 rooms","More (tell us on WhatsApp)"], starOpts:["Any","3 stars","4 stars","5 stars"], hSend:"Ask for the price on WhatsApp",
+      fContact:"Contact us", footAbout:"An all-in-one travel platform: flights, hotels, group tours, concerts and visas for 35+ countries. All in one place, booked directly on WhatsApp.", services:"Services", sVisa:"Travel visas", sEvents:"Concerts & New Year", sLicense:"International driving licence", sBranches:"Our branches",
+      gH2:"Where travellers are heading", gIntro:"Group tours and concerts from Baghdad and Erbil. Price per person in a double room; tap a tour to see every hotel and its price.",
       all:"All", from_:"From", pickDate:"Choose a date", pricesFrom:"Prices from", pickPlan:"Choose the program and length", tickets:"Concert ticket prices", childBed:"Child with bed", hotel:"Hotel", cat:"Category", price:"Price", single:"Single", rec:"Recommended",
       stars:"{0} stars", noCat:"—", child:"Child without bed", infant:"Infant", req:"Requirements", priceLbl:"Price per person", bookGroup:"Confirm on WhatsApp",
       vH2:"Travel visas", vIntro:"Every country with its flag, visa types and prices, processing time, requirements and notes.",
@@ -558,6 +618,11 @@ dialog.sheet:not([open]){display:none}
     if (!val("f-from")) document.getElementById("f-from").value = cityName(CITIES[0]);
     var ps = document.getElementById("f-pax"), pi = ps.selectedIndex;
     ps.innerHTML = t("paxOpts").map(function(o){ return "<option>" + esc(o) + "</option>"; }).join(""); ps.selectedIndex = Math.max(0, pi);
+    [["h-rooms", "roomOpts"], ["h-pax", "paxOpts"], ["h-stars", "starOpts"]].forEach(function(x){
+      var el = document.getElementById(x[0]), i = el.selectedIndex;
+      el.innerHTML = t(x[1]).map(function(o){ return "<option>" + esc(o) + "</option>"; }).join(""); el.selectedIndex = Math.max(0, i);
+    });
+    document.getElementById("h-city").placeholder = t("hCityPh");
     document.getElementById("cities").innerHTML = CITIES.map(function(c){ return '<option value="' + esc(cityName(c)) + '">'; }).join("");
     document.querySelectorAll(".langs button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === L)); });
     document.querySelectorAll("[data-wa]").forEach(function(a){ a.href = wa("مرحباً، عندي استفسار عن السفر"); });
@@ -616,6 +681,26 @@ dialog.sheet:not([open]){display:none}
   });
   syncFly();
 
+  /* ============ الفنادق: الطلب يروح للواتساب ============ */
+  var hot = document.getElementById("hot");
+  document.getElementById("h-in").min = iso; document.getElementById("h-out").min = iso;
+  hot.addEventListener("input", function(e){
+    var f = e.target.closest && e.target.closest(".field"); if (f && e.target.value) f.classList.remove("err");
+    if (e.target.id === "h-in"){ var o = document.getElementById("h-out"); o.min = e.target.value || iso; if (o.value && o.value <= e.target.value) o.value = ""; }
+  });
+  hot.addEventListener("submit", function(e){
+    e.preventDefault();
+    var miss = null;
+    hot.querySelectorAll("[data-req]").forEach(function(i){ if (!i.value.trim()){ i.closest(".field").classList.add("err"); if (!miss) miss = i; } });
+    var er = document.getElementById("hotErr");
+    if (miss){ er.hidden = false; er.textContent = t("missing", hot.querySelector('label[for="' + miss.id + '"]').textContent); miss.focus(); return; }
+    er.hidden = true;
+    window.open(wa(["طلب حجز فندق", "المدينة: " + cityAr(val("h-city")), "الدخول: " + fmtDate(val("h-in")), "الخروج: " + fmtDate(val("h-out")),
+      "الغرف: " + S.ar.roomOpts[document.getElementById("h-rooms").selectedIndex],
+      "النزلاء: " + S.ar.paxOpts[document.getElementById("h-pax").selectedIndex],
+      "الفئة: " + S.ar.starOpts[document.getElementById("h-stars").selectedIndex]]), "_blank", "noopener");
+  });
+
   /* ============ الكروبات ============ */
   var gFilter = "*", gSheet = document.getElementById("gSheet"), cur = -1;
   function prepGroups(){
@@ -636,11 +721,14 @@ dialog.sheet:not([open]){display:none}
       return '<button class="chip" type="button" data-r="' + esc(r) + '" aria-pressed="' + (r === gFilter) + '">' + esc(label) + '<small>' + n + '</small></button>';
     }).join("");
     document.getElementById("gcards").innerHTML = G.map(function(g, i){
+      var air = String(g.air || "").split(/[،,]/)[0];
       return '<button class="dest" type="button" data-g="' + i + '" data-r="' + esc(GA[i].region) + '">' +
         (g.img ? '<img src="' + esc(g.img) + '" alt="" loading="lazy">' : '<span class="fb" aria-hidden="true">' + esc(g.code) + '</span>') +
-        '<span class="rg">' + esc(g.region) + '</span>' +
-        '<span class="tx"><b>' + esc(g.title) + '</b>' + (g.dur ? '<small>' + esc(g.dur) + '</small>' : '') +
-        '<span class="pr"><small>' + esc(t("pricesFrom")) + '</small><strong>' + esc(g.best.p) + '</strong></span></span></button>';
+        (air ? '<span class="al">' + esc(air) + '</span>' : '<span class="rg">' + esc(g.region) + '</span>') +
+        '<span class="tx">' + (g.route ? '<span class="rt">' + esc(g.route[0]) + '<i></i>' + esc(g.route[1]) + '</span>' : '') +
+        '<b>' + esc(g.title) + '</b>' + (g.dur ? '<small>' + esc(g.dur) + '</small>' : '') +
+        '<span class="pr"><small>' + esc(t("pricesFrom")) + '</small><strong>' + esc(g.best.p) + '</strong></span>' +
+        '<span class="go">' + esc(t("viewPrices")) + '</span></span></button>';
     }).join("");
     document.getElementById("edgeCount").textContent = G.length;
     filterG();

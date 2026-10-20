@@ -119,6 +119,17 @@ def price(p):
     return re.sub(r"\s*(\$|د\.ع|دينار|دولار)\s*", "", p or "").strip()
 
 
+AIRPORT = {"GAL": "IST", "HKT": "BKK"}  # رموز الصور اللي مو مطارات ← المطار الحقيقي
+
+
+def route(name, code, air):
+    """BGW ← المطار، مثل بطاقات fly4all. الكروب اللي بلا طيران ما إله مسار."""
+    if not air or not code:
+        return None
+    dest = "SSH" if code == "SPH" and name.startswith("شرم") else "CAI" if code == "SPH" else AIRPORT.get(code, code)
+    return ["EBL" if "أربيل" in name else "BGW", dest]
+
+
 def groups(L):
     out, by = [], {}
     for r in data.GROUPS:
@@ -139,6 +150,7 @@ def groups(L):
                 "tickets": [T(x, L) for x in split(r["التذاكر"])],
                 "child": price(r["الطفل بدون سرير"]), "infant": price(r["الرضيع"]),
                 "img": "assets/photos/%s.webp" % r["الصورة"] if r["الصورة"] in photos else "",
+                "route": route(name, code, r["الطيران"]),
                 "opts": [],
             }
             out.append(by[name])
