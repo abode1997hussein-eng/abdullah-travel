@@ -20,6 +20,20 @@ COMPANY = {
     "name": {"ar": "سافر مع عبدالله", "ku": "لەگەڵ عەبدوڵڵا گەشت بکە", "en": "Travel with Abdullah"},
     "phone": "9647713310011",
     "phone_display": "0771 331 0011",
+    # مواقع الخطوط الرسمية: المسافر يشوف السعر هناك، والحجز يكمل ويانا بالواتساب.
+    # الرابط الفاضي ← الشركة ما تطلع لحد ما ينضاف رابطها.
+    "airlines": [
+        {"k": "iraqi", "ar": "الخطوط الجوية العراقية", "ku": "هێڵی ئاسمانی عێراقی", "en": "Iraqi Airways", "url": ""},
+        {"k": "flybaghdad", "ar": "فلاي بغداد", "ku": "فلای بەغدا", "en": "Fly Baghdad", "url": ""},
+        {"k": "qatar", "ar": "الخطوط القطرية", "ku": "قەتەر ئێروەیز", "en": "Qatar Airways", "url": "https://www.qatarairways.com"},
+        {"k": "emirates", "ar": "طيران الإمارات", "ku": "ئیمارات", "en": "Emirates", "url": "https://www.emirates.com"},
+        {"k": "flydubai", "ar": "فلاي دبي", "ku": "فلای دوبەی", "en": "flydubai", "url": "https://www.flydubai.com"},
+        {"k": "turkish", "ar": "الخطوط التركية", "ku": "هێڵی ئاسمانی تورکی", "en": "Turkish Airlines", "url": "https://www.turkishairlines.com"},
+        {"k": "airarabia", "ar": "العربية للطيران", "ku": "ئێر عەرەبیا", "en": "Air Arabia", "url": "https://www.airarabia.com"},
+        {"k": "royaljordanian", "ar": "الملكية الأردنية", "ku": "ڕۆیاڵ ئوردنی", "en": "Royal Jordanian", "url": "https://www.rj.com"},
+        {"k": "egyptair", "ar": "مصر للطيران", "ku": "میسر ئێر", "en": "EgyptAir", "url": "https://www.egyptair.com"},
+        {"k": "salamair", "ar": "طيران السلام", "ku": "سەلام ئێر", "en": "SalamAir", "url": "https://www.salamair.com"},
+    ],
     "branches": [
         {"ar": "بغداد - شارع فلسطين - تقاطع الصخرة - مقابل المستشفى الملكي",
          "ku": "بەغدا - شەقامی فەلەستین - چوارڕیانی سەخرە - بەرامبەر نەخۆشخانەی مەلەکی",
