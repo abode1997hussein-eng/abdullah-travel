@@ -462,7 +462,8 @@ dialog.sheet:not([open]){display:none}
           <div class="field wide"><label for="h-stars" data-t="hStars">فئة الفندق</label><select id="h-stars"></select></div>
         </div>
         <p class="ferr" id="hotErr" role="alert" hidden></p>
-        <button class="btn wa" type="submit" data-t="hSend">اطلب السعر بالواتساب</button>
+        <button class="btn" type="submit" data-t="hSend">اعرض الأسعار</button>
+        <div class="res" id="hotRes" aria-live="polite" hidden></div>
       </form>
 
       <form class="pane" id="grpF" data-pane="grp" hidden>
@@ -615,7 +616,7 @@ dialog.sheet:not([open]){display:none}
       h1:"كل سفرتك بمكان واحد", lH2:"وين ناوي تسافر؟", lSub:"ابحث عن سعر تذكرتك، أو تصفّح الكروبات والفيزا بأسعارها",
       tFly:"طيران", tGroups:"كروبات", tHotels:"فنادق", sGroups:"كروبات سياحية", feat1:"حجز مباشر بالواتساب", feat2:"كروبات وفيزا لأكثر من 35 دولة", feat3:"فرعين ببغداد",
       viewPrices:"شوف الأسعار", hotTitle:"احجز فندقك", hCity:"المدينة", hCityPh:"مثلاً: اسطنبول", hIn:"الدخول", hOut:"الخروج", hRooms:"الغرف", hGuests:"النزلاء", hStars:"فئة الفندق",
-      roomOpts:["غرفة وحدة","غرفتين","3 غرف","4 غرف","أكثر (أكتب العدد بالواتساب)"], starOpts:["أي فئة","3 نجوم","4 نجوم","5 نجوم"], hSend:"اطلب السعر بالواتساب",
+      roomOpts:["غرفة وحدة","غرفتين","3 غرف","4 غرف","أكثر (أكتب العدد بالواتساب)"], starOpts:["أي فئة","3 نجوم","4 نجوم","5 نجوم"], hSend:"اعرض الأسعار",
       fContact:"تواصل ويانا", footAbout:"منصّة سفر متكاملة: تذاكر طيران، فنادق، كروبات سياحية، حفلات، وفيزا لأكثر من 35 دولة. كلها بمكان واحد، والحجز مباشر على الواتساب.", services:"الخدمات", sVisa:"تأشيرات السفر", sEvents:"حفلات ورأس السنة", sLicense:"إجازة سوق دولية", sBranches:"فروعنا",
       gH2:"الوجهات الرائجة", gIntro:"كروبات وحفلات طالعة من بغداد وأربيل. السعر للشخص بالغرفة المزدوجة، واضغط على الكروب حتى تشوف كل فندق وسعره.",
       all:"الكل", from_:"يبدأ من", pickDate:"اختار التاريخ", paxQ:"كم شخص بالغرفة؟", paxDbl:"شخصين أو أكثر", paxSgl:"شخص واحد (سنكل)", priceSgl:"سعر السنكل لشخص واحد", dblNote:"الأسعار للشخص الواحد بالغرفة المزدوجة. إذا مسافر لوحدك اختار «شخص واحد» حتى يطلعلك سعر السنكل.", pricesFrom:"تبدأ الأسعار من", pickPlan:"اختار البرنامج والمدة", tickets:"أسعار تذاكر الحفل", childBed:"الطفل بسرير", hotel:"الفندق", cat:"الفئة", price:"السعر", single:"سنكل", rec:"ينصح به",
@@ -629,7 +630,7 @@ dialog.sheet:not([open]){display:none}
       flyTitle:"ابحث عن سعر تذكرتك", tRt:"ذهاب وعودة", tOw:"ذهاب فقط", tOp:"عودة اوبن", from:"من", to:"إلى", dep:"المغادرة", ret:"العودة", pax:"المسافرين",
       paxOpts:["1 بالغ","2 بالغين","3 بالغين","4 بالغين","5 بالغين","عائلة (أكتب العدد بالواتساب)"], toPh:"مثلاً: طهران",
       direct:"رحلات مباشرة فقط", showPrices:"اعرض الأسعار", missing:"كمّل «{0}» حتى تطلعلك الأسعار.",
-      fDirect:"مباشر", fStops:"{0} توقف", fLoading:"نجيب الأسعار…", fNear:"ما لكينا سعر بنفس يومك، هاي أقرب الأيام وأرخصها.", fNote:"السعر للشخص من نظام الحجز ويتحدث كل ساعة. السعر النهائي يتأكد وياك بالواتساب وقت الحجز.", resFor:"الأسعار من {0} إلى {1}", perPerson:"للشخص", bookWa:"ثبّت الحجز بالواتساب",
+      fDirect:"مباشر", fStops:"{0} توقف", fLoading:"نجيب الأسعار…", fNear:"ما لكينا سعر بنفس يومك، هاي أقرب الأيام وأرخصها.", fNote:"السعر للشخص من نظام الحجز ويتحدث كل ساعة. السعر النهائي يتأكد وياك بالواتساب وقت الحجز.", hSub:"المدينة والتواريخ والفئة مكتوبة جاهزة", hResH:"فنادق {0}", hResP:"شوف كل الفنادق وأسعارها على بوكينك، واختار الفندق وارجع احجز ويانا بالواتساب.", hBooking:"شوف الفنادق والأسعار على Booking.com", resFor:"الأسعار من {0} إلى {1}", perPerson:"للشخص", bookWa:"ثبّت الحجز بالواتساب",
       noFare:"سعر هالرحلة يتحدث لحظياً. اضغط وراسلنا، ونرجعلك بأفضل سعر على كل الخطوط خلال دقائق.", askPrice:"اطلب السعر بالواتساب",
       offH:"شوف الأسعار على مواقع الخطوط الرسمية", offP:"افتح موقع الشركة وشوف السعر، وإذا عجبك ارجع واحجز ويانا بالواتساب.", cmpAll:"قارن أسعار كل الخطوط", cmpSub:"الرحلة والتاريخ مكتوبين جاهز", seePrice:"شوف السعر", bookUs:"احجز ويانا"
     },
@@ -649,7 +650,7 @@ dialog.sheet:not([open]){display:none}
       h1:"هەموو گەشتەکەت لە یەک شوێندا", lH2:"دەتەوێت بۆ کوێ گەشت بکەیت؟", lSub:"نرخی بلیتەکەت بگەڕێ، یان گروپ و ڤیزاکان بە نرخەوە ببینە",
       tFly:"فڕین", tGroups:"گروپەکان", tHotels:"هوتێل", sGroups:"گەشتی گرووپی", feat1:"حیجزی ڕاستەوخۆ بە واتسئاپ", feat2:"گرووپ و ڤیزا بۆ زیاتر لە 35 وڵات", feat3:"دوو لق لە بەغدا",
       viewPrices:"نرخەکان ببینە", hotTitle:"هوتێلەکەت حیجز بکە", hCity:"شار", hCityPh:"بۆ نموونە: ئەستەنبوڵ", hIn:"هاتنەژوورەوە", hOut:"دەرچوون", hRooms:"ژوور", hGuests:"میوان", hStars:"پلەی هوتێل",
-      roomOpts:["یەک ژوور","دوو ژوور","3 ژوور","4 ژوور","زیاتر (ژمارەکە لە واتسئاپ بنووسە)"], starOpts:["هەر پلەیەک","3 ئەستێرە","4 ئەستێرە","5 ئەستێرە"], hSend:"نرخ لە واتسئاپ داوا بکە",
+      roomOpts:["یەک ژوور","دوو ژوور","3 ژوور","4 ژوور","زیاتر (ژمارەکە لە واتسئاپ بنووسە)"], starOpts:["هەر پلەیەک","3 ئەستێرە","4 ئەستێرە","5 ئەستێرە"], hSend:"نرخەکان پیشان بدە",
       fContact:"پەیوەندیمان پێوە بکە", footAbout:"پلاتفۆرمێکی تەواوی گەشت: بلیتی فڕین، هوتێل، گەشتی گرووپی، ئاهەنگ و ڤیزا بۆ زیاتر لە 35 وڵات. هەمووی لە یەک شوێن، و حیجز ڕاستەوخۆ لە واتسئاپ.", services:"خزمەتگوزارییەکان", sVisa:"ڤیزای گەشت", sEvents:"ئاهەنگ و سەری ساڵ", sLicense:"مۆڵەتی شۆفێری نێودەوڵەتی", sBranches:"لقەکانمان",
       gH2:"شوێنە بەناوبانگەکان", gIntro:"گرووپ و ئاهەنگ لە بەغدا و هەولێرەوە. نرخ بۆ هەر کەسێک لە ژووری دوو کەسی؛ کرتە لە گرووپ بکە بۆ بینینی هەموو هوتێل و نرخەکەی.",
       all:"هەموو", from_:"لە", pickDate:"بەروار هەڵبژێرە", paxQ:"چەند کەس لە ژوورەکەدا؟", paxDbl:"دوو کەس یان زیاتر", paxSgl:"یەک کەس (تاک)", priceSgl:"نرخی تاک بۆ یەک کەس", dblNote:"نرخەکان بۆ هەر کەسێکن لە ژووری دوو کەسی. ئەگەر بە تەنها گەشت دەکەیت «یەک کەس» هەڵبژێرە بۆ نرخی تاک.", pricesFrom:"نرخەکان لە", pickPlan:"بەرنامە و ماوە هەڵبژێرە", tickets:"نرخی بلیتی ئاهەنگ", childBed:"منداڵ بە قەرەوێڵە", hotel:"هوتێل", cat:"پلە", price:"نرخ", single:"تاک", rec:"پێشنیارکراو",
@@ -663,7 +664,7 @@ dialog.sheet:not([open]){display:none}
       flyTitle:"نرخی بلیتەکەت بگەڕێ", tRt:"چوون و گەڕانەوە", tOw:"تەنها چوون", tOp:"گەڕانەوەی کراوە", from:"لە", to:"بۆ", dep:"ڕۆیشتن", ret:"گەڕانەوە", pax:"گەشتیاران",
       paxOpts:["1 گەورە","2 گەورە","3 گەورە","4 گەورە","5 گەورە","خێزان (ژمارە لە واتسئاپ بنووسە)"], toPh:"بۆ نموونە: تاران",
       direct:"تەنها فڕینی ڕاستەوخۆ", showPrices:"نرخەکان پیشان بدە", missing:"«{0}» تەواو بکە بۆ ئەوەی نرخەکان ببینیت.",
-      fDirect:"ڕاستەوخۆ", fStops:"{0} وەستان", fLoading:"نرخەکان دەهێنین…", fNear:"نرخمان بۆ هەمان ڕۆژ نەدۆزییەوە، ئەمانە نزیکترین و هەرزانترین ڕۆژەکانن.", fNote:"نرخ بۆ هەر کەسێکە لە سیستەمی حیجزەوە و هەموو کاتژمێرێک نوێ دەبێتەوە. نرخی کۆتایی لە واتسئاپ لە کاتی حیجز پشتڕاست دەکرێتەوە.", resFor:"نرخەکان لە {0} بۆ {1}", perPerson:"بۆ هەر کەسێک", bookWa:"حیجز لە واتسئاپ جێگیر بکە",
+      fDirect:"ڕاستەوخۆ", fStops:"{0} وەستان", fLoading:"نرخەکان دەهێنین…", fNear:"نرخمان بۆ هەمان ڕۆژ نەدۆزییەوە، ئەمانە نزیکترین و هەرزانترین ڕۆژەکانن.", fNote:"نرخ بۆ هەر کەسێکە لە سیستەمی حیجزەوە و هەموو کاتژمێرێک نوێ دەبێتەوە. نرخی کۆتایی لە واتسئاپ لە کاتی حیجز پشتڕاست دەکرێتەوە.", hSub:"شار و بەروار و پلە ئامادەن", hResH:"هوتێلەکانی {0}", hResP:"هەموو هوتێلەکان و نرخەکانیان لە بووکینگ ببینە، هوتێلەکە هەڵبژێرە و لە واتسئاپ لای ئێمە حیجز بکە.", hBooking:"هوتێل و نرخەکان لە Booking.com ببینە", resFor:"نرخەکان لە {0} بۆ {1}", perPerson:"بۆ هەر کەسێک", bookWa:"حیجز لە واتسئاپ جێگیر بکە",
       noFare:"نرخی ئەم گەشتە ساتبەسات نوێ دەبێتەوە. کرتە بکە و نامەمان بۆ بنێرە، لە چەند خولەکێکدا باشترین نرخت بۆ دەنێرین.", askPrice:"داوای نرخ لە واتسئاپ بکە",
       offH:"نرخەکان لە ماڵپەڕە فەرمییەکانی هێڵە ئاسمانییەکان ببینە", offP:"ماڵپەڕی کۆمپانیاکە بکەرەوە و نرخەکە ببینە، پاشان لە واتسئاپ لای ئێمە حیجز بکە.", cmpAll:"نرخی هەموو هێڵەکان بەراورد بکە", cmpSub:"گەشت و بەروار ئامادەن", seePrice:"نرخ ببینە", bookUs:"لای ئێمە حیجز بکە"
     },
@@ -683,7 +684,7 @@ dialog.sheet:not([open]){display:none}
       h1:"Your whole trip in one place", lH2:"Where are you heading?", lSub:"Search your ticket price, or browse group tours and visas with their prices",
       tFly:"Flights", tGroups:"Group tours", tHotels:"Hotels", sGroups:"Group tours", feat1:"Book directly on WhatsApp", feat2:"Tours & visas for 35+ countries", feat3:"Two branches in Baghdad",
       viewPrices:"View prices", hotTitle:"Book your hotel", hCity:"City", hCityPh:"e.g. Istanbul", hIn:"Check-in", hOut:"Check-out", hRooms:"Rooms", hGuests:"Guests", hStars:"Hotel category",
-      roomOpts:["1 room","2 rooms","3 rooms","4 rooms","More (tell us on WhatsApp)"], starOpts:["Any","3 stars","4 stars","5 stars"], hSend:"Ask for the price on WhatsApp",
+      roomOpts:["1 room","2 rooms","3 rooms","4 rooms","More (tell us on WhatsApp)"], starOpts:["Any","3 stars","4 stars","5 stars"], hSend:"Show prices",
       fContact:"Contact us", footAbout:"An all-in-one travel platform: flights, hotels, group tours, concerts and visas for 35+ countries. All in one place, booked directly on WhatsApp.", services:"Services", sVisa:"Travel visas", sEvents:"Concerts & New Year", sLicense:"International driving licence", sBranches:"Our branches",
       gH2:"Trending destinations", gIntro:"Group tours and concerts from Baghdad and Erbil. Price per person in a double room; tap a tour to see every hotel and its price.",
       all:"All", from_:"From", pickDate:"Choose a date", paxQ:"How many in the room?", paxDbl:"Two or more", paxSgl:"One person (single)", priceSgl:"Single price, one person", dblNote:"Prices are per person in a double room. Travelling alone? Choose “One person” to see the single price.", pricesFrom:"Prices from", pickPlan:"Choose the program and length", tickets:"Concert ticket prices", childBed:"Child with bed", hotel:"Hotel", cat:"Category", price:"Price", single:"Single", rec:"Recommended",
@@ -697,7 +698,7 @@ dialog.sheet:not([open]){display:none}
       flyTitle:"Search your ticket price", tRt:"Round trip", tOw:"One way", tOp:"Open return", from:"From", to:"To", dep:"Departure", ret:"Return", pax:"Travellers",
       paxOpts:["1 adult","2 adults","3 adults","4 adults","5 adults","Family (tell us on WhatsApp)"], toPh:"e.g. Tehran",
       direct:"Direct flights only", showPrices:"Show prices", missing:"Please fill in “{0}” to see prices.",
-      fDirect:"Direct", fStops:"{0} stop(s)", fLoading:"Getting prices…", fNear:"No fare on your exact day; these are the closest and cheapest days.", fNote:"Price per person from the booking system, updated hourly. The final price is confirmed with you on WhatsApp when booking.", resFor:"Prices from {0} to {1}", perPerson:"per person", bookWa:"Confirm on WhatsApp",
+      fDirect:"Direct", fStops:"{0} stop(s)", fLoading:"Getting prices…", fNear:"No fare on your exact day; these are the closest and cheapest days.", fNote:"Price per person from the booking system, updated hourly. The final price is confirmed with you on WhatsApp when booking.", hSub:"City, dates and category already filled in", hResH:"Hotels in {0}", hResP:"See every hotel and its price on Booking.com, pick one, then book it with us on WhatsApp.", hBooking:"See hotels and prices on Booking.com", resFor:"Prices from {0} to {1}", perPerson:"per person", bookWa:"Confirm on WhatsApp",
       noFare:"This route's fare changes live. Tap to message us and we'll send the best price across all airlines within minutes.", askPrice:"Ask for the price on WhatsApp",
       offH:"See prices on the airlines' official sites", offP:"Open the airline's site to see the price, then come back and book with us on WhatsApp.", cmpAll:"Compare all airlines", cmpSub:"Route and dates already filled in", seePrice:"See price", bookUs:"Book with us"
     }
@@ -954,10 +955,22 @@ dialog.sheet:not([open]){display:none}
     var er = document.getElementById("hotErr");
     if (miss){ er.hidden = false; er.textContent = t("missing", hot.querySelector('label[for="' + miss.id + '"]').textContent); miss.focus(); return; }
     er.hidden = true;
-    window.open(wa(["طلب حجز فندق", "المدينة: " + cityAr(val("h-city")), "الدخول: " + fmtDate(val("h-in")), "الخروج: " + fmtDate(val("h-out")),
+    /* بوكينك: صفحة البحث بالمدينة والتواريخ والفئة جاهزة، والحجز يكمل ويانا بالواتساب */
+    var rooms = document.getElementById("h-rooms").selectedIndex + 1, pax = document.getElementById("h-pax").selectedIndex + 1;
+    var star = document.getElementById("h-stars").selectedIndex;
+    var bq = { ss: cityEn(val("h-city")), checkin: val("h-in"), checkout: val("h-out"), group_adults: Math.min(Math.max(pax, 1), 5),
+               no_rooms: Math.min(rooms, 4), group_children: 0, lang: L === "en" ? "en-us" : "ar", selected_currency: "USD" };
+    if (star) bq.nflt = "class=" + (star + 2);
+    var bUrl = "https://www.booking.com/searchresults.html?" + Object.keys(bq).map(function(k){ return k + "=" + encodeURIComponent(bq[k]); }).join("&");
+    var lines = ["طلب حجز فندق", "المدينة: " + cityAr(val("h-city")), "الدخول: " + fmtDate(val("h-in")), "الخروج: " + fmtDate(val("h-out")),
       "الغرف: " + S.ar.roomOpts[document.getElementById("h-rooms").selectedIndex],
       "النزلاء: " + S.ar.paxOpts[document.getElementById("h-pax").selectedIndex],
-      "الفئة: " + S.ar.starOpts[document.getElementById("h-stars").selectedIndex]]), "_blank", "noopener");
+      "الفئة: " + S.ar.starOpts[star]];
+    var res = document.getElementById("hotRes");
+    res.innerHTML = '<div class="off"><h3>' + esc(t("hResH", val("h-city"))) + '</h3><p class="small">' + esc(t("hResP")) + '</p>' +
+      '<a class="cmp" href="' + esc(bUrl) + '" target="_blank" rel="noopener">' + I.bed + '<span><b>' + esc(t("hBooking")) + '</b><small>' + esc(t("hSub")) + '</small></span></a>' +
+      '<a class="btn wa" target="_blank" rel="noopener" href="' + wa(lines.concat(["شاف الأسعار على بوكينك"])) + '">' + esc(t("bookUs")) + '</a></div>';
+    res.hidden = false;
   });
 
   /* ============ الكروبات ============ */

@@ -18,7 +18,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(os.path.dirname(HERE), "fares.json")
 API = "https://api.travelpayouts.com/aviasales/v3/prices_for_dates"
 
-COMMISSION = 0  # $ تنضاف على سعر الشخص
+COMMISSION = 15  # $ تنضاف على سعر الشخص
 ORIGINS = ["BGW", "EBL", "BSR", "NJF"]
 # رموز المدن (المدينة تشمل كل مطاراتها: IST = اسطنبول وصبيحة، THR = طهران)
 DESTS = ["IST", "AYT", "TZX", "DXB", "SHJ", "AUH", "DOH", "AMM", "BEY", "CAI", "SSH", "DAM", "MCT",
