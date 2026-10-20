@@ -24,16 +24,19 @@ COMPANY = {
         {"ar": "بغداد - شارع فلسطين - تقاطع الصخرة - مقابل المستشفى الملكي",
          "ku": "بەغدا - شەقامی فەلەستین - چوارڕیانی سەخرە - بەرامبەر نەخۆشخانەی مەلەکی",
          "en": "Baghdad - Palestine Street - Al-Sakhra Intersection - opposite the Royal Hospital",
-         "q": "تقاطع الصخرة شارع فلسطين بغداد المستشفى الملكي"},
+         "q": "تقاطع الصخرة شارع فلسطين بغداد المستشفى الملكي",
+         "link": "https://maps.app.goo.gl/sxFwUHWSeYXrePgY9", "ll": "33.3614386,44.4145624"},
         {"ar": "بغداد - المنصور - شارع 14 رمضان - بناية العسل",
          "ku": "بەغدا - مەنسوور - شەقامی 14ی ڕەمەزان - باڵەخانەی عەسەل",
          "en": "Baghdad - Al-Mansour - 14 Ramadan Street - Al-Asal Building",
-         "q": "بناية العسل شارع 14 رمضان المنصور بغداد"},
+         "q": "بناية العسل شارع 14 رمضان المنصور بغداد",
+         "link": "https://maps.app.goo.gl/zixw9NDUFJ5SEpe7A", "ll": "33.3079758,44.3399773"},
     ],
 }
 for b in COMPANY["branches"]:
-    b["map"] = "https://www.google.com/maps/search/?api=1&query=" + quote(b["q"])
-    b["embed"] = "https://maps.google.com/maps?q=" + quote(b["q"]) + "&z=16&output=embed"
+    # الموقع الدقيق من رابط خرائط كوكل اللي دزّه صاحب الشركة
+    b["map"] = b["link"]
+    b["embed"] = "https://maps.google.com/maps?q=" + b["ll"] + "&z=17&output=embed"
 
 # أعلام الدول اللي ما إلها رمز بملف البيانات
 FLAG_FIX = {"أفغانستان": "af", "شرق أفريقيا (أوغندا – رواندا – كينيا)": "ke", "جيبوتي": "dj", "الكونغو": "cd",

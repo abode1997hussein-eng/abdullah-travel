@@ -330,6 +330,34 @@ dialog.sheet:not([open]){display:none}
 }
 @media (min-width:900px){#fly .fgrid{grid-template-columns:repeat(5,minmax(0,1fr));align-items:end}#fly .fgrid .field.wide{grid-column:auto}#hot .fgrid{grid-template-columns:2fr repeat(5,minmax(0,1fr))}#hot .fgrid .field.wide{grid-column:auto}}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+/* ---------- حركة 3D (تنشغل بس إذا الجهاز ما طالب تقليل الحركة: الصنف fx ينضاف من الجافاسكربت) ---------- */
+.fx .reveal{opacity:0;transform:perspective(1000px) rotateX(16deg) translateY(36px) scale(.98);transform-origin:50% 100%;transition:opacity .7s ease,transform .8s cubic-bezier(.2,.75,.25,1)}
+.fx .reveal.in{opacity:1;transform:none}
+.fx .box{animation:boxIn .9s cubic-bezier(.2,.75,.25,1) both;transform-origin:50% 0}
+@keyframes boxIn{from{opacity:0;transform:perspective(1200px) rotateX(-14deg) translateY(-12px)}to{opacity:1;transform:none}}
+.fx .logo img{animation:logoIn 1s cubic-bezier(.2,.75,.25,1) both}
+@keyframes logoIn{from{transform:perspective(600px) rotateY(-180deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
+.fx .slides img.on{animation:kenburns 7s ease-out both}
+@keyframes kenburns{from{transform:scale(1.12)}to{transform:scale(1)}}
+.fx .mascot{animation:floaty 5s ease-in-out infinite;transform-style:preserve-3d}
+@keyframes floaty{0%,100%{transform:perspective(700px) translateY(0) rotateY(-10deg)}50%{transform:perspective(700px) translateY(-12px) rotateY(10deg)}}
+/* الميلان مع الماوس: الصورة تنزل لجوه وملصق السعر يطلع لبرّه */
+.tilt{position:relative;transform-style:preserve-3d;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);transition:transform .25s ease,box-shadow .25s ease;will-change:transform}
+.tilt.hot{transition:transform .08s linear;box-shadow:0 26px 50px rgba(17,24,39,.22)}
+.tilt::before{content:"";position:absolute;top:0;right:0;bottom:0;left:0;z-index:2;pointer-events:none;border-radius:inherit;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.28),transparent 55%);opacity:0;transition:opacity .25s}
+.tilt.hot::before{opacity:1}
+.dest.tilt .pp{transform:translateZ(40px)}
+.dest.tilt .tx{transform:translateZ(30px)}
+.dest.tilt .arr{transform:translateZ(36px)}
+.dest.tilt img{transform:translateZ(-1px) scale(1.06)}
+.feat .tilt .fi{transform:translateZ(30px)}
+.feat .tilt b{transform:translateZ(18px)}
+.tabs button{transition:transform .2s ease,background .2s ease}
+.tabs button[aria-selected="true"]{transform:perspective(500px) translateZ(14px)}
+.btn{transition:transform .15s ease,box-shadow .15s ease,background .15s}
+.btn:active{transform:perspective(400px) translateZ(-10px)}
+@media (hover:hover){.btn:hover{box-shadow:0 10px 22px rgba(242,106,33,.28);transform:translateY(-1px)}.btn.wa:hover{box-shadow:0 10px 22px rgba(37,211,102,.3)}}
 </style>
 </head>
 <body>
@@ -695,13 +723,50 @@ dialog.sheet:not([open]){display:none}
     document.getElementById("visa").scrollIntoView();
   });
 
+  /* ============ حركة 3D: ظهور الأقسام وميلان البطاقات ============ */
+  var MOTION = !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var io = null;
+  if (MOTION && "IntersectionObserver" in window){
+    document.documentElement.classList.add("fx");
+    io = new IntersectionObserver(function(es){ es.forEach(function(en){
+      if (!en.isIntersecting) return;
+      var el = en.target; el.classList.add("in"); io.unobserve(el);
+      /* بعد ما يخلص الظهور نشيل الصنف حتى الميلان ياخذ الـ transform */
+      setTimeout(function(){ el.classList.remove("reveal", "in"); el.style.transitionDelay = ""; }, 1300);
+    }); }, {rootMargin: "0px 0px -8% 0px"});
+  }
+  function reveal(root){
+    if (!io) return;
+    (root || document).querySelectorAll(".sh,.dest,.feat>div,.visa,.promo,.faq,.brc,.foot .wrap>*").forEach(function(el, i){
+      if (el.classList.contains("reveal")) return;
+      el.classList.add("reveal"); el.style.transitionDelay = (i % 4) * 70 + "ms"; io.observe(el);
+    });
+  }
+  var FINE = MOTION && window.matchMedia && matchMedia("(hover:hover) and (pointer:fine)").matches;
+  function tilt(root){
+    if (!FINE) return;
+    (root || document).querySelectorAll(".dest,.feat>div,.promo").forEach(function(el){
+      if (el.classList.contains("tilt")) return;
+      el.classList.add("tilt");
+      var max = el.classList.contains("promo") ? 4 : 10;
+      el.addEventListener("pointermove", function(e){
+        var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        el.classList.add("hot"); el.style.transitionDelay = "0ms";
+        el.style.setProperty("--ry", ((x - .5) * 2 * max).toFixed(2) + "deg");
+        el.style.setProperty("--rx", ((.5 - y) * 2 * max).toFixed(2) + "deg");
+        el.style.setProperty("--gx", (x * 100).toFixed(1) + "%"); el.style.setProperty("--gy", (y * 100).toFixed(1) + "%");
+      });
+      el.addEventListener("pointerleave", function(){ el.classList.remove("hot"); el.style.setProperty("--rx", "0deg"); el.style.setProperty("--ry", "0deg"); });
+    });
+  }
+
   /* ============ صور الواجهة تتبدل بالكمبيوتر ============ */
   (function(){
     var imgs = document.querySelectorAll(".slides img"), dots = document.getElementById("dots"), k = 0, timer = null;
     dots.innerHTML = [].map.call(imgs, function(_, i){ return '<button type="button" aria-label="' + (i + 1) + '"' + (i ? '' : ' aria-current="true"') + '></button>'; }).join("");
     function go(n){
       k = (n + imgs.length) % imgs.length;
-      [].forEach.call(imgs, function(im, i){ im.classList.toggle("on", i === k); if (i === k) im.loading = "eager"; });
+      [].forEach.call(imgs, function(im, i){ im.classList.toggle("on", i === k); if (i === k){ im.loading = "eager"; im.style.animation = "none"; void im.offsetWidth; im.style.animation = ""; } });
       [].forEach.call(dots.children, function(d, i){ d.setAttribute("aria-current", String(i === k)); });
     }
     dots.addEventListener("click", function(e){ var b = e.target.closest("button"); if (b){ go([].indexOf.call(dots.children, b)); restart(); } });
@@ -995,7 +1060,7 @@ dialog.sheet:not([open]){display:none}
 
   /* ============ تشغيل وتبديل اللغة ============ */
   function render(){
-    applyText(); prepGroups(); renderGroups(); renderVisas(); renderBranches();
+    applyText(); prepGroups(); renderGroups(); renderVisas(); renderBranches(); reveal(); tilt();
     if (!document.getElementById("flyRes").hidden) search();
   }
   function setLang(l){
