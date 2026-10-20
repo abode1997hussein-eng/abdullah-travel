@@ -26,9 +26,15 @@ jobs:
           curl -fsSL --retry 3 -o "$RUNNER_TEMP/book.xlsx" \
             "https://docs.google.com/spreadsheets/d/1EE1rFTwHFsm6fIUglgcI4zaH1i8FB4gNzmwhPbWogy0/export?format=xlsx"
 
+      - name: أسعار الطيران
+        working-directory: src
+        env:
+          TP_TOKEN: ${{ secrets.TP_TOKEN }}
+        run: python3 -I fares.py | tee -a "$RUNNER_TEMP/build.log"
+
       - name: بناء الموقع من الأكسل
         working-directory: src
-        run: python3 -I build.py --sheet "$RUNNER_TEMP/book.xlsx" | tee "$RUNNER_TEMP/build.log"
+        run: python3 -I build.py --sheet "$RUNNER_TEMP/book.xlsx" | tee -a "$RUNNER_TEMP/build.log"
 
       - name: الملخص
         run: |
@@ -36,10 +42,12 @@ jobs:
 
       - name: نشر إذا تغيّر شي
         run: |
-          if git diff --quiet -- index.html; then echo "ما تغيّر شي"; exit 0; fi
+          git add -N fares.json 2>/dev/null || true
+          if git diff --quiet -- index.html fares.json; then echo "ما تغيّر شي"; exit 0; fi
           git config user.name "تحديث الأسعار"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -q -m "تحديث الأسعار من الأكسل" -- index.html
+          git add index.html fares.json 2>/dev/null || git add index.html
+          git commit -q -m "تحديث الأسعار من الأكسل والطيران"
           git push
           curl -fsS -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \

@@ -629,7 +629,7 @@ dialog.sheet:not([open]){display:none}
       flyTitle:"ابحث عن سعر تذكرتك", tRt:"ذهاب وعودة", tOw:"ذهاب فقط", tOp:"عودة اوبن", from:"من", to:"إلى", dep:"المغادرة", ret:"العودة", pax:"المسافرين",
       paxOpts:["1 بالغ","2 بالغين","3 بالغين","4 بالغين","5 بالغين","عائلة (أكتب العدد بالواتساب)"], toPh:"مثلاً: طهران",
       direct:"رحلات مباشرة فقط", showPrices:"اعرض الأسعار", missing:"كمّل «{0}» حتى تطلعلك الأسعار.",
-      resFor:"الأسعار من {0} إلى {1}", perPerson:"للشخص", bookWa:"ثبّت الحجز بالواتساب",
+      fDirect:"مباشر", fStops:"{0} توقف", fLoading:"نجيب الأسعار…", fNear:"ما لكينا سعر بنفس يومك، هاي أقرب الأيام وأرخصها.", fNote:"السعر للشخص من نظام الحجز ويتحدث كل ساعة. السعر النهائي يتأكد وياك بالواتساب وقت الحجز.", resFor:"الأسعار من {0} إلى {1}", perPerson:"للشخص", bookWa:"ثبّت الحجز بالواتساب",
       noFare:"سعر هالرحلة يتحدث لحظياً. اضغط وراسلنا، ونرجعلك بأفضل سعر على كل الخطوط خلال دقائق.", askPrice:"اطلب السعر بالواتساب",
       offH:"شوف الأسعار على مواقع الخطوط الرسمية", offP:"افتح موقع الشركة وشوف السعر، وإذا عجبك ارجع واحجز ويانا بالواتساب.", cmpAll:"قارن أسعار كل الخطوط", cmpSub:"الرحلة والتاريخ مكتوبين جاهز", seePrice:"شوف السعر", bookUs:"احجز ويانا"
     },
@@ -663,7 +663,7 @@ dialog.sheet:not([open]){display:none}
       flyTitle:"نرخی بلیتەکەت بگەڕێ", tRt:"چوون و گەڕانەوە", tOw:"تەنها چوون", tOp:"گەڕانەوەی کراوە", from:"لە", to:"بۆ", dep:"ڕۆیشتن", ret:"گەڕانەوە", pax:"گەشتیاران",
       paxOpts:["1 گەورە","2 گەورە","3 گەورە","4 گەورە","5 گەورە","خێزان (ژمارە لە واتسئاپ بنووسە)"], toPh:"بۆ نموونە: تاران",
       direct:"تەنها فڕینی ڕاستەوخۆ", showPrices:"نرخەکان پیشان بدە", missing:"«{0}» تەواو بکە بۆ ئەوەی نرخەکان ببینیت.",
-      resFor:"نرخەکان لە {0} بۆ {1}", perPerson:"بۆ هەر کەسێک", bookWa:"حیجز لە واتسئاپ جێگیر بکە",
+      fDirect:"ڕاستەوخۆ", fStops:"{0} وەستان", fLoading:"نرخەکان دەهێنین…", fNear:"نرخمان بۆ هەمان ڕۆژ نەدۆزییەوە، ئەمانە نزیکترین و هەرزانترین ڕۆژەکانن.", fNote:"نرخ بۆ هەر کەسێکە لە سیستەمی حیجزەوە و هەموو کاتژمێرێک نوێ دەبێتەوە. نرخی کۆتایی لە واتسئاپ لە کاتی حیجز پشتڕاست دەکرێتەوە.", resFor:"نرخەکان لە {0} بۆ {1}", perPerson:"بۆ هەر کەسێک", bookWa:"حیجز لە واتسئاپ جێگیر بکە",
       noFare:"نرخی ئەم گەشتە ساتبەسات نوێ دەبێتەوە. کرتە بکە و نامەمان بۆ بنێرە، لە چەند خولەکێکدا باشترین نرخت بۆ دەنێرین.", askPrice:"داوای نرخ لە واتسئاپ بکە",
       offH:"نرخەکان لە ماڵپەڕە فەرمییەکانی هێڵە ئاسمانییەکان ببینە", offP:"ماڵپەڕی کۆمپانیاکە بکەرەوە و نرخەکە ببینە، پاشان لە واتسئاپ لای ئێمە حیجز بکە.", cmpAll:"نرخی هەموو هێڵەکان بەراورد بکە", cmpSub:"گەشت و بەروار ئامادەن", seePrice:"نرخ ببینە", bookUs:"لای ئێمە حیجز بکە"
     },
@@ -697,19 +697,34 @@ dialog.sheet:not([open]){display:none}
       flyTitle:"Search your ticket price", tRt:"Round trip", tOw:"One way", tOp:"Open return", from:"From", to:"To", dep:"Departure", ret:"Return", pax:"Travellers",
       paxOpts:["1 adult","2 adults","3 adults","4 adults","5 adults","Family (tell us on WhatsApp)"], toPh:"e.g. Tehran",
       direct:"Direct flights only", showPrices:"Show prices", missing:"Please fill in “{0}” to see prices.",
-      resFor:"Prices from {0} to {1}", perPerson:"per person", bookWa:"Confirm on WhatsApp",
+      fDirect:"Direct", fStops:"{0} stop(s)", fLoading:"Getting prices…", fNear:"No fare on your exact day; these are the closest and cheapest days.", fNote:"Price per person from the booking system, updated hourly. The final price is confirmed with you on WhatsApp when booking.", resFor:"Prices from {0} to {1}", perPerson:"per person", bookWa:"Confirm on WhatsApp",
       noFare:"This route's fare changes live. Tap to message us and we'll send the best price across all airlines within minutes.", askPrice:"Ask for the price on WhatsApp",
       offH:"See prices on the airlines' official sites", offP:"Open the airline's site to see the price, then come back and book with us on WhatsApp.", cmpAll:"Compare all airlines", cmpSub:"Route and dates already filled in", seePrice:"See price", bookUs:"Book with us"
     }
   };
   var LN = { ar:"عربي", ku:"کوردی", en:"English" };
+  /* المدن: عربي، كوردي، إنكليزي، رمز المدينة بأسعار الطيران */
   var CITIES = [
-    ["بغداد","بەغدا","Baghdad"],["البصرة","بەسرە","Basra"],["النجف","نەجەف","Najaf"],["أربيل","هەولێر","Erbil"],["السليمانية","سلێمانی","Sulaymaniyah"],
-    ["طهران","تاران","Tehran"],["مشهد","مەشهەد","Mashhad"],["شيراز","شیراز","Shiraz"],["أصفهان","ئەسفەهان","Isfahan"],["تبريز","تەورێز","Tabriz"],
-    ["اسطنبول","ئەستەنبوڵ","Istanbul"],["أنطاليا","ئەنتاڵیا","Antalya"],["دبي","دوبەی","Dubai"],["الدوحة","دۆحە","Doha"],["عمّان","عەممان","Amman"],
-    ["بيروت","بەیروت","Beirut"],["القاهرة","قاهیرە","Cairo"],["دمشق","دیمەشق","Damascus"],["مسقط","مەسقەت","Muscat"],["جدة","جەدە","Jeddah"],
-    ["المدينة المنورة","مەدینە","Medina"],["كوالالمبور","کوالالامپور","Kuala Lumpur"],["بانكوك","بانکۆک","Bangkok"],["لندن","لەندەن","London"]
+    ["بغداد","بەغدا","Baghdad","BGW"],["أربيل","هەولێر","Erbil","EBL"],["البصرة","بەسرە","Basra","BSR"],["النجف","نەجەف","Najaf","NJF"],["السليمانية","سلێمانی","Sulaymaniyah","ISU"],
+    ["اسطنبول","ئەستەنبوڵ","Istanbul","IST"],["أنطاليا","ئەنتاڵیا","Antalya","AYT"],["طرابزون","ترابزۆن","Trabzon","TZX"],
+    ["دبي","دوبەی","Dubai","DXB"],["الشارقة","شارجە","Sharjah","SHJ"],["أبوظبي","ئەبوزەبی","Abu Dhabi","AUH"],["الدوحة","دۆحە","Doha","DOH"],
+    ["عمّان","عەممان","Amman","AMM"],["بيروت","بەیروت","Beirut","BEY"],["القاهرة","قاهیرە","Cairo","CAI"],["شرم الشيخ","شەرم ئەلشێخ","Sharm El Sheikh","SSH"],
+    ["دمشق","دیمەشق","Damascus","DAM"],["مسقط","مەسقەت","Muscat","MCT"],["جدة","جەدە","Jeddah","JED"],["المدينة المنورة","مەدینە","Medina","MED"],["الرياض","ڕیاز","Riyadh","RUH"],
+    ["الكويت","کوەیت","Kuwait","KWI"],["البحرين","بەحرەین","Bahrain","BAH"],
+    ["طهران","تاران","Tehran","THR"],["مشهد","مەشهەد","Mashhad","MHD"],["شيراز","شیراز","Shiraz","SYZ"],["أصفهان","ئەسفەهان","Isfahan","IFN"],
+    ["تبليسي","تبیلیسی","Tbilisi","TBS"],["باتومي","باتومی","Batumi","BUS"],["باكو","باکۆ","Baku","GYD"],
+    ["كوالالمبور","کوالالامپور","Kuala Lumpur","KUL"],["بانكوك","بانکۆک","Bangkok","BKK"],["كولومبو","کۆلۆمبۆ","Colombo","CMB"],
+    ["تونس","تونس","Tunis","TUN"],["لندن","لەندەن","London","LON"]
   ];
+  /* أسماء الخطوط بأسعار الطيران */
+  var AIRL = { IA:["الخطوط الجوية العراقية","هێڵی ئاسمانی عێراقی","Iraqi Airways"], IF:["فلاي بغداد","فلای بەغدا","Fly Baghdad"],
+    QR:["الخطوط القطرية","قەتەر ئێروەیز","Qatar Airways"], EK:["طيران الإمارات","ئیمارات","Emirates"], FZ:["فلاي دبي","فلای دوبەی","flydubai"],
+    G9:["العربية للطيران","ئێر عەرەبیا","Air Arabia"], "3L":["العربية أبوظبي","ئێر عەرەبیا ئەبوزەبی","Air Arabia Abu Dhabi"], TK:["الخطوط التركية","هێڵی ئاسمانی تورکی","Turkish Airlines"],
+    PC:["بيغاسوس","پێگاسۆس","Pegasus"], VF:["أجيت","ئەیجێت","AJet"], RJ:["الملكية الأردنية","ڕۆیاڵ ئوردنی","Royal Jordanian"], MS:["مصر للطيران","میسر ئێر","EgyptAir"],
+    OV:["طيران السلام","سەلام ئێر","SalamAir"], WY:["الطيران العماني","عومان ئێر","Oman Air"], ME:["طيران الشرق الأوسط","ئێم ئی ئەی","Middle East Airlines"],
+    "6Q":["أجنحة الشام","شام وینگز","Cham Wings"], XY:["طيران ناس","فلای ناس","flynas"], SV:["الخطوط السعودية","سعودیە","Saudia"], GF:["طيران الخليج","گەڵف ئێر","Gulf Air"],
+    KU:["الخطوط الكويتية","کوەیت ئێرویز","Kuwait Airways"], IR:["إيران إير","ئێران ئێر","Iran Air"], W5:["ماهان إير","ماهان ئێر","Mahan Air"], QB:["قشم إير","قەشم ئێر","Qeshm Air"],
+    UD:["طيران أور","ئوور ئێرلاینز","UR Airlines"], NP:["نسما","نیل ئێر","Nile Air"], E5:["العربية مصر","ئێر عەرەبیا میسر","Air Arabia Egypt"], J2:["أذربيجان","ئازال","AZAL"], A9:["الجورجية","جۆرجیان ئێرویز","Georgian Airways"] };
 
   var L = document.documentElement.getAttribute("data-lang") || "ar";
   function t(k){ var s = (S[L] && S[L][k] != null) ? S[L][k] : S.ar[k]; var a = arguments; return typeof s === "string" ? s.replace(/\{(\d)\}/g, function(_, i){ return a[+i + 1]; }) : s; }
@@ -831,7 +846,7 @@ dialog.sheet:not([open]){display:none}
   }
 
   /* ============ الطيران ============
-     الأسعار تجي من جدول FARES بملف البيانات. لما ينربط نظام fly4all يتبدل مصدرها بدالة getFares بس. */
+     الأسعار الحية تجي من fares.json (تحت بدالة search)، والحجز يكمل بالواتساب. */
   var fly = document.getElementById("fly");
   var today = new Date(); today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
   var iso = today.toISOString().slice(0, 10);
@@ -849,11 +864,6 @@ dialog.sheet:not([open]){display:none}
       "المغادرة: " + fmtDate(val("f-dep")), trip() === "rt" && val("f-ret") ? "العودة: " + fmtDate(val("f-ret")) : "",
       "المسافرين: " + S.ar.paxOpts[document.getElementById("f-pax").selectedIndex],
       document.getElementById("f-dir").checked ? "رحلات مباشرة فقط" : ""].concat(extra || []);
-  }
-  function getFares(from, to, tw){
-    var list = D[L].fares.filter(function(f){ return norm(f.from) === norm(from) && norm(f.to) === norm(to); });
-    var exact = list.filter(function(f){ return !f.trip || f.trip === tw; }); if (exact.length) list = exact;
-    return list.sort(function(a, b){ return num(a.p) - num(b.p); });
   }
   /* البحث على مواقع الخطوط: رابط مقارنة بالرحلة والتاريخ جاهز، ورابط كل شركة رسمي */
   function cityEn(v){ var r = cityRow(v); return r ? r[2] : v.trim(); }
@@ -874,17 +884,45 @@ dialog.sheet:not([open]){display:none}
       }).join("") + '</div>' +
       '<a class="btn wa" target="_blank" rel="noopener" href="' + wa(flyLines()) + '">' + esc(t("askPrice")) + '</a></div>';
   }
+  /* أسعار الطيران الحية: fares.json يتحدث كل ساعة من نظام الحجز (Travelpayouts) */
+  var FARES = null;
+  function loadFares(cb){
+    if (FARES) return cb();
+    fetch("fares.json?h=" + Math.floor(Date.now() / 36e5)).then(function(r){ return r.json(); })
+      .then(function(j){ FARES = j; cb(); }).catch(function(){ FARES = { fares: [] }; cb(); });
+  }
+  function code(v){ var r = cityRow(v); return r ? r[3] : ""; }
+  function day(iso){ return iso ? Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10)) / 864e5 : 0; }
+  function when(iso){ return iso ? iso.slice(8, 10) + "-" + iso.slice(5, 7) + "-" + iso.slice(0, 4) + (iso.length > 10 ? " · " + iso.slice(11, 16) : "") : ""; }
+  function airName(c){ var a = AIRL[c]; return a ? a[L === "ar" ? 0 : L === "ku" ? 1 : 2] : c; }
+  function stops(n){ return n ? t("fStops", n) : t("fDirect"); }
   function search(){
     var res = document.getElementById("flyRes");
-    var list = getFares(cityAr(val("f-from")), cityAr(val("f-to")), trip() === "ow" ? "ذهاب فقط" : "ذهاب وعودة");
-    var head = '<h3>' + esc(t("resFor", val("f-from"), val("f-to"))) + '</h3>';
-    res.innerHTML = head + (list.length ? list.map(function(f){
-      return '<div class="fare"><div class="al">' + esc(f.air) + '<small>' + esc([f.trip ? t(f.trip === "ذهاب فقط" ? "tOw" : "tRt") : "", f.n].filter(Boolean).join(" · ")) + '</small></div>' +
-        '<div class="pp"><b>' + esc(f.p) + '</b><small>' + esc(t("perPerson")) + '</small></div>' +
-        '<a class="btn wa" target="_blank" rel="noopener" href="' + wa(flyLines(["الخطوط: " + f.air, "السعر المعروض: " + f.p + " للشخص"])) + '">' + esc(t("bookWa")) + '</a></div>';
-    }).join("") : '') + official();
-    res.hidden = false;
-    setTimeout(function(){ if (res.scrollIntoView) res.scrollIntoView({ block:"nearest", behavior:"smooth" }); }, 30);
+    res.innerHTML = '<p class="small">' + esc(t("fLoading")) + '</p>'; res.hidden = false;
+    loadFares(function(){
+      var o = code(val("f-from")), d = code(val("f-to")), rt = trip() !== "ow", direct = document.getElementById("f-dir").checked;
+      var dep = day(val("f-dep")), ret = rt && val("f-ret") ? day(val("f-ret")) : 0;
+      var list = (FARES.fares || []).filter(function(f){
+        return f.o === o && f.d === d && f.rt === rt && (!direct || (!f.tr && (!rt || !f.rtr)));
+      }).map(function(f){
+        var gap = Math.abs(day(f.dep) - dep) + (ret && f.ret ? Math.abs(day(f.ret) - ret) / 2 : 0);
+        return { f: f, gap: gap };
+      }).sort(function(a, b){ return a.gap - b.gap || a.f.p - b.f.p; }).slice(0, 6);
+      var head = '<h3>' + esc(t("resFor", val("f-from"), val("f-to"))) + '</h3>';
+      if (list.length && list[0].gap > 0) head += '<p class="small">' + esc(t("fNear")) + '</p>';
+      res.innerHTML = head + list.map(function(x){
+        var f = x.f, name = airName(f.a), nameAr = AIRL[f.a] ? AIRL[f.a][0] : f.a;
+        var info = [when(f.dep) + " · " + stops(f.tr)].concat(rt && f.ret ? [t("ret") + ": " + when(f.ret) + " · " + stops(f.rtr)] : []);
+        return '<div class="fare"><div class="al">' + esc(name) + info.map(function(x){ return '<small>' + esc(x) + '</small>'; }).join("") + '</div>' +
+          '<div class="pp"><b>' + f.p + '$</b><small>' + esc(t("perPerson")) + '</small></div>' +
+          '<a class="btn wa" target="_blank" rel="noopener" href="' + wa(flyLines(["الخطوط: " + nameAr + (f.n ? " (" + f.a + f.n + ")" : ""),
+            "رحلة الذهاب: " + when(f.dep) + " · " + (f.tr ? f.tr + " توقف" : "مباشر"),
+            rt && f.ret ? "رحلة العودة: " + when(f.ret) + " · " + (f.rtr ? f.rtr + " توقف" : "مباشر") : "",
+            "السعر المعروض: " + f.p + "$ للشخص"])) + '">' + esc(t("bookWa")) + '</a></div>';
+      }).join("") +
+        (list.length ? '<p class="small">' + esc(t("fNote")) + '</p>' : '<div class="nores"><p>' + esc(t("noFare")) + '</p></div>') + official();
+      setTimeout(function(){ if (res.scrollIntoView) res.scrollIntoView({ block:"nearest", behavior:"smooth" }); }, 30);
+    });
   }
   fly.addEventListener("input", function(e){ var f = e.target.closest && e.target.closest(".field"); if (f && e.target.value) f.classList.remove("err"); if (!fly.querySelector(".err")) document.getElementById("flyErr").hidden = true; syncFly(); });
   fly.addEventListener("change", syncFly);
