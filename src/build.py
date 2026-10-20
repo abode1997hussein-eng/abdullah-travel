@@ -69,7 +69,7 @@ def standalone(page, btitle, desc, url):
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{btitle}</title>
 <meta name="description" content="{desc}">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#FFFFFF">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_IQ">
 <meta property="og:title" content="{btitle}">
@@ -87,7 +87,7 @@ def standalone(page, btitle, desc, url):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 {font}
 <style>
-:root{{color-scheme:dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}}
+:root{{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}}
 body{{margin:0}} img{{max-width:100%}} [hidden]{{display:none!important}}
 </style>
 {style}
