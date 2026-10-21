@@ -965,17 +965,21 @@ a.alc{text-decoration:none;color:var(--ink)}
         var gap = Math.abs(day(f.dep) - dep) + (ret && f.ret ? Math.abs(day(f.ret) - ret) / 2 : 0);
         return { f: f, gap: gap };
       }).sort(function(a, b){ return a.gap - b.gap || a.f.p - b.f.p; }).slice(0, 6);
-      /* الخطوط العراقية من بغداد: أسعار ثابتة بالدينار من عدنا، تطلع أول شي وتغني عن أسعارها من نظام الحجز */
-      var ia = o === "BGW" && d ? (D.ia || []).filter(function(x){ return x.c.split("|").indexOf(d) >= 0; }) : [];
-      if (ia.length) list = list.filter(function(x){ return x.f.a !== "IA"; });
+      /* أسعارنا الخاصة (العراقية، الإيرانية، ...) من أكسل صاحب الموقع: نهائية للزبون، تطلع أول شي،
+         وتغني عن أسعار نفس الشركة من نظام الحجز */
+      var ia = o && d ? (D.manual || []).filter(function(x){ return x.o.indexOf(o) >= 0 && x.d.indexOf(d) >= 0 && (rt ? x.rt : x.ow); }) : [];
+      var own = {};
+      ia.forEach(function(x){ Object.keys(AIRL).forEach(function(c){ if (AIRL[c][0] === x.a) own[c] = 1; }); });
+      list = list.filter(function(x){ return !own[x.f.a]; });
       var head = '<h3>' + esc(t("resFor", val("f-from"), val("f-to"))) + '</h3>';
       res.innerHTML = head + ia.map(function(x){
-        var p = (rt ? x.rt : x.ow).toLocaleString("en-US"), to = L === "en" ? x.en : x.ar;
-        return '<div class="fare"><div class="al">' + esc(airName("IA")) + '<small>' + esc(t("from") + " " + cityName(CITIES[0]) + " ← " + to) + '</small>' +
-          '<small>' + esc(t("iaNote")) + '</small></div>' +
-          '<div class="pp"><b>' + p + '</b><small>' + esc(t("iqd") + " · " + t("perPerson")) + '</small></div>' +
-          '<a class="btn wa" target="_blank" rel="noopener" href="' + wa(flyLines(["الخطوط: الخطوط الجوية العراقية", "الوجهة: " + x.ar,
-            "السعر المعروض: " + p + " دينار للشخص (" + TRIP_AR[trip()] + ")"])) + '">' + esc(t("bookWa")) + '</a></div>';
+        var n = rt ? x.rt : x.ow, iqd = x.cur === "iqd", p = iqd ? n.toLocaleString("en-US") : n + "$";
+        var code = Object.keys(AIRL).filter(function(c){ return AIRL[c][0] === x.a; })[0], name = code ? airName(code) : x.a;
+        return '<div class="fare"><div class="al">' + esc(name || t("tFly")) + '<small>' + esc(val("f-from") + " ← " + x.dn) + '</small>' +
+          (x.n ? '<small>' + esc(x.n) + '</small>' : '') + '<small>' + esc(t("iaNote")) + '</small></div>' +
+          '<div class="pp"><b>' + p + '</b><small>' + esc((iqd ? t("iqd") + " · " : "") + t("perPerson")) + '</small></div>' +
+          '<a class="btn wa" target="_blank" rel="noopener" href="' + wa(flyLines([x.a ? "الخطوط: " + x.a : "", "الوجهة: " + x.dn, x.n ? "ملاحظة: " + x.n : "",
+            "السعر المعروض: " + p + (iqd ? " دينار" : "") + " للشخص (" + TRIP_AR[trip()] + ")"])) + '">' + esc(t("bookWa")) + '</a></div>';
       }).join("") + (list.length && list[0].gap > 0 ? '<p class="small">' + esc(t("fNear")) + '</p>' : '') + list.map(function(x){
         var f = x.f, name = airName(f.a), nameAr = airAr(f.a);
         var info = [when(f.dep) + " · " + stops(f.tr)].concat(rt && f.ret ? [t("ret") + ": " + when(f.ret) + " · " + stops(f.rtr)] : []);

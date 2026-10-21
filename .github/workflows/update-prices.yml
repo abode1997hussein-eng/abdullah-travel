@@ -25,6 +25,10 @@ jobs:
         run: |
           curl -fsSL --retry 3 -o "$RUNNER_TEMP/book.xlsx" \
             "https://docs.google.com/spreadsheets/d/1EE1rFTwHFsm6fIUglgcI4zaH1i8FB4gNzmwhPbWogy0/export?format=xlsx"
+          # أسعار الطيران الخاصة (العراقية، الإيرانية...) من أكسل صاحب الموقع. إذا ما نزل تبقى الأسعار المكتوبة بالكود
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/prices.xlsx" \
+            "https://docs.google.com/spreadsheets/d/1itjW4cp1n5ifSDGOFQe2FgqC5cI2cv3Ynw5zy0wlyKM/export?format=xlsx" \
+            || rm -f "$RUNNER_TEMP/prices.xlsx"
 
       - name: أسعار الطيران
         working-directory: src
@@ -34,7 +38,9 @@ jobs:
 
       - name: بناء الموقع من الأكسل
         working-directory: src
-        run: python3 -I build.py --sheet "$RUNNER_TEMP/book.xlsx" | tee -a "$RUNNER_TEMP/build.log"
+        run: |
+          P=""; [ -s "$RUNNER_TEMP/prices.xlsx" ] && P="--prices $RUNNER_TEMP/prices.xlsx"
+          python3 -I build.py --sheet "$RUNNER_TEMP/book.xlsx" $P | tee -a "$RUNNER_TEMP/build.log"
 
       - name: الملخص
         run: |

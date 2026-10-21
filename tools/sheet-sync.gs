@@ -4,13 +4,14 @@
 // التوكن ينحط بإعدادات المشروع ← Script properties باسم GITHUB_TOKEN (مو بهذا الملف).
 // بعدها شغّل setup مرة وحدة.
 
-const SHEET_ID = '1EE1rFTwHFsm6fIUglgcI4zaH1i8FB4gNzmwhPbWogy0';
+// أكسل الشركة (الكروبات والفيزا والفنادق) وأكسل أسعار الطيران الخاصة
+const SHEET_IDS = ['1EE1rFTwHFsm6fIUglgcI4zaH1i8FB4gNzmwhPbWogy0', '1itjW4cp1n5ifSDGOFQe2FgqC5cI2cv3Ynw5zy0wlyKM'];
 const REPO = 'abode1997hussein-eng/abdullah-travel';
 const WORKFLOW = 'sheet-sync.yml';
 
 function checkSheet() {
   const p = PropertiesService.getScriptProperties();
-  const updated = String(DriveApp.getFileById(SHEET_ID).getLastUpdated().getTime());
+  const updated = SHEET_IDS.map(function (id) { return DriveApp.getFileById(id).getLastUpdated().getTime(); }).join(',');
   if (updated === p.getProperty('LAST')) return;
   const r = UrlFetchApp.fetch('https://api.github.com/repos/' + REPO + '/actions/workflows/' + WORKFLOW + '/dispatches', {
     method: 'post',

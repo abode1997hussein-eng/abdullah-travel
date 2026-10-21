@@ -226,7 +226,19 @@ def fares(L):
 
 DATA = {L: {"groups": groups(L), "visas": visas(L), "fares": fares(L), "hotels": hotels(L), "hnotes": hotel_notes(L)} for L in LANGS}
 DATA["company"] = COMPANY
-DATA["ia"] = [{"c": c, "ar": ar, "en": en, "ow": ow, "rt": rt} for c, ar, en, ow, rt in getattr(data, "IA_FARES", [])]
+# أسعار الطيران الخاصة (العراقية، الإيرانية، ...) من أكسل صاحب الموقع: --prices prices.xlsx
+# إذا ما موجود أو ما انقرا، تبقى أسعار العراقية المكتوبة بـdata.py
+MANUAL = None
+if "--prices" in sys.argv:
+    try:
+        import prices
+        MANUAL = prices.load(sys.argv[sys.argv.index("--prices") + 1])
+    except Exception as e:  # noqa: BLE001
+        print("أسعار الطيران الخاصة ما انقرت:", e)
+if not MANUAL:
+    MANUAL = [{"a": "الخطوط الجوية العراقية", "o": ["BGW"], "d": c.split("|"), "dn": ar, "ow": ow, "rt": rt, "cur": "iqd", "n": ""}
+              for c, ar, en, ow, rt in getattr(data, "IA_FARES", [])]
+DATA["manual"] = MANUAL
 if MISSING:
     print("ترجمة ناقصة (تطلع بالعربي):", *sorted(MISSING), sep="\n  ")
 
