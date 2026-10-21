@@ -1,0 +1,46 @@
+# كل 5 دقائق: ينزّل أكسل الشركة، وإذا تغيّر شي (كروب، فيزا، فندق، سعر، تاريخ) يبني الموقع وينشره.
+# أسعار الطيران تبقى بالتحديث الساعي (update-prices.yml) لأنها تاخذ وقت أطول.
+# الأكسل نفسه ما ينحفظ بالمستودع لأن بيه التسديد والعمولة.
+name: مزامنة الأكسل السريعة
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: update-prices
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: تنزيل الأكسل
+        run: |
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/book.xlsx" \
+            "https://docs.google.com/spreadsheets/d/1EE1rFTwHFsm6fIUglgcI4zaH1i8FB4gNzmwhPbWogy0/export?format=xlsx"
+
+      - name: بناء الموقع من الأكسل
+        working-directory: src
+        run: python3 -I build.py --sheet "$RUNNER_TEMP/book.xlsx" | tee "$RUNNER_TEMP/build.log"
+
+      - name: نشر إذا تغيّر شي
+        run: |
+          if git diff --quiet -- index.html; then echo "ما تغيّر شي"; exit 0; fi
+          { echo '```'; cat "$RUNNER_TEMP/build.log"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          git config user.name "تحديث الأسعار"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -q -m "تحديث من الأكسل"
+          git pull -q --rebase origin main
+          git push
+          curl -fsS -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds" || true

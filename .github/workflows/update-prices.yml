@@ -49,6 +49,7 @@ jobs:
           git add index.html
           for f in fares.json places.json; do [ -f "$f" ] && git add "$f"; done
           git commit -q -m "تحديث الأسعار من الأكسل والطيران"
+          git pull -q --rebase origin main
           git push
           curl -fsS -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
