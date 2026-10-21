@@ -935,35 +935,6 @@ a.alc{text-decoration:none;color:var(--ink)}
     return "";
   }
   function cityAr(v){ var r = cityRow(v); if (r) return r[0]; var p = PLACE_BY[placeCode(v)]; return p ? (p[1] || p[2]) + " (" + p[0] + ")" : (v || "").trim(); }
-  var CALC = {};
-  function calcBox(id, opts, unit, fee, lines){
-    CALC[id] = { fee: fee, unit: unit, lines: lines };
-    return '<div class="calc" data-calc="' + id + '"><p class="lbl">' + esc(t("calcH")) + '</p><div class="fgrid">' +
-      '<div class="field"><label>' + esc(t("calcSite")) + '</label><select data-c="site">' + opts.map(function(o){ return '<option value="' + esc(o[0]) + '">' + esc(o[1]) + '</option>'; }).join("") + '</select></div>' +
-      (unit === "night" ? '<div class="field wide"><label>' + esc(t("calcHotel")) + '</label><input data-c="name" type="text" autocomplete="off"></div>' : '') +
-      '<div class="field"><label>' + esc(t(unit === "night" ? "calcPriceN" : "calcPriceP")) + '</label><input data-c="price" type="number" inputmode="decimal" min="1" placeholder="$"></div></div>' +
-      '<div class="pricebar"><div class="from"><span>' + esc(t("calcOur")) + '</span><b data-c="out">—</b></div></div>' +
-      '<a class="btn wa" data-c="go" target="_blank" rel="noopener" href="' + wa(lines) + '">' + esc(t("bookWa")) + '</a></div>';
-  }
-  function calcUpd(box){
-    var c = CALC[box.getAttribute("data-calc")], p = parseFloat(box.querySelector('[data-c="price"]').value), sel = box.querySelector('[data-c="site"]');
-    var site = sel.value, ok = p > 0, our = ok ? Math.round(p + c.fee) : 0, nm = box.querySelector('[data-c="name"]');
-    box.querySelector('[data-c="out"]').textContent = ok ? our + "$" : "—";
-    box.querySelector('[data-c="go"]').href = wa(c.lines.concat(["الموقع: " + site], nm && nm.value.trim() ? ["الفندق: " + nm.value.trim()] : []).concat(ok ? [
-      "السعر على الموقع: " + p + "$ " + (c.unit === "night" ? "لليلة" : "للشخص"), "سعر الحجز ويانا: " + our + "$ " + (c.unit === "night" ? "لليلة" : "للشخص")] : []));
-  }
-  document.addEventListener("input", function(e){ var b = e.target.closest && e.target.closest("[data-calc]"); if (b) calcUpd(b); });
-  document.addEventListener("change", function(e){ var b = e.target.closest && e.target.closest("[data-calc]"); if (b) calcUpd(b); });
-  function officialHotel(base, rooms, pax, star){
-    var bq = { ss: cityEn(val("h-city")), checkin: val("h-in"), checkout: val("h-out"), group_adults: Math.min(Math.max(pax, 1), 30),
-               no_rooms: rooms, group_children: 0, lang: L === "en" ? "en-us" : "ar", selected_currency: "USD" };
-    if (star) bq.nflt = "class=" + (star + 2);
-    var url = "https://www.booking.com/searchresults.html?" + Object.keys(bq).map(function(k){ return k + "=" + encodeURIComponent(bq[k]); }).join("&");
-    return '<div class="off"><h3>' + esc(t("hOffH")) + '</h3><p class="small">' + esc(t("hOffP", C.fee_hotel)) + '</p>' +
-      '<a class="cmp" href="' + esc(url) + '" target="_blank" rel="noopener">' + I.bed + '<span><b>' + esc(t("hBooking")) + '</b><small>' + esc(t("hSub")) + '</small></span></a>' +
-      calcBox("hot", [["Booking.com", "Booking.com"]], "night", C.fee_hotel, base) + '</div>';
-  }
-
   /* أسعار الطيران الحية: fares.json يتحدث كل ساعة من نظام الحجز (Travelpayouts) */
   var FARES = null;
   function loadFares(cb){
@@ -1080,7 +1051,8 @@ a.alc{text-decoration:none;color:var(--ink)}
           '<a class="btn wa" target="_blank" rel="noopener" href="' + wa(base.concat(["الفندق: " + x.a.h + (x.a.st ? " (" + x.a.st + " نجوم)" : "") + (x.a.b ? " · " + x.a.b : ""),
             "سعر الليلة للشخص: " + x.rate + "$", "المجموع: " + x.total + "$"])) + '">' + esc(t("bookWa")) + '</a></div>';
       }).join("") + (notes.length ? '<ul class="notes">' + notes.map(function(n){ return '<li>' + esc(n) + '</li>'; }).join("") + '</ul>' : '') :
-      '') + officialHotel(base, rooms, pax, star);
+      '<p>' + esc(t("hNone")) + '</p><a class="btn wa" target="_blank" rel="noopener" href="' + wa(base.concat(
+        star ? ["الفئة: " + S.ar.starOpts[star]] : [])) + '">' + esc(t("reqWa")) + '</a>');
     res.hidden = false;
   });
 
