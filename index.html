@@ -258,20 +258,22 @@ dialog.hello{border:0;padding:0;margin:auto;width:calc(100% - 32px);max-width:42
 dialog.hello::backdrop{background:rgba(17,24,39,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 dialog.hello:not([open]){display:none}
 .hello .top{position:relative;background:linear-gradient(160deg,#7FB6EC 0%,#BFDDF7 70%,#FFF7F1 100%);padding:18px 18px 0;text-align:center}
-.hello .top .x{position:absolute;top:12px;inset-inline-end:12px;background:rgba(255,255,255,.85)}
+.hello .top .x{position:absolute;top:12px;inset-inline-end:12px;background:rgba(255,255,255,.85);z-index:3}
 .hello .top{overflow:hidden}
 .hello .top .mw{position:relative;width:132px;margin:4px auto -6px}
 .hello .top img{width:132px;height:auto;display:block;filter:drop-shadow(0 14px 16px rgba(20,60,110,.25));transform-origin:50% 100%}
-.hello .bub{position:absolute;top:6px;right:-62px;background:#fff;color:var(--accent-2);font-weight:800;font-size:15px;padding:6px 12px;border-radius:16px 16px 16px 4px;box-shadow:0 8px 20px rgba(20,60,110,.18);white-space:nowrap;opacity:0}
-/* الشخصية تمشي من اليسار لليمين، توكف بالنص، وتسوي «هلاو» */
-.fx .hello[open] .mw{animation:mwWalk 1.6s cubic-bezier(.3,.7,.4,1) both}
-.fx .hello[open] .top img{animation:mwStep .32s ease-in-out 5 both,mwWave .9s ease-in-out 1.6s 3 both,floaty 5s ease-in-out 4.3s infinite}
-.fx .hello[open] .bub{animation:mwBub .5s cubic-bezier(.2,1.4,.4,1) 1.5s both}
+.hello .bub{position:absolute;top:6px;right:-70px;background:#fff;color:var(--accent-2);font-weight:800;font-size:15px;padding:6px 12px;border-radius:16px 16px 16px 4px;box-shadow:0 8px 20px rgba(20,60,110,.18);white-space:nowrap;opacity:0}
+/* الشخصية تدخل من اليمين، توكف بالنص وتسوي «هلاو»، وتكمل لليسار وتطلع، وتعيد كل 8 ثواني */
+.fx .hello[open] .mw{animation:mwPath 8s linear infinite both}
+.fx .hello[open] .top img{animation:mwBody 8s linear infinite both}
+.fx .hello[open] .bub{animation:mwBub 8s ease-out infinite both}
 html:not(.fx) .hello .bub{opacity:1}
-@keyframes mwWalk{from{transform:translateX(-170px)}to{transform:none}}
-@keyframes mwStep{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-7px) rotate(3deg)}}
-@keyframes mwWave{0%,100%{transform:rotate(0)}25%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}}
-@keyframes mwBub{from{opacity:0;transform:scale(.3) translateY(10px)}to{opacity:1;transform:none}}
+@keyframes mwPath{0%{transform:translateX(230px)}30%{transform:translateX(0)}64%{transform:translateX(0)}94%{transform:translateX(-230px)}100%{transform:translateX(-230px)}}
+@keyframes mwBody{
+  0%,6%,12%,18%,24%,30%{transform:translateY(0) rotate(-2deg)}3%,9%,15%,21%,27%{transform:translateY(-8px) rotate(2deg)}
+  33%{transform:none}38%,46%,54%{transform:rotate(-8deg)}42%,50%,58%{transform:rotate(8deg)}62%{transform:none}
+  64%,70%,76%,82%,88%,94%{transform:translateY(0) rotate(2deg)}67%,73%,79%,85%,91%{transform:translateY(-8px) rotate(-2deg)}100%{transform:none}}
+@keyframes mwBub{0%,31%{opacity:0;transform:scale(.3) translateY(10px)}35%,58%{opacity:1;transform:none}62%,100%{opacity:0;transform:scale(.6)}}
 .hello .bd{padding:18px 22px 22px;text-align:center;display:grid;gap:12px}
 .hello h2{margin:0;font-size:24px;font-weight:800;line-height:1.25}
 .hello h2 span{color:var(--accent)}
