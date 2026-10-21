@@ -108,6 +108,10 @@ def apply_sheet(path):
         errs.append("فنادق: %s" % e)
     try:
         vs = sheet.visas(book)
+        try:
+            vs.update(sheet.visas_eu(book))
+        except Exception as e:  # noqa: BLE001
+            errs.append("فيزا أوربا: %s" % e)
         by = {}
         for v in data.VISAS:
             by.setdefault(v["الدولة"], []).append(v)

@@ -158,9 +158,9 @@ def stay(v):
 
 def plan_len(v):
     """'8 أيام 7 ليالي' '15 أيام 14 ليالي' '5 ايام 4 ليالي' ← '8 أيام / 7 ليالي'."""
-    m = re.search(r"(\d+)\s*(?:أيام|ايام|يوم).*?(\d+)\s*(?:ليالي|ليلة|ليله)", clean(v))
+    m = re.search(r"(\d+)\s*(?:أيام|ايام|ياام|يوم).*?(\d+)\s*(?:ليالي|ليلة|ليله)", clean(v))
     if not m:
-        m2 = re.search(r"(\d+)\s*(?:أيام|ايام|يوم)", clean(v))
+        m2 = re.search(r"(\d+)\s*(?:أيام|ايام|ياام|يوم)", clean(v))
         return ("%s أيام" % m2.group(1)) if m2 else clean(v)
     d, n = int(m.group(1)), int(m.group(2))
     return "%d %s / %d %s" % (d, "يوم" if d > 10 else "أيام", n, "ليلة" if n > 10 else "ليالي")
@@ -417,6 +417,16 @@ def load(path):
     bey = one("بيروت اور + عالميه")
     add("بيروت", lambda: (opts(bey, prog=lambda v, _: plan_len(v["dur"]), single_diff=True), table_dates(bey)))
 
+    bia = one("بيروت عراقيه", "بيروت عراقية")
+    add("بيروت – العراقية", lambda: (opts(bia, prog=lambda v, _: plan_len(v["dur"])), table_dates(bia)))
+
+    # بدون طيران: تايلند (نفس جداول تايلند) وبيروت (السعر للشخص بالدبل، والسنكل)
+    thl = tabs("تايلنــــد بدون طيران ", "تايلند بدون طيران")
+    add("بانكوك بدون طيران", lambda: (opts(thl[0]), []))
+    add("بانكوك + بوكيت بدون طيران", lambda: (opts(thl[1]), []))
+    bl = one("بيروت بدون طيران")
+    add("بيروت بدون طيران", lambda: (opts(bl, prog=lambda v, _: plan_len(v["dur"])), []))
+
     aq = one("كروب العقبة حفلة كاظم ")
     add("حفلة كاظم الساهر في العقبة – الأردن", lambda: (opts(aq), []))
 
@@ -430,7 +440,7 @@ def load(path):
     add("تونس + حفلة راغب علامة", tunis)
 
     amr = one("حفلة عمرو دياب القاهرة", "عمرو دياب& شاكيرا القاهرة")
-    add("حفلة شاكيرا وعمرو دياب في القاهرة",
+    add("حفلة عمرو دياب في القاهرة",
         lambda: (opts(amr, prog=lambda v, _: plan_len(v["dur"])), table_dates(amr, year_less=True)))
 
     def kazim_ist():
@@ -491,7 +501,7 @@ VISA_NAMES = {"سيريلانكا": "سريلانكا", "الموزنبيق": "�
 
 def span(v):
     """مدة مثل '5-3 ايام عمل' ← '3-5 أيام عمل'؛ أي نص مو مدة يرجع فاضي حتى يبقى القديم."""
-    s = clean(v).replace("ايام", "أيام")
+    s = re.sub(r"(\d)(أيام|يوم|ساعة)", r"\1 \2", clean(v).replace("ايام", "أيام"))
     if not re.fullmatch(r"\d+(?:\s*-\s*\d+)?\s*(?:أيام|يوم|ساعة|ساعات|شهور|سنوات)(?: عمل)?", s):
         return ""
     return re.sub(r"(\d+)\s*-\s*(\d+)", lambda m: "%s-%s" % tuple(sorted((m.group(1), m.group(2)), key=int)), s)
@@ -520,6 +530,30 @@ def visas(book):
             out.setdefault(cur, [])
         if cur and p is not None:
             out[cur].append((span(r[cd]), fmt(p), span(r[cv])))
+    return out
+
+
+EU_NAMES = {"ايطاليا": "إيطاليا", "اسبانيا": "إسبانيا", "المانيا": "ألمانيا"}
+
+
+def visas_eu(book):
+    """تبويب «فيزا اوربا»: {الدولة: [(مدة الإصدار، سعر البيع، الصلاحية)]} بنفس شكل visas."""
+    rows = find(book, "فيزا اوربا", "فيزا اوروبا")
+    out, t = {}, None
+    for i, r in enumerate(rows):
+        hk = [key(c) for c in r]
+        if "البيع" in hk and "الدوله" in hk:
+            t = (i, hk.index("الدوله"), hk.index("مدةالاصدار"), hk.index("البيع"), hk.index("الصلاحيةفيالعراق"))
+            break
+    if not t:
+        return out
+    i0, cc, cd, cp, cv = t
+    for r in rows[i0 + 1:]:
+        r = r + [""] * 12
+        c = re.sub(r"\s*\(.*", "", clean(r[cc])).strip()
+        p = money(r[cp])
+        if c and p is not None:
+            out[EU_NAMES.get(c, c)] = [(span(r[cd]), fmt(p), span(r[cv]))]
     return out
 
 
