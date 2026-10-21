@@ -998,7 +998,7 @@ a.alc{text-decoration:none;color:var(--ink)}
           '<small>' + esc(t("iaNote")) + '</small></div>' +
           '<div class="pp"><b>' + p + '</b><small>' + esc(t("iqd") + " · " + t("perPerson")) + '</small></div>' +
           '<a class="btn wa" target="_blank" rel="noopener" href="' + wa(flyLines(["الخطوط: الخطوط الجوية العراقية", "الوجهة: " + x.ar,
-            "السعر المعروض: " + p + " دينار للشخص (" + (rt ? "ذهاب وعودة" : "ذهاب فقط") + ")"])) + '">' + esc(t("bookWa")) + '</a></div>';
+            "السعر المعروض: " + p + " دينار للشخص (" + TRIP_AR[trip()] + ")"])) + '">' + esc(t("bookWa")) + '</a></div>';
       }).join("") + (list.length && list[0].gap > 0 ? '<p class="small">' + esc(t("fNear")) + '</p>' : '') + list.map(function(x){
         var f = x.f, name = airName(f.a), nameAr = airAr(f.a);
         var info = [when(f.dep) + " · " + stops(f.tr)].concat(rt && f.ret ? [t("ret") + ": " + when(f.ret) + " · " + stops(f.rtr)] : []);
