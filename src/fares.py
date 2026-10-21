@@ -28,7 +28,8 @@ ORIGINS = ["BGW", "EBL", "BSR", "NJF", "ISU"]
 # رموز المدن (المدينة تشمل كل مطاراتها: IST = اسطنبول وصبيحة، THR = طهران)
 DESTS = ["IST", "AYT", "TZX", "DXB", "SHJ", "AUH", "DOH", "AMM", "BEY", "CAI", "SSH", "DAM", "MCT",
          "JED", "MED", "KUL", "BKK", "LON", "THR", "MHD", "SYZ", "IFN", "TBS", "BUS", "GYD", "CMB",
-         "TUN", "BAH", "KWI", "RUH"]
+         "TUN", "BAH", "KWI", "RUH",
+         "BGW", "EBL", "BSR", "NJF", "ISU"]  # الرحلات الداخلية (أكثرها للخطوط العراقية)
 PER = 6  # أرخص كم رحلة لكل شهر ونوع (للوجهات الأشهر)
 KEEP = 10  # أرخص كم سعر نخلي لكل رحلة
 WORLD = 1000  # كل الوجهات: طلب واحد بدون وجهة يرجّع أرخص الرحلات لكل مدن العالم
