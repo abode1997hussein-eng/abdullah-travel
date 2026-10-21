@@ -226,6 +226,7 @@ def fares(L):
 
 DATA = {L: {"groups": groups(L), "visas": visas(L), "fares": fares(L), "hotels": hotels(L), "hnotes": hotel_notes(L)} for L in LANGS}
 DATA["company"] = COMPANY
+DATA["ia"] = [{"c": c, "ar": ar, "en": en, "ow": ow, "rt": rt} for c, ar, en, ow, rt in getattr(data, "IA_FARES", [])]
 if MISSING:
     print("ترجمة ناقصة (تطلع بالعربي):", *sorted(MISSING), sep="\n  ")
 
