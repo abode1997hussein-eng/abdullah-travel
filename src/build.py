@@ -26,7 +26,7 @@ COMPANY = {
     "fee_fly": 15,    # $ للشخص على تذكرة الطيران
     "fee_hotel": 10,  # $ لليلة على الفندق
     "airlines": [
-        {"k": "iraqi", "ar": "الخطوط الجوية العراقية", "ku": "هێڵی ئاسمانی عێراقی", "en": "Iraqi Airways", "url": ""},
+        {"k": "iraqi", "ar": "الخطوط الجوية العراقية", "ku": "هێڵی ئاسمانی عێراقی", "en": "Iraqi Airways", "url": "https://iraqiairways.com.iq/"},
         {"k": "flybaghdad", "ar": "فلاي بغداد", "ku": "فلای بەغدا", "en": "Fly Baghdad", "url": ""},
         {"k": "qatar", "ar": "الخطوط القطرية", "ku": "قەتەر ئێروەیز", "en": "Qatar Airways", "url": "https://www.qatarairways.com"},
         {"k": "emirates", "ar": "طيران الإمارات", "ku": "ئیمارات", "en": "Emirates", "url": "https://www.emirates.com"},
