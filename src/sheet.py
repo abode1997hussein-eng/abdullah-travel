@@ -335,13 +335,25 @@ def load(path):
         except Exception as e:  # noqa: BLE001 — كروب واحد خربان ما يوقف الباقي
             errs.append("%s: %s" % (name, e))
 
-    th = tables(find(book, "تايلنــــد "))
+    # تبويب انحذف أو انغيّر اسمه ما يوكّف الباقي: يرجع جداول فاضية وينكتب بالمشاكل
+    def tabs(*names):
+        try:
+            return tables(find(book, *names))
+        except KeyError as e:
+            errs.append(str(e).strip("'"))
+            return []
+
+    def one(*names):
+        t = tabs(*names)
+        return t[0] if t else None
+
+    th = tabs("تايلنــــد ")
     add("بانكوك", lambda: (opts(th[0]), table_dates(th[0])))
     add("بانكوك + بوكيت", lambda: (opts(th[1]), table_dates(th[1])))
 
     def lanka():
         rows, ds = [], []
-        for t in tables(find(book, "رحلات سريلانكا ")):
+        for t in tabs("رحلات سريلانكا "):
             for r in opts(t, prog=lambda v, title: plan_len(title)):
                 r["الفندق"] = "راديسون + أراليا ريد + إيكو سورف"
                 r["الموقع"] = ""
@@ -350,7 +362,7 @@ def load(path):
         return rows, ds
     add("سريلانكا", lanka)
 
-    my = tables(find(book, "ماليزيا "))
+    my = tabs("ماليزيا ")
 
     def malaysia(t):
         rows = []
@@ -385,45 +397,45 @@ def load(path):
     add("ماليزيا", lambda: (malaysia(my[0]), table_dates(my[0])))
     add("ماليزيا بدون طيران", lambda: (malaysia(my[1]), []))
 
-    sh = tables(find(book, "شرم الشيخ  "))
+    sh = tabs("شرم الشيخ  ")
     add("شرم الشيخ", lambda: (opts(sh[0]), table_dates(sh[0])))
     add("شرم الشيخ + القاهرة", lambda: (opts(sh[1]), table_dates(sh[1])))
 
-    cai = tables(find(book, "كروبات القاهره بغداد "))
+    cai = tabs("كروبات القاهره بغداد ")
     add("القاهرة", lambda: (opts(cai[0]), table_dates(cai[0])))
     add("القاهرة + شرم الشيخ", lambda: (opts(cai[1]), table_dates(cai[1])))
 
     for name, tab in (("مسقط من بغداد", "مسقط بغداد  "), ("مسقط من أربيل", "مسقط اربيل ")):
-        t = tables(find(book, tab))[0]
+        t = one(tab)
         add(name, lambda t=t: (opts(t, prog=muscat_plan), table_dates(t)))
 
-    ist = tables(find(book, "اسطنبول فلاي بغداد+ AJT"))[0]
+    ist = one("اسطنبول فلاي بغداد+ AJT")
     add("اسطنبول – فلاي بغداد", lambda: (opts(ist, prog=lambda v, _: plan_len(v["dur"])), table_dates(ist)))
-    ia = tables(find(book, "اسطنبول عراقية"))[0]
+    ia = one("اسطنبول عراقية")
     add("اسطنبول – العراقية", lambda: (opts(ia, prog=lambda v, _: plan_len(v["dur"])), table_dates(ia)))
 
-    bey = tables(find(book, "بيروت اور + عالميه"))[0]
+    bey = one("بيروت اور + عالميه")
     add("بيروت", lambda: (opts(bey, prog=lambda v, _: plan_len(v["dur"]), single_diff=True), table_dates(bey)))
 
-    aq = tables(find(book, "كروب العقبة حفلة كاظم "))[0]
+    aq = one("كروب العقبة حفلة كاظم ")
     add("حفلة كاظم الساهر في العقبة – الأردن", lambda: (opts(aq), []))
 
     def tunis():
         rows = []
-        for title, h, body in tables(find(book, "تونس  حفلة راغب علامه ")):
+        for title, h, body in tabs("تونس  حفلة راغب علامه "):
             pl = ("تونس 3 ليالي + سوسة 4 ليالي" if "سوسة" in title else
                   "تونس 3 ليالي + الحمامات 4 ليالي" if "حمامات" in title else "تونس فقط")
             rows += opts((title, h, body), prog=lambda v, _, pl=pl: pl)
         return rows, []
     add("تونس + حفلة راغب علامة", tunis)
 
-    amr = tables(find(book, "عمرو دياب& شاكيرا القاهرة"))[0]
+    amr = one("حفلة عمرو دياب القاهرة", "عمرو دياب& شاكيرا القاهرة")
     add("حفلة شاكيرا وعمرو دياب في القاهرة",
         lambda: (opts(amr, prog=lambda v, _: plan_len(v["dur"])), table_dates(amr, year_less=True)))
 
     def kazim_ist():
         rows, ds = [], []
-        for t in tables(find(book, "كاظم الساهر اسطنبول راس السنة")):
+        for t in tabs("كاظم الساهر اسطنبول راس السنة"):
             first = clean(t[2][0][t[1].get("date", 0)]) if t[2] else ""
             air = "فلاي بغداد" if "فلاي" in first else "العراقية"
             pl = air + " · " + plan_len(first)
@@ -434,7 +446,7 @@ def load(path):
 
     for name, tab in (("حفلة كاظم الساهر رأس السنة في بيروت – العراقية", "بيروت راس السنه عراقية "),
                       ("حفلة كاظم الساهر رأس السنة في بيروت – طيران العالمية", "بيروت راس السنه عالمية ")):
-        t = tables(find(book, tab))[0]
+        t = one(tab)
         add(name, lambda t=t: (opts(t, prog=lambda v, _: plan_len(v["dur"])), []))
 
     return live, errs, book
