@@ -32,6 +32,9 @@ DESTS = ["IST", "AYT", "TZX", "DXB", "SHJ", "AUH", "DOH", "AMM", "BEY", "CAI", "
          "BGW", "EBL", "BSR", "NJF", "ISU"]  # الرحلات الداخلية (أكثرها للخطوط العراقية)
 PER = 6  # أرخص كم رحلة لكل شهر ونوع (للوجهات الأشهر)
 KEEP = 10  # أرخص كم سعر نخلي لكل رحلة
+# رحلات مهمة نجيب إلها أسعار أكثر ولـ3 أشهر، بالاتجاهين: النجف ⇄ إيران (مشهد، طهران، رشت، أصفهان)
+ROUTES = [(a, b) for x in ("MHD", "THR", "RAS", "IFN") for a, b in (("NJF", x), (x, "NJF"))]
+DEEP = 10
 WORLD = 1000  # كل الوجهات: طلب واحد بدون وجهة يرجّع أرخص الرحلات لكل مدن العالم
 
 
@@ -62,6 +65,7 @@ def main():
     # أولاً كل العالم (بدون وجهة) لـ3 أشهر، وبعدها رحلات أكثر للوجهات الأشهر
     jobs = [(o, None, m, ow, WORLD) for o in ORIGINS for m in months(3) for ow in ("true", "false")]
     jobs += [(o, d, m, ow, PER) for o in ORIGINS for d in DESTS if o != d for m in months() for ow in ("true", "false")]
+    jobs += [(o, d, m, ow, DEEP) for o, d in ROUTES for m in months(3) for ow in ("true", "false")]
     for o, d, m, one_way, limit in jobs:
         q = dict(origin=o, departure_at=m, one_way=one_way)
         if d:
