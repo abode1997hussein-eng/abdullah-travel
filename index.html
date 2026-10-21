@@ -253,6 +253,28 @@ section.sec{padding-top:34px;scroll-margin-top:calc(env(safe-area-inset-top,0px)
 .creds{border-top:0!important;padding-top:0!important;margin-top:-10px}
 .creds summary{cursor:pointer}
 
+/* ---------- رسالة الترحيب ---------- */
+dialog.hello{border:0;padding:0;margin:auto;width:calc(100% - 32px);max-width:420px;border-radius:28px;background:#FFFFFF;color:var(--ink);overflow:hidden;box-shadow:0 30px 80px rgba(20,40,80,.35)}
+dialog.hello::backdrop{background:rgba(17,24,39,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+dialog.hello:not([open]){display:none}
+.hello .top{position:relative;background:linear-gradient(160deg,#7FB6EC 0%,#BFDDF7 70%,#FFF7F1 100%);padding:18px 18px 0;text-align:center}
+.hello .top .x{position:absolute;top:12px;inset-inline-end:12px;background:rgba(255,255,255,.85)}
+.hello .top img{width:132px;height:auto;display:block;margin:4px auto -6px;filter:drop-shadow(0 14px 16px rgba(20,60,110,.25))}
+.fx .hello[open] .top img{animation:floaty 5s ease-in-out infinite}
+.hello .bd{padding:18px 22px 22px;text-align:center;display:grid;gap:12px}
+.hello h2{margin:0;font-size:24px;font-weight:800;line-height:1.25}
+.hello h2 span{color:var(--accent)}
+.hello p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.7}
+.hello .sv{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.hello .sv button{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 4px;border:1px solid var(--line);border-radius:16px;background:var(--tile);font:inherit;font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer}
+.hello .sv button:hover{border-color:var(--accent);background:var(--accent-soft)}
+.hello .sv .ico{width:24px;height:24px;color:var(--accent)}
+.hello .ft{display:grid;gap:8px}
+.hello .lg{display:flex;justify-content:center;gap:6px}
+.hello .lg button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font:inherit;font-size:12.5px;cursor:pointer;color:var(--muted)}
+.hello .lg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-reduced-motion:no-preference){dialog.hello[open]{animation:helloIn .45s cubic-bezier(.2,.9,.3,1.2)}}
+@keyframes helloIn{from{opacity:0;transform:translateY(24px) scale(.94)}to{opacity:1;transform:none}}
 /* ---------- sheets ---------- */
 dialog.sheet{border:0;padding:0;margin:auto auto 0;width:100%;max-width:560px;max-height:90vh;max-height:90dvh;background:#FFFFFF;color:var(--ink);border-radius:28px 28px 0 0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border-top:1px solid var(--line);position:fixed;top:auto;bottom:0;left:0;right:0;z-index:100}
 dialog.sheet::backdrop{background:rgba(17,24,39,.55)}
@@ -603,6 +625,26 @@ a.alc{text-decoration:none;color:var(--ink)}
   <span data-t="whatsapp">واتساب</span>
 </a>
 
+<!-- ============ رسالة الترحيب ============ -->
+<dialog class="hello" id="hello" aria-labelledby="hT">
+  <div class="top"><button class="x" type="button" data-hclose aria-label="×"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><img src="img/mascot.webp" alt="" width="591" height="600"></div>
+  <div class="bd">
+    <h2 id="hT"><span data-t="hiTitle">هلا بيك</span> 👋</h2>
+    <p data-t="hiText"></p>
+    <div class="sv">
+      <button type="button" data-go="fly"><svg class="ico" viewBox="0 0 24 24"><path d="M2.5 13.5l6.5.5 4.5 6.5 1.6-.6-2-6.3 5.4.3 1.5 2.1h1.5l-.8-3.5.8-3.5H20l-1.5 2.1-5.4.3 2-6.3-1.6-.6L9 10l-6.5.5z"/></svg><span data-t="tFly">طيران</span></button>
+      <button type="button" data-go="hot"><svg class="ico" viewBox="0 0 24 24"><path d="M3 19V9M3 15h18v4M21 15v-2.5A3.5 3.5 0 0017.5 9H11v6"/><circle cx="7" cy="12" r="1.8"/></svg><span data-t="tHotels">فنادق</span></button>
+      <button type="button" data-go="grp"><svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0111 0M15.5 4.8a3.2 3.2 0 010 6.4M17 14a5.2 5.2 0 013.5 5.5"/></svg><span data-t="tGroups">كروبات</span></button>
+      <button type="button" data-go="vis"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M9 16h6"/></svg><span data-t="tVisa">فيزا</span></button>
+    </div>
+    <div class="ft">
+      <button class="btn" type="button" data-hclose data-t="hiStart" autofocus>يلا نبدي</button>
+      <a class="btn ghost" data-wa target="_blank" rel="noopener" href="#" data-t="hiWa">تكلم ويانا بالواتساب</a>
+    </div>
+    <div class="lg"><button type="button" data-hl="ar">عربي</button><button type="button" data-hl="ku">کوردی</button><button type="button" data-hl="en">English</button></div>
+  </div>
+</dialog>
+
 <!-- ============ نافذة الكروب ============ -->
 <dialog class="sheet" id="gSheet" aria-labelledby="gT">
   <div class="sh-head"><b id="gT"></b><button class="x" type="button" data-close aria-label="×"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -653,7 +695,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       flyTitle:"ابحث عن سعر تذكرتك", tRt:"ذهاب وعودة", tOw:"ذهاب فقط", tOp:"عودة اوبن", from:"من", to:"إلى", dep:"المغادرة", ret:"العودة", pax:"المسافرين",
       paxOpts:["1 بالغ","2 بالغين","3 بالغين","4 بالغين","5 بالغين","عائلة (أكتب العدد بالواتساب)"], toPh:"مثلاً: طهران",
       direct:"رحلات مباشرة فقط", showPrices:"اعرض الأسعار", missing:"كمّل «{0}» حتى تطلعلك الأسعار.",
-      fDirect:"مباشر", fStops:"{0} توقف", fLoading:"نجيب الأسعار…", fNear:"ما لكينا سعر بنفس يومك، هاي أقرب الأيام وأرخصها.", fNote:"السعر للشخص من نظام الحجز ويتحدث كل ساعة. السعر النهائي يتأكد وياك بالواتساب وقت الحجز.", iqd:"د.ع", iaNote:"سعر ثابت · حسب توفر المقاعد بتاريخك", alStrip:"نحجزلك على كل الخطوط", offSite:"شوف المواعيد على موقعهم الرسمي", fNone:"هالرحلة ما بيها سعر جاهز هسه. دزلنا الطلب بالواتساب ونرجعلك بأحسن سعر من كل الخطوط.", reqWa:"اطلب السعر بالواتساب", placesLoading:"نحمّل المدن…", hSub:"المدينة والتواريخ والفئة مكتوبة جاهزة", hResH:"فنادق {0}", hResP:"شوف كل الفنادق وأسعارها على بوكينك، واختار الفندق وارجع احجز ويانا بالواتساب.", hBooking:"شوف الفنادق والأسعار على Booking.com", hCalc:"السعر لـ{0} ليالي، عدد الأشخاص {1}، غرفة {2}.", room_s:"سنكل", room_d:"دبل", room_t:"تربل", hNight:"الليلة للشخص {0}$", hTotal:"المجموع", hNone:"ما عدنا أسعار فنادق لهالمدينة بالموقع بعد. اطلب وندزلك أسعار الفنادق بالواتساب خلال دقائق.", calcH:"شفت السعر؟ اكتبه هنا وثبّت ويانا", calcSite:"شفته على", calcPriceP:"السعر للشخص ($)", calcPriceN:"سعر الليلة ($)", calcHotel:"اسم الفندق اللي اخترته", calcOur:"سعر الحجز ويانا", offP2:"افتح الموقع الرسمي وشوف السعر، وارجع اكتبه تحت. سعر الحجز ويانا = السعر + {0}$ للشخص.", hOffH:"كل الفنادق بأسعارها على Booking.com", hOffP:"شوف الفنادق، واختار، وارجع اكتب سعر الليلة تحت. سعر الحجز ويانا = السعر + {0}$ لليلة.", resFor:"الأسعار من {0} إلى {1}", perPerson:"للشخص", bookWa:"ثبّت الحجز بالواتساب",
+      fDirect:"مباشر", fStops:"{0} توقف", fLoading:"نجيب الأسعار…", fNear:"ما لكينا سعر بنفس يومك، هاي أقرب الأيام وأرخصها.", fNote:"السعر للشخص من نظام الحجز ويتحدث كل ساعة. السعر النهائي يتأكد وياك بالواتساب وقت الحجز.", iqd:"د.ع", iaNote:"سعر ثابت · حسب توفر المقاعد بتاريخك", alStrip:"نحجزلك على كل الخطوط", offSite:"شوف المواعيد على موقعهم الرسمي", hiTitle:"هلا بيك بـسافر مع عبدالله", hiText:"تذاكر طيران لكل العالم، فنادق، كروبات سياحية، وفيزا لأكثر من 35 دولة. ابحث وشوف الأسعار، واحجز ويانا مباشرة بالواتساب.", hiStart:"يلا نبدي", hiWa:"تكلم ويانا بالواتساب", fNone:"هالرحلة ما بيها سعر جاهز هسه. دزلنا الطلب بالواتساب ونرجعلك بأحسن سعر من كل الخطوط.", reqWa:"اطلب السعر بالواتساب", placesLoading:"نحمّل المدن…", hSub:"المدينة والتواريخ والفئة مكتوبة جاهزة", hResH:"فنادق {0}", hResP:"شوف كل الفنادق وأسعارها على بوكينك، واختار الفندق وارجع احجز ويانا بالواتساب.", hBooking:"شوف الفنادق والأسعار على Booking.com", hCalc:"السعر لـ{0} ليالي، عدد الأشخاص {1}، غرفة {2}.", room_s:"سنكل", room_d:"دبل", room_t:"تربل", hNight:"الليلة للشخص {0}$", hTotal:"المجموع", hNone:"ما عدنا أسعار فنادق لهالمدينة بالموقع بعد. اطلب وندزلك أسعار الفنادق بالواتساب خلال دقائق.", calcH:"شفت السعر؟ اكتبه هنا وثبّت ويانا", calcSite:"شفته على", calcPriceP:"السعر للشخص ($)", calcPriceN:"سعر الليلة ($)", calcHotel:"اسم الفندق اللي اخترته", calcOur:"سعر الحجز ويانا", offP2:"افتح الموقع الرسمي وشوف السعر، وارجع اكتبه تحت. سعر الحجز ويانا = السعر + {0}$ للشخص.", hOffH:"كل الفنادق بأسعارها على Booking.com", hOffP:"شوف الفنادق، واختار، وارجع اكتب سعر الليلة تحت. سعر الحجز ويانا = السعر + {0}$ لليلة.", resFor:"الأسعار من {0} إلى {1}", perPerson:"للشخص", bookWa:"ثبّت الحجز بالواتساب",
       noFare:"سعر هالرحلة يتحدث لحظياً. اضغط وراسلنا، ونرجعلك بأفضل سعر على كل الخطوط خلال دقائق.", askPrice:"اطلب السعر بالواتساب",
       offH:"شوف الأسعار على مواقع الخطوط الرسمية", offP:"افتح موقع الشركة وشوف السعر، وإذا عجبك ارجع واحجز ويانا بالواتساب.", cmpAll:"قارن أسعار كل الخطوط", cmpSub:"الرحلة والتاريخ مكتوبين جاهز", seePrice:"شوف السعر", bookUs:"احجز ويانا"
     },
@@ -687,7 +729,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       flyTitle:"نرخی بلیتەکەت بگەڕێ", tRt:"چوون و گەڕانەوە", tOw:"تەنها چوون", tOp:"گەڕانەوەی کراوە", from:"لە", to:"بۆ", dep:"ڕۆیشتن", ret:"گەڕانەوە", pax:"گەشتیاران",
       paxOpts:["1 گەورە","2 گەورە","3 گەورە","4 گەورە","5 گەورە","خێزان (ژمارە لە واتسئاپ بنووسە)"], toPh:"بۆ نموونە: تاران",
       direct:"تەنها فڕینی ڕاستەوخۆ", showPrices:"نرخەکان پیشان بدە", missing:"«{0}» تەواو بکە بۆ ئەوەی نرخەکان ببینیت.",
-      fDirect:"ڕاستەوخۆ", fStops:"{0} وەستان", fLoading:"نرخەکان دەهێنین…", fNear:"نرخمان بۆ هەمان ڕۆژ نەدۆزییەوە، ئەمانە نزیکترین و هەرزانترین ڕۆژەکانن.", fNote:"نرخ بۆ هەر کەسێکە لە سیستەمی حیجزەوە و هەموو کاتژمێرێک نوێ دەبێتەوە. نرخی کۆتایی لە واتسئاپ لە کاتی حیجز پشتڕاست دەکرێتەوە.", iqd:"دینار", iaNote:"نرخی جێگیر · بەپێی بەردەستبوونی کورسی لە بەروارەکەت", alStrip:"لەسەر هەموو هێڵەکان بۆت حیجز دەکەین", offSite:"کاتەکان لە ماڵپەڕی فەرمییان ببینە", fNone:"ئەم گەشتە ئێستا نرخی ئامادەی نییە. داواکاری لە واتسئاپ بنێرە و باشترین نرخی هەموو هێڵەکانت بۆ دەنێرین.", reqWa:"داوای نرخ لە واتسئاپ", placesLoading:"شارەکان باردەکرێن…", hSub:"شار و بەروار و پلە ئامادەن", hResH:"هوتێلەکانی {0}", hResP:"هەموو هوتێلەکان و نرخەکانیان لە بووکینگ ببینە، هوتێلەکە هەڵبژێرە و لە واتسئاپ لای ئێمە حیجز بکە.", hBooking:"هوتێل و نرخەکان لە Booking.com ببینە", hCalc:"نرخ بۆ {0} شەو و {1} کەس لە ژووری {2}.", room_s:"تاک", room_d:"دوو کەسی", room_t:"سێ کەسی", hNight:"شەوێک بۆ هەر کەسێک {0}$", hTotal:"کۆی گشتی", hNone:"هێشتا نرخی هوتێل بۆ ئەم شارە لە ماڵپەڕەکەدا نییە. داوا بکە و لە چەند خولەکێکدا نرخەکانت لە واتسئاپ بۆ دەنێرین.", calcH:"نرخەکەت بینی؟ لێرە بینووسە و لای ئێمە جێگیری بکە", calcSite:"لە کوێ بینیت", calcPriceP:"نرخ بۆ هەر کەسێک ($)", calcPriceN:"نرخی شەوێک ($)", calcHotel:"ناوی ئەو هوتێلەی هەڵتبژارد", calcOur:"نرخی حیجز لای ئێمە", offP2:"ماڵپەڕی فەرمی بکەرەوە و نرخ ببینە، پاشان لە خوارەوە بینووسە. نرخی حیجز لای ئێمە = نرخ + {0}$ بۆ هەر کەسێک.", hOffH:"هەموو هوتێلەکان بە نرخەکانیان لە Booking.com", hOffP:"هوتێلەکان ببینە، هەڵبژێرە، و نرخی شەوێک لە خوارەوە بنووسە. نرخی حیجز لای ئێمە = نرخ + {0}$ بۆ هەر شەوێک.", resFor:"نرخەکان لە {0} بۆ {1}", perPerson:"بۆ هەر کەسێک", bookWa:"حیجز لە واتسئاپ جێگیر بکە",
+      fDirect:"ڕاستەوخۆ", fStops:"{0} وەستان", fLoading:"نرخەکان دەهێنین…", fNear:"نرخمان بۆ هەمان ڕۆژ نەدۆزییەوە، ئەمانە نزیکترین و هەرزانترین ڕۆژەکانن.", fNote:"نرخ بۆ هەر کەسێکە لە سیستەمی حیجزەوە و هەموو کاتژمێرێک نوێ دەبێتەوە. نرخی کۆتایی لە واتسئاپ لە کاتی حیجز پشتڕاست دەکرێتەوە.", iqd:"دینار", iaNote:"نرخی جێگیر · بەپێی بەردەستبوونی کورسی لە بەروارەکەت", alStrip:"لەسەر هەموو هێڵەکان بۆت حیجز دەکەین", offSite:"کاتەکان لە ماڵپەڕی فەرمییان ببینە", hiTitle:"بەخێربێیت بۆ گەشت لەگەڵ عەبدوڵڵا", hiText:"بلیتی فڕۆکە بۆ هەموو جیهان، هوتێل، گروپی گەشتیاری و ڤیزا بۆ زیاتر لە 35 وڵات. بگەڕێ و نرخەکان ببینە، و ڕاستەوخۆ لە واتسئاپ لای ئێمە حیجز بکە.", hiStart:"با دەست پێبکەین", hiWa:"لە واتسئاپ قسەمان لەگەڵ بکە", fNone:"ئەم گەشتە ئێستا نرخی ئامادەی نییە. داواکاری لە واتسئاپ بنێرە و باشترین نرخی هەموو هێڵەکانت بۆ دەنێرین.", reqWa:"داوای نرخ لە واتسئاپ", placesLoading:"شارەکان باردەکرێن…", hSub:"شار و بەروار و پلە ئامادەن", hResH:"هوتێلەکانی {0}", hResP:"هەموو هوتێلەکان و نرخەکانیان لە بووکینگ ببینە، هوتێلەکە هەڵبژێرە و لە واتسئاپ لای ئێمە حیجز بکە.", hBooking:"هوتێل و نرخەکان لە Booking.com ببینە", hCalc:"نرخ بۆ {0} شەو و {1} کەس لە ژووری {2}.", room_s:"تاک", room_d:"دوو کەسی", room_t:"سێ کەسی", hNight:"شەوێک بۆ هەر کەسێک {0}$", hTotal:"کۆی گشتی", hNone:"هێشتا نرخی هوتێل بۆ ئەم شارە لە ماڵپەڕەکەدا نییە. داوا بکە و لە چەند خولەکێکدا نرخەکانت لە واتسئاپ بۆ دەنێرین.", calcH:"نرخەکەت بینی؟ لێرە بینووسە و لای ئێمە جێگیری بکە", calcSite:"لە کوێ بینیت", calcPriceP:"نرخ بۆ هەر کەسێک ($)", calcPriceN:"نرخی شەوێک ($)", calcHotel:"ناوی ئەو هوتێلەی هەڵتبژارد", calcOur:"نرخی حیجز لای ئێمە", offP2:"ماڵپەڕی فەرمی بکەرەوە و نرخ ببینە، پاشان لە خوارەوە بینووسە. نرخی حیجز لای ئێمە = نرخ + {0}$ بۆ هەر کەسێک.", hOffH:"هەموو هوتێلەکان بە نرخەکانیان لە Booking.com", hOffP:"هوتێلەکان ببینە، هەڵبژێرە، و نرخی شەوێک لە خوارەوە بنووسە. نرخی حیجز لای ئێمە = نرخ + {0}$ بۆ هەر شەوێک.", resFor:"نرخەکان لە {0} بۆ {1}", perPerson:"بۆ هەر کەسێک", bookWa:"حیجز لە واتسئاپ جێگیر بکە",
       noFare:"نرخی ئەم گەشتە ساتبەسات نوێ دەبێتەوە. کرتە بکە و نامەمان بۆ بنێرە، لە چەند خولەکێکدا باشترین نرخت بۆ دەنێرین.", askPrice:"داوای نرخ لە واتسئاپ بکە",
       offH:"نرخەکان لە ماڵپەڕە فەرمییەکانی هێڵە ئاسمانییەکان ببینە", offP:"ماڵپەڕی کۆمپانیاکە بکەرەوە و نرخەکە ببینە، پاشان لە واتسئاپ لای ئێمە حیجز بکە.", cmpAll:"نرخی هەموو هێڵەکان بەراورد بکە", cmpSub:"گەشت و بەروار ئامادەن", seePrice:"نرخ ببینە", bookUs:"لای ئێمە حیجز بکە"
     },
@@ -721,7 +763,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       flyTitle:"Search your ticket price", tRt:"Round trip", tOw:"One way", tOp:"Open return", from:"From", to:"To", dep:"Departure", ret:"Return", pax:"Travellers",
       paxOpts:["1 adult","2 adults","3 adults","4 adults","5 adults","Family (tell us on WhatsApp)"], toPh:"e.g. Tehran",
       direct:"Direct flights only", showPrices:"Show prices", missing:"Please fill in “{0}” to see prices.",
-      fDirect:"Direct", fStops:"{0} stop(s)", fLoading:"Getting prices…", fNear:"No fare on your exact day; these are the closest and cheapest days.", fNote:"Price per person from the booking system, updated hourly. The final price is confirmed with you on WhatsApp when booking.", iqd:"IQD", iaNote:"Fixed fare · subject to seat availability on your date", alStrip:"We book all airlines", offSite:"See schedules on their official site", fNone:"No ready fare for this trip right now. Send us the request on WhatsApp and we'll reply with the best price across all airlines.", reqWa:"Ask for the price on WhatsApp", placesLoading:"Loading cities…", hSub:"City, dates and category already filled in", hResH:"Hotels in {0}", hResP:"See every hotel and its price on Booking.com, pick one, then book it with us on WhatsApp.", hBooking:"See hotels and prices on Booking.com", hCalc:"Price for {0} nights, {1} guests, {2} room.", room_s:"single", room_d:"double", room_t:"triple", hNight:"{0}$ per person per night", hTotal:"Total", hNone:"We don’t have hotel prices for this city on the site yet. Ask and we’ll send hotel prices on WhatsApp within minutes.", calcH:"Seen a price? Enter it here and book with us", calcSite:"Seen on", calcPriceP:"Price per person ($)", calcPriceN:"Price per night ($)", calcHotel:"Hotel you picked", calcOur:"Price booking with us", offP2:"Open the official site, check the price, then enter it below. Booking with us = price + ${0} per person.", hOffH:"All hotels and prices on Booking.com", hOffP:"Browse the hotels, pick one, then enter the nightly price below. Booking with us = price + ${0} per night.", resFor:"Prices from {0} to {1}", perPerson:"per person", bookWa:"Confirm on WhatsApp",
+      fDirect:"Direct", fStops:"{0} stop(s)", fLoading:"Getting prices…", fNear:"No fare on your exact day; these are the closest and cheapest days.", fNote:"Price per person from the booking system, updated hourly. The final price is confirmed with you on WhatsApp when booking.", iqd:"IQD", iaNote:"Fixed fare · subject to seat availability on your date", alStrip:"We book all airlines", offSite:"See schedules on their official site", hiTitle:"Welcome to Travel with Abdullah", hiText:"Flights worldwide, hotels, group tours and visas for 35+ countries. Search, see the prices, and book with us directly on WhatsApp.", hiStart:"Let\'s start", hiWa:"Chat with us on WhatsApp", fNone:"No ready fare for this trip right now. Send us the request on WhatsApp and we'll reply with the best price across all airlines.", reqWa:"Ask for the price on WhatsApp", placesLoading:"Loading cities…", hSub:"City, dates and category already filled in", hResH:"Hotels in {0}", hResP:"See every hotel and its price on Booking.com, pick one, then book it with us on WhatsApp.", hBooking:"See hotels and prices on Booking.com", hCalc:"Price for {0} nights, {1} guests, {2} room.", room_s:"single", room_d:"double", room_t:"triple", hNight:"{0}$ per person per night", hTotal:"Total", hNone:"We don’t have hotel prices for this city on the site yet. Ask and we’ll send hotel prices on WhatsApp within minutes.", calcH:"Seen a price? Enter it here and book with us", calcSite:"Seen on", calcPriceP:"Price per person ($)", calcPriceN:"Price per night ($)", calcHotel:"Hotel you picked", calcOur:"Price booking with us", offP2:"Open the official site, check the price, then enter it below. Booking with us = price + ${0} per person.", hOffH:"All hotels and prices on Booking.com", hOffP:"Browse the hotels, pick one, then enter the nightly price below. Booking with us = price + ${0} per night.", resFor:"Prices from {0} to {1}", perPerson:"per person", bookWa:"Confirm on WhatsApp",
       noFare:"This route's fare changes live. Tap to message us and we'll send the best price across all airlines within minutes.", askPrice:"Ask for the price on WhatsApp",
       offH:"See prices on the airlines' official sites", offP:"Open the airline's site to see the price, then come back and book with us on WhatsApp.", cmpAll:"Compare all airlines", cmpSub:"Route and dates already filled in", seePrice:"See price", bookUs:"Book with us"
     }
@@ -1288,6 +1330,28 @@ a.alc{text-decoration:none;color:var(--ink)}
   }
   document.querySelector(".langs").addEventListener("click", function(e){ var b = e.target.closest("button"); if (b) setLang(b.getAttribute("data-lang")); });
   render();
+  /* ============ رسالة الترحيب ============
+     تطلع مرة باليوم لكل زائر. الخدمات تفتح تبويبها، واللغة تتغير من داخلها. */
+  var hello = document.getElementById("hello");
+  function helloSync(){ hello.querySelectorAll("[data-hl]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-hl") === L)); }); }
+  hello.addEventListener("click", function(e){
+    var g = e.target.closest("[data-go]"), c = e.target.closest("[data-hclose]"), l = e.target.closest("[data-hl]");
+    if (l){ setLang(l.getAttribute("data-hl")); helloSync(); return; }
+    if (g || c) closeSheet(hello);
+    if (g){
+      var tb = document.querySelector('.tabs button[data-tab="' + g.getAttribute("data-go") + '"]');
+      if (tb){ tb.click(); setTimeout(function(){ var bx = document.querySelector(".box"); if (bx && bx.scrollIntoView) bx.scrollIntoView({ block:"start", behavior:"smooth" }); }, 60); }
+    }
+  });
+  hello.addEventListener("click", function(e){ if (e.target === hello) closeSheet(hello); });
+  (function(){
+    var day = new Date().toISOString().slice(0, 10), seen = "";
+    try { seen = localStorage.getItem("hello") || ""; } catch(e){}
+    if (seen === day || /[?&]nohello/.test(location.search)) return;
+    try { localStorage.setItem("hello", day); } catch(e){}
+    setTimeout(function(){ helloSync(); if (hello.showModal) hello.showModal(); else hello.setAttribute("open", ""); }, 700);
+  })();
+
 })();
 </script>
 </body>
