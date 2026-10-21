@@ -452,13 +452,12 @@ a.alc{text-decoration:none;color:var(--ink)}
           <label><input type="radio" name="trip" value="op"><span data-t="tOp">عودة اوبن</span></label>
         </div>
         <div class="fgrid">
-          <div class="field"><label for="f-from" data-t="from">من</label><input id="f-from" list="cities" autocomplete="off" data-req></div>
-          <div class="field"><label for="f-to" data-t="to">إلى</label><input id="f-to" list="cities" autocomplete="off" data-req></div>
+          <div class="field"><label for="f-from" data-t="from">من</label><input id="f-from" list="places-from" autocomplete="off" data-req></div>
+          <div class="field"><label for="f-to" data-t="to">إلى</label><input id="f-to" list="places-to" autocomplete="off" data-req></div>
           <div class="field"><label for="f-dep" data-t="dep">المغادرة</label><input id="f-dep" type="date" data-req></div>
           <div class="field" id="retBox"><label for="f-ret" data-t="ret">العودة</label><input id="f-ret" type="date"></div>
           <div class="field wide"><label for="f-pax" data-t="pax">المسافرين</label><select id="f-pax"></select></div>
         </div>
-        <label class="chk"><input type="checkbox" id="f-dir"><span data-t="direct">رحلات مباشرة فقط</span></label>
         <p class="ferr" id="flyErr" role="alert" hidden></p>
         <button class="btn" type="submit"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg><span data-t="showPrices">اعرض الأسعار</span></button>
         <div class="res" id="flyRes" aria-live="polite" hidden></div>
@@ -601,6 +600,8 @@ a.alc{text-decoration:none;color:var(--ink)}
 </dialog>
 
 <datalist id="cities"></datalist>
+<datalist id="places-from"></datalist>
+<datalist id="places-to"></datalist>
 <datalist id="vcountries"></datalist>
 </div>
 
@@ -642,7 +643,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       flyTitle:"ابحث عن سعر تذكرتك", tRt:"ذهاب وعودة", tOw:"ذهاب فقط", tOp:"عودة اوبن", from:"من", to:"إلى", dep:"المغادرة", ret:"العودة", pax:"المسافرين",
       paxOpts:["1 بالغ","2 بالغين","3 بالغين","4 بالغين","5 بالغين","عائلة (أكتب العدد بالواتساب)"], toPh:"مثلاً: طهران",
       direct:"رحلات مباشرة فقط", showPrices:"اعرض الأسعار", missing:"كمّل «{0}» حتى تطلعلك الأسعار.",
-      fDirect:"مباشر", fStops:"{0} توقف", fLoading:"نجيب الأسعار…", fNear:"ما لكينا سعر بنفس يومك، هاي أقرب الأيام وأرخصها.", fNote:"السعر للشخص من نظام الحجز ويتحدث كل ساعة. السعر النهائي يتأكد وياك بالواتساب وقت الحجز.", hSub:"المدينة والتواريخ والفئة مكتوبة جاهزة", hResH:"فنادق {0}", hResP:"شوف كل الفنادق وأسعارها على بوكينك، واختار الفندق وارجع احجز ويانا بالواتساب.", hBooking:"شوف الفنادق والأسعار على Booking.com", hCalc:"السعر لـ{0} ليالي، عدد الأشخاص {1}، غرفة {2}.", room_s:"سنكل", room_d:"دبل", room_t:"تربل", hNight:"الليلة للشخص {0}$", hTotal:"المجموع", hNone:"ما عدنا أسعار فنادق لهالمدينة بالموقع بعد. اطلب وندزلك أسعار الفنادق بالواتساب خلال دقائق.", calcH:"شفت السعر؟ اكتبه هنا وثبّت ويانا", calcSite:"شفته على", calcPriceP:"السعر للشخص ($)", calcPriceN:"سعر الليلة ($)", calcHotel:"اسم الفندق اللي اخترته", calcOur:"سعر الحجز ويانا", offP2:"افتح الموقع الرسمي وشوف السعر، وارجع اكتبه تحت. سعر الحجز ويانا = السعر + {0}$ للشخص.", hOffH:"كل الفنادق بأسعارها على Booking.com", hOffP:"شوف الفنادق، واختار، وارجع اكتب سعر الليلة تحت. سعر الحجز ويانا = السعر + {0}$ لليلة.", resFor:"الأسعار من {0} إلى {1}", perPerson:"للشخص", bookWa:"ثبّت الحجز بالواتساب",
+      fDirect:"مباشر", fStops:"{0} توقف", fLoading:"نجيب الأسعار…", fNear:"ما لكينا سعر بنفس يومك، هاي أقرب الأيام وأرخصها.", fNote:"السعر للشخص من نظام الحجز ويتحدث كل ساعة. السعر النهائي يتأكد وياك بالواتساب وقت الحجز.", fNone:"هالرحلة ما بيها سعر جاهز هسه. دزلنا الطلب بالواتساب ونرجعلك بأحسن سعر من كل الخطوط.", reqWa:"اطلب السعر بالواتساب", placesLoading:"نحمّل المدن…", hSub:"المدينة والتواريخ والفئة مكتوبة جاهزة", hResH:"فنادق {0}", hResP:"شوف كل الفنادق وأسعارها على بوكينك، واختار الفندق وارجع احجز ويانا بالواتساب.", hBooking:"شوف الفنادق والأسعار على Booking.com", hCalc:"السعر لـ{0} ليالي، عدد الأشخاص {1}، غرفة {2}.", room_s:"سنكل", room_d:"دبل", room_t:"تربل", hNight:"الليلة للشخص {0}$", hTotal:"المجموع", hNone:"ما عدنا أسعار فنادق لهالمدينة بالموقع بعد. اطلب وندزلك أسعار الفنادق بالواتساب خلال دقائق.", calcH:"شفت السعر؟ اكتبه هنا وثبّت ويانا", calcSite:"شفته على", calcPriceP:"السعر للشخص ($)", calcPriceN:"سعر الليلة ($)", calcHotel:"اسم الفندق اللي اخترته", calcOur:"سعر الحجز ويانا", offP2:"افتح الموقع الرسمي وشوف السعر، وارجع اكتبه تحت. سعر الحجز ويانا = السعر + {0}$ للشخص.", hOffH:"كل الفنادق بأسعارها على Booking.com", hOffP:"شوف الفنادق، واختار، وارجع اكتب سعر الليلة تحت. سعر الحجز ويانا = السعر + {0}$ لليلة.", resFor:"الأسعار من {0} إلى {1}", perPerson:"للشخص", bookWa:"ثبّت الحجز بالواتساب",
       noFare:"سعر هالرحلة يتحدث لحظياً. اضغط وراسلنا، ونرجعلك بأفضل سعر على كل الخطوط خلال دقائق.", askPrice:"اطلب السعر بالواتساب",
       offH:"شوف الأسعار على مواقع الخطوط الرسمية", offP:"افتح موقع الشركة وشوف السعر، وإذا عجبك ارجع واحجز ويانا بالواتساب.", cmpAll:"قارن أسعار كل الخطوط", cmpSub:"الرحلة والتاريخ مكتوبين جاهز", seePrice:"شوف السعر", bookUs:"احجز ويانا"
     },
@@ -676,7 +677,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       flyTitle:"نرخی بلیتەکەت بگەڕێ", tRt:"چوون و گەڕانەوە", tOw:"تەنها چوون", tOp:"گەڕانەوەی کراوە", from:"لە", to:"بۆ", dep:"ڕۆیشتن", ret:"گەڕانەوە", pax:"گەشتیاران",
       paxOpts:["1 گەورە","2 گەورە","3 گەورە","4 گەورە","5 گەورە","خێزان (ژمارە لە واتسئاپ بنووسە)"], toPh:"بۆ نموونە: تاران",
       direct:"تەنها فڕینی ڕاستەوخۆ", showPrices:"نرخەکان پیشان بدە", missing:"«{0}» تەواو بکە بۆ ئەوەی نرخەکان ببینیت.",
-      fDirect:"ڕاستەوخۆ", fStops:"{0} وەستان", fLoading:"نرخەکان دەهێنین…", fNear:"نرخمان بۆ هەمان ڕۆژ نەدۆزییەوە، ئەمانە نزیکترین و هەرزانترین ڕۆژەکانن.", fNote:"نرخ بۆ هەر کەسێکە لە سیستەمی حیجزەوە و هەموو کاتژمێرێک نوێ دەبێتەوە. نرخی کۆتایی لە واتسئاپ لە کاتی حیجز پشتڕاست دەکرێتەوە.", hSub:"شار و بەروار و پلە ئامادەن", hResH:"هوتێلەکانی {0}", hResP:"هەموو هوتێلەکان و نرخەکانیان لە بووکینگ ببینە، هوتێلەکە هەڵبژێرە و لە واتسئاپ لای ئێمە حیجز بکە.", hBooking:"هوتێل و نرخەکان لە Booking.com ببینە", hCalc:"نرخ بۆ {0} شەو و {1} کەس لە ژووری {2}.", room_s:"تاک", room_d:"دوو کەسی", room_t:"سێ کەسی", hNight:"شەوێک بۆ هەر کەسێک {0}$", hTotal:"کۆی گشتی", hNone:"هێشتا نرخی هوتێل بۆ ئەم شارە لە ماڵپەڕەکەدا نییە. داوا بکە و لە چەند خولەکێکدا نرخەکانت لە واتسئاپ بۆ دەنێرین.", calcH:"نرخەکەت بینی؟ لێرە بینووسە و لای ئێمە جێگیری بکە", calcSite:"لە کوێ بینیت", calcPriceP:"نرخ بۆ هەر کەسێک ($)", calcPriceN:"نرخی شەوێک ($)", calcHotel:"ناوی ئەو هوتێلەی هەڵتبژارد", calcOur:"نرخی حیجز لای ئێمە", offP2:"ماڵپەڕی فەرمی بکەرەوە و نرخ ببینە، پاشان لە خوارەوە بینووسە. نرخی حیجز لای ئێمە = نرخ + {0}$ بۆ هەر کەسێک.", hOffH:"هەموو هوتێلەکان بە نرخەکانیان لە Booking.com", hOffP:"هوتێلەکان ببینە، هەڵبژێرە، و نرخی شەوێک لە خوارەوە بنووسە. نرخی حیجز لای ئێمە = نرخ + {0}$ بۆ هەر شەوێک.", resFor:"نرخەکان لە {0} بۆ {1}", perPerson:"بۆ هەر کەسێک", bookWa:"حیجز لە واتسئاپ جێگیر بکە",
+      fDirect:"ڕاستەوخۆ", fStops:"{0} وەستان", fLoading:"نرخەکان دەهێنین…", fNear:"نرخمان بۆ هەمان ڕۆژ نەدۆزییەوە، ئەمانە نزیکترین و هەرزانترین ڕۆژەکانن.", fNote:"نرخ بۆ هەر کەسێکە لە سیستەمی حیجزەوە و هەموو کاتژمێرێک نوێ دەبێتەوە. نرخی کۆتایی لە واتسئاپ لە کاتی حیجز پشتڕاست دەکرێتەوە.", fNone:"ئەم گەشتە ئێستا نرخی ئامادەی نییە. داواکاری لە واتسئاپ بنێرە و باشترین نرخی هەموو هێڵەکانت بۆ دەنێرین.", reqWa:"داوای نرخ لە واتسئاپ", placesLoading:"شارەکان باردەکرێن…", hSub:"شار و بەروار و پلە ئامادەن", hResH:"هوتێلەکانی {0}", hResP:"هەموو هوتێلەکان و نرخەکانیان لە بووکینگ ببینە، هوتێلەکە هەڵبژێرە و لە واتسئاپ لای ئێمە حیجز بکە.", hBooking:"هوتێل و نرخەکان لە Booking.com ببینە", hCalc:"نرخ بۆ {0} شەو و {1} کەس لە ژووری {2}.", room_s:"تاک", room_d:"دوو کەسی", room_t:"سێ کەسی", hNight:"شەوێک بۆ هەر کەسێک {0}$", hTotal:"کۆی گشتی", hNone:"هێشتا نرخی هوتێل بۆ ئەم شارە لە ماڵپەڕەکەدا نییە. داوا بکە و لە چەند خولەکێکدا نرخەکانت لە واتسئاپ بۆ دەنێرین.", calcH:"نرخەکەت بینی؟ لێرە بینووسە و لای ئێمە جێگیری بکە", calcSite:"لە کوێ بینیت", calcPriceP:"نرخ بۆ هەر کەسێک ($)", calcPriceN:"نرخی شەوێک ($)", calcHotel:"ناوی ئەو هوتێلەی هەڵتبژارد", calcOur:"نرخی حیجز لای ئێمە", offP2:"ماڵپەڕی فەرمی بکەرەوە و نرخ ببینە، پاشان لە خوارەوە بینووسە. نرخی حیجز لای ئێمە = نرخ + {0}$ بۆ هەر کەسێک.", hOffH:"هەموو هوتێلەکان بە نرخەکانیان لە Booking.com", hOffP:"هوتێلەکان ببینە، هەڵبژێرە، و نرخی شەوێک لە خوارەوە بنووسە. نرخی حیجز لای ئێمە = نرخ + {0}$ بۆ هەر شەوێک.", resFor:"نرخەکان لە {0} بۆ {1}", perPerson:"بۆ هەر کەسێک", bookWa:"حیجز لە واتسئاپ جێگیر بکە",
       noFare:"نرخی ئەم گەشتە ساتبەسات نوێ دەبێتەوە. کرتە بکە و نامەمان بۆ بنێرە، لە چەند خولەکێکدا باشترین نرخت بۆ دەنێرین.", askPrice:"داوای نرخ لە واتسئاپ بکە",
       offH:"نرخەکان لە ماڵپەڕە فەرمییەکانی هێڵە ئاسمانییەکان ببینە", offP:"ماڵپەڕی کۆمپانیاکە بکەرەوە و نرخەکە ببینە، پاشان لە واتسئاپ لای ئێمە حیجز بکە.", cmpAll:"نرخی هەموو هێڵەکان بەراورد بکە", cmpSub:"گەشت و بەروار ئامادەن", seePrice:"نرخ ببینە", bookUs:"لای ئێمە حیجز بکە"
     },
@@ -710,7 +711,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       flyTitle:"Search your ticket price", tRt:"Round trip", tOw:"One way", tOp:"Open return", from:"From", to:"To", dep:"Departure", ret:"Return", pax:"Travellers",
       paxOpts:["1 adult","2 adults","3 adults","4 adults","5 adults","Family (tell us on WhatsApp)"], toPh:"e.g. Tehran",
       direct:"Direct flights only", showPrices:"Show prices", missing:"Please fill in “{0}” to see prices.",
-      fDirect:"Direct", fStops:"{0} stop(s)", fLoading:"Getting prices…", fNear:"No fare on your exact day; these are the closest and cheapest days.", fNote:"Price per person from the booking system, updated hourly. The final price is confirmed with you on WhatsApp when booking.", hSub:"City, dates and category already filled in", hResH:"Hotels in {0}", hResP:"See every hotel and its price on Booking.com, pick one, then book it with us on WhatsApp.", hBooking:"See hotels and prices on Booking.com", hCalc:"Price for {0} nights, {1} guests, {2} room.", room_s:"single", room_d:"double", room_t:"triple", hNight:"{0}$ per person per night", hTotal:"Total", hNone:"We don’t have hotel prices for this city on the site yet. Ask and we’ll send hotel prices on WhatsApp within minutes.", calcH:"Seen a price? Enter it here and book with us", calcSite:"Seen on", calcPriceP:"Price per person ($)", calcPriceN:"Price per night ($)", calcHotel:"Hotel you picked", calcOur:"Price booking with us", offP2:"Open the official site, check the price, then enter it below. Booking with us = price + ${0} per person.", hOffH:"All hotels and prices on Booking.com", hOffP:"Browse the hotels, pick one, then enter the nightly price below. Booking with us = price + ${0} per night.", resFor:"Prices from {0} to {1}", perPerson:"per person", bookWa:"Confirm on WhatsApp",
+      fDirect:"Direct", fStops:"{0} stop(s)", fLoading:"Getting prices…", fNear:"No fare on your exact day; these are the closest and cheapest days.", fNote:"Price per person from the booking system, updated hourly. The final price is confirmed with you on WhatsApp when booking.", fNone:"No ready fare for this trip right now. Send us the request on WhatsApp and we'll reply with the best price across all airlines.", reqWa:"Ask for the price on WhatsApp", placesLoading:"Loading cities…", hSub:"City, dates and category already filled in", hResH:"Hotels in {0}", hResP:"See every hotel and its price on Booking.com, pick one, then book it with us on WhatsApp.", hBooking:"See hotels and prices on Booking.com", hCalc:"Price for {0} nights, {1} guests, {2} room.", room_s:"single", room_d:"double", room_t:"triple", hNight:"{0}$ per person per night", hTotal:"Total", hNone:"We don’t have hotel prices for this city on the site yet. Ask and we’ll send hotel prices on WhatsApp within minutes.", calcH:"Seen a price? Enter it here and book with us", calcSite:"Seen on", calcPriceP:"Price per person ($)", calcPriceN:"Price per night ($)", calcHotel:"Hotel you picked", calcOur:"Price booking with us", offP2:"Open the official site, check the price, then enter it below. Booking with us = price + ${0} per person.", hOffH:"All hotels and prices on Booking.com", hOffP:"Browse the hotels, pick one, then enter the nightly price below. Booking with us = price + ${0} per night.", resFor:"Prices from {0} to {1}", perPerson:"per person", bookWa:"Confirm on WhatsApp",
       noFare:"This route's fare changes live. Tap to message us and we'll send the best price across all airlines within minutes.", askPrice:"Ask for the price on WhatsApp",
       offH:"See prices on the airlines' official sites", offP:"Open the airline's site to see the price, then come back and book with us on WhatsApp.", cmpAll:"Compare all airlines", cmpSub:"Route and dates already filled in", seePrice:"See price", bookUs:"Book with us"
     }
@@ -835,7 +836,7 @@ a.alc{text-decoration:none;color:var(--ink)}
   /* ============ نصوص الصفحة ============ */
   function cityName(c){ return c[L === "ar" ? 0 : L === "ku" ? 1 : 2]; }
   function cityRow(v){ var q = norm(v); for (var i = 0; i < CITIES.length; i++) for (var j = 0; j < 3; j++) if (norm(CITIES[i][j]) === q) return CITIES[i]; return null; }
-  function cityAr(v){ var r = cityRow(v); return r ? r[0] : v.trim(); }
+  function cityEn(v){ var r = cityRow(v); return r ? r[2] : v.trim(); }
   function applyText(){
     document.title = t("title");
     document.querySelectorAll("[data-t]").forEach(function(el){ var v = t(el.getAttribute("data-t")); if (typeof v === "string") el.textContent = v; });
@@ -855,6 +856,7 @@ a.alc{text-decoration:none;color:var(--ink)}
     document.getElementById("vcountries").innerHTML = D[L].visas.map(function(v){ return '<option value="' + esc(v.c) + '">'; }).join("");
     document.getElementById("qv").placeholder = t("vSearch");
     document.getElementById("cities").innerHTML = CITIES.map(function(c){ return '<option value="' + esc(cityName(c)) + '">'; }).join("");
+    placeList("f-from"); placeList("f-to");
     document.querySelectorAll(".langs button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === L)); });
     document.querySelectorAll("[data-wa]").forEach(function(a){ a.href = wa("مرحباً، عندي استفسار عن السفر"); });
   }
@@ -876,17 +878,59 @@ a.alc{text-decoration:none;color:var(--ink)}
   function flyLines(extra){
     return ["طلب تذكرة طيران", "نوع الرحلة: " + TRIP_AR[trip()], "من: " + cityAr(val("f-from")), "إلى: " + cityAr(val("f-to")),
       "المغادرة: " + fmtDate(val("f-dep")), trip() === "rt" && val("f-ret") ? "العودة: " + fmtDate(val("f-ret")) : "",
-      "المسافرين: " + S.ar.paxOpts[document.getElementById("f-pax").selectedIndex],
-      document.getElementById("f-dir").checked ? "رحلات مباشرة فقط" : ""].concat(extra || []);
+      "المسافرين: " + S.ar.paxOpts[document.getElementById("f-pax").selectedIndex]].concat(extra || []);
   }
-  /* المواقع الرسمية: المسافر يشوف السعر هناك، يكتبه هنا، يطلعله سعر الحجز ويانا (السعر + العمولة) ويثبّت بالواتساب */
-  function cityEn(v){ var r = cityRow(v); return r ? r[2] : v.trim(); }
-  function compareUrl(){
-    var q = "Flights from " + cityEn(val("f-from")) + " to " + cityEn(val("f-to")) + " on " + val("f-dep") +
-      (trip() === "rt" && val("f-ret") ? " through " + val("f-ret") : trip() === "ow" ? " one way" : "") +
-      (document.getElementById("f-dir").checked ? " nonstop" : "");
-    return "https://www.google.com/travel/flights?hl=" + (L === "en" ? "en" : "ar") + "&curr=USD&q=" + encodeURIComponent(q);
+
+  /* كل مدن العالم اللي بيها مطارات: places.json يتحدث ويا الأسعار.
+     c: [رمز المدينة، عربي، إنكليزي، رمز الدولة]، k: أسماء الدول، a: رمز المطار ← رمز المدينة */
+  var PLACES = null, PLACE_BY = {};
+  function loadPlaces(cb){
+    if (PLACES) return cb && cb();
+    if (loadPlaces.wait) return cb && loadPlaces.wait.push(cb);
+    loadPlaces.wait = cb ? [cb] : [];
+    fetch("places.json?d=" + Math.floor(Date.now() / 864e5)).then(function(r){ return r.json(); })
+      .then(function(j){ PLACES = j; }).catch(function(){ PLACES = { c: [], k: {}, a: {} }; })
+      .then(function(){
+        (PLACES.c || []).forEach(function(p){ PLACE_BY[p[0]] = p; });
+        loadPlaces.wait.forEach(function(f){ f(); }); loadPlaces.wait = null;
+      });
   }
+  function placeName(p){ return p[L === "en" ? 2 : 1] || p[2]; }
+  function placeLabel(p){
+    var k = (PLACES.k || {})[p[3]], cn = k ? k[L === "en" ? 1 : 0] || k[1] : p[3];
+    return placeName(p) + "، " + cn + " (" + p[0] + ")";
+  }
+  /* اقتراحات «من» و«إلى»: مدننا أول شي، وبعدها مدن العالم اللي تطابق الكتابة */
+  function placeList(id){
+    var q = norm(val(id)), out = CITIES.map(cityName), seen = {};
+    CITIES.forEach(function(c){ seen[c[3]] = 1; });
+    if (PLACES && q.length >= 2){
+      var hit = [];
+      PLACES.c.forEach(function(p){
+        if (seen[p[0]] || hit.length >= 40) return;
+        var m = norm(p[1]).indexOf(q) === 0 || norm(p[2]).indexOf(q) === 0 || p[0].toLowerCase() === q;
+        if (m) hit.push(p);
+      });
+      out = out.concat(hit.map(placeLabel));
+    }
+    document.getElementById(id === "f-from" ? "places-from" : "places-to").innerHTML =
+      out.map(function(v){ return '<option value="' + esc(v) + '">'; }).join("");
+  }
+  ["f-from", "f-to"].forEach(function(id){
+    var el = document.getElementById(id);
+    el.addEventListener("focus", function(){ loadPlaces(function(){ placeList(id); }); });
+    el.addEventListener("input", function(){ placeList(id); });
+  });
+  /* رمز المدينة من اللي كتبه المسافر: مدننا، أو «اسم، دولة (IST)»، أو رمز مطار، أو اسم مدينة من العالم */
+  function placeCode(v){
+    var r = cityRow(v); if (r) return r[3];
+    var m = /\(([A-Za-z]{3})\)\s*$/.exec(v || ""); if (m) return m[1].toUpperCase();
+    var q = norm(v); if (!q || !PLACES) return "";
+    if (q.length === 3){ var u = q.toUpperCase(); if (PLACE_BY[u]) return u; if ((PLACES.a || {})[u]) return PLACES.a[u]; }
+    for (var i = 0; i < PLACES.c.length; i++){ var p = PLACES.c[i]; if (norm(p[1]) === q || norm(p[2]) === q) return p[0]; }
+    return "";
+  }
+  function cityAr(v){ var r = cityRow(v); if (r) return r[0]; var p = PLACE_BY[placeCode(v)]; return p ? (p[1] || p[2]) + " (" + p[0] + ")" : (v || "").trim(); }
   var CALC = {};
   function calcBox(id, opts, unit, fee, lines){
     CALC[id] = { fee: fee, unit: unit, lines: lines };
@@ -906,16 +950,6 @@ a.alc{text-decoration:none;color:var(--ink)}
   }
   document.addEventListener("input", function(e){ var b = e.target.closest && e.target.closest("[data-calc]"); if (b) calcUpd(b); });
   document.addEventListener("change", function(e){ var b = e.target.closest && e.target.closest("[data-calc]"); if (b) calcUpd(b); });
-  function officialFly(){
-    var al = C.airlines.filter(function(a){ return a.url; });
-    return '<div class="off"><h3>' + esc(t("offH")) + '</h3><p class="small">' + esc(t("offP2", C.fee_fly)) + '</p>' +
-      '<a class="cmp" href="' + esc(compareUrl()) + '" target="_blank" rel="noopener">' + I.pl + '<span><b>' + esc(t("cmpAll")) + '</b><small>' + esc(t("cmpSub")) + '</small></span></a>' +
-      '<div class="als">' + al.map(function(a){
-        return '<a class="alc" href="' + esc(a.url) + '" target="_blank" rel="noopener"><img src="img/planes/' + esc(a.k) + '.webp" alt="" loading="lazy"><b>' + esc(a[L]) + '</b><span class="btn ghost">' + esc(t("seePrice")) + '</span></a>';
-      }).join("") + '</div>' +
-      calcBox("fly", [["مقارنة كل الخطوط", t("cmpAll")]].concat(al.map(function(a){ return [a.ar, a[L]]; })), "pax", C.fee_fly, flyLines()) + '</div>';
-  }
-
   function officialHotel(base, rooms, pax, star){
     var bq = { ss: cityEn(val("h-city")), checkin: val("h-in"), checkout: val("h-out"), group_adults: Math.min(Math.max(pax, 1), 30),
                no_rooms: rooms, group_children: 0, lang: L === "en" ? "en-us" : "ar", selected_currency: "USD" };
@@ -933,19 +967,23 @@ a.alc{text-decoration:none;color:var(--ink)}
     fetch("fares.json?h=" + Math.floor(Date.now() / 36e5)).then(function(r){ return r.json(); })
       .then(function(j){ FARES = j; cb(); }).catch(function(){ FARES = { fares: [] }; cb(); });
   }
-  function code(v){ var r = cityRow(v); return r ? r[3] : ""; }
   function day(iso){ return iso ? Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10)) / 864e5 : 0; }
   function when(iso){ return iso ? iso.slice(8, 10) + "-" + iso.slice(5, 7) + "-" + iso.slice(0, 4) + (iso.length > 10 ? " · " + iso.slice(11, 16) : "") : ""; }
-  function airName(c){ var a = AIRL[c]; return a ? a[L === "ar" ? 0 : L === "ku" ? 1 : 2] : c; }
+  /* اسم الخطوط: قائمتنا أول شي، وبعدها أسماء كل خطوط العالم اللي تجي ويا الأسعار (al: عربي، إنكليزي) */
+  function airName(c){
+    var a = AIRL[c]; if (a) return a[L === "ar" ? 0 : L === "ku" ? 1 : 2];
+    var b = FARES && FARES.al && FARES.al[c]; return b ? (L === "en" ? b[1] : b[0] || b[1]) || c : c;
+  }
+  function airAr(c){ var a = AIRL[c], b = FARES && FARES.al && FARES.al[c]; return a ? a[0] : b ? b[0] || b[1] || c : c; }
   function stops(n){ return n ? t("fStops", n) : t("fDirect"); }
   function search(){
     var res = document.getElementById("flyRes");
     res.innerHTML = '<p class="small">' + esc(t("fLoading")) + '</p>'; res.hidden = false;
-    loadFares(function(){
-      var o = code(val("f-from")), d = code(val("f-to")), rt = trip() !== "ow", direct = document.getElementById("f-dir").checked;
+    loadPlaces(function(){ loadFares(function(){
+      var o = placeCode(val("f-from")), d = placeCode(val("f-to")), rt = trip() !== "ow";
       var dep = day(val("f-dep")), ret = rt && val("f-ret") ? day(val("f-ret")) : 0;
       var list = (FARES.fares || []).filter(function(f){
-        return f.o === o && f.d === d && f.rt === rt && (!direct || (!f.tr && (!rt || !f.rtr)));
+        return o && d && f.o === o && f.d === d && f.rt === rt;
       }).map(function(f){
         var gap = Math.abs(day(f.dep) - dep) + (ret && f.ret ? Math.abs(day(f.ret) - ret) / 2 : 0);
         return { f: f, gap: gap };
@@ -953,7 +991,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       var head = '<h3>' + esc(t("resFor", val("f-from"), val("f-to"))) + '</h3>';
       if (list.length && list[0].gap > 0) head += '<p class="small">' + esc(t("fNear")) + '</p>';
       res.innerHTML = head + list.map(function(x){
-        var f = x.f, name = airName(f.a), nameAr = AIRL[f.a] ? AIRL[f.a][0] : f.a;
+        var f = x.f, name = airName(f.a), nameAr = airAr(f.a);
         var info = [when(f.dep) + " · " + stops(f.tr)].concat(rt && f.ret ? [t("ret") + ": " + when(f.ret) + " · " + stops(f.rtr)] : []);
         return '<div class="fare"><div class="al">' + esc(name) + info.map(function(x){ return '<small>' + esc(x) + '</small>'; }).join("") + '</div>' +
           '<div class="pp"><b>' + f.p + '$</b><small>' + esc(t("perPerson")) + '</small></div>' +
@@ -962,9 +1000,10 @@ a.alc{text-decoration:none;color:var(--ink)}
             rt && f.ret ? "رحلة العودة: " + when(f.ret) + " · " + (f.rtr ? f.rtr + " توقف" : "مباشر") : "",
             "السعر المعروض: " + f.p + "$ للشخص"])) + '">' + esc(t("bookWa")) + '</a></div>';
       }).join("") +
-        (list.length ? '<p class="small">' + esc(t("fNote")) + '</p>' : '') + officialFly();
+        (list.length ? '<p class="small">' + esc(t("fNote")) + '</p>' :
+          '<p>' + esc(t("fNone")) + '</p><a class="btn wa" target="_blank" rel="noopener" href="' + wa(flyLines()) + '">' + esc(t("reqWa")) + '</a>');
       setTimeout(function(){ if (res.scrollIntoView) res.scrollIntoView({ block:"nearest", behavior:"smooth" }); }, 30);
-    });
+    }); });
   }
   fly.addEventListener("input", function(e){ var f = e.target.closest && e.target.closest(".field"); if (f && e.target.value) f.classList.remove("err"); if (!fly.querySelector(".err")) document.getElementById("flyErr").hidden = true; syncFly(); });
   fly.addEventListener("change", syncFly);
