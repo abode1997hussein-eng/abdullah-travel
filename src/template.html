@@ -1331,7 +1331,7 @@ a.alc{text-decoration:none;color:var(--ink)}
   document.querySelector(".langs").addEventListener("click", function(e){ var b = e.target.closest("button"); if (b) setLang(b.getAttribute("data-lang")); });
   render();
   /* ============ رسالة الترحيب ============
-     تطلع مرة باليوم لكل زائر. الخدمات تفتح تبويبها، واللغة تتغير من داخلها. */
+     تطلع مرة وحدة لكل زائر (أول زيارة بس). الخدمات تفتح تبويبها، واللغة تتغير من داخلها. */
   var hello = document.getElementById("hello");
   function helloSync(){ hello.querySelectorAll("[data-hl]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-hl") === L)); }); }
   hello.addEventListener("click", function(e){
@@ -1345,10 +1345,10 @@ a.alc{text-decoration:none;color:var(--ink)}
   });
   hello.addEventListener("click", function(e){ if (e.target === hello) closeSheet(hello); });
   (function(){
-    var day = new Date().toISOString().slice(0, 10), seen = "";
+    var seen = "";
     try { seen = localStorage.getItem("hello") || ""; } catch(e){}
-    if (seen === day || /[?&]nohello/.test(location.search)) return;
-    try { localStorage.setItem("hello", day); } catch(e){}
+    if (seen || /[?&]nohello/.test(location.search)) return;
+    try { localStorage.setItem("hello", new Date().toISOString().slice(0, 10)); } catch(e){}
     setTimeout(function(){ helloSync(); if (hello.showModal) hello.showModal(); else hello.setAttribute("open", ""); }, 700);
   })();
 
