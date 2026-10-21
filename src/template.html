@@ -976,10 +976,12 @@ a.alc{text-decoration:none;color:var(--ink)}
   }
   function airAr(c){ var a = AIRL[c], b = FARES && FARES.al && FARES.al[c]; return a ? a[0] : b ? b[0] || b[1] || c : c; }
   function stops(n){ return n ? t("fStops", n) : t("fDirect"); }
-  function search(){
-    var res = document.getElementById("flyRes");
+  var searchSeq = 0;
+  function search(auto){
+    var res = document.getElementById("flyRes"), my = ++searchSeq;
     res.innerHTML = '<p class="small">' + esc(t("fLoading")) + '</p>'; res.hidden = false;
     loadPlaces(function(){ loadFares(function(){
+      if (my !== searchSeq) return;  // بحث أحدث بدأ، هذا قديم
       var o = placeCode(val("f-from")), d = placeCode(val("f-to")), rt = trip() !== "ow";
       var dep = day(val("f-dep")), ret = rt && val("f-ret") ? day(val("f-ret")) : 0;
       var list = (FARES.fares || []).filter(function(f){
@@ -1011,11 +1013,21 @@ a.alc{text-decoration:none;color:var(--ink)}
       }).join("") +
         (list.length || ia.length ? '<p class="small">' + esc(t("fNote")) + '</p>' :
           '<p>' + esc(t("fNone")) + '</p><a class="btn wa" target="_blank" rel="noopener" href="' + wa(flyLines()) + '">' + esc(t("reqWa")) + '</a>');
-      setTimeout(function(){ if (res.scrollIntoView) res.scrollIntoView({ block:"nearest", behavior:"smooth" }); }, 30);
+      if (!auto) setTimeout(function(){ if (res.scrollIntoView) res.scrollIntoView({ block:"nearest", behavior:"smooth" }); }, 30);
     }); });
   }
-  fly.addEventListener("input", function(e){ var f = e.target.closest && e.target.closest(".field"); if (f && e.target.value) f.classList.remove("err"); if (!fly.querySelector(".err")) document.getElementById("flyErr").hidden = true; syncFly(); });
-  fly.addEventListener("change", syncFly);
+  /* بحث تلقائي: أي تغيير بالرحلة (من، إلى، التاريخ، النوع، المسافرين) يحدّث النتائج بدون ما يرجع يدوس بحث.
+     ينتظر شوية لين يخلص كتابة، ويبحث بس إذا «من» و«إلى» مدن معروفة والمغادرة مختارة. */
+  var autoT;
+  function autoSearch(){
+    clearTimeout(autoT);
+    autoT = setTimeout(function(){
+      if (!val("f-dep") || !val("f-from") || !val("f-to")) return;
+      loadPlaces(function(){ if (placeCode(val("f-from")) && placeCode(val("f-to"))) search(true); });
+    }, 450);
+  }
+  fly.addEventListener("input", function(e){ var f = e.target.closest && e.target.closest(".field"); if (f && e.target.value) f.classList.remove("err"); if (!fly.querySelector(".err")) document.getElementById("flyErr").hidden = true; syncFly(); autoSearch(); });
+  fly.addEventListener("change", function(){ syncFly(); autoSearch(); });
   fly.addEventListener("submit", function(e){
     e.preventDefault();
     var miss = null;
@@ -1258,7 +1270,7 @@ a.alc{text-decoration:none;color:var(--ink)}
   /* ============ تشغيل وتبديل اللغة ============ */
   function render(){
     applyText(); prepGroups(); renderGroups(); renderVisas(); renderBranches(); reveal(); tilt();
-    if (!document.getElementById("flyRes").hidden) search();
+    if (!document.getElementById("flyRes").hidden) search(true);
   }
   function setLang(l){
     if (!S[l] || l === L) return;
