@@ -1347,7 +1347,8 @@ a.alc{text-decoration:none;color:var(--ink)}
   (function(){
     var seen = "";
     try { seen = localStorage.getItem("hello") || ""; } catch(e){}
-    if (seen || /[?&]nohello/.test(location.search)) return;
+    var force = /[?&]hello\b/.test(location.search);  // ?hello يطلّعها حتى لو انشافت
+    if (!force && (seen || /[?&]nohello/.test(location.search))) return;
     try { localStorage.setItem("hello", new Date().toISOString().slice(0, 10)); } catch(e){}
     setTimeout(function(){ helloSync(); if (hello.showModal) hello.showModal(); else hello.setAttribute("open", ""); }, 700);
   })();
