@@ -964,7 +964,7 @@ a.alc{text-decoration:none;color:var(--ink)}
   var LOGOS = ["IA","IF","UD","QR","EK","FZ","G9","WY","OV","RJ","MS","TK","PC"];
   function logo(c){ return c && LOGOS.indexOf(c) >= 0 ? '<img class="alogo" src="img/airlines/' + c + '.webp" alt="" loading="lazy">' : ""; }
   /* زر الموقع الرسمي: المسافر يشوف المواعيد هناك، والحجز يبقى ويانا بالواتساب */
-  var OFFICIAL = { IA: "https://iraqiairways.com.iq/" };
+  var OFFICIAL = {};
   function offBtn(c){ return OFFICIAL[c] ? '<a class="btn ghost" target="_blank" rel="noopener" href="' + OFFICIAL[c] + '">' + esc(t("offSite", airName(c))) + '</a>' : ""; }
   /* رمز الخطوط من اسمها بملف الأسعار (عربي أو كوردي أو إنكليزي، كامل أو جزء منه) */
   function airCode(name){
