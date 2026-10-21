@@ -106,8 +106,8 @@ COORDS = {"BGW": (44.4, 33.3), "IST": (28.98, 41.0), "TZX": (39.7, 41.0), "BEY":
           "KUL": (101.7, 3.1), "CMB": (79.9, 6.9), "BKK": (100.5, 13.75), "HKT": (98.4, 7.9),
           "TUN": (10.2, 36.8), "GAL": (28.98, 41.0)}
 
-# الخريطة المنقطة: أول سطر حدودها، وكل سطر بعده صف نقاط مضغوط (بحر.يابسة.بحر...)
-with open(os.path.join(SITE, "assets/map.txt")) as f:
+# يابسة العالم للكرة الأرضية: أول سطر حدودها، وكل سطر بعده صف مضغوط (بحر.يابسة.بحر...)
+with open(os.path.join(SITE, "assets/world.txt")) as f:
     head, *rows = f.read().split("\n")
 MAP = {"box": [float(x) for x in head.split()], "rows": [r for r in rows if r]}
 
