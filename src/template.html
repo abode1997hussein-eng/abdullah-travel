@@ -432,6 +432,63 @@ a.alc{text-decoration:none;color:var(--ink)}
 .btn{transition:transform .15s ease,box-shadow .15s ease,background .15s}
 .btn:active{transform:perspective(400px) translateZ(-10px)}
 @media (hover:hover){.btn:hover{box-shadow:0 10px 22px rgba(242,106,33,.28);transform:translateY(-1px)}.btn.wa:hover{box-shadow:0 10px 22px rgba(37,211,102,.3)}}
+
+/* ---------- الافتتاحية السينمائية: الكاميرا تطير بين الغيوم والطيارات والجزر مع النزول ---------- */
+.cine{display:none;position:relative}
+.cine-on .cine{display:block}
+.cine-st{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;isolation:isolate;color:#FFFFFF}
+.cine-sky{position:absolute;inset:0;background:linear-gradient(180deg,var(--s1,#2F7FD8) 0%,var(--s2,#62A8EC) 45%,var(--s3,#CFE6FB) 100%)}
+.cine-sky::after{content:"";position:absolute;top:-22vmin;inset-inline-end:6%;width:70vmin;height:70vmin;border-radius:50%;background:radial-gradient(circle,rgba(255,240,200,.95),rgba(255,214,150,.35) 38%,transparent 68%);opacity:var(--sun,1)}
+.cw{position:absolute;inset:0}
+.cw>*{position:absolute;left:0;top:0;will-change:transform,opacity;pointer-events:none;visibility:hidden}
+.cw img{display:block;height:auto;-webkit-user-drag:none;user-select:none}
+.cw .isl{filter:drop-shadow(0 3vmin 3vmin rgba(20,60,110,.28))}
+.cw .pl{filter:drop-shadow(0 2.4vmin 2vmin rgba(20,60,110,.3))}
+.cw .msc{filter:drop-shadow(0 2vmin 2.4vmin rgba(20,60,110,.3))}
+.cc{aspect-ratio:3/1;border-radius:999px;background:#FFFFFF;box-shadow:inset 0 -1.6vmin 2.6vmin rgba(120,160,210,.35)}
+.cc::before,.cc::after{content:"";position:absolute;background:#FFFFFF;border-radius:50%;box-shadow:inset 0 -1.2vmin 2vmin rgba(120,160,210,.25)}
+.cc::before{width:50%;aspect-ratio:1;left:14%;bottom:30%}
+.cc::after{width:38%;aspect-ratio:1;left:48%;bottom:42%}
+.cine-in{text-align:start;width:min(46vw,620px)}
+.cine-in img{margin:0 0 10px!important}
+@media (max-width:760px){.cine-in{text-align:center;width:92vw}.cine-in img{margin:0 auto 10px!important}}
+.cine-in img{width:72px;height:72px;margin:0 auto 10px;display:block}
+.cine-in h1{font-size:clamp(46px,9vw,118px);font-weight:700;line-height:1.05;text-shadow:0 .6vmin 3vmin rgba(10,40,90,.35)}
+.cine-in h1 b{color:#FFFFFF;background:var(--accent);padding:0 .22em .04em;border-radius:.22em;box-shadow:0 1.4vmin 3vmin rgba(242,106,33,.45);display:inline-block;transform:rotate(-2deg)}
+.cine-in p{font-size:clamp(15px,2vw,20px);font-weight:600;margin-top:16px;text-shadow:0 2px 12px rgba(10,40,90,.4)}
+.cine-bar{position:absolute;top:0;left:0;right:0;z-index:3000;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:max(12px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.cine-bar .langs{background:rgba(255,255,255,.9)}
+.cine-skip{border:0;cursor:pointer;font-weight:700;font-size:13.5px;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.92);color:var(--ink);box-shadow:0 6px 18px rgba(10,40,90,.18);display:inline-flex;align-items:center;gap:6px}
+.cine-prog{position:absolute;left:0;right:0;bottom:0;height:4px;z-index:3000;background:rgba(255,255,255,.25)}
+.cine-prog i{display:block;height:100%;width:100%;background:var(--accent);transform-origin:0 50%;transform:scaleX(0)}
+[dir="rtl"] .cine-prog i{transform-origin:100% 50%}
+.cine-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3000;display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:700;font-size:14px;text-shadow:0 2px 10px rgba(10,40,90,.4);transition:opacity .3s;white-space:nowrap}
+.cine-hint i{width:26px;height:42px;border:2.5px solid #FFFFFF;border-radius:14px;position:relative}
+.cine-hint i::after{content:"";position:absolute;left:50%;top:8px;width:5px;height:9px;margin-left:-2.5px;border-radius:3px;background:#FFFFFF;animation:cineWheel 1.6s ease-in-out infinite}
+@keyframes cineWheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{opacity:0}}
+.cine-card{position:absolute;bottom:34px;left:50%;z-index:3000;width:min(440px,calc(100% - 32px));background:#FFFFFF;color:var(--ink);border-radius:24px;padding:16px 18px;box-shadow:0 24px 60px rgba(10,40,90,.3);display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:center;opacity:0;transform:translate(-50%,20px);transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1.2);pointer-events:none}
+.cine-card.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.cine-card .rg{grid-column:1/-1;font-size:12px;font-weight:700;color:var(--accent)}
+.cine-card b{font-size:19px;line-height:1.35}
+.cine-card small{display:block;color:var(--muted);font-size:13px}
+.cine-card .pr{text-align:end;font-size:12px;color:var(--muted);line-height:1.3}
+.cine-card .pr b{display:block;color:var(--accent);font-size:26px}
+.cine-card .btn{grid-column:1/-1;margin-top:8px;padding:11px 16px}
+.cine-end{position:absolute;inset:0;z-index:2500;display:flex;align-items:center;padding:80px 6vw 60px;opacity:0;pointer-events:none;transition:opacity .4s}
+.cine-end.on{opacity:1;pointer-events:auto}
+.cine-end>div{max-width:min(520px,52vw);text-shadow:0 2px 14px rgba(10,40,90,.35)}
+.cine-end .k{display:inline-block;background:#FFFFFF;color:var(--accent);font-weight:700;font-size:14px;padding:5px 14px;border-radius:999px;text-shadow:none;box-shadow:0 6px 18px rgba(10,40,90,.18)}
+.cine-end h2{font-size:clamp(36px,6vw,76px);font-weight:700;line-height:1.1;margin:14px 0 10px}
+.cine-end p{font-size:clamp(15px,1.8vw,19px);font-weight:600}
+.cine-end .acts{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.cine-end .btn{width:auto;padding:14px 24px;text-shadow:none;box-shadow:0 12px 26px rgba(10,40,90,.25)}
+@media (max-width:760px){
+  .cine-end{align-items:flex-start;padding-top:96px}
+  .cine-end>div{max-width:100%;text-align:center;margin:0 auto}
+  .cine-end .acts{justify-content:center}
+  .cine-card{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .cine-hint{bottom:calc(86px + env(safe-area-inset-bottom,0px))}
+}
 </style>
 <!-- Travelpayouts Drive: تأكيد ملكية الموقع لحساب Travelpayouts -->
 <script nowprocket data-noptimize="1" data-cfasync="false" data-wpfc-render="false" seraph-accel-crit="1" data-no-defer="1" data-cmp-ab="2">
@@ -446,6 +503,34 @@ a.alc{text-decoration:none;color:var(--ink)}
 </head>
 <body>
 <div class="page">
+<!-- ============ الافتتاحية السينمائية ============ -->
+<section class="cine" id="cine" aria-labelledby="cineH">
+  <div class="cine-st" id="cineSt">
+    <div class="cine-sky" id="cineSky"></div>
+    <div class="cw" id="cineW" aria-hidden="true"></div>
+    <div class="cine-bar">
+      <div class="langs" role="group" aria-label="Language" id="cineLangs">
+        <button type="button" data-lang="ar">عربي</button><button type="button" data-lang="ku">کوردی</button><button type="button" data-lang="en">EN</button>
+      </div>
+      <button class="cine-skip" type="button" id="cineSkip"><span data-t="cSkip">تخطّى</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></button>
+    </div>
+    <div class="cine-end" id="cineEnd">
+      <div>
+        <span class="k" data-t="cEndK">وصلنا! 🎉</span>
+        <h2 data-t="cEndT">وين وجهتك الجاية؟</h2>
+        <p data-t="cEndP">اختار وجهتك واحنا نرتب الباقي: التذكرة، الفندق، والفيزا.</p>
+        <div class="acts">
+          <button class="btn" type="button" id="cineGo" data-t="cEndBtn">يلا نحجز</button>
+          <a class="btn wa" data-wa="hello" target="_blank" rel="noopener" href="https://wa.me/{{PHONE}}" data-t="cEndWa">كلّمنا بالواتساب</a>
+        </div>
+      </div>
+    </div>
+    <div class="cine-card" id="cineCard" aria-live="polite"></div>
+    <div class="cine-hint" id="cineHint"><i></i><span data-t="cScroll">انزل وخلّينا نطير</span></div>
+    <div class="cine-prog"><i id="cineProg"></i></div>
+  </div>
+</section>
+
 
 <header class="wrap topbar">
   <div class="top-l">
@@ -1327,9 +1412,153 @@ a.alc{text-decoration:none;color:var(--ink)}
     document.querySelectorAll(".bnav a").forEach(function(x){ x.classList.toggle("on", x === a); });
   });
 
+
+  /* ============ الافتتاحية السينمائية ============
+     عالم ثلاثي الأبعاد بسيط: كل شي إله مكان (x, y, z) والكاميرا تمشي على z مع النزول.
+     الغيوم والطيارات والجزر تكبر وهي تقرب وتعبر من جنب الكاميرا، مثل فيديو كارتييه. */
+  Object.assign(S.ar, { cT1:"سافر مع", cT2:"عبدالله", cSub:"طيران · فنادق · كروبات · فيزا — كل سفرتك بمكان واحد", cScroll:"انزل وخلّينا نطير",
+    cSkip:"تخطّى", cOpen:"شوف الأسعار والفنادق", cEndK:"وصلنا! 🎉", cEndT:"وين وجهتك الجاية؟", cEndP:"اختار وجهتك واحنا نرتب الباقي: التذكرة، الفندق، والفيزا.", cEndBtn:"يلا نحجز", cEndWa:"كلّمنا بالواتساب" });
+  Object.assign(S.ku, { cT1:"گەشت لەگەڵ", cT2:"عەبدوڵڵا", cSub:"فڕین · هوتێل · گروپ · ڤیزا — هەموو گەشتەکەت لە یەک شوێندا", cScroll:"بچۆ خوارەوە با بفڕین",
+    cSkip:"تێپەڕاندن", cOpen:"نرخ و هوتێلەکان ببینە", cEndK:"گەیشتین! 🎉", cEndT:"شوێنی داهاتووت کوێیە؟", cEndP:"شوێنەکەت هەڵبژێرە، ئێمە باقییەکەی ڕێک دەخەین: بلیت، هوتێل، و ڤیزا.", cEndBtn:"با حیجز بکەین", cEndWa:"لە واتسئاپ قسەمان لەگەڵ بکە" });
+  Object.assign(S.en, { cT1:"Travel with", cT2:"Abdullah", cSub:"Flights · Hotels · Group tours · Visas — your whole trip in one place", cScroll:"Scroll and let's fly",
+    cSkip:"Skip", cOpen:"See prices & hotels", cEndK:"We've landed! 🎉", cEndT:"Where to next?", cEndP:"Pick your destination and we'll handle the rest: ticket, hotel and visa.", cEndBtn:"Let's book", cEndWa:"Chat on WhatsApp" });
+
+  var cine = (function(){
+    var sec = document.getElementById("cine");
+    if (!MOTION || !sec || !window.requestAnimationFrame) return null;
+    document.documentElement.classList.add("cine-on");
+    var st = document.getElementById("cineSt"), world = document.getElementById("cineW"), sky = document.getElementById("cineSky");
+    var card = document.getElementById("cineCard"), end = document.getElementById("cineEnd"), hint = document.getElementById("cineHint"), prog = document.getElementById("cineProg");
+    var objs = [], isl = [];
+    function add(el, o){ o.el = el; world.appendChild(el); objs.push(o); return o; }
+    function img(src, cls){ var i = new Image(); i.src = src; i.alt = ""; i.className = cls; i.decoding = "async"; return i; }
+
+    /* الجزر: كل كروب إله صورة جزيرة (بدون تكرار الصورة) */
+    var seen = {}, Z0 = 4.2, GAP = 2.5;
+    D.ar.groups.forEach(function(g, i){
+      if (!/\/islands\//.test(g.img) || seen[g.img] || isl.length >= 9) return;
+      seen[g.img] = 1;
+      var k = isl.length;
+      isl.push(add(img(g.img.replace("/islands/", "/islands-cut/"), "isl"), { gi: i, side: k % 2 ? 1 : -1, z: Z0 + k * GAP, w: 1.2, kind: "isl" }));
+    });
+    var ZEND = Z0 + (isl.length - 1) * GAP + 2.2;
+
+    /* البداية: العنوان والشخصية */
+    var intro = document.createElement("div");
+    intro.className = "cine-in";
+    intro.innerHTML = '<img src="img/logo/logo-icon.svg" alt="" width="72" height="72"><h1 id="cineH"><span data-t="cT1"></span> <b data-t="cT2"></b></h1><p data-t="cSub"></p>';
+    var it = add(intro, { x: 0, y: -0.1, z: 1.15, html: true });
+    var m1 = add(img("img/mascot.webp", "msc"), { x: 0.62, y: 0.12, z: 1.7, w: 0.78 });
+    var m2 = add(img("img/mascot.webp", "msc"), { x: 0.5, y: 0.08, z: ZEND + 1.6, w: 0.85, end: true });
+
+    /* الطيارات الحقيقية تعبر بين الجزر */
+    ["iraqi", "qatar", "emirates", "turkish", "flydubai", "flybaghdad", "egyptair", "royaljordanian", "airarabia"].forEach(function(n, k){
+      if (k > isl.length) return;
+      add(img("img/planes/" + n + ".webp", "pl"), { plane: true, side: k % 2 ? 1 : -1, y: k % 2 ? -0.42 : 0.36, z: Z0 - 1.2 + k * GAP, w: 0.95 });
+    });
+
+    /* الغيوم: عشوائية بس ثابتة (نفس الشكل كل مرة) */
+    var seed = 11; function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    for (var c = 0; c < 46; c++){
+      var x = (rnd() - 0.5) * 4.4, z = 0.6 + rnd() * (ZEND + 2.5);
+      if (Math.abs(x) < 0.55) x += x < 0 ? -0.6 : 0.6;
+      var cl = document.createElement("span"); cl.className = "cc";
+      add(cl, { x: x, y: (rnd() - 0.5) * 2.2, z: z, w: 0.5 + rnd() * 0.9, op: 0.75 + rnd() * 0.25 });
+    }
+
+    var Wd = 1, Hd = 1, U = 1, portrait = false;
+    function size(){
+      Wd = st.clientWidth; Hd = st.clientHeight; U = Math.min(Wd, Hd); portrait = Wd / Hd < 0.8;
+      sec.style.height = "calc(100svh + " + Math.round(isl.length * 62 + 170) + "svh)";
+      objs.forEach(function(o){
+        if (o.html) return;
+        var w = o.w * (portrait && o.kind === "isl" ? 1.05 : 1);
+        o.el.style.width = Math.round(w * U) + "px";
+      });
+      /* النص بجهة والشخصية بالجهة الثانية */
+      var rtl = document.documentElement.dir === "rtl" ? 1 : -1;
+      it.x = portrait ? 0 : 0.22 * rtl * Wd / U; it.y = portrait ? -0.42 : -0.06;
+      m1.x = portrait ? 0 : -0.5 * rtl; m1.y = portrait ? 0.5 : 0.1;
+      m2.x = portrait ? 0 : -0.62 * rtl; m2.y = portrait ? 0.55 : 0.12;
+    }
+
+    var SKY = [[0, [47,127,216], [98,168,236], [207,230,251]], [0.55, [52,136,224], [116,182,240], [222,238,252]], [1, [70,132,214], [160,196,240], [255,212,168]]];
+    function mix(a, b, k){ return a.map(function(v, i){ return Math.round(v + (b[i] - v) * k); }); }
+    function skyAt(p){
+      var a = SKY[0], b = SKY[1]; if (p > SKY[1][0]){ a = SKY[1]; b = SKY[2]; }
+      var k = Math.min(1, Math.max(0, (p - a[0]) / (b[0] - a[0]))); k = Math.max(0, (k - 0.35) / 0.65); k = k * k * (3 - 2 * k);
+      [1, 2, 3].forEach(function(j){ sky.style.setProperty("--s" + j, "rgb(" + mix(a[j], b[j], k).join(",") + ")"); });
+    }
+
+    var camT = 0, cam = 0, last = 0, focus = -1, active = false, time = 0;
+    function target(){
+      var r = sec.getBoundingClientRect(), span = r.height - Hd;
+      var p = Math.min(1, Math.max(0, -r.top / span));
+      active = r.bottom > -40 && r.top < innerHeight + 40;
+      camT = Math.min(1, p / 0.9) * ZEND;
+      return p;
+    }
+    function frame(now){
+      requestAnimationFrame(frame);
+      var p = target();
+      if (!active) return;
+      var dt = Math.min(0.05, (now - (last || now)) / 1000); last = now; time += dt;
+      cam += (camT - cam) * Math.min(1, dt * 6);
+      var F = 1, cx = Wd / 2, cy = Hd / 2, near = 99, nearI = -1;
+      objs.forEach(function(o){
+        var dz = o.z - cam;
+        if (dz < 0.1 || dz > 11){ if (o.vis){ o.el.style.visibility = "hidden"; o.vis = false; } return; }
+        var s = F / dz, x = o.x || 0, y = o.y || 0, flip = 1;
+        if (o.kind === "isl"){ x = o.side * (portrait ? 0.16 : 0.5); y = (portrait ? -0.08 : 0.02) + Math.sin(time * 0.9 + o.z) * 0.03; }
+        if (o.plane){ x = o.side * -(dz - 0.9) * (portrait ? 0.5 : 0.85); y = o.y + Math.sin(time * 1.3 + o.z) * 0.02; flip = o.side > 0 ? -1 : 1; }
+        if (o.end) y += Math.sin(time * 1.4) * 0.025;
+        var op = Math.min(1, (11 - dz) / 3) * Math.min(1, (dz - 0.1) / (o.html ? 0.6 : 0.35)) * (o.op || 1);
+        if (o.html) op *= Math.min(1, Math.max(0, (dz - 0.35) / 0.5));
+        if (o.kind === "isl") op *= Math.min(1, Math.max(0, (dz - 0.45) / 0.45)) * Math.min(1, 0.12 + cam / 0.9);
+        if (o.end) op *= Math.min(1, Math.max(0, (cam - (ZEND - 1.6)) / 1.2));
+        if (o.kind === "isl"){ var d = Math.abs(dz - 1.35); if (d < near && dz > 0.55 && dz < 2.4){ near = d; nearI = isl.indexOf(o); } }
+        var sc = o.html ? s * 1.15 : s;
+        o.el.style.transform = "translate3d(" + (cx + x * s * U).toFixed(1) + "px," + (cy + y * s * U).toFixed(1) + "px,0) translate(-50%,-50%) scale(" + (sc * flip).toFixed(4) + "," + sc.toFixed(4) + ")";
+        o.el.style.opacity = op.toFixed(3);
+        o.el.style.zIndex = String(2000 - Math.round(dz * 100));
+        if (!o.vis){ o.el.style.visibility = "visible"; o.vis = true; }
+      });
+      if (nearI !== focus){ focus = nearI; showCard(); }
+      skyAt(p);
+      prog.style.transform = "scaleX(" + p.toFixed(4) + ")";
+      hint.style.opacity = p > 0.015 ? 0 : 1;
+      end.classList.toggle("on", cam > ZEND - 0.5);
+    }
+    function showCard(){
+      if (focus < 0){ card.classList.remove("on"); return; }
+      var gi = isl[focus].gi, g = D[L].groups[gi], from = g.route ? t(g.route[0] === "EBL" ? "fromEBL" : "fromBGW") : t("noFlight");
+      card.innerHTML = '<span class="rg">' + esc(g.region) + '</span><span><b>' + esc(g.title) + '</b><small>' + esc(from) + (g.dur ? " · " + esc(g.dur) : "") + '</small></span>' +
+        '<span class="pr">' + esc(t("pricesFrom")) + '<b>' + esc(g.best.p) + '</b></span>' +
+        '<button class="btn" type="button" data-cg="' + gi + '">' + esc(t("cOpen")) + '</button>';
+      card.classList.add("on");
+    }
+    card.addEventListener("click", function(e){ var b = e.target.closest("[data-cg]"); if (b) openG(+b.getAttribute("data-cg")); });
+    function leave(){ var tb = document.querySelector(".topbar"); if (tb) window.scrollTo({ top: tb.getBoundingClientRect().top + scrollY, behavior: "smooth" }); }
+    document.getElementById("cineSkip").addEventListener("click", leave);
+    document.getElementById("cineGo").addEventListener("click", leave);
+    document.getElementById("cineLangs").addEventListener("click", function(e){ var b = e.target.closest("button"); if (b) setLang(b.getAttribute("data-lang")); });
+    addEventListener("resize", size);
+    size();
+    requestAnimationFrame(frame);
+    return {
+      text: function(){
+        intro.querySelectorAll("[data-t]").forEach(function(el){ el.textContent = t(el.getAttribute("data-t")); });
+        document.querySelectorAll("#cineLangs button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === L)); });
+        if (focus >= 0) showCard();
+      },
+      passed: function(){ return sec.getBoundingClientRect().bottom < innerHeight * 0.5; }
+    };
+  })();
+
   /* ============ تشغيل وتبديل اللغة ============ */
   function render(){
     applyText(); prepGroups(); renderGroups(); renderVisas(); renderBranches(); reveal(); tilt();
+    if (cine) cine.text();
     if (!document.getElementById("flyRes").hidden) search(true);
   }
   function setLang(l){
@@ -1341,7 +1570,7 @@ a.alc{text-decoration:none;color:var(--ink)}
     if (gSheet.open) closeSheet(gSheet);
     render();
   }
-  document.querySelector(".langs").addEventListener("click", function(e){ var b = e.target.closest("button"); if (b) setLang(b.getAttribute("data-lang")); });
+  document.querySelector(".topbar .langs").addEventListener("click", function(e){ var b = e.target.closest("button"); if (b) setLang(b.getAttribute("data-lang")); });
   render();
   /* ============ رسالة الترحيب ============
      تطلع مرة وحدة لكل زائر (أول زيارة بس). الخدمات تفتح تبويبها، واللغة تتغير من داخلها. */
@@ -1363,7 +1592,12 @@ a.alc{text-decoration:none;color:var(--ink)}
     var force = /[?&]hello\b/.test(location.search);  // ?hello يطلّعها حتى لو انشافت
     if (!force && (seen || /[?&]nohello/.test(location.search))) return;
     try { localStorage.setItem("hello", new Date().toISOString().slice(0, 10)); } catch(e){}
-    setTimeout(function(){ helloSync(); if (hello.showModal) hello.showModal(); else hello.setAttribute("open", ""); }, 700);
+    function showHello(){ helloSync(); if (hello.showModal) hello.showModal(); else hello.setAttribute("open", ""); }
+    /* مع الافتتاحية: الترحيب يطلع بعد ما يخلص المسافر الرحلة، مو فوكها */
+    if (cine && !cine.passed()){
+      var wait = function(){ if (!cine.passed()) return; removeEventListener("scroll", wait); setTimeout(showHello, 500); };
+      addEventListener("scroll", wait, { passive: true });
+    } else setTimeout(showHello, 700);
   })();
 
 })();
