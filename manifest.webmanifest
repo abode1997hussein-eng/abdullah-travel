@@ -1,0 +1,17 @@
+{
+  "name": "سافر مع عبدالله",
+  "short_name": "سافر مع عبدالله",
+  "description": "طيران، فنادق، كروبات، وفيزا من بغداد لكل العالم. الحجز على الواتساب.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./?app=1",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F6F7F9",
+  "theme_color": "#F26A21",
+  "icons": [
+    { "src": "img/logo/app-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "img/logo/app-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "img/logo/app-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

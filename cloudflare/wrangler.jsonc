@@ -1,0 +1,10 @@
+// إعدادات سيرفر البحث اللحظي على كلاود فلير.
+// كلاود فلير مربوط بفرع new-site من هذا المستودع (Path: cloudflare): أي تعديل على cloudflare/ ينرفع وحده.
+// المفتاح (SERPAPI_KEY) ينحط من لوحة كلاود فلير كـ Secret، وما ينكتب هنا أبداً.
+{
+  "name": "abdullah-flights",
+  "main": "worker.js",
+  "compatibility_date": "2025-09-01",
+  "workers_dev": true,
+  "keep_vars": true
+}
