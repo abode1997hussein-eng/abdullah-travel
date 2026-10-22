@@ -1,13 +1,15 @@
-/* بوت واتساب «سافر مع عبدالله» — على كلاود فلير (Workers + Durable Object بقاعدة SQLite).
+/* إرسال عروض «سافر مع عبدالله» بالواتساب الرسمي — على كلاود فلير (Workers + Durable Object بقاعدة SQLite).
  *
- * يسوي 3 شغلات:
- *   1. يرسل رسالة العروض (قالب معتمد من ميتا) لكل الأرقام، على دفعات حسب الحد اليومي لميتا، وبساعات الدوام بس.
- *   2. يرد وحده على الزبائن: أسعار التذاكر والكروبات والفيزا من bot.json (نفس أسعار الموقع)، ويحوّل للموظف.
- *   3. اللي يكتب «إيقاف» ما توصله عروض بعد، والرقم اللي ما عليه واتساب ينشال وحده.
+ * الفكرة بسيطة: عندك عرض ← تفتح /admin ← تحط الصورة والنص ← «أرسل للكل».
+ *   - ينرسل لكل الأرقام اللي عليها واتساب، على دفعات حسب الحد اليومي لميتا، وبساعات الدوام بس.
+ *   - الرقم اللي ما عليه واتساب ميتا ترفضه، فينعلّم وما ينرسله بعد (وما تنحسب كلفته).
+ *   - البوت ما يرد على الزبائن. بس اللي يكتب «إيقاف» ينشال من العروض (هذا يحمي الرقم من الحظر)،
+ *     وردود الناس تبين بصفحة الإدارة حتى تكلمهم من رقم المكتب.
+ *   - إذا ميتا نزّلت جودة الرقم أو وكّفت القالب، الإرسال يوكف وحده.
  *
  * الروابط:
- *   /webhook   ميتا تدز عليه الرسائل وحالة الإرسال (ينحط بإعدادات التطبيق بميتا)
- *   /admin     صفحة الإدارة: رفع الأرقام، الحملات، والمحادثات (بكلمة سر ADMIN_TOKEN)
+ *   /webhook   ميتا تدز عليه حالة الإرسال والردود (ينحط بإعدادات التطبيق بميتا)
+ *   /admin     صفحة الإدارة (بكلمة سر ADMIN_TOKEN)
  *
  * الإعدادات بكلاود فلير (Settings ← Variables and Secrets):
  *   WA_TOKEN        (سري)  توكن دائم من System User بميتا
@@ -17,17 +19,13 @@
  *   ADMIN_TOKEN     (سري)  كلمة سر صفحة الإدارة
  *   DAILY_LIMIT            كم شخص باليوم (الافتراضي 250، نفس حد ميتا للحساب الجديد). يتغير من صفحة الإدارة هم
  *   SEND_HOURS             ساعات الإرسال بتوقيت بغداد (الافتراضي 10-21)
- *   MIN_DAYS               أقل عدد أيام بين إعلانين لنفس الشخص (الافتراضي 3)
- *   HUMAN_HOURS            كم ساعة يسكت البوت بعد ما الزبون يطلب موظف (الافتراضي 12)
- *   STAFF_PHONE            رقم المكتب للي يريد يحجي مباشرة (الافتراضي من bot.json)
- *   SITE_URL               رابط الموقع اللي بيه bot.json
+ *   MIN_DAYS               أقل عدد أيام بين عرضين لنفس الشخص (الافتراضي 3)
  */
 import { DurableObject } from "cloudflare:workers";
-import { reply, phone } from "./bot.js";
+import { phone, isStop, isStart } from "./phone.js";
 import { send, markRead, template, verify, PER_USER } from "./meta.js";
 import ADMIN from "./admin.html";
 
-const SITE = "https://abode1997hussein-eng.github.io/abdullah-travel/";
 const DAY = 86400000;
 const BATCH = 40; // رسائل بكل دفعة (حد كلاود فلير المجاني 50 اتصال بالمرة)
 const GAP = 4000; // بين دفعة ودفعة
@@ -99,10 +97,8 @@ export class Hub extends DurableObject {
       CREATE INDEX IF NOT EXISTS sends_phone ON sends (phone, at);
       CREATE TABLE IF NOT EXISTS msgs (id INTEGER PRIMARY KEY AUTOINCREMENT, phone TEXT, dir TEXT, body TEXT, at INTEGER);
       CREATE INDEX IF NOT EXISTS msgs_phone ON msgs (phone, id);
-      CREATE TABLE IF NOT EXISTS human (phone TEXT PRIMARY KEY, until INTEGER);
       CREATE TABLE IF NOT EXISTS kv (k TEXT PRIMARY KEY, v TEXT);
     `);
-    this.data = null;
   }
 
   q(s, ...a) {
@@ -120,16 +116,6 @@ export class Hub extends DurableObject {
   }
   log(p, dir, body) {
     this.sql.exec("INSERT INTO msgs (phone, dir, body, at) VALUES (?, ?, ?, ?)", p, dir, String(body || "").slice(0, 2000), Date.now());
-  }
-
-  /* أسعار البوت من الموقع، تتحدث كل 10 دقايق */
-  async botData() {
-    if (this.data && Date.now() - this.data.t < 600000) return this.data.d;
-    try {
-      const r = await fetch((this.env.SITE_URL || SITE) + "bot.json", { cf: { cacheTtl: 300 } });
-      if (r.ok) this.data = { t: Date.now(), d: await r.json() };
-    } catch {}
-    return this.data ? this.data.d : { site: this.env.SITE_URL || SITE, flights: [], visas: [], tours: [] };
   }
 
   /* ------------------------------------------------------------ الويب هوك */
@@ -169,6 +155,7 @@ export class Hub extends DurableObject {
     if (kind === "out") this.sql.exec("UPDATE contacts SET out = 1 WHERE phone = ?", p);
   }
 
+  /* البوت ما يرد على الزبائن: يسجّل الرد بس، وإلا «إيقاف» أو «اشتراك» */
   async incoming(m, profile) {
     const p = m.from;
     const now = Date.now();
@@ -176,35 +163,24 @@ export class Hub extends DurableObject {
       "INSERT INTO contacts (phone, name, added, last_in) VALUES (?, ?, ?, ?) ON CONFLICT(phone) DO UPDATE SET last_in = excluded.last_in, bad = 0, name = COALESCE(NULLIF(contacts.name, ''), excluded.name)",
       p, profile, now, now
     );
-    let text = "", id = "";
+    let text = "";
     if (m.type === "text") text = (m.text || {}).body || "";
-    else if (m.type === "button") (text = (m.button || {}).text || ""), (id = /^(stop|menu|human|flights|tours|visa)$/.test((m.button || {}).payload || "") ? m.button.payload : "");
-    else if (m.type === "interactive") {
-      const r = (m.interactive || {}).button_reply || (m.interactive || {}).list_reply || {};
-      (text = r.title || ""), (id = r.id || "");
-    }
+    else if (m.type === "button") text = (m.button || {}).text || "";
+    else if (m.type === "interactive") text = (((m.interactive || {}).button_reply || {}).title) || "";
     this.log(p, "in", text || "[" + m.type + "]");
-    await markRead(this.env, m.id);
 
-    const h = this.one("SELECT until FROM human WHERE phone = ?", p);
-    const human = !!(h && h.until > now);
-    const c = this.one("SELECT name FROM contacts WHERE phone = ?", p);
-    const name = ((c && c.name) || profile || "").split(/\s+/)[0];
-    const hours = parseFloat(this.env.HUMAN_HOURS || "12") || 12;
-
-    let r;
-    if (!text && !id) {
-      // صورة، صوت، ملف... (جواز أو مستمسكات غالباً): تروح للموظف
-      r = human ? { act: "", msgs: [] } : { act: "human", msgs: [{ type: "text", text: { body: "وصلت 👍 موظفنا يشوفها ويرد عليك هنا بأقرب وقت." } }] };
-    } else {
-      r = reply(text, id, await this.botData(), { name, human, staff: this.env.STAFF_PHONE });
+    let answer = "";
+    if (isStop(text)) {
+      this.sql.exec("UPDATE contacts SET out = 1 WHERE phone = ?", p);
+      answer = "تم ✅ ما راح توصلك عروض بعد. وإذا تريد ترجع اكتب «اشتراك».";
+    } else if (isStart(text)) {
+      this.sql.exec("UPDATE contacts SET out = 0 WHERE phone = ?", p);
+      answer = "هلا بيك من جديد 🌹 راح توصلك عروضنا.";
     }
-    if (r.act === "stop") this.sql.exec("UPDATE contacts SET out = 1 WHERE phone = ?", p);
-    if (r.act === "start") this.sql.exec("UPDATE contacts SET out = 0 WHERE phone = ?", p);
-    if (r.act === "human") this.sql.exec("INSERT INTO human (phone, until) VALUES (?, ?) ON CONFLICT(phone) DO UPDATE SET until = excluded.until", p, now + hours * 3600000);
-    for (const msg of r.msgs) {
-      const res = await send(this.env, p, msg);
-      this.log(p, "bot", res.ok ? (msg.text ? msg.text.body : "[القائمة]") : "[ما انرسل: " + res.code + " " + res.msg + "]");
+    if (answer) {
+      await markRead(this.env, m.id);
+      const res = await send(this.env, p, { type: "text", text: { body: answer } });
+      if (res.ok) this.log(p, "bot", answer);
     }
   }
 
@@ -309,6 +285,8 @@ export class Hub extends DurableObject {
           used: this.used(),
           limit: this.limit(),
           quality: this.get("quality", ""),
+          tpl: this.get("tpl", ""),
+          lang: this.get("lang", "ar"),
           camps,
         };
       }
@@ -350,26 +328,32 @@ export class Hub extends DurableObject {
         this.next();
         return { limit: l };
       }
-      case "campaign": {
+      case "offer": {
+        // عرض جديد = حملة: القالب المعتمد + صورة + نص العرض. test: يرسل لرقمك بس
         if (!/^[a-z0-9_]+$/.test(b.tpl || "")) throw new Error("اسم القالب لازم نفس اللي بميتا بالضبط (حروف إنكليزية صغيرة وأرقام و_)");
-        const vars = Array.isArray(b.vars) ? b.vars : String(b.vars || "").split("\n").map((s) => s.trim()).filter(Boolean);
-        this.sql.exec("INSERT INTO camps (name, tpl, lang, image, vars, state, created, note) VALUES (?, ?, ?, ?, ?, 'draft', ?, '')",
-          b.name || b.tpl, b.tpl, b.lang || "ar", b.image || "", JSON.stringify(vars), now);
-        return { id: this.one("SELECT last_insert_rowid() AS id").id };
-      }
-      case "test": {
-        const c = b.id ? this.one("SELECT * FROM camps WHERE id = ?", b.id) : { tpl: b.tpl, lang: b.lang, image: b.image, vars: JSON.stringify(b.vars || []) };
-        const p = phone(b.phone, this.env.COUNTRY_CODE || "964");
-        if (!c || !p) throw new Error("الحملة أو الرقم غلط");
-        const res = await send(this.env, p, template(c, b.name || ""));
-        if (!res.ok) throw new Error("ميتا رفضت: " + res.code + " " + res.msg);
+        if (!b.text) throw new Error("اكتب نص العرض");
+        const vars = JSON.stringify(["{name}", String(b.text).replace(/\s*\n\s*/g, " · ").slice(0, 900)]);
+        const c = { tpl: b.tpl, lang: b.lang || "ar", image: b.image || "", vars };
+        this.set("tpl", c.tpl);
+        this.set("lang", c.lang);
+        if (b.test) {
+          const p = phone(b.test, this.env.COUNTRY_CODE || "964");
+          if (!p) throw new Error("رقم التجربة غلط");
+          const res = await send(this.env, p, template(c, "علوان"));
+          if (!res.ok) throw new Error("ميتا رفضت: " + res.code + " " + res.msg);
+          return { ok: true, test: true };
+        }
+        this.sql.exec("UPDATE camps SET state = 'paused' WHERE state = 'running'");
+        this.sql.exec("INSERT INTO camps (name, tpl, lang, image, vars, state, created, note) VALUES (?, ?, ?, ?, ?, 'running', ?, '')",
+          String(b.text).split("\n")[0].slice(0, 60), c.tpl, c.lang, c.image, vars, now);
+        this.set("fails", 0);
+        await this.ctx.storage.setAlarm(now + 1000);
         return { ok: true };
       }
-      case "start": {
-        const c = this.one("SELECT * FROM camps WHERE id = ?", b.id);
-        if (!c) throw new Error("ماكو هالحملة");
-        this.sql.exec("UPDATE camps SET state = 'paused' WHERE state = 'running' AND id != ?", c.id);
-        this.sql.exec("UPDATE camps SET state = 'running', note = '' WHERE id = ?", c.id);
+      case "resume": {
+        if (!this.one("SELECT id FROM camps WHERE id = ? AND state = 'paused'", b.id)) throw new Error("ماكو هالعرض");
+        this.sql.exec("UPDATE camps SET state = 'paused' WHERE state = 'running'");
+        this.sql.exec("UPDATE camps SET state = 'running', note = '' WHERE id = ?", b.id);
         this.set("fails", 0);
         await this.ctx.storage.setAlarm(now + 1000);
         return { ok: true };
@@ -377,34 +361,14 @@ export class Hub extends DurableObject {
       case "pause":
         this.sql.exec("UPDATE camps SET state = 'paused', note = 'وكّفتها من صفحة الإدارة' WHERE id = ?", b.id);
         return { ok: true };
-      case "inbox":
+      case "replies":
+        // آخر الناس اللي ردّوا على العروض، حتى تكلمهم من رقم المكتب
         return {
-          chats: this.q(
-            `SELECT m.phone, MAX(m.id) AS last, c.name, h.until > ? AS human,
-               (SELECT body FROM msgs x WHERE x.phone = m.phone ORDER BY id DESC LIMIT 1) AS body,
-               (SELECT at FROM msgs x WHERE x.phone = m.phone ORDER BY id DESC LIMIT 1) AS at
-             FROM msgs m LEFT JOIN contacts c ON c.phone = m.phone LEFT JOIN human h ON h.phone = m.phone
-             GROUP BY m.phone ORDER BY (h.until > ?) DESC, last DESC LIMIT 60`,
-            now, now
+          rows: this.q(
+            `SELECT m.phone, c.name, c.out, m.body, m.at FROM msgs m LEFT JOIN contacts c ON c.phone = m.phone
+             WHERE m.id IN (SELECT MAX(id) FROM msgs WHERE dir = 'in' GROUP BY phone) ORDER BY m.id DESC LIMIT 100`
           ),
         };
-      case "chat":
-        return { msgs: this.q("SELECT dir, body, at FROM msgs WHERE phone = ? ORDER BY id DESC LIMIT 100", b.phone || "").reverse() };
-      case "reply": {
-        const p = phone(b.phone, this.env.COUNTRY_CODE || "964");
-        if (!p || !b.text) throw new Error("الرقم أو النص فاضي");
-        const res = await send(this.env, p, { type: "text", text: { body: String(b.text).slice(0, 4000) } });
-        if (!res.ok) {
-          throw new Error(res.code === 131047 ? "مرت أكثر من 24 ساعة على آخر رسالة من الزبون، واتساب ما يسمح نرد إلا بقالب" : "ما انرسلت: " + res.code + " " + res.msg);
-        }
-        this.log(p, "staff", b.text);
-        const hours = parseFloat(this.env.HUMAN_HOURS || "12") || 12;
-        this.sql.exec("INSERT INTO human (phone, until) VALUES (?, ?) ON CONFLICT(phone) DO UPDATE SET until = excluded.until", p, now + hours * 3600000);
-        return { ok: true };
-      }
-      case "bot":
-        this.sql.exec("DELETE FROM human WHERE phone = ?", b.phone || "");
-        return { ok: true };
     }
     throw new Error("not_found");
   }

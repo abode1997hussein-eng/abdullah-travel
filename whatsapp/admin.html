@@ -4,50 +4,40 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>بوت الواتساب — سافر مع عبدالله</title>
+<title>عروض الواتساب — سافر مع عبدالله</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap">
 <style>
 :root{--bg:#F6F7F9;--card:#fff;--ink:#111827;--muted:#6B7280;--line:#E3E5EA;--accent:#F26A21;--navy:#123A6B;--ok:#15803D;--bad:#B91C1C;--wa:#25D366}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "IBM Plex Sans Arabic",Tahoma,sans-serif}
 header{background:var(--navy);color:#fff;padding:14px 16px;font-weight:700;font-size:18px}
-.wrap{max-width:900px;margin:0 auto;padding:16px}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px}
 h2{font-size:17px;margin:0 0 10px;color:var(--navy)}
 .small{font-size:13px;color:var(--muted)}
-.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
 .stat{background:var(--bg);border-radius:12px;padding:10px 12px}
 .stat b{display:block;font-size:22px;color:var(--navy)}
-input,textarea,select{font:inherit;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;margin:4px 0 10px}
-textarea{min-height:90px}
-button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:10px 18px;background:var(--accent);color:#fff;cursor:pointer;margin:2px}
+input,textarea{font:inherit;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;margin:4px 0 10px}
+textarea{min-height:110px}
+button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:11px 20px;background:var(--accent);color:#fff;cursor:pointer;margin:2px}
 button.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
-button.wa{background:var(--wa)}
-button:disabled{opacity:.5}
+button.wa{background:var(--wa);font-size:17px;padding:13px 26px}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .row>*{flex:1;min-width:140px}
 .camp{border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0}
 .pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;background:var(--bg)}
 .running{background:#DCFCE7;color:var(--ok)}.paused{background:#FEE2E2;color:var(--bad)}.done{background:#E0E7FF;color:var(--navy)}
 .bar{height:8px;background:var(--bg);border-radius:9px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--wa)}
-.chats{display:grid;grid-template-columns:260px 1fr;gap:12px}
-@media(max-width:700px){.chats{grid-template-columns:1fr}}
-.list{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:12px}
-.list div{padding:10px;border-bottom:1px solid var(--line);cursor:pointer}
-.list div.on{background:#FFF3EB}
-.list .h{color:var(--accent);font-weight:700}
-.msgs{max-height:420px;overflow:auto;background:#ECE5DD;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px}
-.m{max-width:85%;padding:8px 10px;border-radius:10px;white-space:pre-wrap;word-break:break-word;font-size:14px}
-.m.in{background:#fff;align-self:flex-start}
-.m.bot,.m.staff{background:#DCF8C6;align-self:flex-end}
-.m.bot{opacity:.85}
-.m small{display:block;color:var(--muted);font-size:11px}
+.rep{padding:10px 0;border-bottom:1px solid var(--line)}
+.rep:last-child{border:0}
+details summary{cursor:pointer;font-weight:600;color:var(--navy)}
 #msg{position:fixed;bottom:16px;inset-inline:16px;max-width:520px;margin:0 auto;background:var(--ink);color:#fff;border-radius:12px;padding:12px 16px;display:none}
 .hide{display:none}
 </style>
 </head>
 <body>
-<header>بوت الواتساب · سافر مع عبدالله</header>
+<header>عروض الواتساب · سافر مع عبدالله</header>
 <div class="wrap">
 
 <div class="card" id="login">
@@ -58,77 +48,66 @@ button:disabled{opacity:.5}
 
 <div id="app" class="hide">
   <div class="card">
+    <h2>📣 أرسل عرض للكل</h2>
+    <label class="small">صورة العرض (رابط صورة، مثلاً من promo.html أو أي رابط مباشر لصورة)</label>
+    <input id="img" dir="ltr" placeholder="https://...jpg">
+    <label class="small">نص العرض</label>
+    <textarea id="text" placeholder="✈️ إسطنبول ذهاب وعودة من 179$ · كروب بانكوك 10 أيام من 1075$"></textarea>
+    <details>
+      <summary>القالب والتجربة</summary>
+      <label class="small">اسم القالب المعتمد بميتا</label>
+      <input id="tpl" dir="ltr" placeholder="travel_offers">
+      <label class="small">لغة القالب</label>
+      <input id="lang" dir="ltr" value="ar">
+      <div class="row"><input id="testphone" placeholder="رقمك (07…)"><button class="ghost" onclick="offer(true)">جرّب على رقمي</button></div>
+    </details>
+    <p><button class="wa" onclick="offer(false)">أرسل للكل</button></p>
+    <p class="small">ينرسل لكل الأرقام اللي عليها واتساب، على دفعات حسب حد ميتا اليومي، من 10 الصبح لـ9 بالليل. الرقم اللي ما عليه واتساب ينشال وحده، واللي كتب «إيقاف» ما يوصله شي.</p>
+  </div>
+
+  <div class="card">
     <h2>الحالة</h2>
     <div class="stats" id="stats"></div>
     <p class="small" id="quality"></p>
-    <div class="row">
-      <input id="limit" type="number" min="1" placeholder="الحد اليومي">
-      <button class="ghost" onclick="setLimit()">غيّر الحد اليومي</button>
-    </div>
-    <p class="small">الحد اليومي لازم يكون نفس حد ميتا أو أقل (يبين بـWhatsApp Manager ← Phone numbers). الحساب الجديد 250، وبعد توثيق الشركة 2000، ويكبر وحده بعدين.</p>
+    <div id="camps"></div>
   </div>
 
   <div class="card">
     <h2>رفع الأرقام</h2>
-    <p class="small">صدّر جهات الاتصال من الموبايل كملف <b>.vcf</b> (أو من Google Contacts كـCSV) وارفعه هنا. الأرقام العراقية تتصلح وحدها (0770… ← 964770…)، والمكرر ينشال.</p>
+    <p class="small">صدّر جهات الاتصال من الموبايل كملف <b>.vcf</b> (أو من Google Contacts كـCSV) وارفعه هنا. الأرقام العراقية تتصلح وحدها (0770… ← 964770…)، والمكرر ينشال. تكدر ترفع مرة ثانية بأي وقت، الجديد بس ينضاف.</p>
     <input id="file" type="file" accept=".vcf,.csv,.txt,text/vcard,text/csv,text/plain" multiple>
-    <textarea id="paste" placeholder="أو الصق أرقام، كل رقم بسطر (ممكن ويا الاسم: 07701234567, علي)"></textarea>
+    <textarea id="paste" style="min-height:70px" placeholder="أو الصق أرقام، كل رقم بسطر"></textarea>
     <button onclick="upload()">ارفع</button>
     <span class="small" id="upmsg"></span>
   </div>
 
   <div class="card">
-    <h2>حملة جديدة</h2>
-    <p class="small">القالب لازم يكون <b>معتمد</b> من ميتا أول (WhatsApp Manager ← Message templates، نوع Marketing). اكتب اسمه هنا بالضبط.</p>
-    <div class="row">
-      <div><label class="small">اسم الحملة</label><input id="cname" placeholder="عروض الشتاء"></div>
-      <div><label class="small">اسم القالب بميتا</label><input id="ctpl" placeholder="travel_offers" dir="ltr"></div>
-      <div><label class="small">لغة القالب</label><input id="clang" value="ar" dir="ltr"></div>
-    </div>
-    <label class="small">رابط صورة الهيدر (إذا القالب بيه صورة)</label>
-    <input id="cimg" dir="ltr" placeholder="https://...jpg">
-    <label class="small">متغيرات النص {{1}} {{2}}… كل وحدة بسطر. اكتب {name} حتى ينحط اسم الزبون</label>
-    <textarea id="cvars" placeholder="{name}&#10;إسطنبول 360$"></textarea>
-    <button onclick="newCamp()">سوّي الحملة</button>
+    <h2>الناس اللي ردّوا</h2>
+    <p class="small">البوت ما يرد عليهم. كلمهم أنت من رقم المكتب.</p>
+    <div id="replies"></div>
   </div>
 
   <div class="card">
-    <h2>الحملات</h2>
-    <div class="row"><input id="testphone" placeholder="رقمك للتجربة (07…)"><span class="small">جرّب الحملة على رقمك قبل التشغيل</span></div>
-    <div id="camps"></div>
-  </div>
-
-  <div class="card">
-    <h2>المحادثات</h2>
-    <p class="small">اللي طلبوا موظف يطلعون فوق بالبرتقالي. ردك هنا يوصل للزبون من رقم البوت، والبوت يسكت وياه 12 ساعة.</p>
-    <div class="chats">
-      <div class="list" id="chats"></div>
-      <div>
-        <div class="msgs" id="msgs"><span class="small">اختار محادثة</span></div>
-        <textarea id="rtext" placeholder="اكتب ردك…" style="min-height:60px"></textarea>
-        <button class="wa" onclick="sendReply()">أرسل</button>
-        <button class="ghost" onclick="backToBot()">رجّع البوت يرد</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>قائمة الإيقاف</h2>
-    <p class="small">اللي كتب «إيقاف» ينضاف وحده. تكدر تضيف أرقام بيدك (مثلاً واحد طلب منك بالتلفون).</p>
-    <textarea id="optouts" placeholder="كل رقم بسطر"></textarea>
-    <button class="ghost" onclick="addOptouts()">أضف للإيقاف</button>
-    <button class="ghost" onclick="dlOptouts()">نزّل القائمة</button>
+    <details>
+      <summary>إعدادات</summary>
+      <p class="small">الحد اليومي لازم يكون نفس حد ميتا أو أقل (يبين بـWhatsApp Manager ← Phone numbers). الحساب الجديد 250، وبعد توثيق الشركة 2000، ويكبر وحده بعدين.</p>
+      <div class="row"><input id="limit" type="number" min="1" placeholder="الحد اليومي"><button class="ghost" onclick="setLimit()">غيّر</button></div>
+      <p class="small">أرقام ما تريد يوصلها شي (كل رقم بسطر):</p>
+      <textarea id="optouts" style="min-height:70px"></textarea>
+      <button class="ghost" onclick="addOptouts()">أضف لقائمة الإيقاف</button>
+      <button class="ghost" onclick="dlOptouts()">نزّل قائمة الإيقاف</button>
+    </details>
   </div>
 </div>
 </div>
 <div id="msg"></div>
 
 <script>
-var TOK = "", CUR = "";
+var TOK = "";
 try { TOK = sessionStorage.getItem("tok") || ""; } catch (e) {}
 function $(id) { return document.getElementById(id); }
 function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
-function toast(t) { var m = $("msg"); m.textContent = t; m.style.display = "block"; clearTimeout(m._t); m._t = setTimeout(function () { m.style.display = "none"; }, 4000); }
+function toast(t) { var m = $("msg"); m.textContent = t; m.style.display = "block"; clearTimeout(m._t); m._t = setTimeout(function () { m.style.display = "none"; }, 5000); }
 function api(p, body) {
   return fetch("/api/" + p, { method: body ? "POST" : "GET", headers: { Authorization: "Bearer " + TOK, "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined })
     .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || r.status); return j; }); });
@@ -137,40 +116,36 @@ function login() {
   TOK = $("tok").value.trim();
   api("stats").then(function () { try { sessionStorage.setItem("tok", TOK); } catch (e) {} start(); }).catch(function (e) { toast(e.message); });
 }
-function start() { $("login").classList.add("hide"); $("app").classList.remove("hide"); refresh(); inbox(); setInterval(refresh, 15000); setInterval(inbox, 20000); }
-var LABEL = { draft: "مسودة", running: "شغّالة", paused: "موكّفة", done: "خلصت" };
+var first = true;
+function start() { $("login").classList.add("hide"); $("app").classList.remove("hide"); refresh(); replies(); setInterval(refresh, 15000); setInterval(replies, 30000); }
+var LABEL = { running: "دا ينرسل", paused: "موكّف", done: "خلص" };
 function refresh() {
   api("stats").then(function (s) {
-    var st = [["الأرقام", s.contacts], ["وكّفوا العروض", s.out], ["ما عليهم واتساب", s.bad], ["ردّوا هالأسبوع", s.replied], ["انرسل آخر 24 ساعة", s.used + " / " + s.limit]];
+    if (first) { $("tpl").value = s.tpl || ""; $("lang").value = s.lang || "ar"; first = false; }
+    var st = [["الأرقام", s.contacts - s.bad], ["ما عليهم واتساب", s.bad], ["وكّفوا العروض", s.out], ["انرسل آخر 24 ساعة", s.used + " / " + s.limit]];
     $("stats").innerHTML = st.map(function (x) { return '<div class="stat"><span class="small">' + x[0] + "</span><b>" + esc(x[1]) + "</b></div>"; }).join("");
     $("quality").textContent = s.quality ? "آخر تحديث من ميتا عن الرقم: " + s.quality : "";
-    if (!$("limit").value) $("limit").placeholder = "الحد اليومي (هسه " + s.limit + ")";
-    $("camps").innerHTML = s.camps.length ? s.camps.map(function (c) {
-      var by = c.by || {}, sent = 0; for (var k in by) sent += by[k];
+    $("limit").placeholder = "الحد اليومي (هسه " + s.limit + ")";
+    $("camps").innerHTML = s.camps.map(function (c) {
+      var by = c.by || {}, sent = 0; for (var k in by) if (k !== "bad") sent += by[k];
       var total = sent + c.pending, pct = total ? Math.round(100 * sent / total) : 0;
-      var d = (by.delivered || 0) + (by.read || 0);
-      return '<div class="camp"><div class="row"><b>' + esc(c.name) + ' <span class="pill ' + c.state + '">' + (LABEL[c.state] || c.state) + '</span></b>' +
-        '<span class="small" dir="ltr">' + esc(c.tpl) + "</span></div>" +
+      return '<div class="camp"><div><b>' + esc(c.name) + '</b> <span class="pill ' + c.state + '">' + (LABEL[c.state] || c.state) + "</span></div>" +
         '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
-        '<div class="small">انرسل ' + sent + " من " + total + " · وصل " + d + " · قرا " + (by.read || 0) + " · فشل " + ((by.failed || 0) + (by.bad || 0)) +
-        " · ميتا أجّلت " + (by.capped || 0) + " · باقي " + c.pending + "</div>" +
+        '<div class="small">انرسل ' + sent + " من " + total + " · وصل " + ((by.delivered || 0) + (by.read || 0)) + " · قرا " + (by.read || 0) + " · ما عليهم واتساب " + (by.bad || 0) + " · باقي " + c.pending + "</div>" +
         (c.note ? '<div class="small" style="color:var(--bad)">' + esc(c.note) + "</div>" : "") +
-        '<div><button class="ghost" onclick="test(' + c.id + ')">جرّب على رقمي</button>' +
-        (c.state === "running" ? '<button class="ghost" onclick="act(\'pause\',' + c.id + ')">وكّف</button>' : c.state !== "done" ? '<button class="wa" onclick="act(\'start\',' + c.id + ')">شغّل الإرسال</button>' : "") +
-        "</div></div>";
-    }).join("") : '<p class="small">ماكو حملات بعد</p>';
+        (c.state === "running" ? '<button class="ghost" onclick="act(\'pause\',' + c.id + ')">وكّف</button>' : c.state === "paused" ? '<button class="ghost" onclick="act(\'resume\',' + c.id + ')">كمّل الإرسال</button>' : "") +
+        "</div>";
+    }).join("");
   }).catch(function (e) { toast(e.message); });
 }
-function setLimit() { api("limit", { limit: $("limit").value }).then(function () { toast("تمام"); $("limit").value = ""; refresh(); }).catch(function (e) { toast(e.message); }); }
-function newCamp() {
-  api("campaign", { name: $("cname").value, tpl: $("ctpl").value.trim(), lang: $("clang").value.trim(), image: $("cimg").value.trim(), vars: $("cvars").value })
-    .then(function () { toast("انضافت الحملة. جرّبها على رقمك وبعدين شغّلها"); refresh(); }).catch(function (e) { toast(e.message); });
-}
-function test(id) {
-  if (!$("testphone").value) return toast("اكتب رقمك فوق أول");
-  api("test", { id: id, phone: $("testphone").value }).then(function () { toast("انرسلت لرقمك، شوف الواتساب"); }).catch(function (e) { toast(e.message); });
+function offer(test) {
+  var b = { tpl: $("tpl").value.trim(), lang: $("lang").value.trim(), image: $("img").value.trim(), text: $("text").value.trim() };
+  if (!b.tpl) { document.querySelector("details").open = true; return toast("اكتب اسم القالب المعتمد بميتا"); }
+  if (test) { if (!$("testphone").value) return toast("اكتب رقمك"); b.test = $("testphone").value; }
+  api("offer", b).then(function () { toast(test ? "انرسلت لرقمك، شوف الواتساب" : "بدا الإرسال ✅ تكدر تسكّر الصفحة، يكمل وحده"); refresh(); }).catch(function (e) { toast(e.message); });
 }
 function act(a, id) { api(a, { id: id }).then(refresh).catch(function (e) { toast(e.message); }); }
+function setLimit() { api("limit", { limit: $("limit").value }).then(function () { toast("تمام"); $("limit").value = ""; refresh(); }).catch(function (e) { toast(e.message); }); }
 
 /* ---------- قراءة ملفات الأرقام ---------- */
 function fromVcf(t) {
@@ -213,9 +188,7 @@ function fromCsv(t) {
   });
   return out;
 }
-function parse(name, t) { return /BEGIN:VCARD/i.test(t) ? fromVcf(t) : fromCsv(t); }
-function readFile(f) { return new Promise(function (ok) { var r = new FileReader(); r.onload = function () { ok(parse(f.name, r.result)); }; r.readAsText(f); }); }
-
+function readFile(f) { return new Promise(function (ok) { var r = new FileReader(); r.onload = function () { ok(/BEGIN:VCARD/i.test(r.result) ? fromVcf(r.result) : fromCsv(r.result)); }; r.readAsText(f); }); }
 function upload() {
   var files = Array.prototype.slice.call($("file").files || []);
   Promise.all(files.map(readFile)).then(function (lists) {
@@ -231,32 +204,17 @@ function upload() {
   });
 }
 
-/* ---------- المحادثات ---------- */
+/* ---------- الردود ---------- */
 function when(t) { var d = new Date(t); return d.toLocaleDateString("ar-IQ") + " " + d.toLocaleTimeString("ar-IQ", { hour: "2-digit", minute: "2-digit" }); }
-function inbox() {
-  api("inbox").then(function (r) {
-    $("chats").innerHTML = r.chats.map(function (c) {
-      return '<div class="' + (c.phone === CUR ? "on" : "") + '" onclick="openChat(\'' + c.phone + '\')"><b>' + esc(c.name || c.phone) + "</b>" +
-        (c.human ? ' <span class="h">· يريد موظف</span>' : "") + '<div class="small">' + esc((c.body || "").slice(0, 60)) + "</div></div>";
-    }).join("") || '<div class="small">ماكو محادثات بعد</div>';
-    if (CUR) openChat(CUR, true);
+function replies() {
+  api("replies").then(function (r) {
+    $("replies").innerHTML = r.rows.map(function (x) {
+      return '<div class="rep"><b>' + esc(x.name || "+" + x.phone) + "</b>" + (x.out ? ' <span class="pill paused">وكّف العروض</span>' : "") +
+        ' · <a href="https://wa.me/' + esc(x.phone) + '" target="_blank" rel="noopener" dir="ltr">+' + esc(x.phone) + "</a>" +
+        '<div>' + esc(x.body) + '</div><div class="small">' + when(x.at) + "</div></div>";
+    }).join("") || '<p class="small">ماكو ردود بعد</p>';
   }).catch(function () {});
 }
-function openChat(p, quiet) {
-  CUR = p;
-  api("chat?phone=" + encodeURIComponent(p)).then(function (r) {
-    var box = $("msgs"), atEnd = box.scrollTop + box.clientHeight >= box.scrollHeight - 20;
-    box.innerHTML = '<div class="small" dir="ltr">+' + esc(p) + ' · <a href="https://wa.me/' + esc(p) + '" target="_blank" rel="noopener">wa.me</a></div>' +
-      r.msgs.map(function (m) { return '<div class="m ' + m.dir + '">' + esc(m.body) + "<small>" + (m.dir === "bot" ? "البوت · " : m.dir === "staff" ? "الموظف · " : "") + when(m.at) + "</small></div>"; }).join("");
-    if (!quiet || atEnd) box.scrollTop = box.scrollHeight;
-  });
-  if (!quiet) Array.prototype.forEach.call($("chats").children, function (d) { d.classList.toggle("on", d.getAttribute("onclick").indexOf(p) > 0); });
-}
-function sendReply() {
-  if (!CUR || !$("rtext").value.trim()) return;
-  api("reply", { phone: CUR, text: $("rtext").value }).then(function () { $("rtext").value = ""; openChat(CUR); inbox(); }).catch(function (e) { toast(e.message); });
-}
-function backToBot() { if (CUR) api("bot", { phone: CUR }).then(function () { toast("البوت رجع يرد على هالزبون"); inbox(); }); }
 function addOptouts() {
   var ps = $("optouts").value.split(/\n|,/).map(function (s) { return s.trim(); }).filter(Boolean);
   api("optout", { phones: ps }).then(function (r) { toast("انضاف " + r.n); $("optouts").value = ""; refresh(); }).catch(function (e) { toast(e.message); });
