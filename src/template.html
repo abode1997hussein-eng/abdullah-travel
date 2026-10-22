@@ -467,6 +467,31 @@ a.alc{text-decoration:none;color:var(--ink)}
 .cd.low{background:var(--ok-soft);border-color:rgba(21,128,61,.4)}
 .cd.low span{color:var(--ok)}
 .cd.on{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+
+/* ---------- متعدد المدن ---------- */
+.legs{display:grid;gap:10px}
+.leg{border:1px dashed var(--line);border-radius:16px;padding:10px 12px 12px}
+.leg-h{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;color:var(--accent-2);margin-bottom:6px}
+.leg-h button{border:0;background:var(--tile-2);color:var(--muted);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;line-height:1}
+.leg .fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.leg .fgrid .field.wide{grid-column:1/-1}
+@media (min-width:900px){.leg .fgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.leg .fgrid .field.wide{grid-column:auto}}
+.addleg{border:1px dashed var(--accent);background:var(--accent-soft);color:var(--accent-2);border-radius:14px;padding:11px;font-weight:700;cursor:pointer;font:inherit;font-weight:700}
+/* ---------- طلب الفيزا بخطوات ---------- */
+.vsteps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;list-style:none;margin:0;padding:0}
+.vsteps li{background:var(--tile-2);border-radius:14px;padding:8px 6px;text-align:center;font-size:12px;line-height:1.4}
+.vsteps b{display:grid;place-items:center;width:24px;height:24px;margin:0 auto 4px;border-radius:50%;background:var(--accent);color:#FFFFFF;font-size:13px}
+.vtypes{display:grid;gap:6px}
+.vtype{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;cursor:pointer;font-size:14px;position:relative}
+.vtype input{position:absolute;opacity:0;width:1px;height:1px}
+.vtype small{display:block;color:var(--muted);font-size:12px}
+.vtype b{color:var(--accent-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.vtype.on{border-color:var(--accent);background:var(--accent-soft)}
+.vtype:focus-within{outline:2px solid var(--accent);outline-offset:-2px}
+.vdocs{display:grid;gap:6px}
+.vdocs label{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.vdocs input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--ok);flex:none}
+.vdocs label:has(input:checked){background:var(--ok-soft);border-color:rgba(21,128,61,.35)}
 </style>
 <!-- Travelpayouts Drive: تأكيد ملكية الموقع لحساب Travelpayouts -->
 <script nowprocket data-noptimize="1" data-cfasync="false" data-wpfc-render="false" seraph-accel-crit="1" data-no-defer="1" data-cmp-ab="2">
@@ -529,6 +554,7 @@ a.alc{text-decoration:none;color:var(--ink)}
           <label><input type="radio" name="trip" value="ow"><span data-t="tOw">ذهاب فقط</span></label>
           <label class="on"><input type="radio" name="trip" value="rt" checked><span data-t="tRt">ذهاب وعودة</span></label>
           <label><input type="radio" name="trip" value="op"><span data-t="tOp">عودة اوبن</span></label>
+          <label><input type="radio" name="trip" value="mc"><span data-t="tMc">متعدد المدن</span></label>
         </div>
         <div class="fgrid">
           <div class="field"><label for="f-from" data-t="from">من</label><input id="f-from" list="places-from" autocomplete="off" data-req></div>
@@ -537,6 +563,8 @@ a.alc{text-decoration:none;color:var(--ink)}
           <div class="field" id="retBox"><label for="f-ret" data-t="ret">العودة</label><input id="f-ret" type="date"></div>
           <div class="field wide"><label for="f-pax" data-t="pax">المسافرين</label><select id="f-pax"></select></div>
         </div>
+        <div class="legs" id="legs" hidden></div>
+        <button type="button" class="addleg" id="addLeg" hidden data-t="addLeg">+ أضف رحلة</button>
         <div class="alstrip"><p data-t="alStrip">نحجزلك على كل الخطوط</p><div id="alStrip"></div></div>
         <p class="ferr" id="flyErr" role="alert" hidden></p>
         <button class="btn" type="submit"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg><span data-t="showPrices">اعرض الأسعار</span></button>
@@ -700,6 +728,12 @@ a.alc{text-decoration:none;color:var(--ink)}
     </div>
     <div class="lg"><button type="button" data-hl="ar">عربي</button><button type="button" data-hl="ku">کوردی</button><button type="button" data-hl="en">English</button></div>
   </div>
+</dialog>
+
+<!-- ============ نافذة طلب الفيزا ============ -->
+<dialog class="sheet" id="vSheet" aria-labelledby="vT">
+  <div class="sh-head"><b id="vT"></b><button class="x" type="button" data-close aria-label="×"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="sh-body" id="vB"></div>
 </dialog>
 
 <!-- ============ نافذة الكروب ============ -->
@@ -1329,7 +1363,7 @@ a.alc{text-decoration:none;color:var(--ink)}
         (v.req.length ? '<div><p class="lbl">' + esc(t("reqV")) + '</p><ul class="vreq">' + v.req.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' : '') +
         (notes.length ? '<div><p class="lbl">' + esc(t("notes")) + '</p><ul class="notes">' + notes.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' : '') +
         (v.refund ? '<p class="refund' + (/غير/.test(VA[i].refund) ? '' : ' ok') + '">' + esc(v.refund) + '</p>' : '') +
-        '<a class="btn wa" target="_blank" rel="noopener" href="' + wa("مرحباً، أريد فيزا " + VA[i].c + (VA[i].sub ? " (" + VA[i].sub + ")" : "")) + '">' + esc(t("reqVisa")) + '</a></div></details>';
+        '<button class="btn" type="button" data-va="' + i + '">' + esc(t("vApply")) + '</button></div></details>';
     }).join("");
     filterV();
   }
@@ -1462,9 +1496,116 @@ a.alc{text-decoration:none;color:var(--ink)}
     syncFly(); search(true);
   });
 
+
+  /* ============ متعدد المدن (مثل سندباد): لحد 5 رحلات، والطلب يروح للواتساب ============ */
+  Object.assign(S.ar, { tMc:"متعدد المدن", legN:"الرحلة {0}", addLeg:"+ أضف رحلة",
+    vApply:"قدّم على الفيزا", vApplyH:"طلب فيزا {0}", vS1:"اختار نوع الفيزا", vS2:"جهّز أوراقك", vS3:"دز الطلب ونتابع وياك",
+    vPax:"عدد المسافرين", vDate:"تاريخ السفر المتوقع", vDocs:"الأوراق المطلوبة", vDocsHint:"أشّر على اللي جاهز عندك", vSend:"دز الطلب بالواتساب",
+    vSendNote:"تدز الأوراق بنفس المحادثة، ونبلغك بكل خطوة لحد ما تطلع الفيزا.", vTypeH:"نوع الفيزا" });
+  Object.assign(S.ku, { tMc:"چەند شار", legN:"گەشتی {0}", addLeg:"+ گەشتێک زیاد بکە",
+    vApply:"داوای ڤیزا بکە", vApplyH:"داواکاری ڤیزای {0}", vS1:"جۆری ڤیزا هەڵبژێرە", vS2:"بەڵگەنامەکانت ئامادە بکە", vS3:"داواکارییەکە بنێرە، بەدواداچوونی بۆ دەکەین",
+    vPax:"ژمارەی گەشتیاران", vDate:"بەرواری گەشتی چاوەڕوانکراو", vDocs:"بەڵگەنامە پێویستەکان", vDocsHint:"ئەوانەی ئامادەن نیشانە بکە", vSend:"داواکارییەکە لە واتسئاپ بنێرە",
+    vSendNote:"بەڵگەنامەکان لە هەمان گفتوگۆ بنێرە، لە هەموو هەنگاوێک ئاگادارت دەکەینەوە تا ڤیزاکە دەردەچێت.", vTypeH:"جۆری ڤیزا" });
+  Object.assign(S.en, { tMc:"Multi-city", legN:"Flight {0}", addLeg:"+ Add a flight",
+    vApply:"Apply for this visa", vApplyH:"{0} visa application", vS1:"Choose the visa type", vS2:"Get your documents ready", vS3:"Send the request, we follow up",
+    vPax:"Travellers", vDate:"Expected travel date", vDocs:"Required documents", vDocsHint:"tick what you already have", vSend:"Send the request on WhatsApp",
+    vSendNote:"Send your documents in the same chat; we'll update you at every step until the visa is issued.", vTypeH:"Visa type" });
+  TRIP_AR.mc = "متعدد المدن";
+  var legsBox = document.getElementById("legs"), addLegBtn = document.getElementById("addLeg"), MAXLEGS = 5;
+  function legHtml(k){
+    return '<div class="leg"><div class="leg-h"><span>' + esc(t("legN", k + 1)) + '</span>' + (k > 1 ? '<button type="button" data-rmleg aria-label="×">×</button>' : '') + '</div>' +
+      '<div class="fgrid"><div class="field"><label>' + esc(t("from")) + '</label><input class="lf" list="places-from" autocomplete="off"></div>' +
+      '<div class="field"><label>' + esc(t("to")) + '</label><input class="lt" list="places-to" autocomplete="off"></div>' +
+      '<div class="field wide"><label>' + esc(t("dep")) + '</label><input class="ld" type="date" min="' + iso + '"></div></div></div>';
+  }
+  function legs(){ return [].slice.call(legsBox.querySelectorAll(".leg")); }
+  function relabelLegs(){
+    legs().forEach(function(l, k){
+      l.querySelector(".leg-h span").textContent = t("legN", k + 1);
+      var ls = l.querySelectorAll("label"); ls[0].textContent = t("from"); ls[1].textContent = t("to"); ls[2].textContent = t("dep");
+      /* كل رحلة تاريخها بعد اللي قبلها، ومن = إلى الرحلة اللي قبلها */
+      var prev = legs()[k - 1]; if (prev){ l.querySelector(".ld").min = prev.querySelector(".ld").value || iso; }
+    });
+    addLegBtn.hidden = trip() !== "mc" || legs().length >= MAXLEGS;
+  }
+  function addLeg(){
+    var prev = legs()[legs().length - 1];
+    legsBox.insertAdjacentHTML("beforeend", legHtml(legs().length));
+    var l = legs()[legs().length - 1];
+    if (prev) l.querySelector(".lf").value = prev.querySelector(".lt").value;
+    else l.querySelector(".lf").value = val("f-from");
+    relabelLegs();
+  }
+  addLegBtn.addEventListener("click", function(){ if (legs().length < MAXLEGS){ addLeg(); legs()[legs().length - 1].querySelector(".lt").focus(); } });
+  legsBox.addEventListener("click", function(e){ var b = e.target.closest("[data-rmleg]"); if (b){ b.closest(".leg").remove(); relabelLegs(); } });
+  legsBox.addEventListener("change", relabelLegs);
+  var syncFly0 = syncFly;
+  syncFly = function(){
+    syncFly0();
+    var mc = trip() === "mc";
+    ["f-from", "f-to", "f-dep"].forEach(function(id){ document.getElementById(id).closest(".field").hidden = mc; });
+    legsBox.hidden = !mc;
+    if (mc && !legs().length){ addLeg(); addLeg(); }
+    if (mc) document.getElementById("flyRes").hidden = true;
+    relabelLegs();
+    fly.querySelector('button[type="submit"] span').textContent = t(mc ? "reqWa" : "showPrices");
+  };
+  var search0 = search;
+  search = function(auto){ if (trip() === "mc") return; return search0(auto); };
+  /* الطلب يمشي قبل التحقق العادي، لأن خانات «من» و«إلى» العادية مخفية */
+  document.addEventListener("submit", function(e){
+    if (e.target !== fly || trip() !== "mc") return;
+    e.preventDefault(); e.stopPropagation();
+    var er = document.getElementById("flyErr"), miss = null;
+    legs().forEach(function(l){ l.querySelectorAll("input").forEach(function(i){ var f = i.closest(".field"); f.classList.toggle("err", !i.value.trim()); if (!i.value.trim() && !miss) miss = i; }); });
+    if (miss){ er.hidden = false; er.textContent = t("missing", miss.closest(".field").querySelector("label").textContent); miss.focus(); return; }
+    er.hidden = true;
+    window.open(wa(["طلب تذكرة طيران - متعدد المدن"].concat(legs().map(function(l, k){
+      return "الرحلة " + (k + 1) + ": من " + cityAr(l.querySelector(".lf").value) + " إلى " + cityAr(l.querySelector(".lt").value) + " بتاريخ " + fmtDate(l.querySelector(".ld").value);
+    }), ["المسافرين: " + S.ar.paxOpts[document.getElementById("f-pax").selectedIndex]])), "_blank", "noopener");
+  }, true);
+
+  /* ============ طلب الفيزا بخطوات (مثل سندباد): النوع، عدد المسافرين، التاريخ، والأوراق الجاهزة ============ */
+  var vSheet = document.getElementById("vSheet"), curV = -1;
+  function openVisa(i){
+    var v = D[L].visas[i]; if (!v) return; curV = i;
+    document.getElementById("vT").textContent = t("vApplyH", v.c);
+    var pax = ["1", "2", "3", "4", "5", "6+"];
+    document.getElementById("vB").innerHTML =
+      '<ol class="vsteps"><li><b>1</b>' + esc(t("vS1")) + '</li><li><b>2</b>' + esc(t("vS2")) + '</li><li><b>3</b>' + esc(t("vS3")) + '</li></ol>' +
+      '<div><p class="lbl">' + esc(t("vTypeH")) + '</p><div class="vtypes" role="radiogroup">' + v.rows.map(function(r, k){
+        var m = [r.d, r.v ? t("valid") + " " + r.v : ""].filter(Boolean).join(" · ");
+        return '<label class="vtype' + (k ? '' : ' on') + '"><input type="radio" name="vt" value="' + k + '"' + (k ? '' : ' checked') + '><span>' + esc(r.t) + (m ? '<small>' + esc(m) + '</small>' : '') + '</span><b>' + esc(r.p) + '</b></label>';
+      }).join("") + '</div></div>' +
+      '<div class="fgrid"><div class="field"><label for="v-pax">' + esc(t("vPax")) + '</label><select id="v-pax">' + pax.map(function(p){ return '<option>' + p + '</option>'; }).join("") + '</select></div>' +
+      '<div class="field"><label for="v-date">' + esc(t("vDate")) + '</label><input id="v-date" type="date" min="' + iso + '"></div></div>' +
+      (v.req.length ? '<div><p class="lbl">' + esc(t("vDocs")) + '<span>' + esc(t("vDocsHint")) + '</span></p><div class="vdocs">' + v.req.map(function(x, k){
+        return '<label><input type="checkbox" value="' + k + '"><span>' + esc(x) + '</span></label>'; }).join("") + '</div></div>' : '') +
+      (v.refund ? '<p class="refund' + (/غير/.test(D.ar.visas[i].refund) ? '' : ' ok') + '">' + esc(v.refund) + '</p>' : '') +
+      '<p class="small">' + esc(t("vSendNote")) + '</p>' +
+      '<a class="btn wa" id="vGo" target="_blank" rel="noopener" href="#">' + esc(t("vSend")) + '</a>';
+    updV();
+    openSheet("vSheet");
+  }
+  function updV(){
+    var va = D.ar.visas[curV]; if (!va) return;
+    var ti = +(vSheet.querySelector('input[name="vt"]:checked') || { value: 0 }).value, r = va.rows[ti];
+    vSheet.querySelectorAll(".vtype").forEach(function(l){ l.classList.toggle("on", l.querySelector("input").checked); });
+    var have = [], need = [];
+    vSheet.querySelectorAll('.vdocs input').forEach(function(c){ (c.checked ? have : need).push(va.req[+c.value]); });
+    var d = document.getElementById("v-date").value;
+    document.getElementById("vGo").href = wa(["طلب فيزا: " + va.c + (va.sub ? " (" + va.sub + ")" : ""),
+      "النوع: " + r.t + (r.p ? " (" + r.p + ")" : ""), "عدد المسافرين: " + document.getElementById("v-pax").value,
+      d ? "تاريخ السفر المتوقع: " + fmtDate(d) : "",
+      have.length ? "الأوراق الجاهزة: " + have.join("، ") : "", need.length ? "الأوراق الناقصة: " + need.join("، ") : ""]);
+  }
+  vSheet.addEventListener("change", updV);
+  vSheet.addEventListener("input", updV);
+  document.getElementById("vlist").addEventListener("click", function(e){ var b = e.target.closest("[data-va]"); if (b) openVisa(+b.getAttribute("data-va")); });
+
   /* ============ تشغيل وتبديل اللغة ============ */
   function render(){
-    applyText(); prepGroups(); renderGroups(); renderVisas(); renderBranches(); renderDeals(); reveal(); tilt();
+    applyText(); prepGroups(); renderGroups(); renderVisas(); renderBranches(); renderDeals(); syncFly(); reveal(); tilt();
     if (!document.getElementById("flyRes").hidden) search(true);
   }
   function setLang(l){
