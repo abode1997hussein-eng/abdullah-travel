@@ -149,6 +149,10 @@ def airlines(codes):
     return {c: [ar.get(c, ""), en.get(c, c)] for c in sorted(codes) if c in en or c in ar}
 
 
+# أسماء عربية من Travelpayouts تنكتب غير الشكل المعروف عدنا
+AR_FIX = {"AYT": "أنطاليا"}
+
+
 def places():
     """كل مدن العالم اللي بيها مطار رحلات: [رمز، عربي، إنكليزي، رمز الدولة]، وأسماء الدول، ورموز المطارات."""
     cities = data("en", "cities")
@@ -159,7 +163,7 @@ def places():
         if not code or r.get("has_flightable_airport") is False:
             continue
         en = (r.get("name_translations") or {}).get("en") or r.get("name") or code
-        c.append([code, ar.get(code, ""), en, r.get("country_code") or ""])
+        c.append([code, AR_FIX.get(code) or ar.get(code, ""), en, r.get("country_code") or ""])
     c.sort(key=lambda p: p[2])
     ken, kar = named("en", "countries"), named("ar", "countries")
     k = {cc: [kar.get(cc, ""), ken.get(cc, cc)] for cc in sorted({p[3] for p in c}) if cc}
