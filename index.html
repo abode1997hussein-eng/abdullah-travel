@@ -25,6 +25,9 @@
 <!-- Google Analytics: الزيارات، البحث، ونقرات الواتساب والاتصال -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VTHF4XVDNT"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-VTHF4XVDNT");</script>
+<!-- إشعارات الموقع (OneSignal): نفس sw.js مالتنا يستقبلها (importScripts بأوله) -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>window.OneSignalDeferred=window.OneSignalDeferred||[];OneSignalDeferred.push(async function(OneSignal){await OneSignal.init({appId:"2c1a3a6b-2c47-41fd-bc78-fd6c8c56dfcd",serviceWorkerPath:"abdullah-travel/sw.js",serviceWorkerParam:{scope:"/abdullah-travel/"},promptOptions:{slidedown:{prompts:[{type:"push",autoPrompt:false,text:{actionMessage:"تريد توصلك عروض وتخفيضات التذاكر والكروبات أول بأول؟",acceptButton:"إي، أريد",cancelButton:"لا، شكراً"}}]}}});});</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap">
@@ -1798,15 +1801,24 @@ a.alc{text-decoration:none;color:var(--ink)}
   /* ============ الإحصائيات (Google Analytics) ============
      كل بحث، وفتح فيزا أو كروب، ونقرة واتساب أو اتصال تنحسب حتى صاحب الموقع يعرف منين يجيه الزبون */
   function track(name, p){ try { if (window.gtag) gtag("event", name, p || {}); } catch(e){} }
+  /* سؤال الإشعارات يطلع بعد ما المسافر يبحث أو يفتح فيزا أو كروب (يعني مهتم)، أو بعد دقيقة بالموقع. مرة وحدة بالزيارة،
+     وOneSignal نفسه ما يعيده إذا رفض قبل */
+  var pushAsked = false;
+  function askPush(ms){
+    if (pushAsked || !window.OneSignalDeferred) return; pushAsked = true;
+    setTimeout(function(){ OneSignalDeferred.push(function(OS){ try { if (OS.Notifications && OS.Notifications.permission) return; OS.Slidedown.promptPush(); } catch(e){} }); }, ms || 0);
+  }
+  setTimeout(function(){ askPush(0); }, 60000);
   var searchT = search;
   search = function(auto){
     if (!auto) track("flight_search", { route: placeCode(val("f-from")) + "-" + placeCode(val("f-to")), trip: trip(), from_city: val("f-from"), to_city: val("f-to") });
+    if (!auto) askPush(5000);
     return searchT(auto);
   };
   var openVisaT = openVisa;
-  openVisa = function(i){ var v = D.ar.visas[i]; if (v) track("visa_open", { country: v.c }); return openVisaT(i); };
+  openVisa = function(i){ var v = D.ar.visas[i]; if (v) track("visa_open", { country: v.c }); askPush(8000); return openVisaT(i); };
   var openGT = openG;
-  openG = function(i){ var g = D.ar.groups[i]; if (g) track("group_open", { trip_name: g.title }); return openGT(i); };
+  openG = function(i){ var g = D.ar.groups[i]; if (g) track("group_open", { trip_name: g.title }); askPush(8000); return openGT(i); };
   document.addEventListener("click", function(e){
     var a = e.target.closest && e.target.closest("a[href]"); if (!a) return;
     var h = a.getAttribute("href") || "", where = a.closest("#flyRes") ? "flight" : a.closest("#vSheet") ? "visa" : a.closest("#gSheet") ? "group" :
