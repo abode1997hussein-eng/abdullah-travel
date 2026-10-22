@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>منشورات جاهزة — سافر مع عبدالله</title>
+<link rel="icon" href="img/logo/logo-icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@500;700&family=Lalezar&display=swap">
+<style>
+:root{--bg:#F6F7F9;--ink:#111827;--muted:#6B7280;--line:#E3E5EA;--accent:#F26A21;--navy:#123A6B}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans Arabic",Tahoma,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:4px 0;color:var(--navy)}
+.small{font-size:13px;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font:inherit;font-weight:600;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+select{font:inherit;padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;max-width:100%}
+.prev{background:#fff;border:1px solid var(--line);border-radius:18px;padding:10px;text-align:center}
+canvas{max-width:100%;height:auto;border-radius:10px;max-height:70vh}
+.btn{display:block;width:100%;border:0;border-radius:999px;padding:14px;font:inherit;font-weight:700;font-size:17px;background:#25D366;color:#fff;cursor:pointer;margin:12px 0}
+.btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+textarea{width:100%;min-height:150px;border-radius:14px;border:1px solid var(--line);padding:12px;font:inherit;font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>منشورات جاهزة لإنستغرام</h1>
+<p class="small">الأسعار من الموقع نفسه وتتحدث وحدها. اختار المنشور والحجم، واحفظ الصورة، وانسخ الكابشن. آخر تحديث: 22-10-2026</p>
+<div class="row" id="kinds"></div>
+<div class="row" id="extra"></div>
+<div class="row" id="sizes"><button class="chip" data-size="post" aria-pressed="true">بوست (4:5)</button><button class="chip" data-size="story" aria-pressed="false">ستوري (9:16)</button></div>
+<div class="prev"><canvas id="cv" width="1080" height="1350" dir="rtl"></canvas></div>
+<button class="btn" id="save">حفظ الصورة</button>
+<p class="small">الكابشن:</p>
+<textarea id="cap" readonly></textarea>
+<button class="btn ghost" id="copy">نسخ الكابشن</button>
+</div>
+<script>
+var P = {"kinds": [{"k": "cheap", "n": "أرخص رحلات من بغداد", "h1": "أرخص رحلات الأسبوع", "h2": "من بغداد · ذهاب فقط · للشخص", "items": [{"t": "لندن", "s": "تبدي من", "p": "99$"}, {"t": "إسطنبول", "s": "تبدي من", "p": "101$"}, {"t": "باريس", "s": "تبدي من", "p": "115$"}, {"t": "أربيل", "s": "تبدي من", "p": "122$"}, {"t": "البصرة", "s": "تبدي من", "p": "125$"}, {"t": "أنقرة", "s": "تبدي من", "p": "139$"}, {"t": "أنطاليا", "s": "تبدي من", "p": "143$"}, {"t": "الشارقة", "s": "تبدي من", "p": "173$"}], "cap": "✈️ أرخص رحلات الأسبوع من بغداد\n\n• لندن تبدي من 99$ (ذهاب فقط)\n• إسطنبول تبدي من 101$ (ذهاب فقط)\n• باريس تبدي من 115$ (ذهاب فقط)\n• أربيل تبدي من 122$ (ذهاب فقط)\n• البصرة تبدي من 125$ (ذهاب فقط)\n• أنقرة تبدي من 139$ (ذهاب فقط)\n• أنطاليا تبدي من 143$ (ذهاب فقط)\n• الشارقة تبدي من 173$ (ذهاب فقط)\n\nالأسعار تتحدث كل ساعة وتتغير حسب التوفر.\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"k": "ia", "n": "أسعار العراقية", "h1": "الخطوط الجوية العراقية", "h2": "من بغداد · ذهاب وعودة · للشخص بالدينار", "items": [{"t": "أربيل", "s": "ذهاب وعودة", "p": "230,000"}, {"t": "بيروت", "s": "ذهاب وعودة", "p": "560,000"}, {"t": "أنقرة", "s": "ذهاب وعودة", "p": "593,000"}, {"t": "صبيحة", "s": "ذهاب وعودة", "p": "596,000"}, {"t": "الشارقة", "s": "ذهاب وعودة", "p": "623,000"}, {"t": "سامسون", "s": "ذهاب وعودة", "p": "626,000"}, {"t": "أنطاليا", "s": "ذهاب وعودة", "p": "629,000"}, {"t": "إسطنبول", "s": "ذهاب وعودة", "p": "638,000"}], "cap": "✈️ أسعار الخطوط الجوية العراقية من بغداد\n\n• أربيل: 230,000 دينار ذهاب وعودة\n• بيروت: 560,000 دينار ذهاب وعودة\n• أنقرة: 593,000 دينار ذهاب وعودة\n• صبيحة: 596,000 دينار ذهاب وعودة\n• الشارقة: 623,000 دينار ذهاب وعودة\n• سامسون: 626,000 دينار ذهاب وعودة\n• أنطاليا: 629,000 دينار ذهاب وعودة\n• إسطنبول: 638,000 دينار ذهاب وعودة\n\nالأسعار حسب توفر المقاعد.\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"k": "group", "n": "كروب"}], "groups": [{"title": "بانكوك", "dur": "10 أيام / 8 ليالي", "from": 1075, "dates": ["03-11-2026", "10-11-2026"], "inc": ["طيران خارجي", "حجز الفندق", "الاستقبال والتوديع", "التأشيرة"], "cap": "🌍 كروب بانكوك من بغداد\n🗓 10 أيام / 8 ليالي\n📅 المواعيد: 03-11-2026 · 10-11-2026\n💵 السعر يبدي من 1075$ للشخص\n\nيشمل:\n✓ طيران خارجي\n✓ حجز الفندق\n✓ الاستقبال والتوديع\n✓ التأشيرة\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "بانكوك + بوكيت", "dur": "10 أيام / 8 ليالي", "from": 1250, "dates": ["03-11-2026", "10-11-2026"], "inc": ["طيران خارجي", "طيران داخلي", "حجز الفندق", "الاستقبال والتوديع", "التأشيرة"], "cap": "🌍 كروب بانكوك + بوكيت من بغداد\n🗓 10 أيام / 8 ليالي\n📅 المواعيد: 03-11-2026 · 10-11-2026\n💵 السعر يبدي من 1250$ للشخص\n\nيشمل:\n✓ طيران خارجي\n✓ طيران داخلي\n✓ حجز الفندق\n✓ الاستقبال والتوديع\n✓ التأشيرة\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "بانكوك بدون طيران", "dur": "10 أيام / 8 ليالي", "from": 475, "dates": [], "inc": ["حجز الفندق", "الاستقبال والتوديع", "التأشيرة"], "cap": "🌍 كروب بانكوك بدون طيران من بغداد\n🗓 10 أيام / 8 ليالي\n💵 السعر يبدي من 475$ للشخص\n\nيشمل:\n✓ حجز الفندق\n✓ الاستقبال والتوديع\n✓ التأشيرة\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "بانكوك + بوكيت بدون طيران", "dur": "10 أيام / 8 ليالي", "from": 650, "dates": [], "inc": ["حجز الفندق", "الطيران الداخلي", "الاستقبال والتوديع", "التأشيرة"], "cap": "🌍 كروب بانكوك + بوكيت بدون طيران من بغداد\n🗓 10 أيام / 8 ليالي\n💵 السعر يبدي من 650$ للشخص\n\nيشمل:\n✓ حجز الفندق\n✓ الطيران الداخلي\n✓ الاستقبال والتوديع\n✓ التأشيرة\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "سريلانكا", "dur": "7 أو 9 أيام في 3 مدن", "from": 1000, "dates": ["29-10-2026", "05-11-2026"], "inc": ["تذاكر الطيران الخارجي", "الحجز الفندقي", "الاستقبال والتوديع", "التأشيرة"], "cap": "🌍 كروب سريلانكا من بغداد\n🗓 7 أو 9 أيام في 3 مدن\n📅 المواعيد: 29-10-2026 · 05-11-2026\n💵 السعر يبدي من 1000$ للشخص\n\nيشمل:\n✓ تذاكر الطيران الخارجي\n✓ الحجز الفندقي\n✓ الاستقبال والتوديع\n✓ التأشيرة\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "ماليزيا", "dur": "9 أيام / 8 ليالي", "from": 1350, "dates": ["29-10-2026", "05-11-2026", "12-11-2026"], "inc": ["طيران ذهاب وعودة", "الاستقبال والتوديع", "حجز الفندق", "الجولات"], "cap": "🌍 كروب ماليزيا من بغداد\n🗓 9 أيام / 8 ليالي\n📅 المواعيد: 29-10-2026 · 05-11-2026 · 12-11-2026\n💵 السعر يبدي من 1350$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ الاستقبال والتوديع\n✓ حجز الفندق\n✓ الجولات\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "ماليزيا بدون طيران", "dur": "9 أيام / 8 ليالي", "from": 475, "dates": ["كل الأيام متاحة"], "inc": ["الاستقبال والتوديع", "حجز الفندق", "الجولات"], "cap": "🌍 كروب ماليزيا بدون طيران من بغداد\n🗓 9 أيام / 8 ليالي\n📅 المواعيد: كل الأيام متاحة\n💵 السعر يبدي من 475$ للشخص\n\nيشمل:\n✓ الاستقبال والتوديع\n✓ حجز الفندق\n✓ الجولات\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "شرم الشيخ", "dur": "8 أيام / 7 ليالي", "from": 805, "dates": ["29-10-2026", "05-11-2026"], "inc": ["طيران مباشر ذهاب وعودة", "المنتجع", "3 وجبات يومياً", "الموافقة الأمنية"], "cap": "🌍 كروب شرم الشيخ من بغداد\n🗓 8 أيام / 7 ليالي\n📅 المواعيد: 29-10-2026 · 05-11-2026\n💵 السعر يبدي من 805$ للشخص\n\nيشمل:\n✓ طيران مباشر ذهاب وعودة\n✓ المنتجع\n✓ 3 وجبات يومياً\n✓ الموافقة الأمنية\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "شرم الشيخ + القاهرة", "dur": "8 أيام: 4 ليالي شرم و3 ليالي القاهرة", "from": 845, "dates": ["29-10-2026", "05-11-2026"], "inc": ["طيران ذهاب وعودة", "3 وجبات في شرم الشيخ", "فطور في القاهرة", "نقل بري بين القاهرة وشرم"], "cap": "🌍 كروب شرم الشيخ + القاهرة من بغداد\n🗓 8 أيام: 4 ليالي شرم و3 ليالي القاهرة\n📅 المواعيد: 29-10-2026 · 05-11-2026\n💵 السعر يبدي من 845$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ 3 وجبات في شرم الشيخ\n✓ فطور في القاهرة\n✓ نقل بري بين القاهرة وشرم\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "القاهرة", "dur": "8 أيام / 7 ليالي", "from": 540, "dates": ["05-11-2026", "07-11-2026", "06-11-2026"], "inc": ["طيران ذهاب وعودة", "فندق", "الموافقة الأمنية واستلام التذكرة فوراً"], "cap": "🌍 كروب القاهرة من بغداد\n🗓 8 أيام / 7 ليالي\n📅 المواعيد: 05-11-2026 · 07-11-2026 · 06-11-2026\n💵 السعر يبدي من 540$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ فندق\n✓ الموافقة الأمنية واستلام التذكرة فوراً\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "القاهرة + شرم الشيخ", "dur": "8 أيام: 4 ليالي القاهرة و3 ليالي شرم", "from": 830, "dates": ["05-11-2026", "07-11-2026", "06-11-2026"], "inc": ["طيران ذهاب وعودة", "فطور في القاهرة", "3 وجبات في شرم الشيخ", "نقل بري بين القاهرة وشرم"], "cap": "🌍 كروب القاهرة + شرم الشيخ من بغداد\n🗓 8 أيام: 4 ليالي القاهرة و3 ليالي شرم\n📅 المواعيد: 05-11-2026 · 07-11-2026 · 06-11-2026\n💵 السعر يبدي من 830$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ فطور في القاهرة\n✓ 3 وجبات في شرم الشيخ\n✓ نقل بري بين القاهرة وشرم\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "مسقط من بغداد", "dur": "4 أو 5 أو 8 أيام", "from": 420, "dates": ["27-10-2026", "31-10-2026"], "inc": ["تذاكر طيران ذهاب وعودة", "الحجز الفندقي", "الاستقبال والتوديع", "الفيزا"], "cap": "🌍 كروب مسقط من بغداد من بغداد\n🗓 4 أو 5 أو 8 أيام\n📅 المواعيد: 27-10-2026 · 31-10-2026\n💵 السعر يبدي من 420$ للشخص\n\nيشمل:\n✓ تذاكر طيران ذهاب وعودة\n✓ الحجز الفندقي\n✓ الاستقبال والتوديع\n✓ الفيزا\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "مسقط من أربيل", "dur": "4 أو 5 أو 8 أيام", "from": 450, "dates": ["25-10-2026", "01-11-2026", "28-10-2026", "04-11-2026"], "inc": ["تذاكر طيران ذهاب وعودة", "الحجز الفندقي", "الاستقبال والتوديع", "الفيزا"], "cap": "🌍 كروب مسقط من أربيل من بغداد\n🗓 4 أو 5 أو 8 أيام\n📅 المواعيد: 25-10-2026 · 01-11-2026 · 28-10-2026 · 04-11-2026\n💵 السعر يبدي من 450$ للشخص\n\nيشمل:\n✓ تذاكر طيران ذهاب وعودة\n✓ الحجز الفندقي\n✓ الاستقبال والتوديع\n✓ الفيزا\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "اسطنبول – فلاي بغداد", "dur": "4 أو 5 أو 8 أو 15 يوم", "from": 360, "dates": ["25-10-2026", "27-10-2026", "29-10-2026", "01-11-2026", "03-11-2026", "05-11-2026", "08-11-2026"], "inc": ["طيران ذهاب وعودة", "فندق", "استقبال وتوديع"], "cap": "🌍 كروب اسطنبول – فلاي بغداد من بغداد\n🗓 4 أو 5 أو 8 أو 15 يوم\n📅 المواعيد: 25-10-2026 · 27-10-2026 · 29-10-2026 · 01-11-2026\n💵 السعر يبدي من 360$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ فندق\n✓ استقبال وتوديع\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "اسطنبول – العراقية", "dur": "6 أو 8 أو 10 أو 15 يوم", "from": 670, "dates": ["23-10-2026", "24-10-2026", "25-10-2026", "26-10-2026", "27-10-2026", "28-10-2026", "29-10-2026"], "inc": ["طيران ذهاب وعودة", "فندق", "استقبال وتوديع"], "cap": "🌍 كروب اسطنبول – العراقية من بغداد\n🗓 6 أو 8 أو 10 أو 15 يوم\n📅 المواعيد: 23-10-2026 · 24-10-2026 · 25-10-2026 · 26-10-2026\n💵 السعر يبدي من 670$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ فندق\n✓ استقبال وتوديع\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "بيروت", "dur": "3 أو 4 أو 5 أو 8 أيام", "from": 345, "dates": ["23-10-2026", "24-10-2026", "25-10-2026", "26-10-2026"], "inc": ["طيران ذهاب وعودة", "فندق", "استقبال وتوديع"], "cap": "🌍 كروب بيروت من بغداد\n🗓 3 أو 4 أو 5 أو 8 أيام\n📅 المواعيد: 23-10-2026 · 24-10-2026 · 25-10-2026 · 26-10-2026\n💵 السعر يبدي من 345$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ فندق\n✓ استقبال وتوديع\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "بيروت – العراقية", "dur": "4 أو 5 أو 8 أيام", "from": 420, "dates": ["23-10-2026", "24-10-2026", "25-10-2026", "26-10-2026", "27-10-2026", "28-10-2026", "29-10-2026", "30-10-2026", "31-10-2026"], "inc": ["طيران ذهاب وعودة", "فندق", "استقبال وتوديع"], "cap": "🌍 كروب بيروت – العراقية من بغداد\n🗓 4 أو 5 أو 8 أيام\n📅 المواعيد: 23-10-2026 · 24-10-2026 · 25-10-2026 · 26-10-2026\n💵 السعر يبدي من 420$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ فندق\n✓ استقبال وتوديع\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "بيروت بدون طيران", "dur": "4 أو 5 أو 6 أو 8 أيام", "from": 70, "dates": [], "inc": ["إقامة بالفندق", "فطور صباحي", "استقبال وتوديع"], "cap": "🌍 كروب بيروت بدون طيران من بغداد\n🗓 4 أو 5 أو 6 أو 8 أيام\n💵 السعر يبدي من 70$ للشخص\n\nيشمل:\n✓ إقامة بالفندق\n✓ فطور صباحي\n✓ استقبال وتوديع\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "حفلة كاظم الساهر في العقبة – الأردن", "dur": "5 أيام / 4 ليالي: ليلتين العقبة وليلتين عمّان", "from": null, "dates": ["السفر 12-11-2026 والحفل 13-11-2026 الساعة 8 مساءً"], "inc": ["طيران", "الفيزا", "الفندق", "النقل للحفلة"], "cap": "🌍 كروب حفلة كاظم الساهر في العقبة – الأردن من بغداد\n🗓 5 أيام / 4 ليالي: ليلتين العقبة وليلتين عمّان\n📅 المواعيد: السفر 12-11-2026 والحفل 13-11-2026 الساعة 8 مساءً\n\nيشمل:\n✓ طيران\n✓ الفيزا\n✓ الفندق\n✓ النقل للحفلة\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "تونس + حفلة راغب علامة", "dur": "8 أيام / 7 ليالي", "from": 730, "dates": ["السفر 22-10-2026 والحفل 24-10-2026 على مسرح قرطاج"], "inc": ["طيران ذهاب وعودة", "فندق"], "cap": "🌍 كروب تونس + حفلة راغب علامة من بغداد\n🗓 8 أيام / 7 ليالي\n📅 المواعيد: السفر 22-10-2026 والحفل 24-10-2026 على مسرح قرطاج\n💵 السعر يبدي من 730$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ فندق\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "حفلة عمرو دياب في القاهرة", "dur": "5 أيام / 4 ليالي أو 8 أيام / 7 ليالي", "from": 690, "dates": ["02-12-2026"], "inc": ["طيران ذهاب وعودة", "فندق"], "cap": "🌍 كروب حفلة عمرو دياب في القاهرة من بغداد\n🗓 5 أيام / 4 ليالي أو 8 أيام / 7 ليالي\n📅 المواعيد: 02-12-2026\n💵 السعر يبدي من 690$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ فندق\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "حفلة كاظم الساهر رأس السنة في اسطنبول", "dur": "8 أيام بفلاي بغداد أو 6 أيام بالعراقية", "from": 510, "dates": ["27-12-2026", "28-12-2026"], "inc": ["طيران ذهاب وعودة", "فندق"], "cap": "🌍 كروب حفلة كاظم الساهر رأس السنة في اسطنبول من بغداد\n🗓 8 أيام بفلاي بغداد أو 6 أيام بالعراقية\n📅 المواعيد: 27-12-2026 · 28-12-2026\n💵 السعر يبدي من 510$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ فندق\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "حفلة كاظم الساهر رأس السنة في بيروت – العراقية", "dur": "4 أو 5 أو 8 أيام", "from": 530, "dates": ["25-12-2026 (4 أو 5 أو 8 أيام)", "26-12-2026 (4 أو 8 أيام)"], "inc": ["طيران ذهاب وعودة", "فندق", "استقبال وتوديع", "فطور", "النقل إلى الحفلة"], "cap": "🌍 كروب حفلة كاظم الساهر رأس السنة في بيروت – العراقية من بغداد\n🗓 4 أو 5 أو 8 أيام\n📅 المواعيد: 25-12-2026 (4 أو 5 أو 8 أيام) · 26-12-2026 (4 أو 8 أيام)\n💵 السعر يبدي من 530$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ فندق\n✓ استقبال وتوديع\n✓ فطور\n✓ النقل إلى الحفلة\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}, {"title": "حفلة كاظم الساهر رأس السنة في بيروت – طيران العالمية", "dur": "4 أو 5 أو 8 أيام", "from": 460, "dates": ["25-12-2026 (4 أو 5 أو 8 أيام)", "26-12-2026 (4 أو 8 أيام)"], "inc": ["طيران ذهاب وعودة", "فندق", "استقبال وتوديع", "فطور", "النقل إلى الحفلة"], "cap": "🌍 كروب حفلة كاظم الساهر رأس السنة في بيروت – طيران العالمية من بغداد\n🗓 4 أو 5 أو 8 أيام\n📅 المواعيد: 25-12-2026 (4 أو 5 أو 8 أيام) · 26-12-2026 (4 أو 8 أيام)\n💵 السعر يبدي من 460$ للشخص\n\nيشمل:\n✓ طيران ذهاب وعودة\n✓ فندق\n✓ استقبال وتوديع\n✓ فطور\n✓ النقل إلى الحفلة\n\nللحجز واتساب: 0771 331 0011\nأو من موقعنا: https://abode1997hussein-eng.github.io/abdullah-travel/\n\n#سافر_مع_عبدالله #تذاكر_طيران #سفر #بغداد #العراق #حجز_طيران #سياحة"}], "phone": "0771 331 0011", "site": "abode1997hussein-eng.github.io/abdullah-travel"};
+var kind = P.kinds[0].k, size = "post", gi = 0;
+var C = { o:"#F26A21", o2:"#D9531A", navy:"#123A6B", ink:"#111827", mut:"#6B7280", wa:"#25D366" };
+var IMG = {};
+function img(src){ return new Promise(function(ok){ var i = new Image(); i.onload = function(){ ok(i); }; i.onerror = function(){ ok(null); }; i.src = src; }); }
+function fmt(n){ return Number(n).toLocaleString("en-US"); }
+function rr(x, y, w, h, r, fill){ var c = ctx; c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); c.fillStyle = fill; c.fill(); }
+function txt(s, x, y, font, color, align){ ctx.font = font; ctx.fillStyle = color; ctx.textAlign = align || "right"; ctx.fillText(s, x, y); }
+function fit(s, maxW, size, fam){ ctx.font = size + "px " + fam; while (ctx.measureText(s).width > maxW && size > 18){ size -= 2; ctx.font = size + "px " + fam; } return size; }
+var cv = document.getElementById("cv"), ctx = cv.getContext("2d");
+ctx.direction = "rtl";
+var LZ = '"Lalezar"', PX = '"IBM Plex Sans Arabic"';
+
+function frame(W, H){
+  var g = ctx.createLinearGradient(0, 0, W * 0.4, H);
+  g.addColorStop(0, C.o); g.addColorStop(0.5, C.o2); g.addColorStop(1, C.navy);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  var r = ctx.createRadialGradient(W * 0.9, -H * 0.05, 0, W * 0.9, -H * 0.05, W * 0.85);
+  r.addColorStop(0, "rgba(255,255,255,.25)"); r.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = r; ctx.fillRect(0, 0, W, H);
+  if (IMG.logo){ var lw = 330, lh = lw * IMG.logo.height / IMG.logo.width; rr(W - 56 - lw - 28, 44, lw + 28, lh + 20, 22, "#fff"); ctx.drawImage(IMG.logo, W - 56 - lw - 14, 54, lw, lh); }
+}
+function footer(W, H){
+  var y = H - 150;
+  if (IMG.mascot){ var mw = size === "story" ? 260 : 190, mh = mw * IMG.mascot.height / IMG.mascot.width; ctx.drawImage(IMG.mascot, 30, H - mh - 20, mw, mh); }
+  rr(W - 56 - 520, y, 520, 92, 46, C.wa);
+  txt("واتساب  \u2066" + P.phone + "\u2069", W - 56 - 260, y + 60, "700 40px " + PX, "#fff", "center");
+  txt("\u2066" + P.site + "\u2069", W - 56, y + 128, "500 24px " + PX, "rgba(255,255,255,.9)", "right");
+}
+function cards(items, top, W, H, cols){
+  var gap = 22, x0 = 56, w = (W - x0 * 2 - gap * (cols - 1)) / cols, rows = Math.ceil(items.length / cols);
+  var avail = H - (size === "story" ? 340 : 290) - top, h = Math.min(250, (avail - gap * (rows - 1)) / rows);
+  items.forEach(function(it, i){
+    var c = i % cols, r = Math.floor(i / cols), x = W - x0 - w - c * (w + gap), y = top + r * (h + gap);
+    rr(x, y, w, h, 28, i === 0 ? "#FFF3EA" : "#fff");
+    var cx = x + w / 2;
+    var s1 = fit(it.t, w - 30, 46, PX); txt(it.t, cx, y + h * 0.30, "700 " + s1 + "px " + PX, C.navy, "center");
+    if (it.s) txt(it.s, cx, y + h * 0.46, "500 24px " + PX, C.mut, "center");
+    var s2 = fit(it.p, w - 30, 62, LZ); txt(it.p, cx, y + h * 0.80, s2 + "px " + LZ, C.o2, "center");
+  });
+}
+function draw(){
+  var W = 1080, H = size === "story" ? 1920 : 1350; cv.width = W; cv.height = H; ctx.direction = "rtl";
+  frame(W, H);
+  var K = P.kinds.filter(function(k){ return k.k === kind; })[0], st = size === "story" ? 140 : 0;
+  if (kind === "group"){
+    var g = P.groups[gi]; if (!g) return;
+    if (IMG.plane) ctx.drawImage(IMG.plane, 60, 150 + st, 380, 380 * IMG.plane.height / IMG.plane.width);
+    txt("كروب", W - 56, 270 + st, "64px " + LZ, "#FFE1CC");
+    var ts = fit(g.title, W - 112, 130, LZ); txt(g.title, W - 56, 400 + st, ts + "px " + LZ, "#fff");
+    txt(g.dur, W - 56, 470 + st, "700 40px " + PX, "#fff");
+    var y = 560 + st;
+    if (g.from){ rr(W - 56 - 560, y, 560, 150, 30, "#fff"); txt("السعر يبدي من", W - 56 - 280, y + 50, "700 30px " + PX, C.mut, "center"); txt(g.from + "$", W - 56 - 280, y + 125, "84px " + LZ, C.o2, "center"); y += 190; }
+    if (g.dates.length){ txt("المواعيد: " + g.dates.slice(0, 3).map(function(d){ return "\u2066" + d + "\u2069"; }).join(" · "), W - 56, y + 30, "700 34px " + PX, "#fff"); y += 70; }
+    g.inc.slice(0, size === "story" ? 6 : 4).forEach(function(s){ txt("✓ " + s, W - 56, y + 30, "500 34px " + PX, "#fff"); y += 56; });
+  } else {
+    txt(K.h1, W - 56, 250 + st, "96px " + LZ, "#fff");
+    txt(K.h2, W - 56, 330 + st, "700 38px " + PX, "#FFE1CC");
+    cards(K.items.slice(0, size === "story" ? 8 : 6), 390 + st, W, H, 2);
+  }
+  footer(W, H);
+  document.getElementById("cap").value = kind === "group" ? P.groups[gi].cap : K.cap;
+}
+function ui(){
+  document.getElementById("kinds").innerHTML = P.kinds.map(function(k){ return '<button class="chip" data-k="' + k.k + '" aria-pressed="' + (k.k === kind) + '">' + k.n + '</button>'; }).join("");
+  document.getElementById("extra").innerHTML = kind === "group" ? '<select id="gsel">' + P.groups.map(function(g, i){ return '<option value="' + i + '"' + (i === gi ? " selected" : "") + '>' + g.title + " — " + g.dur + '</option>'; }).join("") + '</select>' : "";
+  var s = document.getElementById("gsel"); if (s) s.onchange = function(){ gi = +s.value; draw(); };
+  document.querySelectorAll("[data-size]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-size") === size)); });
+}
+document.addEventListener("click", function(e){
+  var k = e.target.closest("[data-k]"), z = e.target.closest("[data-size]");
+  if (k){ kind = k.getAttribute("data-k"); ui(); draw(); }
+  if (z){ size = z.getAttribute("data-size"); ui(); draw(); }
+});
+document.getElementById("save").onclick = function(){
+  cv.toBlob(function(b){
+    var name = "safir-" + kind + "-" + size + ".png", f = window.File ? new File([b], name, { type:"image/png" }) : null;
+    if (f && navigator.canShare && navigator.canShare({ files:[f] })) { navigator.share({ files:[f] }).catch(function(){}); return; }
+    var a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  }, "image/png");
+};
+document.getElementById("copy").onclick = function(){
+  var t = document.getElementById("cap"); t.select();
+  (navigator.clipboard ? navigator.clipboard.writeText(t.value) : Promise.reject()).catch(function(){ document.execCommand("copy"); });
+  this.textContent = "انسخ ✓"; var b = this; setTimeout(function(){ b.textContent = "نسخ الكابشن"; }, 1500);
+};
+if (!P.groups.length) P.kinds = P.kinds.filter(function(k){ return k.k !== "group"; });
+Promise.all([img("img/logo/logo-light.png"), img("img/mascot.webp"), img("img/planes/iraqi.webp"),
+  document.fonts ? Promise.all([document.fonts.load('64px "Lalezar"', "تخفيض"), document.fonts.load('700 40px "IBM Plex Sans Arabic"', "سافر"), document.fonts.load('500 24px "IBM Plex Sans Arabic"', "سافر")]).catch(function(){}) : null])
+  .then(function(r){ IMG.logo = r[0]; IMG.mascot = r[1]; IMG.plane = r[2]; ui(); draw(); });
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 تنبني ويا index.html من نفس البيانات (build.py ينادي build_pages)، فتبقى محدثة ويا الأكسل والأسعار.
 تجربة على الجهاز من index.html الموجود:  python3 -I pages.py
 """
-import html, json, os, re
+import html, json, os, re, sys
 from datetime import date
 from urllib.parse import quote
 
@@ -353,6 +353,10 @@ def build_pages(DATA, company, site_url):
         for p, doc in out.items():
             open(os.path.join(SITE, p), "w", encoding="utf-8").write(doc)
         open(os.path.join(SITE, "sitemap.xml"), "w", encoding="utf-8").write(sitemap(site_url, site.urls, site.today))
+        if HERE not in sys.path:
+            sys.path.insert(0, HERE)
+        import promo  # صفحة منشورات إنستغرام لصاحب الموقع (مخفية عن كوكل)
+        open(os.path.join(SITE, promo.PROMO), "w", encoding="utf-8").write(promo.build_promo(site))
         n = {d: sum(1 for p in out if p.startswith(d + "/")) for d in DIRS}
         print("صفحات كوكل: %d طيران، %d فيزا، %d كروب + %s وsitemap.xml" % (n["flights"], n["visa"], n["tours"], HUB))
     except Exception as ex:  # noqa: BLE001
