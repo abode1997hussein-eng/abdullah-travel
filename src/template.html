@@ -14,6 +14,7 @@
 <meta property="og:image" content="{{SITE_URL}}img/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="{{SITE_URL}}">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TravelAgency","name":"سافر مع عبدالله","alternateName":"Travel with Abdullah","url":"{{SITE_URL}}","logo":"{{SITE_URL}}img/logo/logo-square.png","image":"{{SITE_URL}}img/og.jpg","telephone":"+{{PHONE}}","priceRange":"$$","areaServed":"IQ","address":[{"@type":"PostalAddress","streetAddress":"شارع فلسطين - تقاطع الصخرة - مقابل المستشفى الملكي","addressLocality":"بغداد","addressCountry":"IQ"},{"@type":"PostalAddress","streetAddress":"المنصور - شارع 14 رمضان - بناية العسل","addressLocality":"بغداد","addressCountry":"IQ"}],"paymentAccepted":"ZainCash, Mastercard"}</script>
 <link rel="icon" type="image/svg+xml" href="img/logo/logo-icon.svg">
 <link rel="apple-touch-icon" href="img/logo/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -746,7 +747,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       <div class="fpay"><span class="pm"><span class="zc">ZC</span><span data-t="payZ">زين كاش</span></span><span class="pm"><svg viewBox="0 0 32 20" aria-hidden="true"><circle cx="12" cy="10" r="8" fill="#EB001B"/><circle cx="20" cy="10" r="8" fill="#F79E1B" fill-opacity=".9"/></svg><span data-t="payM">ماستر كارد</span></span></div>
     </div>
     <div class="flinks"><h3 data-t="services">الخدمات</h3><a href="#top" data-tab="fly" data-t="tFly">طيران</a><a href="#top" data-tab="hot" data-t="tHotels">فنادق</a><a href="#groups" data-t="sGroups">كروبات سياحية</a><a href="#visa" data-t="sVisa">تأشيرات السفر</a></div>
-    <div class="flinks"><h3 data-t="fCompany">الشركة</h3><a href="#contact" data-t="sBranches">فروعنا</a><a href="#visa" data-license="1" data-t="sLicense">إجازة سوق دولية</a><a href="#groups" data-region="حفلات" data-t="sEvents">حفلات ورأس السنة</a></div>
+    <div class="flinks"><h3 data-t="fCompany">الشركة</h3><a href="#contact" data-t="sBranches">فروعنا</a><a href="destinations.html">كل الوجهات</a><a href="#visa" data-license="1" data-t="sLicense">إجازة سوق دولية</a><a href="#groups" data-region="حفلات" data-t="sEvents">حفلات ورأس السنة</a></div>
     <p class="fine"><span data-t="fine">الأسعار تتغير حسب التوفر، والسعر النهائي يتأكد وقت الحجز.</span> <span data-t="updated">آخر تحديث:</span> <bdi dir="ltr">{{UPDATED}}</bdi></p>
     <details class="fine creds"><summary data-t="credits">صور الوجهات من ويكيميديا كومنز:</summary>{{CREDITS}}</details>
   </div>
@@ -1806,6 +1807,27 @@ a.alc{text-decoration:none;color:var(--ink)}
   }
   document.querySelector(".langs").addEventListener("click", function(e){ var b = e.target.closest("button"); if (b) setLang(b.getAttribute("data-lang")); });
   render();
+  /* ============ روابط من صفحات كوكل (flights/ visa/ tours/) ============
+     ?from=BGW&to=IST يعبّي البحث ويطلّع الأسعار المحفوظة، ?visa=رقم يفتح طلب الفيزا، ?go=g0 يفتح الكروب */
+  (function(){
+    var q = location.search, m;
+    if ((m = /[?&]visa=(\d+)/.exec(q))){ var vi = +m[1]; setTimeout(function(){ openVisa(vi); }, 300); }
+    if ((m = /[?&]go=([\w-]+)/.exec(q))){
+      var gi = -1; D[L].groups.forEach(function(g, k){ if (g.id === m[1]) gi = k; });
+      if (gi >= 0) setTimeout(function(){ openG(gi); }, 300);
+    }
+    var f = /[?&]from=([A-Z]{3})/.exec(q), d = /[?&]to=([A-Z]{3})/.exec(q);
+    if (f && d) loadPlaces(function(){
+      document.getElementById("f-from").value = placeText(f[1]);
+      document.getElementById("f-to").value = placeText(d[1]);
+      var ow = document.querySelector('input[name="trip"][value="ow"]'); if (ow && !/[?&]rt\b/.test(q)){ ow.checked = true; ow.dispatchEvent(new Event("change", { bubbles:true })); }
+      var dep = document.getElementById("f-dep"); if (!dep.value){ var t0 = new Date(Date.now() + 14 * 864e5); dep.value = t0.toISOString().slice(0, 10); }
+      syncFly();
+      var box = document.querySelector(".box"); if (box && box.scrollIntoView) box.scrollIntoView({ block:"start" });
+      /* الأسعار المحفوظة بس (بدون البحث اللحظي): زواحف كوكل تفتح هالروابط وما نريدها تصرف رصيد SerpApi */
+      searchOld(true);
+    });
+  })();
   /* ============ رسالة الترحيب ============
      تطلع مرة وحدة لكل زائر (أول زيارة بس). الخدمات تفتح تبويبها، واللغة تتغير من داخلها. */
   var hello = document.getElementById("hello");

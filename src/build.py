@@ -263,3 +263,7 @@ assert not left, left
 open(os.path.join(SITE, "index.html"), "w", encoding="utf-8").write(page)
 print("groups:", len(DATA["ar"]["groups"]), "| visas:", len(DATA["ar"]["visas"]),
       "| fares:", len(DATA["ar"]["fares"]), "| wrote index.html")
+
+# صفحات كوكل (طيران، فيزا، كروبات) من نفس البيانات
+import pages  # noqa: E402
+pages.build_pages(DATA, COMPANY, SITE_URL)
