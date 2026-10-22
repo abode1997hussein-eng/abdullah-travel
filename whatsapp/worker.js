@@ -8,22 +8,21 @@
  *   - إذا ميتا نزّلت جودة الرقم أو وكّفت القالب، الإرسال يوكف وحده.
  *
  * الروابط:
- *   /webhook   ميتا تدز عليه حالة الإرسال والردود (ينحط بإعدادات التطبيق بميتا)
- *   /admin     صفحة الإدارة (بكلمة سر ADMIN_TOKEN)
+ *   /admin          صفحة الإدارة (بكلمة سر ADMIN_TOKEN)
+ *   /webhook/<سر>   360dialog تدز عليه الردود وحالة الإرسال (ينربط من صفحة الإدارة بزر واحد)
+ *   /webhook        نفس الشي إذا ربطت ويا ميتا مباشرة (بتوقيع ميتا)
  *
  * الإعدادات بكلاود فلير (Settings ← Variables and Secrets):
- *   WA_TOKEN        (سري)  توكن دائم من System User بميتا
- *   WA_PHONE_ID            رقم تعريف رقم الهاتف (Phone number ID) من صفحة WhatsApp ← API Setup
- *   WA_APP_SECRET   (سري)  App Secret للتطبيق (حتى نتأكد الرسائل جاية من ميتا)
- *   WA_VERIFY_TOKEN (سري)  أي كلمة تختارها، نفسها تنكتب بميتا وقت ربط الويب هوك
- *   ADMIN_TOKEN     (سري)  كلمة سر صفحة الإدارة
+ *   D360_API_KEY    (سري)  مفتاح 360dialog. هذا وADMIN_TOKEN بس اللي تحتاجهم
+ *   ADMIN_TOKEN     (سري)  كلمة سر صفحة الإدارة، أي كلمة قوية تختارها
+ *   (إذا ميتا مباشرة بدل 360dialog: WA_TOKEN، WA_PHONE_ID، WA_APP_SECRET، WA_VERIFY_TOKEN)
  *   DAILY_LIMIT            كم شخص باليوم (الافتراضي 250، نفس حد ميتا للحساب الجديد). يتغير من صفحة الإدارة هم
  *   SEND_HOURS             ساعات الإرسال بتوقيت بغداد (الافتراضي 10-21)
  *   MIN_DAYS               أقل عدد أيام بين عرضين لنفس الشخص (الافتراضي 3)
  */
 import { DurableObject } from "cloudflare:workers";
 import { phone, isStop, isStart } from "./phone.js";
-import { send, markRead, template, verify, PER_USER } from "./meta.js";
+import { send, markRead, template, verify, hookKey, setHook, PER_USER } from "./meta.js";
 import ADMIN from "./admin.html";
 
 const DAY = 86400000;
@@ -47,7 +46,14 @@ export default {
 
     if (url.pathname === "/") return json({ ok: true, service: "abdullah-whatsapp" });
 
-    if (url.pathname === "/webhook") {
+    if (url.pathname.startsWith("/webhook/") && req.method === "POST") {
+      if (!same(url.pathname.slice(9), await hookKey(env))) return new Response("forbidden", { status: 403 });
+      const body = await req.json().catch(() => null);
+      if (body) ctx.waitUntil(hub.webhook(body));
+      return new Response("ok");
+    }
+
+    if (url.pathname === "/webhook" && !env.D360_API_KEY) {
       if (req.method === "GET") {
         const ok = url.searchParams.get("hub.mode") === "subscribe" && same(url.searchParams.get("hub.verify_token"), env.WA_VERIFY_TOKEN);
         return ok ? new Response(url.searchParams.get("hub.challenge") || "") : new Response("forbidden", { status: 403 });
@@ -75,6 +81,10 @@ export default {
       if (req.method === "POST") body = await req.json().catch(() => ({}));
       const q = Object.fromEntries(url.searchParams);
       try {
+        if (url.pathname === "/api/hook") {
+          await setHook(env, url.origin + "/webhook/" + (await hookKey(env)));
+          return json(await hub.api("hooked", {}));
+        }
         return json(await hub.api(url.pathname.slice(5), { ...q, ...body }));
       } catch (e) {
         return json({ error: String(e.message || e) }, 400);
@@ -120,6 +130,7 @@ export class Hub extends DurableObject {
 
   /* ------------------------------------------------------------ الويب هوك */
   async webhook(body) {
+    this.set("hooked", "1");
     for (const e of body.entry || []) {
       for (const ch of e.changes || []) {
         const v = ch.value || {};
@@ -286,6 +297,9 @@ export class Hub extends DurableObject {
           limit: this.limit(),
           quality: this.get("quality", ""),
           tpl: this.get("tpl", ""),
+          ready: !!(this.env.D360_API_KEY || this.env.WA_TOKEN),
+          d360: !!this.env.D360_API_KEY,
+          hooked: this.get("hooked", "") === "1" || !this.env.D360_API_KEY,
           lang: this.get("lang", "ar"),
           camps,
         };
@@ -350,6 +364,9 @@ export class Hub extends DurableObject {
         await this.ctx.storage.setAlarm(now + 1000);
         return { ok: true };
       }
+      case "hooked":
+        this.set("hooked", "1");
+        return { ok: true };
       case "resume": {
         if (!this.one("SELECT id FROM camps WHERE id = ? AND state = 'paused'", b.id)) throw new Error("ماكو هالعرض");
         this.sql.exec("UPDATE camps SET state = 'paused' WHERE state = 'running'");

@@ -47,6 +47,11 @@ details summary{cursor:pointer;font-weight:600;color:var(--navy)}
 </div>
 
 <div id="app" class="hide">
+  <div class="card hide" id="setup">
+    <h2>🔗 ربط الرقم</h2>
+    <p class="small" id="setupmsg"></p>
+    <button class="wa" id="hookbtn" onclick="hook()">اربط رقمي بالأداة</button>
+  </div>
   <div class="card">
     <h2>📣 أرسل عرض للكل</h2>
     <label class="small">صورة العرض (رابط صورة، مثلاً من promo.html أو أي رابط مباشر لصورة)</label>
@@ -122,6 +127,9 @@ var LABEL = { running: "دا ينرسل", paused: "موكّف", done: "خلص" }
 function refresh() {
   api("stats").then(function (s) {
     if (first) { $("tpl").value = s.tpl || ""; $("lang").value = s.lang || "ar"; first = false; }
+    $("setup").classList.toggle("hide", s.ready && s.hooked);
+    $("hookbtn").classList.toggle("hide", !s.ready);
+    $("setupmsg").textContent = !s.ready ? "مفتاح 360dialog (D360_API_KEY) ما منحط بكلاود فلير بعد." : "دوس الزر مرة وحدة حتى توصل ردود الناس وكلمة «إيقاف» للأداة.";
     var st = [["الأرقام", s.contacts - s.bad], ["ما عليهم واتساب", s.bad], ["وكّفوا العروض", s.out], ["انرسل آخر 24 ساعة", s.used + " / " + s.limit]];
     $("stats").innerHTML = st.map(function (x) { return '<div class="stat"><span class="small">' + x[0] + "</span><b>" + esc(x[1]) + "</b></div>"; }).join("");
     $("quality").textContent = s.quality ? "آخر تحديث من ميتا عن الرقم: " + s.quality : "";
@@ -144,6 +152,7 @@ function offer(test) {
   if (test) { if (!$("testphone").value) return toast("اكتب رقمك"); b.test = $("testphone").value; }
   api("offer", b).then(function () { toast(test ? "انرسلت لرقمك، شوف الواتساب" : "بدا الإرسال ✅ تكدر تسكّر الصفحة، يكمل وحده"); refresh(); }).catch(function (e) { toast(e.message); });
 }
+function hook() { api("hook", {}).then(function () { toast("انربط ✅"); refresh(); }).catch(function (e) { toast(e.message); }); }
 function act(a, id) { api(a, { id: id }).then(refresh).catch(function (e) { toast(e.message); }); }
 function setLimit() { api("limit", { limit: $("limit").value }).then(function () { toast("تمام"); $("limit").value = ""; refresh(); }).catch(function (e) { toast(e.message); }); }
 

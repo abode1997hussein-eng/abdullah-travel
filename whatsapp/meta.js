@@ -1,14 +1,37 @@
-/* الاتصال بواتساب الرسمي (Meta WhatsApp Cloud API). */
+/* الاتصال بواتساب الرسمي (Cloud API)، بطريقتين:
+ *   - عن طريق 360dialog (D360_API_KEY): نفس رقمك اللي على تطبيق واتساب بزنس يبقى شغّال (Coexistence)، ومفتاح واحد بس.
+ *   - مباشرة ويا ميتا (WA_TOKEN + WA_PHONE_ID): رقم جديد وحساب مطوّرين.
+ * الرسائل نفسها بنفس الصيغة بالطريقتين. */
 
+const D360 = "https://waba-v2.360dialog.io/";
 export const GRAPH = (env) => (env.GRAPH_URL || "https://graph.facebook.com/") + (env.GRAPH_VERSION || "v23.0") + "/";
+const endpoint = (env) => (env.D360_API_KEY ? (env.GRAPH_URL || D360) + "messages" : GRAPH(env) + env.WA_PHONE_ID + "/messages");
+const auth = (env) => (env.D360_API_KEY ? { "D360-API-KEY": env.D360_API_KEY } : { Authorization: "Bearer " + env.WA_TOKEN });
+
+/* رابط الويب هوك السري (360dialog ما توقّع الرسائل، فالسر بالرابط نفسه) */
+export async function hookKey(env) {
+  if (env.WA_VERIFY_TOKEN) return env.WA_VERIFY_TOKEN;
+  const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("hook:" + (env.ADMIN_TOKEN || "")));
+  return [...new Uint8Array(h)].slice(0, 12).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/* يخلي 360dialog تدز الردود وحالة الإرسال على رابطنا */
+export async function setHook(env, url) {
+  const r = await fetch((env.GRAPH_URL || D360) + "v1/configs/webhook", {
+    method: "POST",
+    headers: { ...auth(env), "Content-Type": "application/json" },
+    body: JSON.stringify({ url }),
+  });
+  if (!r.ok) throw new Error("360dialog رفضت: " + r.status + " " + (await r.text()).slice(0, 200));
+}
 
 /* يرسل رسالة. يرجّع { ok, id } أو { ok: false, code, msg, retry } */
 export async function send(env, to, msg) {
   let r, j;
   try {
-    r = await fetch(GRAPH(env) + env.WA_PHONE_ID + "/messages", {
+    r = await fetch(endpoint(env), {
       method: "POST",
-      headers: { Authorization: "Bearer " + env.WA_TOKEN, "Content-Type": "application/json" },
+      headers: { ...auth(env), "Content-Type": "application/json" },
       body: JSON.stringify({ messaging_product: "whatsapp", recipient_type: "individual", to, ...msg }),
     });
     j = await r.json();
@@ -21,9 +44,9 @@ export async function send(env, to, msg) {
 }
 
 export function markRead(env, id) {
-  return fetch(GRAPH(env) + env.WA_PHONE_ID + "/messages", {
+  return fetch(endpoint(env), {
     method: "POST",
-    headers: { Authorization: "Bearer " + env.WA_TOKEN, "Content-Type": "application/json" },
+    headers: { ...auth(env), "Content-Type": "application/json" },
     body: JSON.stringify({ messaging_product: "whatsapp", status: "read", message_id: id }),
   }).catch(() => null);
 }
