@@ -11,6 +11,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.dirname(HERE)
 DIRS = ("flights", "visa", "tours")
 HUB = "destinations.html"
+GA = "G-VTHF4XVDNT"  # Google Analytics (نفس اللي بـtemplate.html)
 FONT = ("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700"
         "&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap")
 CSS = """
@@ -132,6 +133,9 @@ class Site:
 <meta property="og:image" content="{e(self.url)}img/og.jpg">
 <meta name="theme-color" content="#123A6B">
 <link rel="icon" href="{up}img/logo/logo-icon.svg">
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag("js",new Date());gtag("config","{GA}");
+document.addEventListener("click",function(e){{var a=e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href")||"";if(/wa\\.me\\//.test(h))gtag("event","whatsapp_click",{{section:"landing"}});else if(/^tel:/.test(h))gtag("event","call_click",{{section:"landing"}});}},true);</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONT}">
