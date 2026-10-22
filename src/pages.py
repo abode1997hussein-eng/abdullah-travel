@@ -298,6 +298,7 @@ document.addEventListener("click",function(e){{var a=e.target.closest&&e.target.
         for (o, d), fs in sorted(R.items(), key=lambda kv: (kv[0][0] != "BGW", kv[0])):
             fl.append(self.flight_page(o, d, fs))
         vl = [(p, *self.visa_page(p, v, i)) for p, v, i in visas]
+        self.built = {"visas": visas, "routes": R}  # يستعمله bot.py لبيانات بوت الواتساب
         tl, seen = [], set()
         for g in ar.get("groups", []):
             s = re.sub(r"[^a-z0-9]+", "-", (g.get("code") or g.get("id") or "").lower()).strip("-") or g.get("id", "g")
@@ -307,6 +308,7 @@ document.addEventListener("click",function(e){{var a=e.target.closest&&e.target.
             seen.add(s)
             path = "tours/" + s + ".html"
             tl.append((path, g, self.tour_page(path, g)))
+        self.built["tours"] = tl
         # صفحة كل الوجهات
         by_o = {}
         for p, on, dn, pl in fl:
@@ -357,6 +359,8 @@ def build_pages(DATA, company, site_url):
             sys.path.insert(0, HERE)
         import promo  # صفحة منشورات إنستغرام لصاحب الموقع (مخفية عن كوكل)
         open(os.path.join(SITE, promo.PROMO), "w", encoding="utf-8").write(promo.build_promo(site))
+        import bot  # bot.json: الأسعار اللي يرد بيها بوت الواتساب (whatsapp/)
+        open(os.path.join(SITE, bot.BOT), "w", encoding="utf-8").write(bot.build_bot(site))
         n = {d: sum(1 for p in out if p.startswith(d + "/")) for d in DIRS}
         print("صفحات كوكل: %d طيران، %d فيزا، %d كروب + %s وsitemap.xml" % (n["flights"], n["visa"], n["tours"], HUB))
     except Exception as ex:  # noqa: BLE001

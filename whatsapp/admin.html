@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>بوت الواتساب — سافر مع عبدالله</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#F6F7F9;--card:#fff;--ink:#111827;--muted:#6B7280;--line:#E3E5EA;--accent:#F26A21;--navy:#123A6B;--ok:#15803D;--bad:#B91C1C;--wa:#25D366}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "IBM Plex Sans Arabic",Tahoma,sans-serif}
+header{background:var(--navy);color:#fff;padding:14px 16px;font-weight:700;font-size:18px}
+.wrap{max-width:900px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px}
+h2{font-size:17px;margin:0 0 10px;color:var(--navy)}
+.small{font-size:13px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.stat{background:var(--bg);border-radius:12px;padding:10px 12px}
+.stat b{display:block;font-size:22px;color:var(--navy)}
+input,textarea,select{font:inherit;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;margin:4px 0 10px}
+textarea{min-height:90px}
+button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:10px 18px;background:var(--accent);color:#fff;cursor:pointer;margin:2px}
+button.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+button.wa{background:var(--wa)}
+button:disabled{opacity:.5}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.row>*{flex:1;min-width:140px}
+.camp{border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;background:var(--bg)}
+.running{background:#DCFCE7;color:var(--ok)}.paused{background:#FEE2E2;color:var(--bad)}.done{background:#E0E7FF;color:var(--navy)}
+.bar{height:8px;background:var(--bg);border-radius:9px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--wa)}
+.chats{display:grid;grid-template-columns:260px 1fr;gap:12px}
+@media(max-width:700px){.chats{grid-template-columns:1fr}}
+.list{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:12px}
+.list div{padding:10px;border-bottom:1px solid var(--line);cursor:pointer}
+.list div.on{background:#FFF3EB}
+.list .h{color:var(--accent);font-weight:700}
+.msgs{max-height:420px;overflow:auto;background:#ECE5DD;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.m{max-width:85%;padding:8px 10px;border-radius:10px;white-space:pre-wrap;word-break:break-word;font-size:14px}
+.m.in{background:#fff;align-self:flex-start}
+.m.bot,.m.staff{background:#DCF8C6;align-self:flex-end}
+.m.bot{opacity:.85}
+.m small{display:block;color:var(--muted);font-size:11px}
+#msg{position:fixed;bottom:16px;inset-inline:16px;max-width:520px;margin:0 auto;background:var(--ink);color:#fff;border-radius:12px;padding:12px 16px;display:none}
+.hide{display:none}
+</style>
+</head>
+<body>
+<header>بوت الواتساب · سافر مع عبدالله</header>
+<div class="wrap">
+
+<div class="card" id="login">
+  <h2>الدخول</h2>
+  <input id="tok" type="password" placeholder="كلمة السر (ADMIN_TOKEN)">
+  <button onclick="login()">دخول</button>
+</div>
+
+<div id="app" class="hide">
+  <div class="card">
+    <h2>الحالة</h2>
+    <div class="stats" id="stats"></div>
+    <p class="small" id="quality"></p>
+    <div class="row">
+      <input id="limit" type="number" min="1" placeholder="الحد اليومي">
+      <button class="ghost" onclick="setLimit()">غيّر الحد اليومي</button>
+    </div>
+    <p class="small">الحد اليومي لازم يكون نفس حد ميتا أو أقل (يبين بـWhatsApp Manager ← Phone numbers). الحساب الجديد 250، وبعد توثيق الشركة 2000، ويكبر وحده بعدين.</p>
+  </div>
+
+  <div class="card">
+    <h2>رفع الأرقام</h2>
+    <p class="small">صدّر جهات الاتصال من الموبايل كملف <b>.vcf</b> (أو من Google Contacts كـCSV) وارفعه هنا. الأرقام العراقية تتصلح وحدها (0770… ← 964770…)، والمكرر ينشال.</p>
+    <input id="file" type="file" accept=".vcf,.csv,.txt,text/vcard,text/csv,text/plain" multiple>
+    <textarea id="paste" placeholder="أو الصق أرقام، كل رقم بسطر (ممكن ويا الاسم: 07701234567, علي)"></textarea>
+    <button onclick="upload()">ارفع</button>
+    <span class="small" id="upmsg"></span>
+  </div>
+
+  <div class="card">
+    <h2>حملة جديدة</h2>
+    <p class="small">القالب لازم يكون <b>معتمد</b> من ميتا أول (WhatsApp Manager ← Message templates، نوع Marketing). اكتب اسمه هنا بالضبط.</p>
+    <div class="row">
+      <div><label class="small">اسم الحملة</label><input id="cname" placeholder="عروض الشتاء"></div>
+      <div><label class="small">اسم القالب بميتا</label><input id="ctpl" placeholder="travel_offers" dir="ltr"></div>
+      <div><label class="small">لغة القالب</label><input id="clang" value="ar" dir="ltr"></div>
+    </div>
+    <label class="small">رابط صورة الهيدر (إذا القالب بيه صورة)</label>
+    <input id="cimg" dir="ltr" placeholder="https://...jpg">
+    <label class="small">متغيرات النص {{1}} {{2}}… كل وحدة بسطر. اكتب {name} حتى ينحط اسم الزبون</label>
+    <textarea id="cvars" placeholder="{name}&#10;إسطنبول 360$"></textarea>
+    <button onclick="newCamp()">سوّي الحملة</button>
+  </div>
+
+  <div class="card">
+    <h2>الحملات</h2>
+    <div class="row"><input id="testphone" placeholder="رقمك للتجربة (07…)"><span class="small">جرّب الحملة على رقمك قبل التشغيل</span></div>
+    <div id="camps"></div>
+  </div>
+
+  <div class="card">
+    <h2>المحادثات</h2>
+    <p class="small">اللي طلبوا موظف يطلعون فوق بالبرتقالي. ردك هنا يوصل للزبون من رقم البوت، والبوت يسكت وياه 12 ساعة.</p>
+    <div class="chats">
+      <div class="list" id="chats"></div>
+      <div>
+        <div class="msgs" id="msgs"><span class="small">اختار محادثة</span></div>
+        <textarea id="rtext" placeholder="اكتب ردك…" style="min-height:60px"></textarea>
+        <button class="wa" onclick="sendReply()">أرسل</button>
+        <button class="ghost" onclick="backToBot()">رجّع البوت يرد</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>قائمة الإيقاف</h2>
+    <p class="small">اللي كتب «إيقاف» ينضاف وحده. تكدر تضيف أرقام بيدك (مثلاً واحد طلب منك بالتلفون).</p>
+    <textarea id="optouts" placeholder="كل رقم بسطر"></textarea>
+    <button class="ghost" onclick="addOptouts()">أضف للإيقاف</button>
+    <button class="ghost" onclick="dlOptouts()">نزّل القائمة</button>
+  </div>
+</div>
+</div>
+<div id="msg"></div>
+
+<script>
+var TOK = "", CUR = "";
+try { TOK = sessionStorage.getItem("tok") || ""; } catch (e) {}
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+function toast(t) { var m = $("msg"); m.textContent = t; m.style.display = "block"; clearTimeout(m._t); m._t = setTimeout(function () { m.style.display = "none"; }, 4000); }
+function api(p, body) {
+  return fetch("/api/" + p, { method: body ? "POST" : "GET", headers: { Authorization: "Bearer " + TOK, "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined })
+    .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || r.status); return j; }); });
+}
+function login() {
+  TOK = $("tok").value.trim();
+  api("stats").then(function () { try { sessionStorage.setItem("tok", TOK); } catch (e) {} start(); }).catch(function (e) { toast(e.message); });
+}
+function start() { $("login").classList.add("hide"); $("app").classList.remove("hide"); refresh(); inbox(); setInterval(refresh, 15000); setInterval(inbox, 20000); }
+var LABEL = { draft: "مسودة", running: "شغّالة", paused: "موكّفة", done: "خلصت" };
+function refresh() {
+  api("stats").then(function (s) {
+    var st = [["الأرقام", s.contacts], ["وكّفوا العروض", s.out], ["ما عليهم واتساب", s.bad], ["ردّوا هالأسبوع", s.replied], ["انرسل آخر 24 ساعة", s.used + " / " + s.limit]];
+    $("stats").innerHTML = st.map(function (x) { return '<div class="stat"><span class="small">' + x[0] + "</span><b>" + esc(x[1]) + "</b></div>"; }).join("");
+    $("quality").textContent = s.quality ? "آخر تحديث من ميتا عن الرقم: " + s.quality : "";
+    if (!$("limit").value) $("limit").placeholder = "الحد اليومي (هسه " + s.limit + ")";
+    $("camps").innerHTML = s.camps.length ? s.camps.map(function (c) {
+      var by = c.by || {}, sent = 0; for (var k in by) sent += by[k];
+      var total = sent + c.pending, pct = total ? Math.round(100 * sent / total) : 0;
+      var d = (by.delivered || 0) + (by.read || 0);
+      return '<div class="camp"><div class="row"><b>' + esc(c.name) + ' <span class="pill ' + c.state + '">' + (LABEL[c.state] || c.state) + '</span></b>' +
+        '<span class="small" dir="ltr">' + esc(c.tpl) + "</span></div>" +
+        '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
+        '<div class="small">انرسل ' + sent + " من " + total + " · وصل " + d + " · قرا " + (by.read || 0) + " · فشل " + ((by.failed || 0) + (by.bad || 0)) +
+        " · ميتا أجّلت " + (by.capped || 0) + " · باقي " + c.pending + "</div>" +
+        (c.note ? '<div class="small" style="color:var(--bad)">' + esc(c.note) + "</div>" : "") +
+        '<div><button class="ghost" onclick="test(' + c.id + ')">جرّب على رقمي</button>' +
+        (c.state === "running" ? '<button class="ghost" onclick="act(\'pause\',' + c.id + ')">وكّف</button>' : c.state !== "done" ? '<button class="wa" onclick="act(\'start\',' + c.id + ')">شغّل الإرسال</button>' : "") +
+        "</div></div>";
+    }).join("") : '<p class="small">ماكو حملات بعد</p>';
+  }).catch(function (e) { toast(e.message); });
+}
+function setLimit() { api("limit", { limit: $("limit").value }).then(function () { toast("تمام"); $("limit").value = ""; refresh(); }).catch(function (e) { toast(e.message); }); }
+function newCamp() {
+  api("campaign", { name: $("cname").value, tpl: $("ctpl").value.trim(), lang: $("clang").value.trim(), image: $("cimg").value.trim(), vars: $("cvars").value })
+    .then(function () { toast("انضافت الحملة. جرّبها على رقمك وبعدين شغّلها"); refresh(); }).catch(function (e) { toast(e.message); });
+}
+function test(id) {
+  if (!$("testphone").value) return toast("اكتب رقمك فوق أول");
+  api("test", { id: id, phone: $("testphone").value }).then(function () { toast("انرسلت لرقمك، شوف الواتساب"); }).catch(function (e) { toast(e.message); });
+}
+function act(a, id) { api(a, { id: id }).then(refresh).catch(function (e) { toast(e.message); }); }
+
+/* ---------- قراءة ملفات الأرقام ---------- */
+function fromVcf(t) {
+  var out = [];
+  t.replace(/\r?\n[ \t]/g, "").split(/BEGIN:VCARD/i).forEach(function (card) {
+    var fn = (card.match(/^FN[^:\n]*:(.*)$/mi) || [])[1] || "";
+    try { if (/ENCODING=QUOTED-PRINTABLE/i.test(card)) fn = decodeURIComponent(fn.replace(/=([0-9A-F]{2})/gi, "%$1")); } catch (e) {}
+    (card.match(/^(?:item\d+\.)?TEL[^:\n]*:(.*)$/gmi) || []).forEach(function (l) { out.push({ phone: l.slice(l.indexOf(":") + 1).trim(), name: fn.trim() }); });
+  });
+  return out;
+}
+function csvRows(t) {
+  var rows = [], row = [], cell = "", q = false;
+  for (var i = 0; i < t.length; i++) {
+    var c = t[i];
+    if (q) { if (c === '"') { if (t[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+    else if (c === '"') q = true;
+    else if (c === "," || c === ";" || c === "\t") { row.push(cell); cell = ""; }
+    else if (c === "\n" || c === "\r") { if (c === "\r" && t[i + 1] === "\n") i++; row.push(cell); rows.push(row); row = []; cell = ""; }
+    else cell += c;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  return rows;
+}
+function fromCsv(t) {
+  var rows = csvRows(t), out = [];
+  if (!rows.length) return out;
+  var head = rows[0].map(function (h) { return h.toLowerCase(); });
+  var isHead = head.some(function (h) { return /name|phone|mobile|tel|اسم|رقم|هاتف|موبايل/.test(h); });
+  var nameCol = isHead ? head.findIndex(function (h) { return /^(name|full name|display name|first name|given name|الاسم|اسم)/.test(h); }) : -1;
+  var phoneCols = isHead ? head.map(function (h, i) { return /phone|mobile|tel|رقم|هاتف|موبايل/.test(h) && !/type|label|نوع/.test(h) ? i : -1; }).filter(function (i) { return i >= 0; }) : [];
+  rows.slice(isHead ? 1 : 0).forEach(function (r) {
+    var name = nameCol >= 0 ? r[nameCol] : "";
+    var cells = phoneCols.length ? phoneCols.map(function (i) { return r[i] || ""; }) : r;
+    cells.forEach(function (c, i) {
+      String(c).split(/:::|\//).forEach(function (p) {
+        if (/[\d٠-٩]{7,}/.test(p.replace(/[\s\-()+]/g, ""))) out.push({ phone: p.trim(), name: (name || (phoneCols.length ? "" : r.filter(function (x, j) { return j !== i && !/\d{5,}/.test(x); }).join(" "))).trim() });
+      });
+    });
+  });
+  return out;
+}
+function parse(name, t) { return /BEGIN:VCARD/i.test(t) ? fromVcf(t) : fromCsv(t); }
+function readFile(f) { return new Promise(function (ok) { var r = new FileReader(); r.onload = function () { ok(parse(f.name, r.result)); }; r.readAsText(f); }); }
+
+function upload() {
+  var files = Array.prototype.slice.call($("file").files || []);
+  Promise.all(files.map(readFile)).then(function (lists) {
+    var rows = [].concat.apply([], lists).concat(fromCsv($("paste").value));
+    if (!rows.length) return toast("ما لكيت أرقام");
+    var i = 0, tot = { added: 0, dup: 0, invalid: 0 }, N = 2000;
+    (function next() {
+      if (i >= rows.length) { $("upmsg").textContent = "خلص ✅ انضاف " + tot.added + " · مكرر " + tot.dup + " · غلط " + tot.invalid; refresh(); return; }
+      $("upmsg").textContent = "دا يرفع… " + i + " من " + rows.length;
+      api("contacts", { rows: rows.slice(i, i + N) }).then(function (r) { tot.added += r.added; tot.dup += r.dup; tot.invalid += r.invalid; i += N; next(); })
+        .catch(function (e) { toast(e.message); });
+    })();
+  });
+}
+
+/* ---------- المحادثات ---------- */
+function when(t) { var d = new Date(t); return d.toLocaleDateString("ar-IQ") + " " + d.toLocaleTimeString("ar-IQ", { hour: "2-digit", minute: "2-digit" }); }
+function inbox() {
+  api("inbox").then(function (r) {
+    $("chats").innerHTML = r.chats.map(function (c) {
+      return '<div class="' + (c.phone === CUR ? "on" : "") + '" onclick="openChat(\'' + c.phone + '\')"><b>' + esc(c.name || c.phone) + "</b>" +
+        (c.human ? ' <span class="h">· يريد موظف</span>' : "") + '<div class="small">' + esc((c.body || "").slice(0, 60)) + "</div></div>";
+    }).join("") || '<div class="small">ماكو محادثات بعد</div>';
+    if (CUR) openChat(CUR, true);
+  }).catch(function () {});
+}
+function openChat(p, quiet) {
+  CUR = p;
+  api("chat?phone=" + encodeURIComponent(p)).then(function (r) {
+    var box = $("msgs"), atEnd = box.scrollTop + box.clientHeight >= box.scrollHeight - 20;
+    box.innerHTML = '<div class="small" dir="ltr">+' + esc(p) + ' · <a href="https://wa.me/' + esc(p) + '" target="_blank" rel="noopener">wa.me</a></div>' +
+      r.msgs.map(function (m) { return '<div class="m ' + m.dir + '">' + esc(m.body) + "<small>" + (m.dir === "bot" ? "البوت · " : m.dir === "staff" ? "الموظف · " : "") + when(m.at) + "</small></div>"; }).join("");
+    if (!quiet || atEnd) box.scrollTop = box.scrollHeight;
+  });
+  if (!quiet) Array.prototype.forEach.call($("chats").children, function (d) { d.classList.toggle("on", d.getAttribute("onclick").indexOf(p) > 0); });
+}
+function sendReply() {
+  if (!CUR || !$("rtext").value.trim()) return;
+  api("reply", { phone: CUR, text: $("rtext").value }).then(function () { $("rtext").value = ""; openChat(CUR); inbox(); }).catch(function (e) { toast(e.message); });
+}
+function backToBot() { if (CUR) api("bot", { phone: CUR }).then(function () { toast("البوت رجع يرد على هالزبون"); inbox(); }); }
+function addOptouts() {
+  var ps = $("optouts").value.split(/\n|,/).map(function (s) { return s.trim(); }).filter(Boolean);
+  api("optout", { phones: ps }).then(function (r) { toast("انضاف " + r.n); $("optouts").value = ""; refresh(); }).catch(function (e) { toast(e.message); });
+}
+function dlOptouts() {
+  api("optouts").then(function (r) {
+    var csv = "phone,name\n" + r.phones.map(function (x) { return x.phone + "," + (x.name || "").replace(/,/g, " "); }).join("\n");
+    var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv" })); a.download = "optouts.csv"; a.click();
+  });
+}
+if (TOK) api("stats").then(start).catch(function () {});
+</script>
+</body>
+</html>
