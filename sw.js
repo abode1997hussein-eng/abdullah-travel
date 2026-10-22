@@ -1,6 +1,9 @@
 /* يخلي الموقع يشتغل مثل تطبيق على الموبايل.
    الصفحة والأسعار تجي من النت أول شي حتى تبقى محدثة، وإذا ماكو نت تطلع آخر نسخة محفوظة.
    الصور تطلع من المحفوظ حتى التطبيق يفتح بسرعة، وتتحدث بالخلفية. */
+/* إشعارات الموقع (OneSignal). إذا ما نزل ملفهم، التطبيق يبقى يشتغل عادي */
+try { importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js"); } catch (e) {}
+
 var CACHE = "swa-v1";
 
 self.addEventListener("install", function(e){
