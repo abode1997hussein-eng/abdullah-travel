@@ -39,13 +39,13 @@ jobs:
 
       - name: نشر إذا تغيّر شي
         run: |
-          git add -N flights visa tours destinations.html sitemap.xml 2>/dev/null || true
-          if git diff --quiet -- index.html flights visa tours destinations.html sitemap.xml; then echo "ما تغيّر شي"; exit 0; fi
+          git add -N flights visa tours destinations.html sitemap.xml promo.html 2>/dev/null || true
+          if git diff --quiet -- index.html flights visa tours destinations.html sitemap.xml promo.html; then echo "ما تغيّر شي"; exit 0; fi
           { echo '```'; cat "$RUNNER_TEMP/build.log"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           git config user.name "تحديث الأسعار"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git add -A -- $(ls -d flights visa tours destinations.html sitemap.xml 2>/dev/null)
+          git add -A -- $(ls -d flights visa tours destinations.html sitemap.xml promo.html 2>/dev/null)
           git commit -q -m "تحديث من الأكسل"
           git pull -q --rebase origin main
           git push
