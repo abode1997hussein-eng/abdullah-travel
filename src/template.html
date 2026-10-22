@@ -511,6 +511,7 @@ a.alc{text-decoration:none;color:var(--ink)}
 .appc h2{font-size:19px;font-weight:700}
 .appc p{color:#D6E2F3;font-size:13.5px;margin:4px 0 10px}
 .appc .btn{width:auto;padding:11px 18px;font-size:14px}
+.appc .apk{display:inline-block;margin-inline-start:12px;color:#FFFFFF;font-size:13px;text-decoration:underline;opacity:.9}
 .appc .how{grid-column:1/-1;background:rgba(255,255,255,.12);border-radius:14px;padding:10px 12px;font-size:13.5px;color:#FFFFFF;margin:0}
 @media (display-mode:standalone){.appc{display:none}}
 </style>
@@ -698,6 +699,7 @@ a.alc{text-decoration:none;color:var(--ink)}
         <h2 data-t="appH">ثبّت تطبيق سافر مع عبدالله</h2>
         <p data-t="appP">افتح الأسعار والكروبات والفيزا من أيقونة على شاشة موبايلك، بدون تحميل من المتجر.</p>
         <button class="btn" type="button" id="appBtn" data-t="appBtn">ثبّت التطبيق</button>
+        <a class="apk" href="download/abdullah-travel.apk" download data-t="appApk">أو حمّل تطبيق الأندرويد (APK)</a>
       </div>
       <p class="how" id="appHow" hidden></p>
     </div>
@@ -1652,14 +1654,16 @@ a.alc{text-decoration:none;color:var(--ink)}
   /* ============ طرق الدفع والتطبيق ============ */
   Object.assign(S.ar, { payH:"طرق الدفع", payZ:"زين كاش", payM:"ماستر كارد", q5:"شلون أدفع؟", a5:"تكدر تدفع بزين كاش أو بماستر كارد، ونتفق وياك على تفاصيل الدفع بالواتساب وقت تثبيت الحجز.",
     appH:"ثبّت تطبيق سافر مع عبدالله", appP:"افتح الأسعار والكروبات والفيزا من أيقونة على شاشة موبايلك، بدون تحميل من المتجر.", appBtn:"ثبّت التطبيق",
-    appIos:"بالآيفون: اضغط زر المشاركة ⬆️ بأسفل سفاري، وبعدين «إضافة إلى الشاشة الرئيسية».", appOther:"افتح الموقع بمتصفح كروم، ومن القائمة ⋮ اختار «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».", appDone:"تم! تلكى التطبيق على شاشة موبايلك." });
+    appIos:"بالآيفون: اضغط زر المشاركة ⬆️ بأسفل سفاري، وبعدين «إضافة إلى الشاشة الرئيسية».", appOther:"افتح الموقع بمتصفح كروم، ومن القائمة ⋮ اختار «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».", appDone:"تم! تلكى التطبيق على شاشة موبايلك.", appApk:"أو حمّل تطبيق الأندرويد (APK)" });
   Object.assign(S.ku, { payH:"ڕێگاکانی پارەدان", payZ:"زەین کاش", payM:"ماستەرکارد", q5:"چۆن پارە بدەم؟", a5:"دەتوانیت بە زەین کاش یان ماستەرکارد پارە بدەیت، و لە کاتی جێگیرکردنی حیجز لە واتسئاپ لەسەر وردەکارییەکانی ڕێک دەکەوین.",
     appH:"ئەپی گەشت لەگەڵ عەبدوڵڵا دابمەزرێنە", appP:"نرخ و گروپ و ڤیزا لە ئایکۆنێک لەسەر شاشەی مۆبایلەکەت بکەرەوە، بەبێ داگرتن لە ستۆر.", appBtn:"دامەزراندنی ئەپ",
-    appIos:"لە ئایفۆن: دوگمەی هاوبەشکردن ⬆️ لە خوارەوەی سەفاری دابگرە، پاشان «زیادکردن بۆ شاشەی سەرەکی».", appOther:"ماڵپەڕەکە لە کرۆم بکەرەوە، و لە لیستی ⋮ «دامەزراندنی ئەپ» یان «زیادکردن بۆ شاشەی سەرەکی» هەڵبژێرە.", appDone:"تەواو! ئەپەکە لەسەر شاشەی مۆبایلەکەتە." });
+    appIos:"لە ئایفۆن: دوگمەی هاوبەشکردن ⬆️ لە خوارەوەی سەفاری دابگرە، پاشان «زیادکردن بۆ شاشەی سەرەکی».", appOther:"ماڵپەڕەکە لە کرۆم بکەرەوە، و لە لیستی ⋮ «دامەزراندنی ئەپ» یان «زیادکردن بۆ شاشەی سەرەکی» هەڵبژێرە.", appDone:"تەواو! ئەپەکە لەسەر شاشەی مۆبایلەکەتە.", appApk:"یان ئەپی ئەندرۆید دابگرە (APK)" });
   Object.assign(S.en, { payH:"Payment methods", payZ:"ZainCash", payM:"Mastercard", q5:"How do I pay?", a5:"You can pay with ZainCash or Mastercard; we agree the payment details with you on WhatsApp when you confirm your booking.",
     appH:"Install the Travel with Abdullah app", appP:"Open prices, group tours and visas from an icon on your home screen — no app store needed.", appBtn:"Install app",
-    appIos:"On iPhone: tap the Share button ⬆️ at the bottom of Safari, then “Add to Home Screen”.", appOther:"Open the site in Chrome, then choose “Install app” or “Add to Home screen” from the ⋮ menu.", appDone:"Done! The app is on your home screen." });
+    appIos:"On iPhone: tap the Share button ⬆️ at the bottom of Safari, then “Add to Home Screen”.", appOther:"Open the site in Chrome, then choose “Install app” or “Add to Home screen” from the ⋮ menu.", appDone:"Done! The app is on your home screen.", appApk:"or download the Android app (APK)" });
   var installEvt = null, appHow = document.getElementById("appHow");
+  /* داخل تطبيق الأندرويد ما نحتاج زر التثبيت */
+  if (/AbdullahTravelApp/.test(navigator.userAgent)) document.getElementById("app").hidden = true;
   addEventListener("beforeinstallprompt", function(e){ e.preventDefault(); installEvt = e; });
   addEventListener("appinstalled", function(){ appHow.textContent = t("appDone"); appHow.hidden = false; });
   document.getElementById("appBtn").addEventListener("click", function(){
