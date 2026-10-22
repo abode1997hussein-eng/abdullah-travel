@@ -16,6 +16,10 @@
 <link rel="canonical" href="https://abode1997hussein-eng.github.io/abdullah-travel/">
 <link rel="icon" type="image/svg+xml" href="img/logo/logo-icon.svg">
 <link rel="apple-touch-icon" href="img/logo/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="سافر مع عبدالله">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap">
@@ -432,6 +436,77 @@ a.alc{text-decoration:none;color:var(--ink)}
 .btn{transition:transform .15s ease,box-shadow .15s ease,background .15s}
 .btn:active{transform:perspective(400px) translateZ(-10px)}
 @media (hover:hover){.btn:hover{box-shadow:0 10px 22px rgba(242,106,33,.28);transform:translateY(-1px)}.btn.wa:hover{box-shadow:0 10px 22px rgba(37,211,102,.3)}}
+
+/* ---------- أرخص رحلات الطيران: كروت مثل بطاقة الصعود، من fares.json ---------- */
+.deals{grid-auto-columns:min(74%,260px)}
+@media (min-width:900px){.deals{grid-auto-flow:row;grid-template-columns:repeat(4,minmax(0,1fr));overflow:visible}}
+.deal{position:relative;display:flex;flex-direction:column;text-align:start;border:1px solid var(--line);border-radius:22px;background:#FFFFFF;padding:0;cursor:pointer;overflow:hidden;box-shadow:0 8px 22px rgba(17,24,39,.08);font:inherit;color:var(--ink);transition:transform .2s ease,box-shadow .2s ease}
+.deal:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(17,24,39,.14)}
+.dl-top{display:flex;align-items:center;gap:10px;padding:14px 16px;background:linear-gradient(135deg,#F26A21,#FF9254);color:#FFFFFF;direction:ltr}
+.dl-top b{font-size:22px;font-weight:700;letter-spacing:.05em}
+.dl-line{flex:1;position:relative;height:2px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.85) 0 6px,transparent 6px 11px)}
+.dl-line .ico{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scaleX(-1);width:26px;height:26px;padding:4px;border-radius:50%;background:#F7813F;color:#FFFFFF}
+.dl-mid{position:relative;padding:12px 16px 2px;display:grid;gap:2px}
+.dl-mid::before,.dl-mid::after{content:"";position:absolute;top:-10px;width:20px;height:20px;border-radius:50%;background:var(--bg)}
+.dl-mid::before{left:-10px}
+.dl-mid::after{right:-10px}
+.dl-mid b{font-size:18px;line-height:1.3}
+.dl-mid small{color:var(--muted);font-size:12.5px;display:flex;align-items:center;gap:6px}
+.dl-mid small .ico{width:14px;height:14px}
+.dl-bot{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding:10px 16px 14px;margin-top:auto}
+.dl-al{font-size:12px;color:var(--muted);line-height:1.3;min-width:0}
+.dl-al img{display:block;height:26px;width:auto;max-width:100px;object-fit:contain}
+.dl-pr{text-align:end;line-height:1.15;flex:none}
+.dl-pr small{display:block;font-size:11.5px;color:var(--muted)}
+.dl-pr b{font-size:24px;color:var(--accent-2);font-variant-numeric:tabular-nums}
+/* تقويم الأسعار بنتيجة البحث: سعر كل يوم، والأخضر أرخص يوم */
+.cal{display:grid;gap:4px}
+.cal .lbl{margin:0}
+.cal-s{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+.cal-s::-webkit-scrollbar{display:none}
+.cd{flex:none;display:grid;justify-items:center;gap:1px;min-width:70px;padding:8px 6px;border:1px solid var(--line);border-radius:14px;background:#FFFFFF;cursor:pointer;font:inherit;color:var(--ink);line-height:1.25}
+.cd small{font-size:11px;color:var(--muted)}
+.cd b{font-size:14px;font-variant-numeric:tabular-nums}
+.cd span{font-size:13px;font-weight:700;color:var(--accent-2);font-variant-numeric:tabular-nums}
+.cd.low{background:var(--ok-soft);border-color:rgba(21,128,61,.4)}
+.cd.low span{color:var(--ok)}
+.cd.on{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+
+/* ---------- متعدد المدن ---------- */
+.legs{display:grid;gap:10px}
+.leg{border:1px dashed var(--line);border-radius:16px;padding:10px 12px 12px}
+.leg-h{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;color:var(--accent-2);margin-bottom:6px}
+.leg-h button{border:0;background:var(--tile-2);color:var(--muted);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;line-height:1}
+.leg .fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.leg .fgrid .field.wide{grid-column:1/-1}
+@media (min-width:900px){.leg .fgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.leg .fgrid .field.wide{grid-column:auto}}
+.addleg{border:1px dashed var(--accent);background:var(--accent-soft);color:var(--accent-2);border-radius:14px;padding:11px;font-weight:700;cursor:pointer;font:inherit;font-weight:700}
+/* ---------- طلب الفيزا بخطوات ---------- */
+.vsteps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;list-style:none;margin:0;padding:0}
+.vsteps li{background:var(--tile-2);border-radius:14px;padding:8px 6px;text-align:center;font-size:12px;line-height:1.4}
+.vsteps b{display:grid;place-items:center;width:24px;height:24px;margin:0 auto 4px;border-radius:50%;background:var(--accent);color:#FFFFFF;font-size:13px}
+.vtypes{display:grid;gap:6px}
+.vtype{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;cursor:pointer;font-size:14px;position:relative}
+.vtype input{position:absolute;opacity:0;width:1px;height:1px}
+.vtype small{display:block;color:var(--muted);font-size:12px}
+.vtype b{color:var(--accent-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.vtype.on{border-color:var(--accent);background:var(--accent-soft)}
+.vtype:focus-within{outline:2px solid var(--accent);outline-offset:-2px}
+.vdocs{display:grid;gap:6px}
+.vdocs label{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.vdocs input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--ok);flex:none}
+.vdocs label:has(input:checked){background:var(--ok-soft);border-color:rgba(21,128,61,.35)}
+
+/* ---------- طرق الدفع ---------- */
+.pay{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;background:#FFFFFF;border:1px solid var(--line);border-radius:22px;padding:14px 18px}
+.pay>b{font-size:15px;margin-inline-end:4px}
+.pm{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:var(--tile)}
+.pm svg{width:30px;height:20px;flex:none}
+.pm .zc{width:22px;height:22px;border-radius:7px;background:#111827;color:#FFFFFF;display:grid;place-items:center;font-size:11px;font-weight:800;font-family:Arial,sans-serif}
+.fpay{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.fpay .pm{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2);color:#FFFFFF;font-size:13px;padding:5px 12px}
+
+/* ---------- البحث اللحظي: «جاري البحث» ثم الرحلات بأسعارها ---------- */
 .live-load{display:grid;justify-items:center;gap:6px;padding:22px 10px;text-align:center}
 .ll-track{position:relative;width:min(280px,80%);height:30px;direction:ltr}
 .ll-track::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px dashed var(--line)}
@@ -524,6 +599,7 @@ a.alc{text-decoration:none;color:var(--ink)}
           <label><input type="radio" name="trip" value="ow"><span data-t="tOw">ذهاب فقط</span></label>
           <label class="on"><input type="radio" name="trip" value="rt" checked><span data-t="tRt">ذهاب وعودة</span></label>
           <label><input type="radio" name="trip" value="op"><span data-t="tOp">عودة اوبن</span></label>
+          <label><input type="radio" name="trip" value="mc"><span data-t="tMc">متعدد المدن</span></label>
         </div>
         <div class="fgrid">
           <div class="field"><label for="f-from" data-t="from">من</label><input id="f-from" list="places-from" autocomplete="off" data-req></div>
@@ -532,6 +608,8 @@ a.alc{text-decoration:none;color:var(--ink)}
           <div class="field" id="retBox"><label for="f-ret" data-t="ret">العودة</label><input id="f-ret" type="date"></div>
           <div class="field wide"><label for="f-pax" data-t="pax">المسافرين</label><select id="f-pax"></select></div>
         </div>
+        <div class="legs" id="legs" hidden></div>
+        <button type="button" class="addleg" id="addLeg" hidden data-t="addLeg">+ أضف رحلة</button>
         <div class="alstrip"><p data-t="alStrip">نحجزلك على كل الخطوط</p><div id="alStrip"></div></div>
         <p class="ferr" id="flyErr" role="alert" hidden></p>
         <button class="btn" type="submit"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg><span data-t="showPrices">اعرض الأسعار</span></button>
@@ -569,6 +647,15 @@ a.alc{text-decoration:none;color:var(--ink)}
   </div>
 </section>
 
+<!-- ============ أرخص رحلات الطيران ============ -->
+<section class="sec" id="deals">
+  <div class="wrap">
+    <div class="sh"><h2 data-t="dH2">أرخص رحلات الطيران</h2><p data-t="dIntro">أسعار حقيقية للشخص تتحدث كل ساعة. اضغط على الرحلة وشوف كل المواعيد واحجز.</p></div>
+    <div class="chips" id="dchips" role="group"></div>
+    <div class="grid deals" id="dcards"><p class="small" data-t="fLoading">نجيب الأسعار…</p></div>
+  </div>
+</section>
+
 <!-- ============ الكروبات ============ -->
 <section class="sec" id="groups">
   <div class="wrap">
@@ -602,6 +689,13 @@ a.alc{text-decoration:none;color:var(--ink)}
   </div>
 </section>
 
+<!-- ============ طرق الدفع ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="pay"><b data-t="payH">طرق الدفع</b><span class="pm"><span class="zc">ZC</span><span data-t="payZ">زين كاش</span></span><span class="pm"><svg viewBox="0 0 32 20" aria-hidden="true"><circle cx="12" cy="10" r="8" fill="#EB001B"/><circle cx="20" cy="10" r="8" fill="#F79E1B" fill-opacity=".9"/></svg><span data-t="payM">ماستر كارد</span></span></div>
+  </div>
+</section>
+
 <!-- ============ عبدالله وياك ============ -->
 <section class="sec">
   <div class="wrap">
@@ -628,6 +722,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       <details><summary><span data-t="q2">الأسعار ثابتة؟</span><span class="chev" aria-hidden="true"></span></summary><p data-t="a2">الأسعار تتحدث من جدول الشركة، بس تتغير حسب التوفر، والسعر النهائي يتأكد وقت التثبيت.</p></details>
       <details><summary><span data-t="q3">شنو أحتاج حتى أطلع فيزا؟</span><span class="chev" aria-hidden="true"></span></summary><p data-t="a3">متطلبات كل دولة مكتوبة بقسم التأشيرات، وأغلبها جواز سكنر وصورة شخصية بخلفية بيضاء.</p></details>
       <details><summary><span data-t="q4">أكدر ألغي الحجز؟</span><span class="chev" aria-hidden="true"></span></summary><p data-t="a4">أغلب حجوزات الكروبات والفنادق غير قابلة للاسترجاع بعد التثبيت. شروط كل كروب مكتوبة بصفحته، فاقراها قبل ما تثبّت.</p></details>
+      <details><summary><span data-t="q5">شلون أدفع؟</span><span class="chev" aria-hidden="true"></span></summary><p data-t="a5">تكدر تدفع بزين كاش أو بماستر كارد، ونتفق وياك على تفاصيل الدفع بالواتساب وقت تثبيت الحجز.</p></details>
     </div>
   </div>
 </section>
@@ -648,6 +743,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       <a class="fline" href="tel:+9647713310011"><span class="fi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg></span><bdi dir="ltr">0771 331 0011</bdi></a>
       <a class="fline" data-wa="hello" target="_blank" rel="noopener" href="https://wa.me/9647713310011"><span class="fi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-12.6 7.3L3 20l1.3-5.1A8.4 8.4 0 1121 11.5z"/></svg></span><span data-t="whatsapp">واتساب</span></a>
       <div id="faddr"></div>
+      <div class="fpay"><span class="pm"><span class="zc">ZC</span><span data-t="payZ">زين كاش</span></span><span class="pm"><svg viewBox="0 0 32 20" aria-hidden="true"><circle cx="12" cy="10" r="8" fill="#EB001B"/><circle cx="20" cy="10" r="8" fill="#F79E1B" fill-opacity=".9"/></svg><span data-t="payM">ماستر كارد</span></span></div>
     </div>
     <div class="flinks"><h3 data-t="services">الخدمات</h3><a href="#top" data-tab="fly" data-t="tFly">طيران</a><a href="#top" data-tab="hot" data-t="tHotels">فنادق</a><a href="#groups" data-t="sGroups">كروبات سياحية</a><a href="#visa" data-t="sVisa">تأشيرات السفر</a></div>
     <div class="flinks"><h3 data-t="fCompany">الشركة</h3><a href="#contact" data-t="sBranches">فروعنا</a><a href="#visa" data-license="1" data-t="sLicense">إجازة سوق دولية</a><a href="#groups" data-region="حفلات" data-t="sEvents">حفلات ورأس السنة</a></div>
@@ -688,6 +784,12 @@ a.alc{text-decoration:none;color:var(--ink)}
   </div>
 </dialog>
 
+<!-- ============ نافذة طلب الفيزا ============ -->
+<dialog class="sheet" id="vSheet" aria-labelledby="vT">
+  <div class="sh-head"><b id="vT"></b><button class="x" type="button" data-close aria-label="×"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="sh-body" id="vB"></div>
+</dialog>
+
 <!-- ============ نافذة الكروب ============ -->
 <dialog class="sheet" id="gSheet" aria-labelledby="gT">
   <div class="sh-head"><b id="gT"></b><button class="x" type="button" data-close aria-label="×"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -723,7 +825,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       q4:"أكدر ألغي الحجز؟", a4:"أغلب حجوزات الكروبات والفنادق غير قابلة للاسترجاع بعد التثبيت. شروط كل كروب مكتوبة بصفحته، فاقراها قبل ما تثبّت.",
       h1:"كل سفرتك بمكان واحد", lH2:"وين ناوي تسافر؟", lSub:"ابحث عن سعر تذكرتك، أو تصفّح الكروبات والفيزا بأسعارها",
       tFly:"طيران", tGroups:"كروبات", tHotels:"فنادق", sGroups:"كروبات سياحية", feat1:"حجز مباشر بالواتساب", feat2:"كروبات وفيزا لأكثر من 35 دولة", feat3:"فرعين ببغداد",
-      viewPrices:"شوف الأسعار", hotTitle:"احجز فندقك", hCity:"المدينة", hCityPh:"مثلاً: اسطنبول", hIn:"الدخول", hOut:"الخروج", hRooms:"الغرف", hGuests:"النزلاء", hStars:"فئة الفندق",
+      viewPrices:"شوف الأسعار", hotTitle:"احجز فندقك", hCity:"المدينة", hCityPh:"مثلاً: إسطنبول", hIn:"الدخول", hOut:"الخروج", hRooms:"الغرف", hGuests:"النزلاء", hStars:"فئة الفندق",
       roomOpts:["غرفة وحدة","غرفتين","3 غرف","4 غرف","أكثر (أكتب العدد بالواتساب)"], starOpts:["أي فئة","3 نجوم","4 نجوم","5 نجوم"], hSend:"اعرض الأسعار",
       fContact:"تواصل ويانا", footAbout:"منصّة سفر متكاملة: تذاكر طيران، فنادق، كروبات سياحية، حفلات، وفيزا لأكثر من 35 دولة. كلها بمكان واحد، والحجز مباشر على الواتساب.", services:"الخدمات", sVisa:"تأشيرات السفر", sEvents:"حفلات ورأس السنة", sLicense:"إجازة سوق دولية", sBranches:"فروعنا",
       gH2:"الوجهات الرائجة", gIntro:"كروبات وحفلات طالعة من بغداد وأربيل. السعر للشخص بالغرفة المزدوجة، واضغط على الكروب حتى تشوف كل فندق وسعره.",
@@ -815,7 +917,7 @@ a.alc{text-decoration:none;color:var(--ink)}
   /* المدن: عربي، كوردي، إنكليزي، رمز المدينة بأسعار الطيران */
   var CITIES = [
     ["بغداد","بەغدا","Baghdad","BGW"],["أربيل","هەولێر","Erbil","EBL"],["البصرة","بەسرە","Basra","BSR"],["النجف","نەجەف","Najaf","NJF"],["السليمانية","سلێمانی","Sulaymaniyah","ISU"],
-    ["اسطنبول","ئەستەنبوڵ","Istanbul","IST"],["أنطاليا","ئەنتاڵیا","Antalya","AYT"],["طرابزون","ترابزۆن","Trabzon","TZX"],
+    ["إسطنبول","ئەستەنبوڵ","Istanbul","IST"],["أنطاليا","ئەنتاڵیا","Antalya","AYT"],["طرابزون","ترابزۆن","Trabzon","TZX"],
     ["دبي","دوبەی","Dubai","DXB"],["الشارقة","شارجە","Sharjah","SHJ"],["أبوظبي","ئەبوزەبی","Abu Dhabi","AUH"],["الدوحة","دۆحە","Doha","DOH"],
     ["عمّان","عەممان","Amman","AMM"],["بيروت","بەیروت","Beirut","BEY"],["القاهرة","قاهیرە","Cairo","CAI"],["شرم الشيخ","شەرم ئەلشێخ","Sharm El Sheikh","SSH"],
     ["دمشق","دیمەشق","Damascus","DAM"],["مسقط","مەسقەت","Muscat","MCT"],["جدة","جەدە","Jeddah","JED"],["المدينة المنورة","مەدینە","Medina","MED"],["الرياض","ڕیاز","Riyadh","RUH"],
@@ -1081,7 +1183,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       var own = {};
       ia.forEach(function(x){ var c = airCode(x.a); if (c) own[c] = 1; });
       list = list.filter(function(x){ return !own[x.f.a]; });
-      var head = '<h3>' + esc(t("resFor", val("f-from"), val("f-to"))) + '</h3>';
+      var head = '<h3>' + esc(t("resFor", val("f-from"), val("f-to"))) + '</h3>' + calStrip(o, d, rt);
       res.innerHTML = head + ia.map(function(x){
         var n = rt ? x.rt : x.ow; if (!n) return iaAsk(x); var iqd = x.cur === "iqd", p = iqd ? n.toLocaleString("en-US") : n + "$";
         var code = airCode(x.a), name = code ? airName(code) : x.a;
@@ -1321,7 +1423,7 @@ a.alc{text-decoration:none;color:var(--ink)}
         (v.req.length ? '<div><p class="lbl">' + esc(t("reqV")) + '</p><ul class="vreq">' + v.req.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' : '') +
         (notes.length ? '<div><p class="lbl">' + esc(t("notes")) + '</p><ul class="notes">' + notes.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' : '') +
         (v.refund ? '<p class="refund' + (/غير/.test(VA[i].refund) ? '' : ' ok') + '">' + esc(v.refund) + '</p>' : '') +
-        '<a class="btn wa" target="_blank" rel="noopener" href="' + wa("مرحباً، أريد فيزا " + VA[i].c + (VA[i].sub ? " (" + VA[i].sub + ")" : "")) + '">' + esc(t("reqVisa")) + '</a></div></details>';
+        '<button class="btn" type="button" data-va="' + i + '">' + esc(t("vApply")) + '</button></div></details>';
     }).join("");
     filterV();
   }
@@ -1363,6 +1465,212 @@ a.alc{text-decoration:none;color:var(--ink)}
     document.querySelectorAll(".bnav a").forEach(function(x){ x.classList.toggle("on", x === a); });
   });
 
+
+  /* ============ أرخص رحلات الطيران وتقويم الأسعار (فكرة من سندباد) ============
+     كلها من fares.json اللي يتحدث كل ساعة: لكل مدينة انطلاق أرخص سعر لكل وجهة،
+     وبنتيجة البحث شريط أيام بسعر كل يوم والأخضر أرخصها. */
+  Object.assign(S.ar, { dH2:"أرخص رحلات الطيران", dIntro:"أسعار حقيقية للشخص تتحدث كل ساعة. اضغط على الرحلة وشوف كل المواعيد واحجز.",
+    calH:"أسعار الأيام", calHint:"الأخضر أرخص يوم. اضغط على اليوم وشوف رحلاته." });
+  Object.assign(S.ku, { dH2:"هەرزانترین گەشتەکانی فڕین", dIntro:"نرخی ڕاستەقینە بۆ هەر کەسێک، هەموو کاتژمێرێک نوێ دەبێتەوە. کرتە لە گەشتەکە بکە، هەموو کاتەکان ببینە و حیجز بکە.",
+    calH:"نرخی ڕۆژەکان", calHint:"سەوز هەرزانترین ڕۆژە. کرتە لە ڕۆژەکە بکە و گەشتەکانی ببینە." });
+  Object.assign(S.en, { dH2:"Cheapest flights", dIntro:"Real per-person fares, updated every hour. Tap a trip to see every date and book.",
+    calH:"Prices by day", calHint:"Green is the cheapest day. Tap a day to see its flights." });
+  var WD = { ar:["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
+    ku:["یەکشەممە","دووشەممە","سێشەممە","چوارشەممە","پێنجشەممە","هەینی","شەممە"], en:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"] };
+  var dOrigin = "BGW", DEALS = [];
+  function cityByCode(code){ for (var i = 0; i < CITIES.length; i++) if (CITIES[i][3] === code) return CITIES[i]; return null; }
+  /* اسم المدينة مثل ما ينكتب بخانتي «من» و«إلى» حتى البحث يعرفها */
+  function placeText(code){ var r = cityByCode(code); if (r) return cityName(r); var p = PLACE_BY[code]; return p ? placeLabel(p) : code; }
+  function placeShort(code){ var r = cityByCode(code); if (r) return cityName(r); var p = PLACE_BY[code]; return p ? placeName(p) : code; }
+  function countryOf(code){ var p = PLACE_BY[code], k = p && (PLACES.k || {})[p[3]]; return k ? (L === "en" ? k[1] : k[0] || k[1]) : ""; }
+  function renderDeals(){
+    var sec = document.getElementById("deals");
+    if (!FARES || !PLACES) return;
+    var all = FARES.fares || [], origins = [];
+    CITIES.forEach(function(c){ if (all.some(function(f){ return f.o === c[3]; })) origins.push(c[3]); });
+    if (!origins.length){ sec.hidden = true; return; }
+    if (origins.indexOf(dOrigin) < 0) dOrigin = origins[0];
+    document.getElementById("dchips").innerHTML = origins.map(function(o){
+      return '<button class="chip" type="button" data-o="' + o + '" aria-pressed="' + (o === dOrigin) + '">' + esc(placeShort(o)) + '</button>';
+    }).join("");
+    /* لكل وجهة: أرخص ذهاب فقط، وإذا ماكو فأرخص ذهاب وعودة؛ والأكثر رحلات أول */
+    var by = {};
+    all.forEach(function(f){
+      if (f.o !== dOrigin) return;
+      var b = by[f.d] || (by[f.d] = { d: f.d, n: 0, ow: null, rt: null }), k = f.rt ? "rt" : "ow";
+      b.n++; if (!b[k] || f.p < b[k].p) b[k] = f;
+    });
+    DEALS = Object.keys(by).map(function(k){ var b = by[k]; b.best = b.ow || b.rt; return b; })
+      .sort(function(a, b){ return b.n - a.n || a.best.p - b.best.p; }).slice(0, 8);
+    document.getElementById("dcards").innerHTML = DEALS.map(function(x, i){
+      var f = x.best, d = f.dep.slice(0, 10);
+      return '<button class="deal" type="button" data-i="' + i + '">' +
+        '<span class="dl-top"><b>' + f.o + '</b><span class="dl-line">' + I.pl + '</span><b>' + f.d + '</b></span>' +
+        '<span class="dl-mid"><b>' + esc(placeShort(f.d)) + '</b><small>' + esc(countryOf(f.d)) + '</small>' +
+        '<small>' + I.cal + '<bdi dir="ltr">' + d.slice(8, 10) + "-" + d.slice(5, 7) + "-" + d.slice(0, 4) + '</bdi></small></span>' +
+        '<span class="dl-bot"><span class="dl-al">' + (LOGOS.indexOf(f.a) >= 0 ? '<img src="img/airlines/' + f.a + '.webp" alt="' + esc(airName(f.a)) + '" loading="lazy">' : esc(airName(f.a))) + '</span>' +
+        '<span class="dl-pr"><small>' + esc(t(f.rt ? "tRt" : "tOw")) + " · " + esc(t("from_")) + '</small><b>' + f.p + '$</b></span></span></button>';
+    }).join("");
+  }
+  document.getElementById("dchips").addEventListener("click", function(e){ var b = e.target.closest(".chip"); if (b){ dOrigin = b.getAttribute("data-o"); renderDeals(); } });
+  /* الضغط على الكرت يعبّي البحث بنفس الرحلة ويطلّع كل أسعارها */
+  document.getElementById("dcards").addEventListener("click", function(e){
+    var b = e.target.closest(".deal"); if (!b) return;
+    var f = DEALS[+b.getAttribute("data-i")].best, tv = f.rt ? "rt" : "ow";
+    fly.querySelector('input[name="trip"][value="' + tv + '"]').checked = true;
+    document.getElementById("f-from").value = placeText(f.o);
+    document.getElementById("f-to").value = placeText(f.d);
+    document.getElementById("f-dep").value = f.dep.slice(0, 10);
+    document.getElementById("f-ret").value = f.rt && f.ret ? f.ret.slice(0, 10) : "";
+    fly.querySelectorAll(".field.err").forEach(function(x){ x.classList.remove("err"); });
+    document.getElementById("flyErr").hidden = true;
+    showTab("fly"); syncFly(); search(true);
+    var bx = document.querySelector(".box"); if (bx && bx.scrollIntoView) bx.scrollIntoView({ block:"start", behavior:"smooth" });
+  });
+  function loadDeals(){ loadPlaces(function(){ loadFares(renderDeals); }); }
+  if ("IntersectionObserver" in window){
+    var dio = new IntersectionObserver(function(es){ if (es[0].isIntersecting){ dio.disconnect(); loadDeals(); } }, { rootMargin: "500px 0px" });
+    dio.observe(document.getElementById("deals"));
+  } else loadDeals();
+
+  /* تقويم الأسعار: كل يوم بيه رحلة لنفس الطريق ونفس النوع، بأرخص سعر بذاك اليوم */
+  function calStrip(o, d, rt){
+    if (!FARES || !o || !d) return "";
+    var days = {};
+    (FARES.fares || []).forEach(function(f){
+      if (f.o !== o || f.d !== d || f.rt !== rt) return;
+      var k = f.dep.slice(0, 10); if (!days[k] || f.p < days[k].p) days[k] = f;
+    });
+    var ks = Object.keys(days).sort(); if (ks.length < 2) return "";
+    var min = Math.min.apply(null, ks.map(function(k){ return days[k].p; })), sel = val("f-dep");
+    return '<div class="cal"><p class="lbl">' + esc(t("calH")) + '<span>' + esc(t("calHint")) + '</span></p><div class="cal-s">' + ks.map(function(k){
+      var f = days[k], wd = new Date(k + "T00:00:00Z").getUTCDay();
+      return '<button type="button" class="cd' + (f.p === min ? ' low' : '') + (k === sel ? ' on' : '') + '" data-day="' + k + '" data-ret="' + (f.ret ? f.ret.slice(0, 10) : "") + '">' +
+        '<small>' + esc(WD[L][wd]) + '</small><b>' + k.slice(8, 10) + "/" + k.slice(5, 7) + '</b><span>' + f.p + '$</span></button>';
+    }).join("") + '</div></div>';
+  }
+  document.getElementById("flyRes").addEventListener("click", function(e){
+    var b = e.target.closest && e.target.closest("[data-day]"); if (!b) return;
+    document.getElementById("f-dep").value = b.getAttribute("data-day");
+    if (trip() === "rt" && b.getAttribute("data-ret")) document.getElementById("f-ret").value = b.getAttribute("data-ret");
+    syncFly(); search(true);
+  });
+
+
+  /* ============ متعدد المدن (مثل سندباد): لحد 5 رحلات، والطلب يروح للواتساب ============ */
+  Object.assign(S.ar, { tMc:"متعدد المدن", legN:"الرحلة {0}", addLeg:"+ أضف رحلة",
+    vApply:"قدّم على الفيزا", vApplyH:"طلب فيزا {0}", vS1:"اختار نوع الفيزا", vS2:"جهّز أوراقك", vS3:"دز الطلب ونتابع وياك",
+    vPax:"عدد المسافرين", vDate:"تاريخ السفر المتوقع", vDocs:"الأوراق المطلوبة", vDocsHint:"أشّر على اللي جاهز عندك", vSend:"دز الطلب بالواتساب",
+    vSendNote:"تدز الأوراق بنفس المحادثة، ونبلغك بكل خطوة لحد ما تطلع الفيزا.", vTypeH:"نوع الفيزا" });
+  Object.assign(S.ku, { tMc:"چەند شار", legN:"گەشتی {0}", addLeg:"+ گەشتێک زیاد بکە",
+    vApply:"داوای ڤیزا بکە", vApplyH:"داواکاری ڤیزای {0}", vS1:"جۆری ڤیزا هەڵبژێرە", vS2:"بەڵگەنامەکانت ئامادە بکە", vS3:"داواکارییەکە بنێرە، بەدواداچوونی بۆ دەکەین",
+    vPax:"ژمارەی گەشتیاران", vDate:"بەرواری گەشتی چاوەڕوانکراو", vDocs:"بەڵگەنامە پێویستەکان", vDocsHint:"ئەوانەی ئامادەن نیشانە بکە", vSend:"داواکارییەکە لە واتسئاپ بنێرە",
+    vSendNote:"بەڵگەنامەکان لە هەمان گفتوگۆ بنێرە، لە هەموو هەنگاوێک ئاگادارت دەکەینەوە تا ڤیزاکە دەردەچێت.", vTypeH:"جۆری ڤیزا" });
+  Object.assign(S.en, { tMc:"Multi-city", legN:"Flight {0}", addLeg:"+ Add a flight",
+    vApply:"Apply for this visa", vApplyH:"{0} visa application", vS1:"Choose the visa type", vS2:"Get your documents ready", vS3:"Send the request, we follow up",
+    vPax:"Travellers", vDate:"Expected travel date", vDocs:"Required documents", vDocsHint:"tick what you already have", vSend:"Send the request on WhatsApp",
+    vSendNote:"Send your documents in the same chat; we'll update you at every step until the visa is issued.", vTypeH:"Visa type" });
+  TRIP_AR.mc = "متعدد المدن";
+  var legsBox = document.getElementById("legs"), addLegBtn = document.getElementById("addLeg"), MAXLEGS = 5;
+  function legHtml(k){
+    return '<div class="leg"><div class="leg-h"><span>' + esc(t("legN", k + 1)) + '</span>' + (k > 1 ? '<button type="button" data-rmleg aria-label="×">×</button>' : '') + '</div>' +
+      '<div class="fgrid"><div class="field"><label>' + esc(t("from")) + '</label><input class="lf" list="places-from" autocomplete="off"></div>' +
+      '<div class="field"><label>' + esc(t("to")) + '</label><input class="lt" list="places-to" autocomplete="off"></div>' +
+      '<div class="field wide"><label>' + esc(t("dep")) + '</label><input class="ld" type="date" min="' + iso + '"></div></div></div>';
+  }
+  function legs(){ return [].slice.call(legsBox.querySelectorAll(".leg")); }
+  function relabelLegs(){
+    legs().forEach(function(l, k){
+      l.querySelector(".leg-h span").textContent = t("legN", k + 1);
+      var ls = l.querySelectorAll("label"); ls[0].textContent = t("from"); ls[1].textContent = t("to"); ls[2].textContent = t("dep");
+      /* كل رحلة تاريخها بعد اللي قبلها، ومن = إلى الرحلة اللي قبلها */
+      var prev = legs()[k - 1]; if (prev){ l.querySelector(".ld").min = prev.querySelector(".ld").value || iso; }
+    });
+    addLegBtn.hidden = trip() !== "mc" || legs().length >= MAXLEGS;
+  }
+  function addLeg(){
+    var prev = legs()[legs().length - 1];
+    legsBox.insertAdjacentHTML("beforeend", legHtml(legs().length));
+    var l = legs()[legs().length - 1];
+    if (prev) l.querySelector(".lf").value = prev.querySelector(".lt").value;
+    else l.querySelector(".lf").value = val("f-from");
+    relabelLegs();
+  }
+  addLegBtn.addEventListener("click", function(){ if (legs().length < MAXLEGS){ addLeg(); legs()[legs().length - 1].querySelector(".lt").focus(); } });
+  legsBox.addEventListener("click", function(e){ var b = e.target.closest("[data-rmleg]"); if (b){ b.closest(".leg").remove(); relabelLegs(); } });
+  legsBox.addEventListener("change", relabelLegs);
+  var syncFly0 = syncFly;
+  syncFly = function(){
+    syncFly0();
+    var mc = trip() === "mc";
+    ["f-from", "f-to", "f-dep"].forEach(function(id){ document.getElementById(id).closest(".field").hidden = mc; });
+    legsBox.hidden = !mc;
+    if (mc && !legs().length){ addLeg(); addLeg(); }
+    if (mc) document.getElementById("flyRes").hidden = true;
+    relabelLegs();
+    fly.querySelector('button[type="submit"] span').textContent = t(mc ? "reqWa" : "showPrices");
+  };
+  var search0 = search;
+  search = function(auto){ if (trip() === "mc") return; return search0(auto); };
+  /* الطلب يمشي قبل التحقق العادي، لأن خانات «من» و«إلى» العادية مخفية */
+  document.addEventListener("submit", function(e){
+    if (e.target !== fly || trip() !== "mc") return;
+    e.preventDefault(); e.stopPropagation();
+    var er = document.getElementById("flyErr"), miss = null;
+    legs().forEach(function(l){ l.querySelectorAll("input").forEach(function(i){ var f = i.closest(".field"); f.classList.toggle("err", !i.value.trim()); if (!i.value.trim() && !miss) miss = i; }); });
+    if (miss){ er.hidden = false; er.textContent = t("missing", miss.closest(".field").querySelector("label").textContent); miss.focus(); return; }
+    er.hidden = true;
+    window.open(wa(["طلب تذكرة طيران - متعدد المدن"].concat(legs().map(function(l, k){
+      return "الرحلة " + (k + 1) + ": من " + cityAr(l.querySelector(".lf").value) + " إلى " + cityAr(l.querySelector(".lt").value) + " بتاريخ " + fmtDate(l.querySelector(".ld").value);
+    }), ["المسافرين: " + S.ar.paxOpts[document.getElementById("f-pax").selectedIndex]])), "_blank", "noopener");
+  }, true);
+
+  /* ============ طلب الفيزا بخطوات (مثل سندباد): النوع، عدد المسافرين، التاريخ، والأوراق الجاهزة ============ */
+  var vSheet = document.getElementById("vSheet"), curV = -1;
+  function openVisa(i){
+    var v = D[L].visas[i]; if (!v) return; curV = i;
+    document.getElementById("vT").textContent = t("vApplyH", v.c);
+    var pax = ["1", "2", "3", "4", "5", "6+"];
+    document.getElementById("vB").innerHTML =
+      '<ol class="vsteps"><li><b>1</b>' + esc(t("vS1")) + '</li><li><b>2</b>' + esc(t("vS2")) + '</li><li><b>3</b>' + esc(t("vS3")) + '</li></ol>' +
+      '<div><p class="lbl">' + esc(t("vTypeH")) + '</p><div class="vtypes" role="radiogroup">' + v.rows.map(function(r, k){
+        var m = [r.d, r.v ? t("valid") + " " + r.v : ""].filter(Boolean).join(" · ");
+        return '<label class="vtype' + (k ? '' : ' on') + '"><input type="radio" name="vt" value="' + k + '"' + (k ? '' : ' checked') + '><span>' + esc(r.t) + (m ? '<small>' + esc(m) + '</small>' : '') + '</span><b>' + esc(r.p) + '</b></label>';
+      }).join("") + '</div></div>' +
+      '<div class="fgrid"><div class="field"><label for="v-pax">' + esc(t("vPax")) + '</label><select id="v-pax">' + pax.map(function(p){ return '<option>' + p + '</option>'; }).join("") + '</select></div>' +
+      '<div class="field"><label for="v-date">' + esc(t("vDate")) + '</label><input id="v-date" type="date" min="' + iso + '"></div></div>' +
+      (v.req.length ? '<div><p class="lbl">' + esc(t("vDocs")) + '<span>' + esc(t("vDocsHint")) + '</span></p><div class="vdocs">' + v.req.map(function(x, k){
+        return '<label><input type="checkbox" value="' + k + '"><span>' + esc(x) + '</span></label>'; }).join("") + '</div></div>' : '') +
+      (v.refund ? '<p class="refund' + (/غير/.test(D.ar.visas[i].refund) ? '' : ' ok') + '">' + esc(v.refund) + '</p>' : '') +
+      '<p class="small">' + esc(t("vSendNote")) + '</p>' +
+      '<a class="btn wa" id="vGo" target="_blank" rel="noopener" href="#">' + esc(t("vSend")) + '</a>';
+    updV();
+    openSheet("vSheet");
+  }
+  function updV(){
+    var va = D.ar.visas[curV]; if (!va) return;
+    var ti = +(vSheet.querySelector('input[name="vt"]:checked') || { value: 0 }).value, r = va.rows[ti];
+    vSheet.querySelectorAll(".vtype").forEach(function(l){ l.classList.toggle("on", l.querySelector("input").checked); });
+    var have = [], need = [];
+    vSheet.querySelectorAll('.vdocs input').forEach(function(c){ (c.checked ? have : need).push(va.req[+c.value]); });
+    var d = document.getElementById("v-date").value;
+    document.getElementById("vGo").href = wa(["طلب فيزا: " + va.c + (va.sub ? " (" + va.sub + ")" : ""),
+      "النوع: " + r.t + (r.p ? " (" + r.p + ")" : ""), "عدد المسافرين: " + document.getElementById("v-pax").value,
+      d ? "تاريخ السفر المتوقع: " + fmtDate(d) : "",
+      have.length ? "الأوراق الجاهزة: " + have.join("، ") : "", need.length ? "الأوراق الناقصة: " + need.join("، ") : ""]);
+  }
+  vSheet.addEventListener("change", updV);
+  vSheet.addEventListener("input", updV);
+  document.getElementById("vlist").addEventListener("click", function(e){ var b = e.target.closest("[data-va]"); if (b) openVisa(+b.getAttribute("data-va")); });
+
+
+  /* ============ طرق الدفع ============ */
+  Object.assign(S.ar, { payH:"طرق الدفع", payZ:"زين كاش", payM:"ماستر كارد", q5:"شلون أدفع؟", a5:"تكدر تدفع بزين كاش أو بماستر كارد، ونتفق وياك على تفاصيل الدفع بالواتساب وقت تثبيت الحجز." });
+  Object.assign(S.ku, { payH:"ڕێگاکانی پارەدان", payZ:"زەین کاش", payM:"ماستەرکارد", q5:"چۆن پارە بدەم؟", a5:"دەتوانیت بە زەین کاش یان ماستەرکارد پارە بدەیت، و لە کاتی جێگیرکردنی حیجز لە واتسئاپ لەسەر وردەکارییەکانی ڕێک دەکەوین." });
+  Object.assign(S.en, { payH:"Payment methods", payZ:"ZainCash", payM:"Mastercard", q5:"How do I pay?", a5:"You can pay with ZainCash or Mastercard; we agree the payment details with you on WhatsApp when you confirm your booking." });
+  if ("serviceWorker" in navigator && location.protocol === "https:") try { navigator.serviceWorker.register("sw.js").catch(function(){}); } catch(e){}
+
+
   /* ============ البحث اللحظي (فكرة سندباد): أسعار كوكل فلايتس عن طريق سيرفر كلاود فلير (cloudflare/worker.js) ============
      المسافر يدوس بحث ← «جاري البحث…» ← الرحلات بأسعار هسه + العمولة، والحجز بالواتساب.
      إذا LIVE فاضي، أو السيرفر ما رد، يرجع البحث القديم من fares.json. */
@@ -1389,8 +1697,6 @@ a.alc{text-decoration:none;color:var(--ink)}
     Object.keys(a).forEach(function(k){ if (a[k] === code && out.indexOf(k) < 0) out.push(k); });
     return out.slice(0, 7).join(",");
   }
-  function cityByCode(code){ for (var i = 0; i < CITIES.length; i++) if (CITIES[i][3] === code) return CITIES[i]; return null; }
-  function placeShort(code){ var r = cityByCode(code); if (r) return cityName(r); var p = PLACE_BY[code]; return p ? placeName(p) : code; }
   function cityOfAirport(id){ var c = (PLACES && PLACES.a || {})[id] || id; return PLACE_BY[c] || cityByCode(c) ? placeShort(c) : id; }
   function hm(m){ return Math.floor(m / 60) + ":" + ("0" + (m % 60)).slice(-2); }
   function hmAr(m){ return Math.floor(m / 60) + "س " + (m % 60) + "د"; }
@@ -1408,7 +1714,7 @@ a.alc{text-decoration:none;color:var(--ink)}
     }).join("");
   }
   var LV = null, LVq = "", LVo = "", LVd = "", lvSort = "cheap", lvDirect = false, lvAl = "";
-  function lvHead(){ return '<h3>' + esc(t("resFor", val("f-from"), val("f-to"))) + '</h3>' + manualHtml(LVo, LVd, trip() !== "ow"); }
+  function lvHead(){ return '<h3>' + esc(t("resFor", val("f-from"), val("f-to"))) + '</h3>' + calStrip(LVo, LVd, trip() !== "ow") + manualHtml(LVo, LVd, trip() !== "ow"); }
   function lvFlight(f){
     var a = f.legs[0], z = f.legs[f.legs.length - 1], als = [];
     f.legs.forEach(function(l){ if (l.al && als.indexOf(l.al) < 0) als.push(l.al); });
@@ -1486,7 +1792,7 @@ a.alc{text-decoration:none;color:var(--ink)}
 
   /* ============ تشغيل وتبديل اللغة ============ */
   function render(){
-    applyText(); prepGroups(); renderGroups(); renderVisas(); renderBranches(); reveal(); tilt();
+    applyText(); prepGroups(); renderGroups(); renderVisas(); renderBranches(); renderDeals(); syncFly(); reveal(); tilt();
     if (!document.getElementById("flyRes").hidden) search(true);
   }
   function setLang(l){
