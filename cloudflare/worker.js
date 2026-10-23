@@ -11,7 +11,7 @@
  *   MAX_PER_HOUR     أكثر عدد بحث لنفس الشخص بالساعة (الافتراضي 40)
  */
 
-const SITE = "https://abode1997hussein-eng.github.io";
+const SITE = "https://abode1997hussein-eng.github.io,https://safir-abdullah.pages.dev";
 const CODES = /^[A-Z]{3}(,[A-Z]{3}){0,7}$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
