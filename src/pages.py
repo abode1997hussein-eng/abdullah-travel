@@ -120,6 +120,7 @@ class Site:
         doc = f"""<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
+<script>/* الرابط القديم على GitHub يتحول للرابط القصير */if(/\\.github\\.io$/.test(location.hostname))location.replace("https://abdullah-travel.pages.dev"+location.pathname.replace(/^\\/abdullah-travel/,"")+location.search+location.hash);</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)}</title>
