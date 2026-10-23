@@ -516,6 +516,12 @@ a.alc{text-decoration:none;color:var(--ink)}
 .fpay .pm{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2);color:#FFFFFF;font-size:13px;padding:5px 12px}
 
 /* ---------- البحث اللحظي: «جاري البحث» ثم الرحلات بأسعارها ---------- */
+.fare.hl{grid-template-columns:76px minmax(0,1fr) auto}
+.fare.hl .btn{grid-column:1/-1}
+.hlimg{width:76px;height:76px;object-fit:cover;border-radius:12px;background:var(--line)}
+.hlr{color:var(--accent-2)}
+.hlh{margin-top:14px}
+@media (max-width:420px){.fare.hl{grid-template-columns:60px minmax(0,1fr) auto}.hlimg{width:60px;height:60px}}
 .live-load{display:grid;justify-items:center;gap:6px;padding:22px 10px;text-align:center}
 .ll-track{position:relative;width:min(280px,80%);height:30px;direction:ltr}
 .ll-track::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px dashed var(--line)}
@@ -1268,17 +1274,20 @@ a.alc{text-decoration:none;color:var(--ink)}
     var res = document.getElementById("hotRes"), notes = (D[L].hnotes[city] || []);
     var base = ["طلب حجز فندق", "المدينة: " + city, "الدخول: " + fmtDate(val("h-in")), "الخروج: " + fmtDate(val("h-out")) + " (" + nights + " ليالي)",
       "الغرف: " + S.ar.roomOpts[rooms - 1], "النزلاء: " + S.ar.paxOpts[pi], "نوع الغرفة: " + {s:"سنكل", d:"دبل", t:"تربل"}[kind]];
-    res.innerHTML = '<h3>' + esc(t("hResH", val("h-city"))) + '</h3>' + (list.length ?
+    var head = '<h3>' + esc(t("hResH", val("h-city"))) + '</h3>', sheetH = list.length ?
       '<p class="small">' + esc(t("hCalc", nights, pax, t("room_" + kind))) + '</p>' + list.map(function(x){
         return '<div class="fare"><div class="al">' + hfmt(x.h.h) + '<small>' + stars(x.h.st) + (x.h.b ? ' · ' + esc(x.h.b) : '') + '</small>' +
           '<small>' + esc(t("hNight", x.rate)) + '</small></div>' +
           '<div class="pp"><b>' + x.total + '$</b><small>' + esc(t("hTotal")) + '</small></div>' +
           '<a class="btn wa" target="_blank" rel="noopener" href="' + wa(base.concat(["الفندق: " + x.a.h + (x.a.st ? " (" + x.a.st + " نجوم)" : "") + (x.a.b ? " · " + x.a.b : ""),
             "سعر الليلة للشخص: " + x.rate + "$", "المجموع: " + x.total + "$"])) + '">' + esc(t("bookWa")) + '</a></div>';
-      }).join("") + (notes.length ? '<ul class="notes">' + notes.map(function(n){ return '<li>' + esc(n) + '</li>'; }).join("") + '</ul>' : '') :
-      '<p>' + esc(t("hNone")) + '</p><a class="btn wa" target="_blank" rel="noopener" href="' + wa(base.concat(
-        star ? ["الفئة: " + S.ar.starOpts[star]] : [])) + '">' + esc(t("reqWa")) + '</a>');
+      }).join("") + (notes.length ? '<ul class="notes">' + notes.map(function(n){ return '<li>' + esc(n) + '</li>'; }).join("") + '</ul>' : '') : '';
+    var noneH = '<p>' + esc(t("hNone")) + '</p><a class="btn wa" target="_blank" rel="noopener" href="' + wa(base.concat(
+        star ? ["الفئة: " + S.ar.starOpts[star]] : [])) + '">' + esc(t("reqWa")) + '</a>';
+    var live = LIVE && window.fetch;
+    res.innerHTML = head + (sheetH || (live ? '' : noneH)) + (live ? '<div id="hotLive"></div>' : '');
     res.hidden = false;
+    if (live) hotLive({ base: base, sheet: !!sheetH, none: noneH, nights: nights, rooms: rooms, adults: Math.max(1, Math.ceil(pax / rooms)), stars: star ? star + 2 : "" });
   });
 
   /* ============ الكروبات ============ */
@@ -1795,6 +1804,52 @@ a.alc{text-decoration:none;color:var(--ink)}
     }); });
   }
   search = function(auto){ return LIVE && trip() !== "mc" && window.fetch ? liveSearch(auto) : searchOld(auto); };
+
+  /* ============ الفنادق اللحظية: أسعار كوكل هوتيلز من نفس السيرفر (/hotels) ============
+     فنادقنا من الأكسل تبقى فوك، وجوّاها كل فنادق المدينة بأسعار هسه + نسبة الربح، والحجز بالواتساب. */
+  Object.assign(S.ar, { hlT:"جاري البحث عن الفنادق…", hlM:["نقارن أسعار كل الفنادق","ندوّر على أرخص سعر بتاريخك","نرتب الفنادق من الأرخص"],
+    hlH:"كل فنادق المدينة بأسعار هسه", hlNight:"{0}$ الليلة للغرفة", hlTot:"المجموع لـ{0} ليالي", hlRooms:"لـ{0} غرف", hlRev:"{0} تقييم", hlCount:"{0} فندق",
+    hlNote:"أسعار لحظية من كل الفنادق وتشمل خدمتنا. السعر النهائي يتأكد وياك بالواتساب وقت الحجز." });
+  Object.assign(S.ku, { hlT:"بەدوای هوتێلدا دەگەڕێین…", hlM:["نرخی هەموو هوتێلەکان بەراورد دەکەین","هەرزانترین نرخ بۆ بەروارەکەت دەدۆزینەوە","هوتێلەکان لە هەرزانترینەوە ڕیز دەکەین"],
+    hlH:"هەموو هوتێلەکانی شار بە نرخی ئێستا", hlNight:"{0}$ شەوێک بۆ ژوورێک", hlTot:"کۆی گشتی بۆ {0} شەو", hlRooms:"بۆ {0} ژوور", hlRev:"{0} هەڵسەنگاندن", hlCount:"{0} هوتێل",
+    hlNote:"نرخی ساتبەسات لە هەموو هوتێلەکان، خزمەتگوزاری ئێمەشی تێدایە. نرخی کۆتایی لە کاتی حیجز لە واتسئاپ پشتڕاست دەکرێتەوە." });
+  Object.assign(S.en, { hlT:"Searching hotels…", hlM:["Comparing every hotel","Finding the cheapest rate for your dates","Sorting hotels from the cheapest"],
+    hlH:"All hotels in the city at today's prices", hlNight:"{0}$ per room per night", hlTot:"Total for {0} nights", hlRooms:"for {0} rooms", hlRev:"{0} reviews", hlCount:"{0} hotels",
+    hlNote:"Live rates from every hotel, including our service. The final price is confirmed with you on WhatsApp when booking." });
+  /* اسم المدينة بالإنكليزي حتى كوكل يفهمه */
+  function cityEn(v){ var r = cityRow(v); if (r) return r[2]; var p = PLACE_BY[placeCode(v)]; return p ? p[2] || p[1] : (v || "").replace(/\s*\([A-Za-z]{3}\)\s*$/, "").trim(); }
+  var hotSeq = 0;
+  function hotLive(o){
+    var box = document.getElementById("hotLive"), my = ++hotSeq; if (!box) return;
+    box.innerHTML = '<div class="live-load"><div class="ll-track"><span class="ll-plane">' + I.pl + '</span></div><b>' + esc(t("hlT")) + '</b><small id="hlMsg">' + esc(t("hlM")[0]) + '</small></div>';
+    var mi = 0, iv = setInterval(function(){ var el = document.getElementById("hlMsg"); if (!el || my !== hotSeq){ clearInterval(iv); return; } mi = (mi + 1) % t("hlM").length; el.textContent = t("hlM")[mi]; }, 1600);
+    function done(html){ clearInterval(iv); if (my === hotSeq && document.getElementById("hotLive")) document.getElementById("hotLive").innerHTML = html; }
+    loadPlaces(function(){
+      var q = "city=" + encodeURIComponent(cityEn(val("h-city"))) + "&in=" + val("h-in") + "&out=" + val("h-out") + "&adults=" + o.adults + (o.stars ? "&stars=" + o.stars : "");
+      var ctl = window.AbortController ? new AbortController() : null, to = setTimeout(function(){ if (ctl) ctl.abort(); }, 30000);
+      fetch(LIVE.replace(/\/$/, "") + "/hotels?" + q, ctl ? { signal: ctl.signal } : {})
+        .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function(j){
+          clearTimeout(to);
+          var H = (j.hotels || []).slice(0, 30);
+          if (!H.length) return done(o.sheet ? '' : o.none);
+          done('<h3 class="hlh">' + esc(t("hlH")) + '</h3><p class="small">' + esc(t("hlCount", H.length)) + '</p>' + H.map(function(h){
+            var tot = (h.total || h.night * o.nights) * o.rooms;
+            return '<div class="fare' + (h.img ? ' hl' : '') + '">' + (h.img ? '<img class="hlimg" src="' + esc(h.img) + '" alt="" loading="lazy">' : '') +
+              '<div class="al"><span class="en" dir="ltr">' + esc(h.name) + '</span><small>' + stars(h.st) +
+              (h.rate ? ' · <b class="hlr">' + esc(h.rate.toFixed(1)) + '</b>' + (h.rev ? ' (' + esc(t("hlRev", h.rev)) + ')' : '') : '') + '</small>' +
+              (h.near ? '<small dir="ltr">📍 ' + esc(h.near) + '</small>' : '') +
+              (h.am && h.am.length ? '<small dir="ltr">' + esc(h.am.join(" · ")) + '</small>' : '') +
+              '<small>' + esc(t("hlNight", h.night)) + '</small></div>' +
+              '<div class="pp"><b>' + tot + '$</b><small>' + esc(t("hlTot", o.nights)) + '</small>' + (o.rooms > 1 ? '<small>' + esc(t("hlRooms", o.rooms)) + '</small>' : '') + '</div>' +
+              '<a class="btn wa" target="_blank" rel="noopener" href="' + wa(o.base.concat(["الفندق: " + h.name + (h.st ? " (" + h.st + " نجوم)" : ""),
+                "سعر الليلة للغرفة: " + h.night + "$", "المجموع المعروض: " + tot + "$"])) + '">' + esc(t("bookWa")) + '</a></div>';
+          }).join("") + '<p class="small">' + esc(t("hlNote")) + '</p>');
+          track("hotel_search", { city: cityEn(val("h-city")) });
+        })
+        .catch(function(){ clearTimeout(to); done(o.sheet ? '' : o.none); });
+    });
+  }
   /* البحث اللحظي ينحسب على الرصيد: ما نبحث وحدنا وهو يكتب، بس لما يدوس «اعرض الأسعار» أو يختار يوم أو رحلة */
   var autoOld = autoSearch;
   autoSearch = function(){ if (!LIVE) autoOld(); };
