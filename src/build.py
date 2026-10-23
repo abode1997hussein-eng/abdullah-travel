@@ -12,7 +12,7 @@ sys.path.insert(0, HERE)
 import data  # noqa: E402
 from tr import T, MISSING  # noqa: E402
 
-SITE_URL = "https://abode1997hussein-eng.github.io/abdullah-travel/"
+SITE_URL = "https://abdullah-travel.pages.dev/"  # الرابط القصير (Cloudflare Pages يجيب الموقع من GitHub Pages)
 LANGS = ("ar", "ku", "en")
 
 # معلومات الشركة — كل نص بثلاث لغات
