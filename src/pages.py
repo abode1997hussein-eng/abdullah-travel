@@ -131,7 +131,7 @@ class Site:
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:url" content="{e(canon)}">
-<meta property="og:image" content="{e(self.url)}img/og.jpg">
+<meta property="og:image" content="{e(self.url)}img/og-app.jpg">
 <meta name="theme-color" content="#123A6B">
 <link rel="icon" href="{up}img/logo/logo-icon.svg">
 <script async src="https://www.googletagmanager.com/gtag/js?id={GA}"></script>
