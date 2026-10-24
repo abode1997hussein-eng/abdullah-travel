@@ -120,6 +120,7 @@ html:not(.fx) .cloud{transform:translate3d(var(--sx,10vw),0,0)}
 .tabs button{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;cursor:pointer;padding:9px 12px;border-radius:15px;font-size:13px;font-weight:600;color:var(--muted);min-width:68px}
 .tabs button .ico{width:22px;height:22px}
 .tabs button[aria-selected="true"]{background:var(--accent);color:#FFFFFF;box-shadow:0 6px 14px rgba(242,106,33,.3)}
+@media (max-width:899px){.tabs{max-width:none}.tabs button{flex:1 1 0;min-width:0;padding:8px 2px;font-size:12px;white-space:nowrap}}
 @media (min-width:900px){.tabs{max-width:max-content;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}.tabs button{flex-direction:row;padding:10px 16px}}
 .box{margin-top:12px;background:#FFFFFF;border:1px solid var(--line);border-radius:26px;padding:18px 16px;box-shadow:0 18px 50px rgba(17,24,39,.10)}
 @media (min-width:900px){.box{padding:24px 26px;margin-top:18px}}
@@ -611,6 +612,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       <button type="button" role="tab" data-tab="grp" aria-selected="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0111 0M15.5 4.8a3.2 3.2 0 010 6.4M17 14a5.2 5.2 0 013.5 5.5"/></svg><span data-t="tGroups">كروبات</span></button>
       <button type="button" role="tab" data-tab="vis" aria-selected="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M9 16h6"/></svg><span data-t="tVisa">فيزا</span></button>
       <button type="button" role="tab" data-tab="sim" aria-selected="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><rect x="9" y="11" width="6" height="6" rx="1"/><path d="M12 11v6M9 14h6"/></svg><span data-t="tSim">شرائح</span></button>
+      <button type="button" role="tab" data-tab="trf" aria-selected="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5M5 16h14M5 16v2.5M19 16v2.5M3 11h18"/><circle cx="8" cy="13.5" r="1"/><circle cx="16" cy="13.5" r="1"/></svg><span data-t="tTrf">ترانسفير</span></button>
     </div>
     <div class="box">
       <form class="pane" id="fly" data-pane="fly" novalidate>
@@ -668,6 +670,17 @@ a.alc{text-decoration:none;color:var(--ink)}
         <p class="hint" data-t="esHint">اختار الدولة وشوف الباقات وأسعارها، والطلب على الواتساب.</p>
         <div class="field"><label for="simC" data-t="esLbl">الدولة</label><select id="simC"></select></div>
         <div class="res" id="simRes" aria-live="polite"></div>
+      </form>
+
+      <form class="pane" id="trfF" data-pane="trf" hidden>
+        <h2 data-t="trH">ترانسفير من المطار وإليه (تكسي خاص)</h2>
+        <p class="hint" data-t="trHint">اختار المدينة وشوف الأسعار، والحجز على الواتساب.</p>
+        <div class="fgrid">
+          <div class="field wide"><label for="trC" data-t="trCity">المدينة</label><select id="trC"></select></div>
+          <div class="field"><label for="trD" data-t="trDate">التاريخ</label><input id="trD" type="date"></div>
+          <div class="field"><label for="trP" data-t="trPax">الركاب</label><select id="trP"></select></div>
+        </div>
+        <div class="res" id="trRes" aria-live="polite"></div>
       </form>
     </div>
   </div>
@@ -875,7 +888,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       gH2:"الوجهات الرائجة", gIntro:"كروبات وحفلات طالعة من بغداد وأربيل. السعر للشخص بالغرفة المزدوجة، واضغط على الكروب حتى تشوف كل فندق وسعره.",
       all:"الكل", from_:"يبدأ من", pickDate:"اختار التاريخ", paxQ:"كم شخص بالغرفة؟", paxDbl:"شخصين أو أكثر", paxSgl:"شخص واحد (سنكل)", priceSgl:"سعر السنكل لشخص واحد", dblNote:"الأسعار للشخص الواحد بالغرفة المزدوجة. إذا مسافر لوحدك اختار «شخص واحد» حتى يطلعلك سعر السنكل.", pricesFrom:"تبدأ الأسعار من", pickPlan:"اختار البرنامج والمدة", tickets:"أسعار تذاكر الحفل", childBed:"الطفل بسرير", hotel:"الفندق", cat:"الفئة", price:"السعر", single:"سنكل", rec:"ينصح به",
       stars:"{0} نجوم", noCat:"—", child:"الطفل بدون سرير", infant:"الرضيع", req:"المتطلبات", priceLbl:"السعر للشخص", bookGroup:"ثبّت الحجز بالواتساب",
-      esH2:"شريحة إنترنت للسفر (eSIM)", esSub:"إنترنت أول ما توصل، بدون ما تدوّر على محل شرايح أو تدفع روامينغ.", es1t:"أكثر من 200 دولة", es1d:"تركيا، إيران، الإمارات، أوروبا، وكل العالم.", es2t:"تشتغل فوراً", es2d:"توصلك على الإيميل وتنصب بدقيقة من الكاميرا.", es3t:"تحتفظ برقمك", es3d:"شريحتك العراقية تبقى بالموبايل للمكالمات.", es4t:"أسعار تبدي من 5$", es4d:"باقات حسب الأيام والجيجات.", tSim:"شرائح", esSee:"شوف الباقات والأسعار", esHint:"اختار الدولة وشوف الباقات وأسعارها، والطلب على الواتساب.", esLbl:"الدولة", esPick:"اختار الدولة", esGb:"{0} جيجا", esUnl:"إنترنت مفتوح", esDays:"{0} يوم", esOrder:"اطلب الشريحة بالواتساب", esOther:"دولتك مو موجودة؟ اطلبها بالواتساب", esPay:"الدفع كاش أو زين كاش، والشريحة توصلك على الواتساب.", esBuy:"اشتري أونلاين بالبطاقة", esWa:"اطلب بالواتساب (كاش أو زين كاش)", esNote:"لازم موبايلك يدعم eSIM (آيفون XS وأحدث، وأغلب سامسونك وكوكل الحديثة). إذا ما متأكد اسألنا.", vH2:"تأشيرات السفر", vIntro:"كل دولة وعلمها، وأنواع الفيزا وأسعارها، ومدة الإصدار، والمتطلبات والملاحظات.",
+      esH2:"شريحة إنترنت للسفر (eSIM)", esSub:"إنترنت أول ما توصل، بدون ما تدوّر على محل شرايح أو تدفع روامينغ.", es1t:"أكثر من 200 دولة", es1d:"تركيا، إيران، الإمارات، أوروبا، وكل العالم.", es2t:"تشتغل فوراً", es2d:"توصلك على الإيميل وتنصب بدقيقة من الكاميرا.", es3t:"تحتفظ برقمك", es3d:"شريحتك العراقية تبقى بالموبايل للمكالمات.", es4t:"أسعار تبدي من 5$", es4d:"باقات حسب الأيام والجيجات.", tTrf:"ترانسفير", trH:"ترانسفير من المطار وإليه (تكسي خاص)", trHint:"اختار المدينة وشوف الأسعار، والحجز على الواتساب.", trCity:"المدينة", trDate:"التاريخ", trPax:"الركاب", trPick:"اختار المدينة", trPaxN:"{0} ركاب", trUpTo:"لحد {0} ركاب", trTrip:"السعر للسيارة كاملة، مو للشخص", trOrder:"احجز بالواتساب", trOther:"مدينتك أو مكانك مو موجود؟ اطلب بالواتساب", trOnline:"احجز أونلاين بالبطاقة (كل مدن العالم)", trPay:"الدفع كاش أو زين كاش، والسائق يستقبلك بالمطار مع اسمك.", trNone:"ماكو سيارة تكفي هذا العدد هنا، اطلبها بالواتساب.", tSim:"شرائح", esSee:"شوف الباقات والأسعار", esHint:"اختار الدولة وشوف الباقات وأسعارها، والطلب على الواتساب.", esLbl:"الدولة", esPick:"اختار الدولة", esGb:"{0} جيجا", esUnl:"إنترنت مفتوح", esDays:"{0} يوم", esOrder:"اطلب الشريحة بالواتساب", esOther:"دولتك مو موجودة؟ اطلبها بالواتساب", esPay:"الدفع كاش أو زين كاش، والشريحة توصلك على الواتساب.", esBuy:"اشتري أونلاين بالبطاقة", esWa:"اطلب بالواتساب (كاش أو زين كاش)", esNote:"لازم موبايلك يدعم eSIM (آيفون XS وأحدث، وأغلب سامسونك وكوكل الحديثة). إذا ما متأكد اسألنا.", vH2:"تأشيرات السفر", vIntro:"كل دولة وعلمها، وأنواع الفيزا وأسعارها، ومدة الإصدار، والمتطلبات والملاحظات.",
       vSearch:"ابحث عن دولة… مثلاً: الإمارات", vType:"نوع الفيزا", vTypes:"{0} أنواع", vFrom:"يبدأ من", vPrice:"السعر", ask:"اسأل",
       valid:"صلاحية", notes:"ملاحظات", reqV:"المتطلبات", reqVisa:"اطلب الفيزا بالواتساب", vEmpty:"ما لكيت هالدولة. راسلنا ونشوفلك سعرها.", askWa:"اسأل بالواتساب",
       cH2:"فروعنا ببغداد", cIntro:"تكدر تزورنا بأي فرع، أو تراسلنا على الواتساب ونرتبلك كل شي.", waUs:"راسلنا بالواتساب", branch:"الفرع {0}", openMap:"افتح بالخريطة",
@@ -909,7 +922,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       gH2:"شوێنە بەناوبانگەکان", gIntro:"گرووپ و ئاهەنگ لە بەغدا و هەولێرەوە. نرخ بۆ هەر کەسێک لە ژووری دوو کەسی؛ کرتە لە گرووپ بکە بۆ بینینی هەموو هوتێل و نرخەکەی.",
       all:"هەموو", from_:"لە", pickDate:"بەروار هەڵبژێرە", paxQ:"چەند کەس لە ژوورەکەدا؟", paxDbl:"دوو کەس یان زیاتر", paxSgl:"یەک کەس (تاک)", priceSgl:"نرخی تاک بۆ یەک کەس", dblNote:"نرخەکان بۆ هەر کەسێکن لە ژووری دوو کەسی. ئەگەر بە تەنها گەشت دەکەیت «یەک کەس» هەڵبژێرە بۆ نرخی تاک.", pricesFrom:"نرخەکان لە", pickPlan:"بەرنامە و ماوە هەڵبژێرە", tickets:"نرخی بلیتی ئاهەنگ", childBed:"منداڵ بە قەرەوێڵە", hotel:"هوتێل", cat:"پلە", price:"نرخ", single:"تاک", rec:"پێشنیارکراو",
       stars:"{0} ئەستێرە", noCat:"—", child:"منداڵ بێ قەرەوێڵە", infant:"ساوا", req:"داواکارییەکان", priceLbl:"نرخ بۆ هەر کەسێک", bookGroup:"حیجز لە واتسئاپ جێگیر بکە",
-      esH2:"سیمکارتی ئینتەرنێت بۆ گەشت (eSIM)", esSub:"ئینتەرنێت هەر کە گەیشتیت، بێ گەڕان بەدوای سیمکارت یان پارەی ڕۆمینگ.", es1t:"زیاتر لە 200 وڵات", es1d:"تورکیا، ئێران، ئیمارات، ئەوروپا و هەموو جیهان.", es2t:"ڕاستەوخۆ کار دەکات", es2d:"بە ئیمەیڵ دەگات و لە خولەکێکدا دادەمەزرێت.", es3t:"ژمارەکەت دەمێنێت", es3d:"سیمکارتی عێراقیت بۆ پەیوەندی لە مۆبایلەکەت دەمێنێتەوە.", es4t:"نرخ لە 5$ەوە", es4d:"پاکێج بەپێی ڕۆژ و گیگابایت.", tSim:"سیمکارت", esSee:"پاکێج و نرخەکان ببینە", esHint:"وڵات هەڵبژێرە و پاکێج و نرخەکان ببینە، داواکردن لە واتسئاپ.", esLbl:"وڵات", esPick:"وڵات هەڵبژێرە", esGb:"{0} گیگابایت", esUnl:"ئینتەرنێتی بێسنوور", esDays:"{0} ڕۆژ", esOrder:"لە واتسئاپ داوای سیمکارت بکە", esOther:"وڵاتەکەت نییە؟ لە واتسئاپ داوای بکە", esPay:"پارەدان بە نەختینە یان زەین کاش، سیمکارت لە واتسئاپ دەگات.", esBuy:"بە کارت ئۆنلاین بیکڕە", esWa:"لە واتسئاپ داوای بکە (نەختینە یان زەین کاش)", esNote:"دەبێت مۆبایلەکەت پشتگیری eSIM بکات (ئایفۆن XS و نوێتر، زۆربەی سامسۆنگ و گووگڵی نوێ). ئەگەر دڵنیا نیت لێمان بپرسە.", vH2:"ڤیزای گەشت", vIntro:"هەر وڵاتێک و ئاڵاکەی، جۆرەکانی ڤیزا و نرخەکانیان، ماوەی دەرچوون، داواکاری و تێبینییەکان.",
+      esH2:"سیمکارتی ئینتەرنێت بۆ گەشت (eSIM)", esSub:"ئینتەرنێت هەر کە گەیشتیت، بێ گەڕان بەدوای سیمکارت یان پارەی ڕۆمینگ.", es1t:"زیاتر لە 200 وڵات", es1d:"تورکیا، ئێران، ئیمارات، ئەوروپا و هەموو جیهان.", es2t:"ڕاستەوخۆ کار دەکات", es2d:"بە ئیمەیڵ دەگات و لە خولەکێکدا دادەمەزرێت.", es3t:"ژمارەکەت دەمێنێت", es3d:"سیمکارتی عێراقیت بۆ پەیوەندی لە مۆبایلەکەت دەمێنێتەوە.", es4t:"نرخ لە 5$ەوە", es4d:"پاکێج بەپێی ڕۆژ و گیگابایت.", tTrf:"ترانسفێر", trH:"ترانسفێر بۆ فڕۆکەخانە و لێیەوە (تەکسی تایبەت)", trHint:"شار هەڵبژێرە و نرخەکان ببینە، حیجز لە واتسئاپ.", trCity:"شار", trDate:"بەروار", trPax:"سەرنشین", trPick:"شار هەڵبژێرە", trPaxN:"{0} سەرنشین", trUpTo:"تا {0} سەرنشین", trTrip:"نرخ بۆ هەموو ئۆتۆمبێلەکەیە، نەک بۆ کەس", trOrder:"لە واتسئاپ حیجز بکە", trOther:"شار یان شوێنەکەت نییە؟ لە واتسئاپ داوای بکە", trOnline:"بە کارت ئۆنلاین حیجز بکە (هەموو شارەکانی جیهان)", trPay:"پارەدان بە نەختینە یان زەین کاش، شۆفێر لە فڕۆکەخانە بە ناوەکەتەوە پێشوازیت دەکات.", trNone:"ئۆتۆمبێلێک نییە بەم ژمارەیە، لە واتسئاپ داوای بکە.", tSim:"سیمکارت", esSee:"پاکێج و نرخەکان ببینە", esHint:"وڵات هەڵبژێرە و پاکێج و نرخەکان ببینە، داواکردن لە واتسئاپ.", esLbl:"وڵات", esPick:"وڵات هەڵبژێرە", esGb:"{0} گیگابایت", esUnl:"ئینتەرنێتی بێسنوور", esDays:"{0} ڕۆژ", esOrder:"لە واتسئاپ داوای سیمکارت بکە", esOther:"وڵاتەکەت نییە؟ لە واتسئاپ داوای بکە", esPay:"پارەدان بە نەختینە یان زەین کاش، سیمکارت لە واتسئاپ دەگات.", esBuy:"بە کارت ئۆنلاین بیکڕە", esWa:"لە واتسئاپ داوای بکە (نەختینە یان زەین کاش)", esNote:"دەبێت مۆبایلەکەت پشتگیری eSIM بکات (ئایفۆن XS و نوێتر، زۆربەی سامسۆنگ و گووگڵی نوێ). ئەگەر دڵنیا نیت لێمان بپرسە.", vH2:"ڤیزای گەشت", vIntro:"هەر وڵاتێک و ئاڵاکەی، جۆرەکانی ڤیزا و نرخەکانیان، ماوەی دەرچوون، داواکاری و تێبینییەکان.",
       vSearch:"گەڕان بۆ وڵات… بۆ نموونە: ئیمارات", vType:"جۆری ڤیزا", vTypes:"{0} جۆر", vFrom:"لە", vPrice:"نرخ", ask:"بپرسە",
       valid:"ماوە", notes:"تێبینی", reqV:"داواکارییەکان", reqVisa:"داوای ڤیزا لە واتسئاپ بکە", vEmpty:"ئەم وڵاتەمان نەدۆزییەوە. نامەمان بۆ بنێرە و نرخەکەیت بۆ دەدۆزینەوە.", askWa:"لە واتسئاپ بپرسە",
       cH2:"لقەکانمان لە بەغدا", cIntro:"دەتوانیت سەردانی هەر لقێکمان بکەیت، یان لە واتسئاپ نامەمان بۆ بنێریت و هەموو شتێکت بۆ ڕێک دەخەین.", waUs:"لە واتسئاپ نامە بنێرە", branch:"لقی {0}", openMap:"لە نەخشە بیکەرەوە",
@@ -943,7 +956,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       gH2:"Trending destinations", gIntro:"Group tours and concerts from Baghdad and Erbil. Price per person in a double room; tap a tour to see every hotel and its price.",
       all:"All", from_:"From", pickDate:"Choose a date", paxQ:"How many in the room?", paxDbl:"Two or more", paxSgl:"One person (single)", priceSgl:"Single price, one person", dblNote:"Prices are per person in a double room. Travelling alone? Choose “One person” to see the single price.", pricesFrom:"Prices from", pickPlan:"Choose the program and length", tickets:"Concert ticket prices", childBed:"Child with bed", hotel:"Hotel", cat:"Category", price:"Price", single:"Single", rec:"Recommended",
       stars:"{0} stars", noCat:"—", child:"Child without bed", infant:"Infant", req:"Requirements", priceLbl:"Price per person", bookGroup:"Confirm on WhatsApp",
-      esH2:"Travel internet SIM (eSIM)", esSub:"Internet the moment you land — no SIM shops, no roaming bills.", es1t:"200+ countries", es1d:"Turkey, Iran, UAE, Europe and worldwide.", es2t:"Works instantly", es2d:"Arrives by email and installs in a minute with your camera.", es3t:"Keep your number", es3d:"Your Iraqi SIM stays in the phone for calls.", es4t:"From $5", es4d:"Plans by days and data.", tSim:"eSIM", esSee:"See plans & prices", esHint:"Pick a country to see the plans and prices; order on WhatsApp.", esLbl:"Country", esPick:"Choose a country", esGb:"{0} GB", esUnl:"Unlimited data", esDays:"{0} days", esOrder:"Order on WhatsApp", esOther:"Country not listed? Ask us on WhatsApp", esPay:"Pay cash or Zain Cash; the eSIM is sent to you on WhatsApp.", esBuy:"Buy online by card", esWa:"Order on WhatsApp (cash or Zain Cash)", esNote:"Your phone must support eSIM (iPhone XS and newer, most recent Samsung and Google phones). Not sure? Ask us.", vH2:"Travel visas", vIntro:"Every country with its flag, visa types and prices, processing time, requirements and notes.",
+      esH2:"Travel internet SIM (eSIM)", esSub:"Internet the moment you land — no SIM shops, no roaming bills.", es1t:"200+ countries", es1d:"Turkey, Iran, UAE, Europe and worldwide.", es2t:"Works instantly", es2d:"Arrives by email and installs in a minute with your camera.", es3t:"Keep your number", es3d:"Your Iraqi SIM stays in the phone for calls.", es4t:"From $5", es4d:"Plans by days and data.", tTrf:"Transfer", trH:"Airport transfers (private taxi)", trHint:"Pick a city to see the prices; book on WhatsApp.", trCity:"City", trDate:"Date", trPax:"Passengers", trPick:"Choose a city", trPaxN:"{0} passengers", trUpTo:"up to {0} passengers", trTrip:"Price per car, not per person", trOrder:"Book on WhatsApp", trOther:"City or place not listed? Ask us on WhatsApp", trOnline:"Book online by card (any city worldwide)", trPay:"Pay cash or Zain Cash; the driver meets you at the airport with your name.", trNone:"No car fits this many passengers here — ask us on WhatsApp.", tSim:"eSIM", esSee:"See plans & prices", esHint:"Pick a country to see the plans and prices; order on WhatsApp.", esLbl:"Country", esPick:"Choose a country", esGb:"{0} GB", esUnl:"Unlimited data", esDays:"{0} days", esOrder:"Order on WhatsApp", esOther:"Country not listed? Ask us on WhatsApp", esPay:"Pay cash or Zain Cash; the eSIM is sent to you on WhatsApp.", esBuy:"Buy online by card", esWa:"Order on WhatsApp (cash or Zain Cash)", esNote:"Your phone must support eSIM (iPhone XS and newer, most recent Samsung and Google phones). Not sure? Ask us.", vH2:"Travel visas", vIntro:"Every country with its flag, visa types and prices, processing time, requirements and notes.",
       vSearch:"Search a country… e.g. UAE", vType:"Visa type", vTypes:"{0} types", vFrom:"From", vPrice:"Price", ask:"Ask",
       valid:"valid", notes:"Notes", reqV:"Requirements", reqVisa:"Request this visa on WhatsApp", vEmpty:"Couldn't find that country. Message us and we'll check the price.", askWa:"Ask on WhatsApp",
       cH2:"Our branches in Baghdad", cIntro:"Visit us at either branch, or message us on WhatsApp and we'll arrange everything.", waUs:"Message us on WhatsApp", branch:"Branch {0}", openMap:"Open in Maps",
@@ -1923,6 +1936,36 @@ a.alc{text-decoration:none;color:var(--ink)}
     }).join("") + '<p class="small">' + esc(t("esPay")) + '</p><p class="small">' + esc(t("esNote")) + '</p>' + other;
   }
   esFill(); esShow();
+  /* تبويب الترانسفير: الأسعار من تبويب «ترانسفير» بأكسل الأسعار (D.transfers)، والحجز بالواتساب */
+  var TR = D.transfers || [], trC = document.getElementById("trC"), trP = document.getElementById("trP"), KIWI = "https://kiwitaxi.tpk.mx/otRgWlzF";
+  document.getElementById("trD").min = iso;
+  function trFill(){
+    var cur = trC.value, pi = trP.selectedIndex, cs = [];
+    TR.forEach(function(x){ if (cs.indexOf(x.city) < 0) cs.push(x.city); });
+    trC.innerHTML = '<option value="">' + esc(t("trPick")) + '</option>' + cs.map(function(c){ return '<option' + (c === cur ? ' selected' : '') + '>' + esc(c) + '</option>'; }).join("");
+    trP.innerHTML = [1,2,3,4,5,6,7,8].map(function(n){ return '<option>' + esc(n === 8 ? "8+" : t("trPaxN", n)) + '</option>'; }).join(""); trP.selectedIndex = Math.max(1, pi);
+  }
+  function trShow(){
+    var c = trC.value, pax = trP.selectedIndex + 1, res = document.getElementById("trRes"), date = val("trD");
+    var base = ["طلب ترانسفير (تكسي المطار)", c ? "المدينة: " + c : "المدينة: ", date ? "التاريخ: " + fmtDate(date) : "التاريخ: ", "عدد الركاب: " + (pax === 8 ? "8 أو أكثر" : pax), "رقم الرحلة ووقت الوصول: "];
+    var all = TR.filter(function(x){ return x.city === c; }), list = all.filter(function(x){ return !x.pax || x.pax >= pax; });
+    var other = '<a class="btn ghost" target="_blank" rel="noopener" href="' + wa(base) + '">' + esc(t("trOther")) + '</a>' +
+      '<a class="btn ghost" target="_blank" rel="noopener sponsored" data-kiwi href="' + KIWI + '">' + esc(t("trOnline")) + '</a>';
+    if (!c){ res.innerHTML = other; return; }
+    res.innerHTML = (list.length ? '<p class="small">' + esc(t("trTrip")) + '</p>' + list.map(function(x){
+      var pr = x.cur === "iqd" ? x.p.toLocaleString("en-US") : x.p + "$";
+      return '<div class="fare"><div class="al">' + esc(x.o + " ← " + x.d) + '<small>' + esc(x.car + (x.pax ? " · " + t("trUpTo", x.pax) : "")) + '</small>' + (x.n ? '<small>' + esc(x.n) + '</small>' : '') + '</div>' +
+        '<div class="pp"><b>' + esc(pr) + '</b>' + (x.cur === "iqd" ? '<small>' + esc(t("iqd")) + '</small>' : '') + '</div>' +
+        '<a class="btn wa" target="_blank" rel="noopener" data-tr href="' + wa(base.concat(["من: " + x.o, "إلى: " + x.d, "السيارة: " + x.car + (x.pax ? " (لحد " + x.pax + " ركاب)" : ""),
+          "السعر المعروض: " + (x.cur === "iqd" ? pr + " دينار" : pr) + " للسيارة"])) + '">' + esc(t("trOrder")) + '</a></div>';
+    }).join("") + '<p class="small">' + esc(t("trPay")) + '</p>' : (all.length ? '<p>' + esc(t("trNone")) + '</p>' : '')) + other;
+  }
+  trFill(); trShow();
+  trC.addEventListener("change", function(){ trShow(); if (trC.value) track("transfer_view", { city: trC.value }); });
+  trP.addEventListener("change", trShow); document.getElementById("trD").addEventListener("change", trShow);
+  document.getElementById("trRes").addEventListener("click", function(e){
+    var a = e.target.closest && e.target.closest("[data-tr],[data-kiwi]"); if (a) track("transfer_click", { via: a.hasAttribute("data-kiwi") ? "kiwitaxi" : "whatsapp", city: trC.value });
+  });
   simC.addEventListener("change", function(){ esShow(); if (simC.value) track("esim_view", { country: simC.value }); });
   document.getElementById("simRes").addEventListener("click", function(e){ if (e.target.closest && e.target.closest("[data-es]")) track("esim_click", { via: "whatsapp", country: simC.value }); });
   document.getElementById("esWa").addEventListener("click", function(){ track("esim_click", { via: "whatsapp" }); });
@@ -1951,6 +1994,7 @@ a.alc{text-decoration:none;color:var(--ink)}
     try { localStorage.setItem("lang", L); } catch(e){}
     if (gSheet.open) closeSheet(gSheet);
     render();
+    if (typeof trFill === "function" && simC){ esFill(); esShow(); trFill(); trShow(); }
   }
   document.querySelector(".langs").addEventListener("click", function(e){ var b = e.target.closest("button"); if (b) setLang(b.getAttribute("data-lang")); });
   render();
