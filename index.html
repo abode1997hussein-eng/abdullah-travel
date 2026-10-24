@@ -1980,7 +1980,7 @@ a.alc{text-decoration:none;color:var(--ink)}
   var openVisaT = openVisa;
   /* ============ نادي المسافرين: التسجيل ينزل بملف «نادي المسافرين - المشتركين» (Google Apps Script) ============
      CLUB_URL = رابط الـWeb app؛ إذا فاضي، التسجيل يكمل بالواتساب بس. */
-  var CLUB_URL = "", clubD = document.getElementById("clubD");
+  var CLUB_URL = "https://script.google.com/macros/s/AKfycbyYkdxXtinuaRza2oK__kYvMOCVov-F3xIFAJT0XBAP0tNx4k6TDPIpygYJgo-C3Y1BEQ/exec", clubD = document.getElementById("clubD");
   function clubFill(){ var c = document.getElementById("clC"), i = c.selectedIndex; c.innerHTML = t("clCities").map(function(x){ return "<option>" + esc(x) + "</option>"; }).join(""); c.selectedIndex = Math.max(0, i); }
   function clubJoined(){ try { return localStorage.getItem("club") === "1"; } catch(e){ return false; } }
   function clubMe(){ try { return JSON.parse(localStorage.getItem("clubMe") || "null"); } catch(e){ return null; } }
