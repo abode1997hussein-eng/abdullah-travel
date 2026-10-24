@@ -238,6 +238,7 @@ if "--prices" in sys.argv:
         import prices
         MANUAL = prices.load(sys.argv[sys.argv.index("--prices") + 1])
         DATA["esim"] = prices.esim(sys.argv[sys.argv.index("--prices") + 1])
+        DATA["transfers"] = prices.transfers(sys.argv[sys.argv.index("--prices") + 1])
     except Exception as e:  # noqa: BLE001
         print("أسعار الطيران الخاصة ما انقرت:", e)
 if not MANUAL:

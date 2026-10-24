@@ -63,7 +63,7 @@ def load(path):
     book = read_xlsx(path)
     # تبويبات اللصق أول شي: إذا نفس الرحلة موجودة بجدول وبرسالة ملصوقة، الرسالة (الأحدث عادةً) تغلب
     for tab, rows in sorted(book.items(), key=lambda kv: 0 if re.search("لصق|paste", kv[0], re.I) else 1):
-        if not rows or re.search("شرائح|شريحه|شريحة|esim", tab, re.I):
+        if not rows or re.search("شرائح|شريحه|شريحة|esim|ترانسفير|transfer", tab, re.I):
             continue
         head = {i: COLS[clean(h)] for i, h in enumerate(rows[0]) if clean(h) in COLS}
         if not {"o", "d"} <= set(head.values()):
@@ -168,4 +168,28 @@ def esim(path):
             cur = "iqd" if "د" in x.get("cur", "") or p >= 1000 else "usd"
             out.append({"c": x["c"], "gb": gb, "days": days, "p": p, "cur": cur, "n": x.get("n", "")})
     print("شرائح الإنترنت: %d باقة" % len(out))
+    return out
+
+
+# ---------------------------------------------------------------- الترانسفير (تكسي المطار)
+TR_COLS = {"المدينة": "city", "من": "o", "إلى": "d", "السيارة": "car", "الركاب": "pax", "السعر": "p", "العملة": "cur", "ملاحظة": "n"}
+
+
+def transfers(path):
+    """تبويب «ترانسفير»: المدينة | من | إلى | السيارة | الركاب | السعر | العملة | ملاحظة."""
+    out = []
+    for tab, rows in read_xlsx(path).items():
+        if not rows or not re.search("ترانسفير|transfer", tab, re.I):
+            continue
+        head = {i: TR_COLS[clean(h)] for i, h in enumerate(rows[0]) if clean(h) in TR_COLS}
+        for r in rows[1:]:
+            x = {k: clean(r[i]) if i < len(r) else "" for i, k in head.items()}
+            p = money(x.get("p", ""))
+            if not (x.get("city") and x.get("o") and x.get("d") and p):
+                continue
+            m = re.search(r"\d+", x.get("pax", ""))
+            cur = "iqd" if "د" in x.get("cur", "") or p >= 1000 else "usd"
+            out.append({"city": x["city"], "o": x["o"], "d": x["d"], "car": x.get("car", ""), "pax": int(m.group()) if m else 0,
+                        "p": p, "cur": cur, "n": x.get("n", "")})
+    print("الترانسفير: %d سعر" % len(out))
     return out
