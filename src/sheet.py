@@ -79,7 +79,7 @@ def lines(s):
 
 def money(v):
     """'1075.0' '$460' '460$' '1,250,000' → رقم صحيح، أو None."""
-    s = clean(v).replace(",", "").replace("$", "")
+    s = clean(v).replace(",", "").replace("٬", "").replace("$", "")
     m = re.search(r"\d+(?:\.\d+)?", s)
     if not m or re.search(r"[؀-ۿ]", s.replace("الف", "")):
         return None
@@ -256,7 +256,7 @@ def opts(tbl, prog=None, single_diff=False):
         name, notes, rec = hotel(v.get("hotel", ""))
         name2 = hotel(v.get("hotel2", ""))[0] if v.get("hotel2") else ""
         s = money(v.get("single"))
-        if single_diff and s is not None:  # عمود «فرق السنكل»: إضافة على سعر البيع دائماً
+        if s is not None and s < p:  # السنكل أقل من البيع يعني مكتوب «فرق/إضافة»: ينجمع ويا البيع
             s += p
         loc = " · ".join(x for x in [place(v.get("loc", ""))] + notes if x)
         row = {"الفندق": name, "الفندق الثاني": name2, "الموقع": loc, "الفئة": stars(v.get("stars", "")),
