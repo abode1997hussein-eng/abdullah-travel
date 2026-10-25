@@ -79,7 +79,12 @@ def lines(s):
 
 def money(v):
     """'1075.0' '$460' '460$' '1,250,000' → رقم صحيح، أو None."""
-    s = clean(v).replace(",", "").replace("٬", "").replace("$", "")
+    s = clean(v).replace("٬", "").replace("$", "")
+    # دينار بنقاط أو فواصل للآلاف: 1.385.000 / 2,475.000 / 810.000
+    t = re.search(r"\d{1,3}(?:[.,]\d{3})+(?![\d.,])", s)
+    if t and not AR.search(s.replace("الف", "")):
+        return int(re.sub(r"\D", "", t.group()))
+    s = s.replace(",", "")
     m = re.search(r"\d+(?:\.\d+)?", s)
     if not m or re.search(r"[؀-ۿ]", s.replace("الف", "")):
         return None
@@ -168,7 +173,7 @@ def plan_len(v):
 
 def dates(text, year_less=False):
     out = []
-    for d, m, y in re.findall(r"(?<![\d:])(\d{1,2})[-./](\d{1,2})(?:[-./](\d{4}))?(?![\d:])", clean(text)):
+    for d, m, y in re.findall(r"(?<![\d:])(\d{1,2})[-./\\](\d{1,2})(?:[-./\\](\d{4}))?(?![\d:])", clean(text)):
         if not y and not year_less:
             continue
         d, m = int(d), int(m)
@@ -188,8 +193,10 @@ FIELDS = [  # الحقل، دالة تطابق عنوان العمود (بدون
     ("childbed", lambda h: "بالسرير" in h or "معسرير" in h),
     ("child", lambda h: "بدونسرير" in h or h.startswith("طفلمن2")),
     ("infant", lambda h: "رضيع" in h),
-    ("hotel2", lambda h: h in ("الفندقفيبوكيت", "الفندقفيفوكيت", "الفندقفيبتايا", "فندقسوسة", "فندقالحمامات", "فندقعمان")),
-    ("hotel", lambda h: h in ("الفندق", "اسمالفندق", "اسمالمنتجع", "الفندقفيبانكوك", "اسمالفندقمسقط", "فندقتونس", "فندقالعقبة")),
+    ("hotel2", lambda h: h in ("الفندقفيبوكيت", "الفندقفيفوكيت", "الفندقفيبتايا", "فندقسوسة", "فندقالحمامات", "فندقعمان",
+                               "فنادفتبليسي", "فنادقتبليسي", "اسمالفندقطرابزون", "اسمالفندقفيانطاليا")),
+    ("hotel", lambda h: h in ("الفندق", "اسمالفندق", "اسمالمنتجع", "الفندقفيبانكوك", "اسمالفندقمسقط", "فندقتونس", "فندقالعقبة",
+                              "فنادقباتومي", "اسمالفندقاسطنبول", "اسمالفندقفياسطنبول")),
     ("stars", lambda h: h in ("تقيمالفندق", "فئةالفندق", "الفئة")),
     ("loc", lambda h: h in ("الموقع", "موقعالفندق")),
     ("dur", lambda h: h in ("مدةالبقاء", "الايام", "عددالايام", "المدة", "عددالأيام")),
@@ -203,6 +210,8 @@ def header(row):
     m = {}
     for i, c in enumerate(row):
         h = key(c)
+        if len(h) > 35:  # خلية ملاحظات طويلة بسطر العناوين، مو عنوان عمود
+            continue
         for f, ok in FIELDS:
             if f not in m and h and ok(h):
                 m[f] = i
@@ -210,8 +219,9 @@ def header(row):
     return m if "sell" in m else None
 
 
-def tables(rows):
-    """كل جدول بالتبويب: (عنوان الجدول، أعمدته، أسطره) — يوقف عند سطر بلا سعر وبلا فندق وبلا مدة."""
+def tables(rows, gaps=False):
+    """كل جدول بالتبويب: (عنوان الجدول، أعمدته، أسطره) — يوقف عند سطر بلا سعر وبلا فندق وبلا مدة.
+    gaps: السطر الفاضي كلياً (فاصل بين الفنادق) ما يوقف الجدول."""
     out, i, title = [], 0, ""
     while i < len(rows):
         h = header(rows[i])
@@ -222,7 +232,10 @@ def tables(rows):
         body, j = [], i + 1
         while j < len(rows) and not header(rows[j]):
             r = rows[j] + [""] * 30
-            if not any(clean(r[h[f]]) for f in ("sell", "hotel", "dur") if f in h):
+            if gaps and not any(clean(x) for x in rows[j]):
+                j += 1
+                continue
+            if not any(clean(r[h[f]]) for f in ("sell", "hotel", "dur", "hotel2") if f in h):
                 break
             body.append(r)
             j += 1
@@ -458,6 +471,82 @@ def load(path):
                       ("حفلة كاظم الساهر رأس السنة في بيروت – طيران العالمية", "بيروت راس السنه عالمية ")):
         t = one(tab)
         add(name, lambda t=t: (opts(t, prog=lambda v, _: plan_len(v["dur"])), []))
+
+    # ---------------- كروبات العراقية الجديدة (جورجيا، طرابزون، أنطاليا) + تونس
+    def fix(t, stars_col=None, hotel_col=None):
+        """عمود فندق أو فئة بلا عنوان؛ والتبويب اللي بيه فندق واحد بس ينقرا كفندق أول."""
+        title, h, body = t
+        h = dict(h)
+        if "hotel" not in h and hotel_col is not None:
+            h["hotel"] = hotel_col
+        if "hotel" not in h and "hotel2" in h:
+            h["hotel"] = h.pop("hotel2")
+        if "stars" not in h and stars_col is not None:
+            h["stars"] = stars_col
+        return title, h, body
+
+    def future(ds):
+        today = date.today().strftime("%Y%m%d")
+        return [d for d in ds if d[6:] + d[3:5] + d[:2] >= today]
+
+    def georgia():
+        rows = []
+        plans = ["8 أيام / 7 ليالي · 4 تبليسي + 3 باتومي", "8 أيام / 7 ليالي · تبليسي فقط", "14 يوم / 13 ليلة · تبليسي + باتومي"]
+        for k, t in enumerate(tables(find(book, "جورجيا "), gaps=True)[:3]):
+            rows += opts(fix(t), prog=lambda v, _, pl=plans[k]: pl)
+        for t in tables(find(book, "جورجيا 12 يوم"), gaps=True)[:1]:
+            rows += opts(fix(t), prog=lambda v, _: "12 يوم / 11 ليلة · 4 تبليسي + 7 باتومي (العودة من باتومي)")
+        for t in tables(find(book, "جورجيا نظام اكواخ"), gaps=True)[:1]:
+            rows += opts(fix(t, hotel_col=3), prog=lambda v, _: "8 أيام / 7 ليالي · تبليسي + 3 ليالي جبال (كودوري أو باكورياني) · سيارة خاصة")
+        # فنادق جورجيا مكتوبة بالإنكليزي وتحتها وصف عربي: الاسم إنكليزي والوصف يروح للموقع
+        for r in rows:
+            for k in ("الفندق", "الفندق الثاني"):
+                m = re.match(r"^(.*?)\s*\(([^()]*[A-Za-z][^()]*)\)$", r[k])
+                if m:
+                    note = m.group(1).strip("() ")
+                    r[k] = m.group(2)
+                    if note and note not in r["الموقع"]:
+                        r["الموقع"] = " · ".join(x for x in (r["الموقع"], note) if x)
+        return rows, []
+    add("جورجيا", georgia)
+
+    def trabzon():
+        rows, ds = [], []
+        plans = ["8 أيام / 7 ليالي · طرابزون", "8 أيام / 7 ليالي · 6 ليالي طرابزون + ليلة أكواخ"]
+        for k, t in enumerate(tables(find(book, "طرابزون "))[:2]):
+            rows += opts(fix(t), prog=lambda v, _, pl=plans[k]: pl)
+            ds += [d for d in future(table_dates(t)) if d not in ds]
+        return rows, ds
+    add("طرابزون", trabzon)
+
+    def ist_trb():
+        rows, ds = [], []
+        plans = ["8 أيام / 7 ليالي · 3 طرابزون + 4 اسطنبول", "10 أيام / 9 ليالي · 3 طرابزون + 6 اسطنبول",
+                 "10 أيام / 9 ليالي · 3 طرابزون + ليلة أكواخ + 5 اسطنبول"]
+        for k, t in enumerate(tables(find(book, "اسطنبول & طرابزون "))[:3]):
+            rows += opts(fix(t, stars_col=3), prog=lambda v, _, pl=plans[k]: pl)
+            ds += [d for d in future(table_dates(t)) if d not in ds]
+        return rows, ds
+    add("اسطنبول + طرابزون", ist_trb)
+
+    ayt = one("انطاليا ")
+    add("أنطاليا", lambda: (opts(ayt, prog=lambda v, _: plan_len(v["dur"])), future(table_dates(ayt))))
+
+    def ist_ayt():
+        t = tables(find(book, "اسطنبول &انطاليا"), gaps=True)[0]
+        pl = lambda v, _: plan_len(v["dur"]) + (" · 4 أنطاليا + 3 اسطنبول" if plan_len(v["dur"]).startswith("8") else " · 4 أنطاليا + 5 اسطنبول")
+        return opts(t, prog=pl), future(table_dates(t))
+    add("اسطنبول + أنطاليا", ist_ayt)
+
+    def tunis2():
+        rows, ds = [], []
+        for title, h, body in tabs("تونس"):
+            pl = ("8 أيام / 7 ليالي · تونس + سوسة" if "سوسة" in title else
+                  "8 أيام / 7 ليالي · تونس + الحمامات" if "حمامات" in title else "8 أيام / 7 ليالي · تونس فقط")
+            rows += opts(fix((title, h, body)), prog=lambda v, _, pl=pl: pl)
+            ds += [d for d in future(table_dates((title, h, body))) if d not in ds]
+        return rows, ds
+    add("تونس", tunis2)
 
     return live, errs, book
 
