@@ -79,7 +79,7 @@ def lines(s):
 
 def money(v):
     """'1075.0' '$460' '460$' '1,250,000' → رقم صحيح، أو None."""
-    s = clean(v).replace("٬", "").replace("$", "")
+    s = clean(v).replace("٬", "").replace("،", ",").replace("$", "")
     # دينار بنقاط أو فواصل للآلاف: 1.385.000 / 2,475.000 / 810.000
     t = re.search(r"\d{1,3}(?:[.,]\d{3})+(?![\d.,])", s)
     if t and not AR.search(s.replace("الف", "")):
@@ -334,12 +334,17 @@ def muscat_plan(v, title):
     return d + (" · " + " و".join(days) if days else "")
 
 
+TRIED = set()  # كل كروب ينقرا من الأكسل؛ إذا ما انقرا ما يطلع بأسعار قديمة
+
+
 def load(path):
     """يرجع {اسم الكروب: {"rows": [...], "dates": [...]}} وقائمة المشاكل."""
     book = read_xlsx(path)
     live, errs = {}, []
+    TRIED.clear()
 
     def add(name, fn):
+        TRIED.add(name)
         try:
             rows, ds = fn()
             if not rows:
@@ -366,7 +371,7 @@ def load(path):
 
     def lanka():
         rows, ds = [], []
-        for t in tabs("رحلات سريلانكا "):
+        for t in tabs("رحلات سريلانكا ", "سريلانكا "):
             for r in opts(t, prog=lambda v, title: plan_len(title)):
                 r["الفندق"] = "راديسون + أراليا ريد + إيكو سورف"
                 r["الموقع"] = ""
@@ -414,7 +419,7 @@ def load(path):
     add("شرم الشيخ", lambda: (opts(sh[0]), table_dates(sh[0])))
     add("شرم الشيخ + القاهرة", lambda: (opts(sh[1]), table_dates(sh[1])))
 
-    cai = tabs("كروبات القاهره بغداد ")
+    cai = tabs("كروبات القاهره بغداد ", "القاهره ", "القاهرة ")
     add("القاهرة", lambda: (opts(cai[0]), table_dates(cai[0])))
     add("القاهرة + شرم الشيخ", lambda: (opts(cai[1]), table_dates(cai[1])))
 
@@ -452,7 +457,7 @@ def load(path):
         return rows, []
     add("تونس + حفلة راغب علامة", tunis)
 
-    amr = one("حفلة عمرو دياب القاهرة", "عمرو دياب& شاكيرا القاهرة")
+    amr = one("حفلة عمرو دياب القاهرة", "عمرو دياب& شاكيرا القاهرة", "عمرو دياب القاهرة")
     add("حفلة عمرو دياب في القاهرة",
         lambda: (opts(amr, prog=lambda v, _: plan_len(v["dur"])), table_dates(amr, year_less=True)))
 
@@ -537,6 +542,9 @@ def load(path):
         pl = lambda v, _: plan_len(v["dur"]) + (" · 4 أنطاليا + 3 اسطنبول" if plan_len(v["dur"]).startswith("8") else " · 4 أنطاليا + 5 اسطنبول")
         return opts(t, prog=pl), future(table_dates(t))
     add("اسطنبول + أنطاليا", ist_ayt)
+
+    dxb = one("دبي ")
+    add("دبي", lambda: (opts(dxb, prog=lambda v, _: plan_len(v["dur"])), future(table_dates(dxb))))
 
     def tunis2():
         rows, ds = [], []
