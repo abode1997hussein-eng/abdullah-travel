@@ -2220,7 +2220,7 @@ a.alc{text-decoration:none;color:var(--ink)}
     var sb = document.getElementById("promoSee"); sb.hidden = gi < 0;
     sb.onclick = function(){ promoD.close(); next = function(){}; openG(gi); };
     promoD.addEventListener("close", function(){ next(); }, { once: true });
-    setTimeout(function(){ if (!document.querySelector("dialog[open]")){ if (promoD.showModal) promoD.showModal(); else promoD.setAttribute("open", ""); track("promo_view", { offer: PROMO.text }); } else next(); }, 900);
+    setTimeout(function(){ if (!document.querySelector("dialog[open]")){ if (promoD.showModal) promoD.showModal(); else promoD.setAttribute("open", ""); track("promo_view", { offer: PROMO.text }); } else next(); }, 500);
   }
   promoD.addEventListener("click", function(e){ if (e.target === promoD || (e.target.closest && e.target.closest("[data-prclose]"))) promoD.close(); });
   document.getElementById("promoWa").addEventListener("click", function(){ track("whatsapp_click", { where: "promo" }); });
@@ -2230,15 +2230,16 @@ a.alc{text-decoration:none;color:var(--ink)}
     try { if (sessionStorage.getItem("clubAsk")) return; sessionStorage.setItem("clubAsk", "1"); } catch(e){}
     setTimeout(function(){ if (!clubD.open && !document.querySelector("dialog[open]")) openClub(); }, ms);
   }
-  (function(){
+  /* الترتيب: العرض أول شي، بعده الترحيب (أول زيارة بس)، وبعده البطاقة الذهبية */
+  promoAsk(function(){
     var seen = "";
     try { seen = localStorage.getItem("hello") || ""; } catch(e){}
     var force = /[?&]hello\b/.test(location.search);  // ?hello يطلّعها حتى لو انشافت
-    if (!force && (seen || /[?&]nohello/.test(location.search))) return promoAsk(function(){ clubAsk(1200); });
+    if (!force && (seen || /[?&]nohello/.test(location.search))) return clubAsk(1200);
     try { localStorage.setItem("hello", new Date().toISOString().slice(0, 10)); } catch(e){}
-    hello.addEventListener("close", function(){ promoAsk(function(){ clubAsk(1200); }); });
-    setTimeout(function(){ helloSync(); if (hello.showModal) hello.showModal(); else hello.setAttribute("open", ""); }, 700);
-  })();
+    hello.addEventListener("close", function(){ clubAsk(1200); });
+    setTimeout(function(){ helloSync(); if (hello.showModal) hello.showModal(); else hello.setAttribute("open", ""); }, 500);
+  });
 
 })();
 </script>
