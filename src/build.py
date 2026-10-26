@@ -82,8 +82,9 @@ def apply_sheet(path):
     for r in data.GROUPS:
         name = r["الوجهة"]
         if name not in live:
-            out.append(r)
-            continue
+            if name not in sheet.TRIED:  # كروب مو من الأكسل يبقى مثل ما هو
+                out.append(r)
+            continue  # كروب من الأكسل ما انقرا: ما يطلع بأسعار قديمة
         if name in seen:
             continue
         seen.add(name)
