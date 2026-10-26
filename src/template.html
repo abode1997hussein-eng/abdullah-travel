@@ -1306,7 +1306,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       list = list.filter(function(x){ return !own[x.f.a]; });
       var head = '<h3>' + esc(t("resFor", val("f-from"), val("f-to"))) + '</h3>' + calStrip(o, d, rt);
       res.innerHTML = head + ia.map(function(x){
-        var n = rt ? x.rt : x.ow; if (!n) return ia.slice(0, ia.indexOf(x)).some(function(y){ return !(rt ? y.rt : y.ow) && y.dn === x.dn; }) ? "" : iaAsk(x); var iqd = x.cur === "iqd", p = iqd ? n.toLocaleString("en-US") : n + "$";
+        var n = rt ? x.rt : x.ow; if (!n) return ia.some(function(y){ return (rt ? y.rt : y.ow) && y.dn === x.dn; }) || ia.slice(0, ia.indexOf(x)).some(function(y){ return !(rt ? y.rt : y.ow) && y.dn === x.dn; }) ? "" : iaAsk(x); var iqd = x.cur === "iqd", p = iqd ? n.toLocaleString("en-US") : n + "$";
         var code = airCode(x.a), name = code ? airName(code) : x.a;
         return '<div class="fare"><div class="al">' + logo(code) + esc(name || t("tFly")) + '<small>' + esc(val("f-from") + " ← " + x.dn) + '</small>' +
           (x.n ? '<small>' + esc(x.n) + '</small>' : '') + '<small>' + esc(t("iaNote")) + '</small></div>' +
@@ -1828,7 +1828,7 @@ a.alc{text-decoration:none;color:var(--ink)}
   function manualHtml(o, d, rt){
     var ia = o && d ? (D.manual || []).filter(function(x){ return x.o.indexOf(o) >= 0 && x.d.indexOf(d) >= 0 && (x.rt || x.ow); }) : [];
     return ia.map(function(x){
-      var n = rt ? x.rt : x.ow; if (!n) return ia.slice(0, ia.indexOf(x)).some(function(y){ return !(rt ? y.rt : y.ow) && y.dn === x.dn; }) ? "" : iaAsk(x); var iqd = x.cur === "iqd", p = iqd ? n.toLocaleString("en-US") : n + "$";
+      var n = rt ? x.rt : x.ow; if (!n) return ia.some(function(y){ return (rt ? y.rt : y.ow) && y.dn === x.dn; }) || ia.slice(0, ia.indexOf(x)).some(function(y){ return !(rt ? y.rt : y.ow) && y.dn === x.dn; }) ? "" : iaAsk(x); var iqd = x.cur === "iqd", p = iqd ? n.toLocaleString("en-US") : n + "$";
       var code = airCode(x.a), name = code ? airName(code) : x.a;
       return '<div class="fare"><div class="al">' + logo(code) + esc(name || t("tFly")) + '<small>' + esc(val("f-from") + " ← " + x.dn) + '</small>' +
         (x.n ? '<small>' + esc(x.n) + '</small>' : '') + '<small>' + esc(t("iaNote")) + '</small></div>' +
