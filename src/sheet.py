@@ -544,7 +544,8 @@ def load(path):
     add("اسطنبول + أنطاليا", ist_ayt)
 
     dxb = one("دبي ")
-    add("دبي", lambda: (opts(dxb, prog=lambda v, _: plan_len(v["dur"])), future(table_dates(dxb))))
+    # المدة بعمود «عدد الايام»، وإذا انشال العمود تنقرا من خلية التاريخ («كروب دبي 6 ايام 5 ليالي»)
+    add("دبي", lambda: (opts(dxb, prog=lambda v, _: plan_len(v.get("dur") or v.get("date", ""))), future(table_dates(dxb))))
 
     def tunis2():
         rows, ds = [], []
