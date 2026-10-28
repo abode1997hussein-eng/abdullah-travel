@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="google-site-verification" content="UUc7YIiBSZZ0NtXLbhM5wLufMR0dljSGJyG_36atqek">
 <link rel="canonical" href="{{SITE_URL}}">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TravelAgency","name":"سافر مع عبدالله","alternateName":"Travel with Abdullah","url":"{{SITE_URL}}","logo":"{{SITE_URL}}img/logo/logo-square.png","image":"{{SITE_URL}}img/og-app.jpg","telephone":"+{{PHONE}}","priceRange":"$$","areaServed":"IQ","address":[{"@type":"PostalAddress","streetAddress":"شارع فلسطين - تقاطع الصخرة - مقابل المستشفى الملكي","addressLocality":"بغداد","addressCountry":"IQ"},{"@type":"PostalAddress","streetAddress":"المنصور - شارع 14 رمضان - بناية العسل","addressLocality":"بغداد","addressCountry":"IQ"}],"paymentAccepted":"ZainCash, Mastercard"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TravelAgency","name":"سافر مع عبدالله","alternateName":"Travel with Abdullah","url":"{{SITE_URL}}","logo":"{{SITE_URL}}img/logo/logo-square.png","image":"{{SITE_URL}}img/og-app.jpg","telephone":"+{{PHONE}}","priceRange":"$$","areaServed":"IQ","address":[{"@type":"PostalAddress","streetAddress":"شارع فلسطين - تقاطع الصخرة - مقابل المستشفى الملكي","addressLocality":"بغداد","addressCountry":"IQ"},{"@type":"PostalAddress","streetAddress":"المنصور - شارع 14 رمضان - بناية العسل","addressLocality":"بغداد","addressCountry":"IQ"}],"paymentAccepted":"ZainCash, Mastercard","sameAs":["{{FACEBOOK}}"]}</script>
 <link rel="icon" type="image/svg+xml" href="img/logo/logo-icon.svg">
 <link rel="apple-touch-icon" href="img/logo/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -860,6 +860,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       <h3 style="margin-top:16px" data-t="fContact">تواصل ويانا</h3>
       <a class="fline" href="tel:+{{PHONE}}"><span class="fi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg></span><bdi dir="ltr">{{PHONE_DISPLAY}}</bdi></a>
       <a class="fline" data-wa="hello" target="_blank" rel="noopener" href="https://wa.me/{{PHONE}}"><span class="fi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-12.6 7.3L3 20l1.3-5.1A8.4 8.4 0 1121 11.5z"/></svg></span><span data-t="whatsapp">واتساب</span></a>
+      <a class="fline" target="_blank" rel="noopener" href="{{FACEBOOK}}"><span class="fi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h-2.5A4.5 4.5 0 008 7.5V10H5.5v3.5H8V21h3.5v-7.5H14l.5-3.5h-3V8a1 1 0 011-1H15z"/></svg></span><span data-t="facebook">فيسبوك</span></a>
       <div id="faddr"></div>
       <div class="fpay"><span class="pm"><span class="zc">ZC</span><span data-t="payZ">زين كاش</span></span><span class="pm"><svg viewBox="0 0 32 20" aria-hidden="true"><circle cx="12" cy="10" r="8" fill="#EB001B"/><circle cx="20" cy="10" r="8" fill="#F79E1B" fill-opacity=".9"/></svg><span data-t="payM">ماستر كارد</span></span></div>
     </div>
@@ -959,7 +960,7 @@ a.alc{text-decoration:none;color:var(--ink)}
   /* ============ النصوص بثلاث لغات ============ */
   var S = {
     ar: {
-      title:"سافر مع عبدالله — طيران · كروبات · فيزا", tag:"سفر وسياحة · بغداد", whatsapp:"واتساب",
+      title:"سافر مع عبدالله — طيران · كروبات · فيزا", tag:"سفر وسياحة · بغداد", whatsapp:"واتساب", facebook:"فيسبوك",
       helpQ:"تحتاج مساعدة؟", tVisa:"فيزا", qgH:"كروبات وحفلات طالعة من بغداد وأربيل", qgHint:"اختار الكروب وشوف كل فندق وسعره، والحجز على الواتساب.", qgLbl:"الكروب", qgGo:"اعرض الأسعار",
       qvH:"فيزا لأكثر من 35 دولة", qvHint:"اكتب اسم الدولة وشوف أنواع الفيزا وأسعارها ومتطلباتها.", qvLbl:"الدولة", qvGo:"شوف الفيزا",
       fromBGW:"من بغداد", fromEBL:"من أربيل", noFlight:"بدون طيران", navHome:"الرئيسية", fCompany:"الشركة",
@@ -993,7 +994,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       offH:"شوف الأسعار على مواقع الخطوط الرسمية", offP:"افتح موقع الشركة وشوف السعر، وإذا عجبك ارجع واحجز ويانا بالواتساب.", cmpAll:"قارن أسعار كل الخطوط", cmpSub:"الرحلة والتاريخ مكتوبين جاهز", seePrice:"شوف السعر", bookUs:"احجز ويانا"
     },
     ku: {
-      title:"لەگەڵ عەبدوڵڵا گەشت بکە — فڕین · گروپ · ڤیزا", tag:"گەشت و گەشتیاری · بەغدا", whatsapp:"واتسئاپ",
+      title:"لەگەڵ عەبدوڵڵا گەشت بکە — فڕین · گروپ · ڤیزا", tag:"گەشت و گەشتیاری · بەغدا", whatsapp:"واتسئاپ", facebook:"فەیسبووک",
       helpQ:"یارمەتیت دەوێت؟", tVisa:"ڤیزا", qgH:"گرووپ و ئاهەنگ لە بەغدا و هەولێرەوە", qgHint:"گرووپەکە هەڵبژێرە و هەموو هوتێل و نرخەکەی ببینە؛ حیجز لە واتسئاپ.", qgLbl:"گرووپ", qgGo:"نرخەکان پیشان بدە",
       qvH:"ڤیزا بۆ زیاتر لە 35 وڵات", qvHint:"ناوی وڵات بنووسە و جۆرەکانی ڤیزا و نرخ و داواکارییەکانی ببینە.", qvLbl:"وڵات", qvGo:"ڤیزاکە ببینە",
       fromBGW:"لە بەغداوە", fromEBL:"لە هەولێرەوە", noFlight:"بێ فڕین", navHome:"سەرەکی", fCompany:"کۆمپانیا",
@@ -1027,7 +1028,7 @@ a.alc{text-decoration:none;color:var(--ink)}
       offH:"نرخەکان لە ماڵپەڕە فەرمییەکانی هێڵە ئاسمانییەکان ببینە", offP:"ماڵپەڕی کۆمپانیاکە بکەرەوە و نرخەکە ببینە، پاشان لە واتسئاپ لای ئێمە حیجز بکە.", cmpAll:"نرخی هەموو هێڵەکان بەراورد بکە", cmpSub:"گەشت و بەروار ئامادەن", seePrice:"نرخ ببینە", bookUs:"لای ئێمە حیجز بکە"
     },
     en: {
-      title:"Travel with Abdullah — Flights · Group tours · Visas", tag:"Travel & tourism · Baghdad", whatsapp:"WhatsApp",
+      title:"Travel with Abdullah — Flights · Group tours · Visas", tag:"Travel & tourism · Baghdad", whatsapp:"WhatsApp", facebook:"Facebook",
       helpQ:"Need help?", tVisa:"Visa", qgH:"Group tours & concerts from Baghdad and Erbil", qgHint:"Pick a tour to see every hotel and its price; book on WhatsApp.", qgLbl:"Tour", qgGo:"Show prices",
       qvH:"Visas for 35+ countries", qvHint:"Type a country to see its visa types, prices and requirements.", qvLbl:"Country", qvGo:"View visa",
       fromBGW:"From Baghdad", fromEBL:"From Erbil", noFlight:"No flights", navHome:"Home", fCompany:"Company",

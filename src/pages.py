@@ -151,7 +151,7 @@ document.addEventListener("click",function(e){{var a=e.target.closest&&e.target.
 </main>
 <footer><div class="wrap">
 <p><b>سافر مع عبدالله</b> · تذاكر طيران، كروبات سياحية، وفيزا من العراق لكل العالم.</p>
-<p>واتساب واتصال: <a href="tel:+{self.phone}" dir="ltr">{e(self.phone_d)}</a></p>
+<p>واتساب واتصال: <a href="tel:+{self.phone}" dir="ltr">{e(self.phone_d)}</a> · <a href="{e(self.C.get('facebook', ''))}" target="_blank" rel="noopener">فيسبوك</a></p>
 <p>{"<br>".join(e(b["ar"]) for b in self.C.get("branches", []))}</p>
 <p><a href="{up}./">الصفحة الرئيسية</a> · <a href="{up}{HUB}">كل الوجهات والفيز والكروبات</a></p>
 <p class="small" style="color:#9FB0C6">الأسعار تتغير حسب التوفر، والسعر النهائي يتأكد وقت الحجز. آخر تحديث: {ddmmyyyy(self.today)}</p>

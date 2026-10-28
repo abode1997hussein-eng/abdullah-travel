@@ -20,6 +20,7 @@ COMPANY = {
     "name": {"ar": "سافر مع عبدالله", "ku": "لەگەڵ عەبدوڵڵا گەشت بکە", "en": "Travel with Abdullah"},
     "phone": "9647713310011",
     "phone_display": "0771 331 0011",
+    "facebook": "https://www.facebook.com/share/19ZkGpkvw8/",
     # مواقع الخطوط الرسمية: المسافر يشوف السعر هناك، والحجز يكمل ويانا بالواتساب.
     # الرابط الفاضي ← الشركة ما تطلع لحد ما ينضاف رابطها.
     # عمولة الحجز ويانا: تنضاف على السعر اللي يشوفه المسافر بالمواقع الرسمية
@@ -269,7 +270,8 @@ page = (tpl.replace("{{DATA}}", json.dumps(DATA, ensure_ascii=False))
            .replace("{{CREDITS}}", credit_line)
            .replace("{{SITE_URL}}", SITE_URL)
            .replace("{{PHONE}}", COMPANY["phone"])
-           .replace("{{PHONE_DISPLAY}}", COMPANY["phone_display"]))
+           .replace("{{PHONE_DISPLAY}}", COMPANY["phone_display"])
+           .replace("{{FACEBOOK}}", COMPANY["facebook"]))
 left = re.findall(r"\{\{\w+\}\}", page)
 assert not left, left
 open(os.path.join(SITE, "index.html"), "w", encoding="utf-8").write(page)
