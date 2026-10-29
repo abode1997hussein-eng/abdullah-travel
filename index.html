@@ -2207,7 +2207,7 @@ a.alc{text-decoration:none;color:var(--ink)}
   /* نافذة النادي تطلع كل ما ينفتح الموقع (مرة بكل زيارة) لحد ما يشترك؛ أول زيارة تطلع بعد الترحيب */
   /* ============ نافذة العرض: تطلع بكل زيارة جديدة (مرة بالزيارة) لحد ما ينشال العرض ============
      تغيير العرض: الصورة بـ img/promo، و«group» اسم الكروب مثل ما بالموقع، و«until» آخر يوم (فاضي = بدون تاريخ). */
-  var PROMO = { img: "img/promo/sharm50.jpg", group: "شرم الشيخ", text: "عرض خصم 50 ألف دينار على كروبات شرم الشيخ", until: "" };
+  var PROMO = null;  // مثال: { img: "img/promo/sharm50.jpg", group: "شرم الشيخ", text: "عرض خصم 50 ألف دينار على كروبات شرم الشيخ", until: "" }
   var promoD = document.getElementById("promoD");
   function promoAsk(next){
     var gi = PROMO ? D.ar.groups.map(function(g){ return g.title; }).indexOf(PROMO.group) : -1;
