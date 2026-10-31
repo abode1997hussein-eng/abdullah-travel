@@ -298,8 +298,10 @@ def find(book, *names):
     def newest(rows):
         ds = dates("\n".join(" ".join(r) for r in rows))
         return max((d[6:] + d[3:5] + d[:2] for d in ds), default="")
+    def loose(x):  # اسم التبويب ينتغير شوية: ة/ه، أ/ا، & والفراغات
+        return re.sub(r"[&+]", "", key(x)).replace("ة", "ه").replace("أ", "ا").replace("إ", "ا")
     for n in names:
-        hits = [rows for k, rows in book.items() if key(k) == key(n)]
+        hits = [rows for k, rows in book.items() if key(k) == key(n)] or [rows for k, rows in book.items() if loose(k) == loose(n)]
         if hits:
             return max(hits, key=newest)
     raise KeyError("ما لكيت تبويب: " + " أو ".join(names))
@@ -423,8 +425,8 @@ def load(path):
     add("القاهرة", lambda: (opts(cai[0]), table_dates(cai[0])))
     add("القاهرة + شرم الشيخ", lambda: (opts(cai[1]), table_dates(cai[1])))
 
-    for name, tab in (("مسقط من بغداد", "مسقط بغداد  "), ("مسقط من أربيل", "مسقط اربيل ")):
-        t = one(tab)
+    for name, tab in (("مسقط من بغداد", ("مسقط بغداد  ", "مسقط بغداد& اربيل   ")), ("مسقط من أربيل", ("مسقط اربيل ",))):
+        t = one(*tab)
         add(name, lambda t=t: (opts(t, prog=muscat_plan), table_dates(t)))
 
     ist = one("اسطنبول فلاي بغداد+ AJT")
@@ -432,7 +434,7 @@ def load(path):
     ia = one("اسطنبول عراقية")
     add("اسطنبول – العراقية", lambda: (opts(ia, prog=lambda v, _: plan_len(v["dur"])), table_dates(ia)))
 
-    bey = one("بيروت اور + عالميه")
+    bey = one("بيروت اور + عالميه", "بيروت اور + عالمية")
     add("بيروت", lambda: (opts(bey, prog=lambda v, _: plan_len(v["dur"]), single_diff=True), table_dates(bey)))
 
     bia = one("بيروت عراقيه", "بيروت عراقية")
