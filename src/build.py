@@ -116,17 +116,40 @@ def apply_sheet(path):
         by = {}
         for v in data.VISAS:
             by.setdefault(v["الدولة"], []).append(v)
+        def kind(x):  # «الإعتيادية» = «اعتيادية»
+            return re.sub(r"^ال", "", re.sub(r"\s+", "", x or "")).replace("إ", "ا").replace("أ", "ا").replace("ة", "ه")
+        new = {}
         for c, rows in by.items():
             lv = vs.get(c)
             if not lv:
                 continue
             if len(lv) != len(rows):
-                errs.append("فيزا %s: عدد الأسطر بالأكسل %d والموقع %d، بقت مثل ما هي" % (c, len(lv), len(rows)))
-                continue
-            for v, (d, p, val) in zip(rows, lv):
+                # الأكسل غيّر أنواع الفيزا: الأسطر تصير مثل الأكسل، وكل نوع يحتفظ بملاحظته إذا كان موجود قبل
+                old = {kind(v["نوع التأشيرة"]): v for v in rows}
+                own = ("نوع التأشيرة", "مدة الإصدار", "سعر البيع", "الصلاحية", "ملاحظات")
+                fresh = []
+                for d, p, val, t in lv:
+                    v = dict(rows[0])
+                    v.update({k: (old.get(kind(t)) or {}).get(k, "") for k in own})
+                    v["نوع التأشيرة"] = v["نوع التأشيرة"] or t
+                    fresh.append(v)
+                rows = fresh
+                new[c] = rows
+                print("فيزا %s: صارت %d أنواع مثل الأكسل" % (c, len(rows)))
+            for v, (d, p, val, t) in zip(rows, lv):
                 v["سعر البيع"] = p or v["سعر البيع"]
                 v["مدة الإصدار"] = d or v["مدة الإصدار"]
                 v["الصلاحية"] = val or v["الصلاحية"]
+        if new:
+            out, done = [], set()
+            for v in data.VISAS:
+                c = v["الدولة"]
+                if c not in new:
+                    out.append(v)
+                elif c not in done:
+                    done.add(c)
+                    out += new[c]
+            data.VISAS[:] = out
     except Exception as e:  # noqa: BLE001
         errs.append("فيزا: %s" % e)
     print("من الأكسل:", len(live), "كروب")
