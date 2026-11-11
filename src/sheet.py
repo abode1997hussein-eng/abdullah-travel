@@ -617,15 +617,16 @@ def span(v):
 
 
 def visas(book):
-    """{الدولة: [(مدة الإصدار، سعر البيع، الصلاحية) لكل سطر بالترتيب]}"""
+    """{الدولة: [(مدة الإصدار، سعر البيع، الصلاحية، نوع التأشيرة) لكل سطر بالترتيب]}"""
     rows = find(book, "Visa Elite")
     t = None
     for i, r in enumerate(rows):
         if "سعرالبيع" in [key(c) for c in r]:
             hk = [key(c) for c in r]
-            t = (i, hk.index("الدولة"), hk.index("مدةالإصدار"), hk.index("سعرالبيع"), hk.index("الصلاحيةخارجبلدالزيارة"))
+            t = (i, hk.index("الدولة"), hk.index("مدةالإصدار"), hk.index("سعرالبيع"), hk.index("الصلاحيةخارجبلدالزيارة"),
+                 hk.index("نوعالتأشيرة") if "نوعالتأشيرة" in hk else None)
             break
-    i0, cc, cd, cp, cv = t
+    i0, cc, cd, cp, cv, ct = t
     out, cur = {}, None
     for r in rows[i0 + 1:]:
         r = r + [""] * 12
@@ -638,7 +639,7 @@ def visas(book):
             cur = VISA_NAMES.get(c[0], c[0])
             out.setdefault(cur, [])
         if cur and p is not None:
-            out[cur].append((span(r[cd]), fmt(p), span(r[cv])))
+            out[cur].append((span(r[cd]), fmt(p), span(r[cv]), clean(r[ct]) if ct is not None else ""))
     return out
 
 
@@ -662,7 +663,7 @@ def visas_eu(book):
         c = re.sub(r"\s*\(.*", "", clean(r[cc])).strip()
         p = money(r[cp])
         if c and p is not None:
-            out[EU_NAMES.get(c, c)] = [(span(r[cd]), fmt(p), span(r[cv]))]
+            out[EU_NAMES.get(c, c)] = [(span(r[cd]), fmt(p), span(r[cv]), "")]
     return out
 
 
