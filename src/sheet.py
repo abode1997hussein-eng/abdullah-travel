@@ -425,7 +425,7 @@ def load(path):
     add("القاهرة", lambda: (opts(cai[0]), table_dates(cai[0])))
     add("القاهرة + شرم الشيخ", lambda: (opts(cai[1]), table_dates(cai[1])))
 
-    for name, tab in (("مسقط من بغداد", ("مسقط بغداد  ", "مسقط بغداد& اربيل   ")), ("مسقط من أربيل", ("مسقط اربيل ",))):
+    for name, tab in (("مسقط من بغداد", ("مسقط بغداد  ", "مسقط بغداد& اربيل   ", "رحلات مسقط")), ("مسقط من أربيل", ("مسقط اربيل ",))):
         t = one(*tab)
         add(name, lambda t=t: (opts(t, prog=muscat_plan), table_dates(t)))
 
@@ -557,6 +557,43 @@ def load(path):
             rows += opts(t, prog=lambda v, _, pl=pl: pl)
         return rows, []
     add("كأس السوبر الإسباني في اسطنبول", supercup)
+
+    # كيش: سطر العناوين فوق عنوان التبويب، والأسطر لحد «تعليمات وضوابط»
+    def kish():
+        rows = find(book, "كيش ", "كيش")
+        hi = next(i for i, r in enumerate(rows) if header(r))
+        h = dict(header(rows[hi]))
+        end = next((i for i, r in enumerate(rows) if i > hi and r and "تعليمات" in r[0]), len(rows))
+        body = [r for r in rows[hi + 1:end] if any(clean(x) for x in r[1:])]
+        out = opts(("", h, body), prog=lambda v, _: plan_len(v.get("dur", "")))
+        k, prev = 0, {}
+        for r in body:  # الاسم بلا تطويل، النجوم من ★، ووصف الفندق من عمود «الملاحظات»
+            v = cells(h, r + [""] * 30, prev)
+            if not r[1:2] or clean(r[1]) or clean(r[h["hotel"]] if h["hotel"] < len(r) else ""):
+                prev["_note"] = clean(r[1]) if len(r) > 1 and clean(r[1]) else prev.get("_note", "")
+                prev["_stars"] = str(v.get("stars", "").count("★")) or prev.get("_stars", "")
+            prev.update(v)
+            if money(v.get("sell")) is None:
+                continue
+            o = out[k]
+            k += 1
+            name = re.sub(r"\s+", " ", re.sub(r"[ـ*]+", " ", v["hotel"])).strip()
+            m = re.match(r"ترنج\s*(\d)\s*ليالي\s*\+\s*[اآ]سمان\s*(\d)", name)
+            if "فقط ترنج" in v.get("dur", ""):
+                name = "ترنج VIP (فطور وغداء)"
+            elif m:
+                name = "ترنج %s ليالي + آسمان %s ليالي VIP (ترنج فطور وغداء)" % m.groups()
+            o["الفندق"] = re.sub(r"(\S)VIP", r"\1 VIP", name).replace("آسمان رويال", "آسمان رويال")
+            o["الفئة"] = prev.get("_stars", "")
+            o["الموقع"] = re.sub(r"\s*\*+\s*", " · ", re.sub(r"\s+", " ", prev.get("_note", ""))).strip(" ·")
+        ds = []
+        for r in body:
+            for d, m, y in re.findall(r"(\d{2})-(\d{2})-(\d{4})", r[h["date"]] if h.get("date", 99) < len(r) else ""):
+                x = "%s-%s-%s" % (d, m, y)
+                if x not in ds:
+                    ds.append(x)
+        return out, future(ds)
+    add("كيش", kish)
 
     def tunis2():
         rows, ds = [], []
