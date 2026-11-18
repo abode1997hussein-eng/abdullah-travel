@@ -496,6 +496,18 @@ def load(path):
         today = date.today().strftime("%Y%m%d")
         return [d for d in ds if d[6:] + d[3:5] + d[:2] >= today]
 
+    def geo_names(rows):
+        """فنادق جورجيا مكتوبة بالإنكليزي وتحتها وصف عربي: الاسم إنكليزي والوصف يروح للموقع."""
+        for r in rows:
+            for k in ("الفندق", "الفندق الثاني"):
+                m = re.match(r"^(.*?)\s*\(([^()]*[A-Za-z][^()]*)\)$", r[k])
+                if m:
+                    note = m.group(1).strip("() ")
+                    r[k] = m.group(2)
+                    if note and note not in r["الموقع"]:
+                        r["الموقع"] = " · ".join(x for x in (r["الموقع"], note) if x)
+        return rows
+
     def georgia():
         rows = []
         plans = ["8 أيام / 7 ليالي · 4 تبليسي + 3 باتومي", "8 أيام / 7 ليالي · تبليسي فقط", "14 يوم / 13 ليلة · تبليسي + باتومي"]
@@ -505,17 +517,17 @@ def load(path):
             rows += opts(fix(t), prog=lambda v, _: "12 يوم / 11 ليلة · 4 تبليسي + 7 باتومي (العودة من باتومي)")
         for t in tables(find(book, "جورجيا نظام اكواخ"), gaps=True)[:1]:
             rows += opts(fix(t, hotel_col=3), prog=lambda v, _: "8 أيام / 7 ليالي · تبليسي + 3 ليالي جبال (كودوري أو باكورياني) · سيارة خاصة")
-        # فنادق جورجيا مكتوبة بالإنكليزي وتحتها وصف عربي: الاسم إنكليزي والوصف يروح للموقع
-        for r in rows:
-            for k in ("الفندق", "الفندق الثاني"):
-                m = re.match(r"^(.*?)\s*\(([^()]*[A-Za-z][^()]*)\)$", r[k])
-                if m:
-                    note = m.group(1).strip("() ")
-                    r[k] = m.group(2)
-                    if note and note not in r["الموقع"]:
-                        r["الموقع"] = " · ".join(x for x in (r["الموقع"], note) if x)
-        return rows, []
+        return geo_names(rows), []
     add("جورجيا", georgia)
+
+    def georgia_ny():
+        rows, ds = [], []
+        plans = ["8 أيام / 7 ليالي · تبليسي + باتومي", "8 أيام / 7 ليالي · تبليسي فقط"]
+        for k, t in enumerate(tables(find(book, "جورجيا راس السنة "), gaps=True)[:2]):
+            rows += opts(fix(t), prog=lambda v, _, pl=plans[k]: pl)
+            ds += [d for d in future(table_dates(t)) if d not in ds]
+        return geo_names(rows), ds
+    add("جورجيا رأس السنة", georgia_ny)
 
     def trabzon():
         rows, ds = [], []
