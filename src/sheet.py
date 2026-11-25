@@ -367,9 +367,74 @@ def load(path):
         t = tabs(*names)
         return t[0] if t else None
 
-    th = tabs("تايلنــــد ")
-    add("بانكوك", lambda: (opts(th[0]), table_dates(th[0])))
-    add("بانكوك + بوكيت", lambda: (opts(th[1]), table_dates(th[1])))
+    def future(ds):
+        today = date.today().strftime("%Y%m%d")
+        return [d for d in ds if d[6:] + d[3:5] + d[:2] >= today]
+
+    def multi(t, cols, field="الفندق الثاني"):
+        """جدول بيه أكثر من عمود فندق (بتايا + بوكيت): الأسماء تنجمع بـ« + »."""
+        title, h, body = t
+        out, prev, keep, k = opts(t), {}, {}, 0
+        for r in body:
+            v = cells(h, r, prev)
+            prev = v
+            for c in cols:
+                x = clean(r[c]) if c < len(r) else ""
+                if x:
+                    keep[c] = x
+            if money(v.get("sell")) is None:
+                continue
+            out[k][field] = " + ".join(hotel(keep[c])[0] for c in cols if keep.get(c))
+            k += 1
+        return out
+
+    def date_col(t):
+        """عمود التاريخ بلا عنوان: أول خلية بيها تاريخ."""
+        title, h, body = t
+        if "date" not in h and body:
+            i = next((i for i, c in enumerate(body[0]) if dates(c)), None)
+            if i is not None:
+                h = dict(h, date=i)
+        return title, h, body
+
+    # تايلند: التبويب الجديد «تايلند» (بانكوك، بانكوك + بوكيت، بانكوك + بتايا + بوكيت)
+    th = tabs("تايلند", "تايلنــــد ")
+    th_b = lambda: pick(th, lambda t: "بوكيت" not in t[0] and "بتايا" not in t[0])
+    th_p = lambda: pick(th, lambda t: "بوكيت" in t[0] and "بتايا" not in t[0])
+    th_3 = lambda: pick(th, lambda t: "بوكيت" in t[0] and "بتايا" in t[0])
+    add("بانكوك", lambda: (opts(th_b()), future(table_dates(th_b()))))
+    add("بانكوك + بوكيت", lambda: (opts(th_p()), future(table_dates(th_p()))))
+    add("بانكوك + بتايا + بوكيت", lambda: (multi(th_3(), [c for c in (2, 3)]), future(table_dates(th_3()))))
+
+    def th_ny():
+        rows, ds = [], []
+        for t in tabs("تايلند رأس السنة", "تايلند راس السنة"):
+            where = "بانكوك + بتايا" if "بتايا" in t[0] else "بانكوك + بوكيت" if "بوكيت" in t[0] else "بانكوك فقط"
+            pl = plan_len(t[0]) + " · " + where
+            rows += opts(t, prog=lambda v, _, pl=pl: pl)
+            ds += [d for d in future(table_dates(t)) if d not in ds]
+        return rows, ds
+    add("تايلند رأس السنة", th_ny)
+
+    def lanka_ny():
+        t = one("سريلانكا رأس السنة", "سريلانكا راس السنة")
+        rows = opts(t, prog=lambda v, title: plan_len(title))
+        names, cur = [], None
+        title, h, body = t
+        for r in body:  # كل سعر بعده 3 أسطر: فندق كاندي ونوارا إليا وبينتوتا
+            if money(r[h["sell"]] if h["sell"] < len(r) else "") is not None:
+                cur = []
+                names.append(cur)
+            if cur is not None and h["hotel"] < len(r) and clean(r[h["hotel"]]):
+                cur.append(hotel(r[h["hotel"]])[0])
+        for r, n in zip(rows, names):
+            r["الفندق"] = " + ".join(n)
+            r["الموقع"] = "كاندي · نوارا إليا · بينتوتا"
+        return rows, future(table_dates(t))
+    add("سريلانكا رأس السنة", lanka_ny)
+
+    mny = one("مسقط رأس السنة", "مسقط راس السنة")
+    add("مسقط رأس السنة", lambda: (opts(mny, prog=lambda v, _: plan_len(v.get("dur", ""))), future(table_dates(mny))))
 
     def lanka():
         rows, ds = [], []
@@ -429,7 +494,7 @@ def load(path):
         t = one(*tab)
         add(name, lambda t=t: (opts(t, prog=muscat_plan), table_dates(t)))
 
-    ist = one("اسطنبول فلاي بغداد+ AJT")
+    ist = one("اسطنبول فلاي بغداد+ AJT", "اسطنبول فلاي بغداد")
     add("اسطنبول – فلاي بغداد", lambda: (opts(ist, prog=lambda v, _: plan_len(v["dur"])), table_dates(ist)))
     ia = one("اسطنبول عراقية")
     add("اسطنبول – العراقية", lambda: (opts(ia, prog=lambda v, _: plan_len(v["dur"])), table_dates(ia)))
@@ -437,7 +502,7 @@ def load(path):
     bey = one("بيروت اور + عالميه", "بيروت اور + عالمية")
     add("بيروت", lambda: (opts(bey, prog=lambda v, _: plan_len(v["dur"]), single_diff=True), table_dates(bey)))
 
-    bia = one("بيروت عراقيه", "بيروت عراقية")
+    bia = one("بيروت عراقيه", "بيروت عراقية", "بيروت عراقيه&اور ")
     add("بيروت – العراقية", lambda: (opts(bia, prog=lambda v, _: plan_len(v["dur"])), table_dates(bia)))
 
     # بدون طيران: تايلند (نفس جداول تايلند) وبيروت (السعر للشخص بالدبل، والسنكل)
@@ -465,19 +530,26 @@ def load(path):
 
     def kazim_ist():
         rows, ds = [], []
-        for t in tabs("كاظم الساهر اسطنبول راس السنة"):
+        for t in tabs("كاظم الساهر اسطنبول راس السنة", " اسطنبول راس السنة& كاظم الساهر"):
             first = clean(t[2][0][t[1].get("date", 0)]) if t[2] else ""
             air = "فلاي بغداد" if "فلاي" in first else "العراقية"
-            pl = air + " · " + plan_len(first)
-            rows += opts(t, prog=lambda v, _, pl=pl: pl)
+            rows += opts(t, prog=lambda v, _, air=air, first=first: air + " · " + plan_len(v.get("dur") or first))
             ds += [d for d in table_dates(t) if d not in ds]
         return rows, ds
     add("حفلة كاظم الساهر رأس السنة في اسطنبول", kazim_ist)
 
     for name, tab in (("حفلة كاظم الساهر رأس السنة في بيروت – العراقية", ("بيروت راس السنه عراقية ",)),
-                      ("حفلة كاظم الساهر رأس السنة في بيروت – طيران العالمية", ("بيروت راس السنه عالمية ", "بيروت حفلات راس السنه"))):
+                      ("حفلة كاظم الساهر وشيرين رأس السنة في بيروت – طيران أور", ("بيروت حفلة كاظم&شيرين", "بيروت حفلة كاظم وشيرين"))):
         t = one(*tab)
-        add(name, lambda t=t: (opts(t, prog=lambda v, _: plan_len(v["dur"])), []))
+        add(name, lambda t=t: (opts(t, prog=lambda v, _: plan_len(v["dur"])), future(table_dates(date_col(t)))))
+
+    # بيروت رأس السنة (العراقية، بدون حفلة): المدة بالعمود الثاني (عمود «عدد الايام» قديم)، والتواريخ بلا سنة
+    def bey_ny():
+        title, h, body = one("بيروت راس السنة ", "بيروت رأس السنة")
+        h = dict(h, dur=1)
+        t = (title, h, body)
+        return opts(t, prog=lambda v, _: plan_len(v["dur"])), future(table_dates(t, year_less=True))
+    add("بيروت رأس السنة – العراقية", bey_ny)
 
     # ---------------- كروبات العراقية الجديدة (جورجيا، طرابزون، أنطاليا) + تونس
     def fix(t, stars_col=None, hotel_col=None):
@@ -491,10 +563,6 @@ def load(path):
         if "stars" not in h and stars_col is not None:
             h["stars"] = stars_col
         return title, h, body
-
-    def future(ds):
-        today = date.today().strftime("%Y%m%d")
-        return [d for d in ds if d[6:] + d[3:5] + d[:2] >= today]
 
     def geo_names(rows):
         """فنادق جورجيا مكتوبة بالإنكليزي وتحتها وصف عربي: الاسم إنكليزي والوصف يروح للموقع."""
@@ -560,6 +628,17 @@ def load(path):
     dxb = one("دبي ")
     # المدة بعمود «عدد الايام»، وإذا انشال العمود تنقرا من خلية التاريخ («كروب دبي 6 ايام 5 ليالي»)
     add("دبي", lambda: (opts(dxb, prog=lambda v, _: plan_len(v.get("dur") or v.get("date", ""))), future(table_dates(dxb))))
+    drm = one("دبي + حفلة راشد الماجد", "دبي & حفلة راشد الماجد")
+    add("دبي + حفلة راشد الماجد", lambda: (opts(drm, prog=lambda v, _: plan_len(v.get("date", ""))), future(table_dates(drm))))
+
+    def dxb_ny():  # المدة بعمود بلا عنوان جنب اسم الفندق
+        title, h, body = one("دبي راس السنة", "دبي رأس السنة")
+        h = dict(h)
+        if "dur" not in h:
+            h["dur"] = next(i for i, c in enumerate(body[0]) if i != h.get("date") and re.search(r"\d\s*ايام", c))
+        t = (title, h, body)
+        return opts(t, prog=lambda v, _: plan_len(v["dur"])), future(table_dates(t))
+    add("دبي رأس السنة", dxb_ny)
 
     # كأس السوبر الإسباني باسطنبول: التواريخ ثابتة بمعلومات الكروب (خلية الأكسل بيها مواعيد المباريات ويا السفر)
     def supercup():
@@ -654,7 +733,8 @@ def hotels(book):
 VISA_NAMES = {"سيريلانكا": "سريلانكا", "الموزنبيق": "موزمبيق", "اثيوبيا": "إثيوبيا", "افغانستان": "أفغانستان",
               "اندونيسيا": "إندونيسيا", "إندونيسيا": "إندونيسيا", "كينيا": "كينيا", "بوليفيا": "بوليفيا",
               "موعد تركيا": "موعد فيزا تركيا", "العراق": "فيزا العراق", "شرق افريقيا": "شرق أفريقيا (أوغندا – رواندا – كينيا)",
-              "ء": "الإمارات", "الاردن": "الأردن", "اذربيجان": "أذربيجان"}
+              "ء": "الإمارات", "الاردن": "الأردن", "اذربيجان": "أذربيجان",
+              "اسبانيا": "إسبانيا", "ايطاليا": "إيطاليا", "المجر": "هنغاريا", "هنكاريا": "هنغاريا"}
 
 
 def span(v):
@@ -692,7 +772,7 @@ def visas(book):
     return out
 
 
-EU_NAMES = {"ايطاليا": "إيطاليا", "اسبانيا": "إسبانيا", "المانيا": "ألمانيا"}
+EU_NAMES = {"ايطاليا": "إيطاليا", "اسبانيا": "إسبانيا", "المانيا": "ألمانيا", "هنكاريا": "هنغاريا", "المجر": "هنغاريا"}
 
 
 def visas_eu(book):
