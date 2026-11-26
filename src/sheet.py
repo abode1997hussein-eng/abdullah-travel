@@ -257,8 +257,50 @@ def cells(h, r, prev):
     return v
 
 
+USED = []  # الجداول اللي انقرت للكروب الحالي (حتى ناخذ ملاحظاتها)
+
+PRICED = {"sell", "single", "sdiff", "child", "childbed", "infant", "hotel", "hotel2", "stars", "loc", "dur", "comm"}
+MOD = re.compile(r"(?:\+\s*\d[\d,.]*\s*(?:\$|الف|ألف|دينار|IQD)?|\d[\d,.]*\s*\$\s*\+|يخصم|يستقطع|ينقص|ينخصم|خصم|اضاف|إضاف|زياد)")
+
+
+def table_notes(tbls):
+    """أسطر الإضافات والخصومات المكتوبة بخانات الجدول (التاريخ، الملاحظات، العنوان) ← ملاحظات الكروب."""
+    out = []
+    for title, h, body in tbls:
+        cols = {i for f, i in h.items() if f in PRICED}
+        texts = [title] + [c for r in body for i, c in enumerate(r) if i not in cols]
+        for t in texts:
+            ls = [re.sub(r"\s+", " ", x).strip(" -=*•▪️") for x in clean(t).split("\n")]
+            ls = [x for x in ls if x]
+            for k, x in enumerate(ls):
+                if not MOD.search(x) or not re.search(r"\d", x) or "ليالي" in x or re.fullmatch(r"[\d\s:]+", x):
+                    continue
+                if dates(x) and not re.search(r"\+\s*\d", x):
+                    continue
+                prev = ls[k - 1] if k else ""
+                # «+60,000» تحت مجموعة تواريخ: الإضافة على هذني التواريخ
+                if re.fullmatch(r"\+\s*\d[\d,.]*\s*\$?", x) and prev and dates(prev, True):
+                    j = k - 1
+                    while j > 0 and dates(ls[j - 1], True) and re.fullmatch(r"[\d\-/. ]+", ls[j - 1]):
+                        j -= 1
+                    span_ = ls[j] if j == k - 1 else ls[j] + " لحد " + ls[k - 1]
+                    x = "رحلات " + span_ + ": إضافة " + x.lstrip("+ ")
+                    if x not in out:
+                        out.append(x)
+                    continue
+                # السطر يكمل اللي قبله: «في حال ...» ثم «يخصم 600$»، أو «اسعار شهر 12» ثم «+100$»
+                if prev and (re.match(r"(يخصم|يستقطع|ينقص|ينخصم|يكون|ما عدا|\+|\d)", x) or prev.startswith("في حال")) \
+                        and not MOD.search(prev):
+                    x = prev + " " + x
+                x = x.replace("من سعر الاكسل", "من السعر").strip()
+                if x not in out:
+                    out.append(x)
+    return out
+
+
 def opts(tbl, prog=None, single_diff=False):
     """أسطر الجدول ← خيارات الكروب بنفس أعمدة data.py."""
+    USED.append(tbl)
     title, h, body = tbl
     rows, prev = [], {}
     for r in body:
@@ -351,11 +393,12 @@ def load(path):
 
     def add(name, fn):
         TRIED.add(name)
+        USED.clear()
         try:
             rows, ds = fn()
             if not rows:
                 raise ValueError("ما بيه أسعار")
-            live[name] = {"rows": rows, "dates": ds}
+            live[name] = {"rows": rows, "dates": ds, "notes": table_notes(USED)}
         except Exception as e:  # noqa: BLE001 — كروب واحد خربان ما يوقف الباقي
             errs.append("%s: %s" % (name, e))
 

@@ -95,6 +95,12 @@ def apply_sheet(path):
             print("خلص موعده، انشال:", name)
             continue
         head = {k: v for k, v in r.items() if k not in OPT_KEYS}
+        # إضافات وخصومات مكتوبة بالأكسل (بخانة التاريخ أو الملاحظات) تطلع بملاحظات الكروب، إذا مو مكتوبة أصلاً
+        nums = lambda x: {re.sub(r"\D", "", n) for n in re.findall(r"\d[\d,.]*", x)} - {""}
+        have = nums(head["ملاحظة"] + head["التواريخ"])
+        extra = [x for x in live[name].get("notes", []) if not nums(x) <= have]
+        if extra:
+            head["ملاحظة"] = "؛".join(extra + [x for x in [head["ملاحظة"]] if x])
         if live[name]["dates"]:
             # التواريخ من الأكسل، ويبقى من معلومات الكروب بس السطر اللي بيه «شهر» (مثل «شهر 12 (+100$)»)
             keep = [x.strip() for x in re.split(r"[;؛\n]+", r["التواريخ"]) if "شهر" in x and not sheet.dates(x)]
