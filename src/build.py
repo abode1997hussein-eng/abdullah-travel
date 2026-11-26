@@ -88,6 +88,12 @@ def apply_sheet(path):
         if name in seen:
             continue
         seen.add(name)
+        # كل مواعيد الكروب فاتت (بالأكسل، أو بمعلومات الكروب إذا الأكسل ما بيه تاريخ): ما يطلع
+        ds = live[name]["dates"] or sheet.dates(r["التواريخ"])
+        today = date.today().strftime("%Y%m%d")
+        if ds and all(d[6:] + d[3:5] + d[:2] < today for d in ds):
+            print("خلص موعده، انشال:", name)
+            continue
         head = {k: v for k, v in r.items() if k not in OPT_KEYS}
         if live[name]["dates"]:
             head["التواريخ"] = "؛".join(upcoming(live[name]["dates"]))
@@ -150,6 +156,11 @@ def apply_sheet(path):
                     done.add(c)
                     out += new[c]
             data.VISAS[:] = out
+        if vs:  # دولة انشالت من الأكسل ما تبقى بالموقع
+            gone = sorted({v["الدولة"] for v in data.VISAS if v["الدولة"] not in vs})
+            data.VISAS[:] = [v for v in data.VISAS if v["الدولة"] in vs]
+            for c in gone:
+                print("فيزا انشالت (مو بالأكسل):", c)
     except Exception as e:  # noqa: BLE001
         errs.append("فيزا: %s" % e)
     print("من الأكسل:", len(live), "كروب")
