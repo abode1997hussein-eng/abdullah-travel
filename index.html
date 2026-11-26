@@ -176,6 +176,8 @@ section.sec{padding-top:34px;scroll-margin-top:calc(env(safe-area-inset-top,0px)
 .search input{flex:1;min-width:0;border:0;background:transparent;font-size:16px;padding:13px 0;color:var(--ink);outline:none;-webkit-appearance:none;appearance:none}
 .search:focus-within{border-color:var(--accent)}
 .vlist{display:grid;gap:8px}
+.qvlist{grid-auto-rows:max-content;max-height:70vh;overflow:auto;overscroll-behavior:contain;margin-top:10px;padding:2px}
+@media (min-width:860px){.qvlist{grid-template-columns:1fr!important}}
 @media (min-width:860px){.vlist{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}}
 .visa{background:var(--tile);border:1px solid var(--line);border-radius:20px;overflow:hidden;min-width:0}
 .visa summary{list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:12px 14px;cursor:pointer}
@@ -698,9 +700,9 @@ a.alc{text-decoration:none;color:var(--ink)}
 
       <form class="pane" id="visF" data-pane="vis" hidden>
         <h2 data-t="qvH">فيزا لأكثر من 35 دولة</h2>
-        <p class="hint" data-t="qvHint">اكتب اسم الدولة وشوف أنواع الفيزا وأسعارها ومتطلباتها.</p>
-        <div class="field"><label for="qv" data-t="qvLbl">الدولة</label><input id="qv" list="vcountries" autocomplete="off"></div>
-        <button class="btn" type="submit" data-t="qvGo">شوف الفيزا</button>
+        <p class="hint" data-t="qvHint">كل الفيزا اللي عندنا: الأنواع والأسعار والمتطلبات والملاحظات. اختار الدولة واطلبها بالواتساب.</p>
+        <div class="chips" id="qvchips" role="group"></div>
+        <div class="vlist qvlist" id="qvlist"></div>
       </form>
 
       <form class="pane" id="simF" data-pane="sim" hidden>
@@ -754,7 +756,7 @@ a.alc{text-decoration:none;color:var(--ink)}
 <section class="sec" id="visa">
   <div class="wrap">
     <div class="sh"><h2 data-t="vH2">تأشيرات السفر</h2><p data-t="vIntro">كل دولة وعلمها، وأنواع الفيزا وأسعارها، ومدة الإصدار، والمتطلبات والملاحظات.</p></div>
-    <label class="search" for="vq"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="vq" type="search" autocomplete="off"></label>
+    <label class="search" for="vq" hidden><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="vq" type="search" autocomplete="off"></label>
     <div class="chips" id="vchips" role="group"></div>
     <div class="vlist" id="vlist"></div>
     <div class="empty" id="vempty" hidden><p data-t="vEmpty">ما لكيت هالدولة. راسلنا ونشوفلك سعرها.</p><a class="btn wa" id="vemptyWa" target="_blank" rel="noopener" href="https://wa.me/9647713310011" data-t="askWa">اسأل بالواتساب</a></div>
@@ -961,7 +963,7 @@ a.alc{text-decoration:none;color:var(--ink)}
     ar: {
       title:"سافر مع عبدالله — طيران · كروبات · فيزا", tag:"سفر وسياحة · بغداد", whatsapp:"واتساب",
       helpQ:"تحتاج مساعدة؟", tVisa:"فيزا", qgH:"كروبات وحفلات طالعة من بغداد وأربيل", qgHint:"اختار الكروب وشوف كل فندق وسعره، والحجز على الواتساب.", qgLbl:"الكروب", qgGo:"اعرض الأسعار",
-      qvH:"فيزا لأكثر من 35 دولة", qvHint:"اكتب اسم الدولة وشوف أنواع الفيزا وأسعارها ومتطلباتها.", qvLbl:"الدولة", qvGo:"شوف الفيزا",
+      qvH:"فيزا لأكثر من 35 دولة", qvHint:"كل الفيزا اللي عندنا: الأنواع والأسعار والمتطلبات والملاحظات. اختار الدولة واطلبها بالواتساب.", qvLbl:"الدولة", qvGo:"شوف الفيزا",
       fromBGW:"من بغداد", fromEBL:"من أربيل", noFlight:"بدون طيران", navHome:"الرئيسية", fCompany:"الشركة",
       whyH2:"احجز سفرتك بكل سهولة", whySub:"من أول سؤال لحد ما ترجع بالسلامة، إحنا وياك.",
       w1t:"حجز سهل", w1d:"اختار الكروب أو الفيزا، ودز طلبك على الواتساب بضغطة وحدة.", w2t:"متابعة ودعم", w2d:"نتابع وياك التذاكر والفيزا والحجز لحد يوم السفر.",
@@ -995,7 +997,7 @@ a.alc{text-decoration:none;color:var(--ink)}
     ku: {
       title:"لەگەڵ عەبدوڵڵا گەشت بکە — فڕین · گروپ · ڤیزا", tag:"گەشت و گەشتیاری · بەغدا", whatsapp:"واتسئاپ",
       helpQ:"یارمەتیت دەوێت؟", tVisa:"ڤیزا", qgH:"گرووپ و ئاهەنگ لە بەغدا و هەولێرەوە", qgHint:"گرووپەکە هەڵبژێرە و هەموو هوتێل و نرخەکەی ببینە؛ حیجز لە واتسئاپ.", qgLbl:"گرووپ", qgGo:"نرخەکان پیشان بدە",
-      qvH:"ڤیزا بۆ زیاتر لە 35 وڵات", qvHint:"ناوی وڵات بنووسە و جۆرەکانی ڤیزا و نرخ و داواکارییەکانی ببینە.", qvLbl:"وڵات", qvGo:"ڤیزاکە ببینە",
+      qvH:"ڤیزا بۆ زیاتر لە 35 وڵات", qvHint:"هەموو ڤیزاکانمان: جۆر و نرخ و داواکاری و تێبینی. وڵاتەکە هەڵبژێرە و لە واتسئاپ داوای بکە.", qvLbl:"وڵات", qvGo:"ڤیزاکە ببینە",
       fromBGW:"لە بەغداوە", fromEBL:"لە هەولێرەوە", noFlight:"بێ فڕین", navHome:"سەرەکی", fCompany:"کۆمپانیا",
       whyH2:"گەشتەکەت بە ئاسانی حیجز بکە", whySub:"لە یەکەم پرسیارەوە تا دەگەڕێیتەوە، ئێمە لەگەڵتین.",
       w1t:"حیجزی ئاسان", w1d:"گرووپ یان ڤیزا هەڵبژێرە و داواکارییەکەت بە یەک کرتە بنێرە بۆ واتسئاپ.", w2t:"بەدواداچوون و پاڵپشتی", w2d:"بلیت و ڤیزا و حیجزەکەت تا ڕۆژی گەشت بەدوادا دەچین.",
@@ -1029,7 +1031,7 @@ a.alc{text-decoration:none;color:var(--ink)}
     en: {
       title:"Travel with Abdullah — Flights · Group tours · Visas", tag:"Travel & tourism · Baghdad", whatsapp:"WhatsApp",
       helpQ:"Need help?", tVisa:"Visa", qgH:"Group tours & concerts from Baghdad and Erbil", qgHint:"Pick a tour to see every hotel and its price; book on WhatsApp.", qgLbl:"Tour", qgGo:"Show prices",
-      qvH:"Visas for 35+ countries", qvHint:"Type a country to see its visa types, prices and requirements.", qvLbl:"Country", qvGo:"View visa",
+      qvH:"Visas for 35+ countries", qvHint:"All our visas: types, prices, requirements and notes. Pick a country and request it on WhatsApp.", qvLbl:"Country", qvGo:"View visa",
       fromBGW:"From Baghdad", fromEBL:"From Erbil", noFlight:"No flights", navHome:"Home", fCompany:"Company",
       whyH2:"Book your trip with ease", whySub:"From your first question until you're safely home, we're with you.",
       w1t:"Easy booking", w1d:"Pick a tour or visa and send your request on WhatsApp in one tap.", w2t:"Follow-up & support", w2d:"We follow your tickets, visa and booking right up to travel day.",
@@ -1141,8 +1143,7 @@ a.alc{text-decoration:none;color:var(--ink)}
   document.getElementById("grpF").addEventListener("submit", function(e){ e.preventDefault(); openG(+document.getElementById("qg").value); });
   document.getElementById("visF").addEventListener("submit", function(e){
     e.preventDefault();
-    var q = document.getElementById("vq"); q.value = val("qv"); filterV();
-    document.getElementById("visa").scrollIntoView();
+    /* ما بيه خانة كتابة: كل الفيزا طالعة بالتبويب */
   });
 
   /* ============ حركة 3D: ظهور الأقسام وميلان البطاقات ============ */
@@ -1203,7 +1204,6 @@ a.alc{text-decoration:none;color:var(--ink)}
     });
     document.getElementById("h-city").placeholder = t("hCityPh");
     document.getElementById("vcountries").innerHTML = D[L].visas.map(function(v){ return '<option value="' + esc(v.c) + '">'; }).join("");
-    document.getElementById("qv").placeholder = t("vSearch");
     document.getElementById("cities").innerHTML = CITIES.map(function(c){ return '<option value="' + esc(cityName(c)) + '">'; }).join("");
     placeList("f-from"); placeList("f-to");
     document.getElementById("alStrip").innerHTML = LOGOS.map(function(c){ return '<img src="img/airlines/' + c + '.webp" alt="' + esc(airName(c)) + '" title="' + esc(airName(c)) + '" loading="lazy">'; }).join("");
@@ -1553,12 +1553,12 @@ a.alc{text-decoration:none;color:var(--ink)}
   function renderVisas(){
     var V = D[L].visas, VA = D.ar.visas, regs = [];
     VA.forEach(function(v){ if (regs.indexOf(v.region) < 0) regs.push(v.region); });
-    document.getElementById("vchips").innerHTML = ["*"].concat(regs).map(function(r){
+    document.getElementById("vchips").innerHTML = document.getElementById("qvchips").innerHTML = ["*"].concat(regs).map(function(r){
       var n = r === "*" ? V.length : VA.filter(function(v){ return v.region === r; }).length;
       var label = r === "*" ? t("all") : V[VA.map(function(v){ return v.region; }).indexOf(r)].region;
       return '<button class="chip" type="button" data-r="' + esc(r) + '" aria-pressed="' + (r === vFilter) + '">' + esc(label) + '<small>' + n + '</small></button>';
     }).join("");
-    document.getElementById("vlist").innerHTML = V.map(function(v, i){
+    var items = V.map(function(v, i){
       var ask = v.rows.length === 1 && !/\d/.test(v.rows[0].p);
       var notes = v.rows.length === 1 && v.rows[0].n ? [v.rows[0].n] : [];
       return '<details class="visa" data-r="' + esc(VA[i].region) + '" data-k="' + esc(norm(v.alias + " " + VA[i].sub)) + '">' +
@@ -1576,19 +1576,22 @@ a.alc{text-decoration:none;color:var(--ink)}
         (v.refund ? '<p class="refund' + (/غير/.test(VA[i].refund) ? '' : ' ok') + '">' + esc(v.refund) + '</p>' : '') +
         '<button class="btn" type="button" data-va="' + i + '">' + esc(t("vApply")) + '</button></div></details>';
     }).join("");
+    document.getElementById("vlist").innerHTML = items;
+    /* تبويب الفيزا فوك: كل الدول مفتوحة بشروطها وملاحظاتها، بدون ما المسافر يكتب شي */
+    document.getElementById("qvlist").innerHTML = items.replace(/<details class="visa"/g, '<details class="visa" open');
     filterV();
   }
   function filterV(){
     var q = norm(val("vq")), shown = 0;
-    document.querySelectorAll("#vlist .visa").forEach(function(d){
+    document.querySelectorAll("#vlist .visa, #qvlist .visa").forEach(function(d){
       var ok = q ? d.getAttribute("data-k").indexOf(q) > -1 : (vFilter === "*" || d.getAttribute("data-r") === vFilter);
       d.hidden = !ok; if (ok) shown++;
     });
-    document.querySelectorAll("#vchips .chip").forEach(function(b){ b.setAttribute("aria-pressed", String(!q && b.getAttribute("data-r") === vFilter)); });
-    document.getElementById("vempty").hidden = shown > 0;
+    document.querySelectorAll("#vchips .chip, #qvchips .chip").forEach(function(b){ b.setAttribute("aria-pressed", String(!q && b.getAttribute("data-r") === vFilter)); });
+    document.getElementById("vempty").hidden = shown > 0 || !q;
     document.getElementById("vemptyWa").href = wa("مرحباً، أريد أستفسر عن فيزا " + val("vq"));
   }
-  document.getElementById("vchips").addEventListener("click", function(e){ var b = e.target.closest(".chip"); if (b){ vFilter = b.getAttribute("data-r"); document.getElementById("vq").value = ""; filterV(); } });
+  ["vchips", "qvchips"].forEach(function(id){ document.getElementById(id).addEventListener("click", function(e){ var b = e.target.closest(".chip"); if (b){ vFilter = b.getAttribute("data-r"); document.getElementById("vq").value = ""; filterV(); } }); });
   document.getElementById("vq").addEventListener("input", filterV);
 
   /* ============ الفروع ============ */
@@ -1812,7 +1815,7 @@ a.alc{text-decoration:none;color:var(--ink)}
   }
   vSheet.addEventListener("change", updV);
   vSheet.addEventListener("input", updV);
-  document.getElementById("vlist").addEventListener("click", function(e){ var b = e.target.closest("[data-va]"); if (b) openVisa(+b.getAttribute("data-va")); });
+  ["vlist", "qvlist"].forEach(function(id){ document.getElementById(id).addEventListener("click", function(e){ var b = e.target.closest("[data-va]"); if (b) openVisa(+b.getAttribute("data-va")); }); });
 
 
   /* ============ طرق الدفع ============ */
