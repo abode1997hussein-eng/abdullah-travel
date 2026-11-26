@@ -189,6 +189,7 @@ def dates(text, year_less=False):
 # ---------------------------------------------------------------- الجداول داخل التبويب
 FIELDS = [  # الحقل، دالة تطابق عنوان العمود (بدون فراغات)
     ("sell", lambda h: h in ("البيع", "بيع", "المبيع", "الدبل", "سعرالبيع") or h.startswith("سعرالبالغ")),
+    ("sdiff", lambda h: "سنكل" in h and ("فرق" in h or "اضافة" in h or "إضافة" in h)),  # فرق السنكل: دائماً بيع + فرق
     ("single", lambda h: "سنكل" in h),
     ("childbed", lambda h: "بالسرير" in h or "معسرير" in h),
     ("child", lambda h: "بدونسرير" in h or h.startswith("طفلمن2")),
@@ -250,7 +251,7 @@ def cells(h, r, prev):
     v = {}
     for f, i in h.items():
         x = clean(r[i]) if i < len(r) else ""
-        if not x and f not in ("sell", "single"):
+        if not x and f not in ("sell", "single", "sdiff"):
             x = prev.get(f, "")
         v[f] = x
     return v
@@ -269,7 +270,10 @@ def opts(tbl, prog=None, single_diff=False):
         name, notes, rec = hotel(v.get("hotel", ""))
         name2 = hotel(v.get("hotel2", ""))[0] if v.get("hotel2") else ""
         s = money(v.get("single"))
-        if s is not None and s < p:  # السنكل أقل من البيع يعني مكتوب «فرق/إضافة»: ينجمع ويا البيع
+        d = money(v.get("sdiff"))
+        if d is not None:  # عمود «فرق السنكل»: سعر السنكل = سعر البيع + الفرق
+            s = p + d
+        elif s is not None and s < p:  # السنكل أقل من البيع يعني مكتوب «فرق/إضافة»: ينجمع ويا البيع
             s += p
         loc = " · ".join(x for x in [place(v.get("loc", ""))] + notes if x)
         row = {"الفندق": name, "الفندق الثاني": name2, "الموقع": loc, "الفئة": stars(v.get("stars", "")),
