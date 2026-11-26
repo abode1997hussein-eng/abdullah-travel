@@ -191,6 +191,8 @@ document.addEventListener("click",function(e){{var a=e.target.closest&&e.target.
                          '<p class="small">سعر ثابت للشخص، حسب توفر المقاعد بتاريخك.</p></div>')
         best = {}
         for f in fl:
+            if f.get("a") == "IA":  # سعر العراقية بالواتساب
+                continue
             k = (f.get("a"), bool(f.get("rt")))
             if k not in best or f["p"] < best[k]["p"]:
                 best[k] = f

@@ -18,6 +18,7 @@ import urllib.request
 from datetime import date
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+NO_PRICE = {"IA"}  # شركات ما تنعرض أسعارها بالموقع (المسافر يطلب السعر بالواتساب)
 OUT = os.path.join(os.path.dirname(HERE), "fares.json")
 PLACES_OUT = os.path.join(os.path.dirname(HERE), "places.json")
 DATA = "https://api.travelpayouts.com/data/%s/%s.json"
@@ -93,6 +94,8 @@ def main():
                 continue
             key = (fo, fd, f.get("airline"), f.get("flight_number"), f.get("departure_at"), f.get("return_at"))
             if key in seen or not f.get("price"):
+                continue
+            if f.get("airline") in NO_PRICE:  # الخطوط العراقية: سعرها بالواتساب، ما ينعرض
                 continue
             seen.add(key)
             out.append({
