@@ -116,9 +116,8 @@ def apply_sheet(path):
 
     try:
         hs = sheet.hotels(book)
-        if hs:
-            data.HOTELS[:] = hs
-            print("من الأكسل:", len(hs), "فندق")
+        data.HOTELS[:] = hs  # تبويبات الفنادق مخفية أو انشالت: ما تطلع أسعار فنادق قديمة
+        print("من الأكسل:", len(hs), "فندق")
     except Exception as e:  # noqa: BLE001
         errs.append("فنادق: %s" % e)
     try:

@@ -21,7 +21,8 @@ LAT = re.compile(r"[A-Za-z]")
 
 
 # ---------------------------------------------------------------- قراءة xlsx بدون مكتبات
-def read_xlsx(path):
+def read_xlsx(path, visible=False):
+    """visible: التبويبات المخفية بالأكسل (قديمة) ما تنقرا."""
     N = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
     R = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
     z = zipfile.ZipFile(path)
@@ -39,6 +40,8 @@ def read_xlsx(path):
 
     book = {}
     for sh in ET.fromstring(z.read("xl/workbook.xml")).iter(N + "sheet"):
+        if visible and sh.get("state") in ("hidden", "veryHidden"):
+            continue
         t = rels[sh.get(R + "id")].lstrip("/")
         t = t if t.startswith("xl/") else "xl/" + t
         rows = []
@@ -285,6 +288,9 @@ def table_notes(tbls):
                         j -= 1
                     span_ = ls[j] if j == k - 1 else ls[j] + " لحد " + ls[k - 1]
                     x = "رحلات " + span_ + ": إضافة " + x.lstrip("+ ")
+                    air = re.search(r"طيران\s+(\S+)", clean(t))
+                    if air:
+                        x = "طيران " + air.group(1).replace("العراقيه", "العراقية") + "، " + x
                     if x not in out:
                         out.append(x)
                     continue
@@ -387,7 +393,7 @@ TRIED = set()  # كل كروب ينقرا من الأكسل؛ إذا ما انق
 
 def load(path):
     """يرجع {اسم الكروب: {"rows": [...], "dates": [...]}} وقائمة المشاكل."""
-    book = read_xlsx(path)
+    book = read_xlsx(path, visible=True)  # بس التبويبات الظاهرة؛ المخفية قديمة
     live, errs = {}, []
     TRIED.clear()
 
@@ -556,11 +562,16 @@ def load(path):
     ia = one("اسطنبول عراقية")
     add("اسطنبول – العراقية", lambda: (opts(ia, prog=lambda v, _: plan_len(v["dur"])), table_dates(ia)))
 
-    bey = one("بيروت اور + عالميه", "بيروت اور + عالمية")
-    add("بيروت", lambda: (opts(bey, prog=lambda v, _: plan_len(v["dur"]), single_diff=True), table_dates(bey)))
-
-    bia = one("بيروت عراقيه", "بيروت عراقية", "بيروت عراقيه&اور ")
-    add("بيروت – العراقية", lambda: (opts(bia, prog=lambda v, _: plan_len(v["dur"])), table_dates(bia, year_less=True)))
+    # بيروت: تبويب «بيروت عراقيه&اور» بيه جدولين (العراقية وطيران أور) ← كروب واحد «بيروت»
+    def beirut():
+        rows, ds = [], []
+        for t in tabs("بيروت عراقيه&اور ", "بيروت عراقية&اور", "بيروت عراقيه", "بيروت عراقية"):
+            first = clean(t[2][0][0]) if t[2] else ""
+            air = "طيران أور" if "اور" in t[0] or "طيران اور" in first else "العراقية"
+            rows += opts(t, prog=lambda v, _, air=air: air + " · " + plan_len(v["dur"]))
+            ds += [d for d in future(table_dates(t, year_less=True)) if d not in ds]
+        return rows, sorted(ds, key=lambda d: d[6:] + d[3:5] + d[:2])
+    add("بيروت", beirut)
 
     # بدون طيران: تايلند (نفس جداول تايلند) وبيروت (السعر للشخص بالدبل، والسنكل)
     thl = tabs("تايلنــــد بدون طيران ", "تايلند بدون طيران")
@@ -596,7 +607,7 @@ def load(path):
     add("حفلة كاظم الساهر رأس السنة في اسطنبول", kazim_ist)
 
     for name, tab in (("حفلة كاظم الساهر رأس السنة في بيروت – العراقية", ("بيروت راس السنه عراقية ",)),
-                      ("حفلة كاظم الساهر وشيرين رأس السنة في بيروت – طيران أور", ("بيروت حفلة كاظم&شيرين", "بيروت حفلة كاظم وشيرين"))):
+                      ("حفلة كاظم الساهر وشيرين رأس السنة في بيروت", ("بيروت حفلة كاظم&شيرين", "بيروت حفلة كاظم وشيرين"))):
         t = one(*tab)
         add(name, lambda t=t: (opts(t, prog=lambda v, _: plan_len(v["dur"])), future(table_dates(date_col(t)))))
 
@@ -606,7 +617,7 @@ def load(path):
         h = dict(h, dur=1)
         t = (title, h, body)
         return opts(t, prog=lambda v, _: plan_len(v["dur"])), future(table_dates(t, year_less=True))
-    add("بيروت رأس السنة – العراقية", bey_ny)
+    add("بيروت رأس السنة", bey_ny)
 
     # ---------------- كروبات العراقية الجديدة (جورجيا، طرابزون، أنطاليا) + تونس
     def fix(t, stars_col=None, hotel_col=None):
@@ -764,7 +775,10 @@ def hotels(book):
     """[(المدينة، الفندق، الفئة، دبل، تربل، سنكل، الفطور)] من تبويبات الفنادق؛ الأعمدة تنعرف من عناوينها."""
     out = []
     for city, tab in HOTEL_TABS:
-        rows = find(book, tab)
+        try:
+            rows = find(book, tab)
+        except KeyError:  # التبويب مخفي أو انشال
+            continue
         for i, r in enumerate(rows):
             hk = [key(c) for c in r]
             col = lambda *w: next((j for j, h in enumerate(hk) if all(x in h for x in w)), None)
