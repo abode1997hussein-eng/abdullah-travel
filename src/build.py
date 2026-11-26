@@ -96,7 +96,9 @@ def apply_sheet(path):
             continue
         head = {k: v for k, v in r.items() if k not in OPT_KEYS}
         if live[name]["dates"]:
-            head["التواريخ"] = "؛".join(upcoming(live[name]["dates"]))
+            # التواريخ من الأكسل، ويبقى من معلومات الكروب بس السطر اللي بيه «شهر» (مثل «شهر 12 (+100$)»)
+            keep = [x.strip() for x in re.split(r"[;؛\n]+", r["التواريخ"]) if "شهر" in x and not sheet.dates(x)]
+            head["التواريخ"] = "؛".join(upcoming(live[name]["dates"]) + keep)
         for i, opt in enumerate(live[name]["rows"]):
             row = data.g(**head) if i == 0 else data.g(الوجهة=name)
             row.update(opt)

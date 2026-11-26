@@ -492,7 +492,8 @@ def load(path):
             o["الفندق"] = name
             rows.append(o)
         return rows
-    add("ماليزيا", lambda: (malaysia(my[0]), table_dates(my[0])))
+    # التواريخ اللي فاتت تنشال؛ بعدها الكروب يبقى بـ«شهر 12 (+100$)» من معلومات الكروب
+    add("ماليزيا", lambda: (malaysia(my[0]), future(table_dates(my[0]))))
     add("ماليزيا بدون طيران", lambda: (malaysia(my[1]), []))
 
     sh = tabs("شرم الشيخ  ")
