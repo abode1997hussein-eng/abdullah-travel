@@ -295,6 +295,10 @@ if "--prices" in sys.argv:
 if not MANUAL:
     MANUAL = [{"a": "الخطوط الجوية العراقية", "o": ["BGW"], "d": c.split("|"), "dn": ar, "ow": ow, "rt": rt, "cur": "iqd", "n": ""}
               for c, ar, en, ow, rt in getattr(data, "IA_FARES", [])]
+# أسعار الخطوط العراقية ما تنعرض: الوجهة تبقى، والمسافر يطلب السعر بالواتساب
+for x in MANUAL:
+    if "العراقية" in (x.get("a") or ""):
+        x.update(ow=None, rt=None, ask=1)
 DATA["manual"] = MANUAL
 if MISSING:
     print("ترجمة ناقصة (تطلع بالعربي):", *sorted(MISSING), sep="\n  ")
