@@ -416,6 +416,15 @@ def load(path):
         return rows, ds
     add("تايلند رأس السنة", th_ny)
 
+    def ssh_ny():
+        rows, ds = [], []
+        for t in tabs("شرم الشيخ راس السنة", "شرم الشيخ رأس السنة"):
+            pl = "8 أيام / 7 ليالي · " + ("4 ليالي شرم + 3 ليالي القاهرة" if "قاهرة" in t[0] or "قاهره" in t[0] else "شرم الشيخ فقط")
+            rows += opts(t, prog=lambda v, _, pl=pl: pl)
+            ds += [d for d in future(table_dates(t)) if d not in ds]
+        return rows, ds
+    add("شرم الشيخ رأس السنة", ssh_ny)
+
     def lanka_ny():
         t = one("سريلانكا رأس السنة", "سريلانكا راس السنة")
         rows = opts(t, prog=lambda v, title: plan_len(title))
