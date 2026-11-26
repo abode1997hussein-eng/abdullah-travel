@@ -516,7 +516,7 @@ def load(path):
     add("بيروت", lambda: (opts(bey, prog=lambda v, _: plan_len(v["dur"]), single_diff=True), table_dates(bey)))
 
     bia = one("بيروت عراقيه", "بيروت عراقية", "بيروت عراقيه&اور ")
-    add("بيروت – العراقية", lambda: (opts(bia, prog=lambda v, _: plan_len(v["dur"])), table_dates(bia)))
+    add("بيروت – العراقية", lambda: (opts(bia, prog=lambda v, _: plan_len(v["dur"])), table_dates(bia, year_less=True)))
 
     # بدون طيران: تايلند (نفس جداول تايلند) وبيروت (السعر للشخص بالدبل، والسنكل)
     thl = tabs("تايلنــــد بدون طيران ", "تايلند بدون طيران")
