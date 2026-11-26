@@ -45,7 +45,14 @@ def read_xlsx(path, visible=False):
         t = rels[sh.get(R + "id")].lstrip("/")
         t = t if t.startswith("xl/") else "xl/" + t
         rows = []
-        for row in ET.fromstring(z.read(t)).iter(N + "row"):
+        x = ET.fromstring(z.read(t))
+        hide = set()  # أعمدة مخفية (1 = A)
+        for c in x.iter(N + "col"):
+            if visible and c.get("hidden") in ("1", "true"):
+                hide.update(range(int(c.get("min")) - 1, int(c.get("max"))))
+        for row in x.iter(N + "row"):
+            if visible and row.get("hidden") in ("1", "true"):  # سطر مخفي بالأكسل ما ينقرا
+                continue
             r = {}
             for c in row.iter(N + "c"):
                 v, typ = c.find(N + "v"), c.get("t")
@@ -56,7 +63,7 @@ def read_xlsx(path, visible=False):
                 else:
                     val = v.text if v is not None else ""
                 val = (val or "").strip()
-                if val:
+                if val and col(c.get("r")) not in hide:
                     r[col(c.get("r"))] = val
             if r:
                 rows.append([r.get(i, "") for i in range(max(r) + 1)])
