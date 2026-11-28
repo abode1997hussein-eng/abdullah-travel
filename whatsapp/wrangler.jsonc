@@ -1,0 +1,16 @@
+// إعدادات بوت الواتساب على كلاود فلير (Worker منفصل عن سيرفر البحث).
+// الربط: Workers & Pages ← Create ← Import a repository ← هذا المستودع، Path: whatsapp
+// المفاتيح (WA_TOKEN، WA_APP_SECRET، WA_VERIFY_TOKEN، ADMIN_TOKEN) تنحط من لوحة كلاود فلير كـSecret، وما تنكتب هنا أبداً.
+// الأرقام والحملات والمحادثات تنحفظ بقاعدة SQLite داخل Durable Object (Hub)، تنسوى وحدها بأول نشر.
+{
+  "name": "abdullah-whatsapp",
+  "main": "worker.js",
+  "compatibility_date": "2025-09-01",
+  "workers_dev": true,
+  "keep_vars": true,
+  "durable_objects": {
+    "bindings": [{ "name": "HUB", "class_name": "Hub" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Hub"] }],
+  "rules": [{ "type": "Text", "globs": ["**/*.html"], "fallthrough": true }]
+}
